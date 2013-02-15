@@ -1,0 +1,35 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec4		_Params0;
+uniform vec4		_Params1;
+uniform sampler2D	_TexCamera;
+uniform sampler2D	_TexSnapshot;
+
+void	main()
+{
+	vec4	CurrentImage = _Params0.x * max( vec4( 0.0 ), texture2D( _TexCamera, _UV ) + _Params0.y );
+			CurrentImage -= _Params0.z * max( vec4( 0.0 ), texture2D( _TexSnapshot, _UV ) + _Params0.w );	// Subtract snapshot
+	if ( _Params1.x > 0.0 )
+		CurrentImage = _Params1.x * max( vec4( 0.0 ), CurrentImage );	// Enhance
+	else
+		CurrentImage = -_Params1.x * max( vec4( 0.0 ), 1.0 - CurrentImage );	// Enhance
+
+	gl_FragColor = CurrentImage;
+
+//	gl_FragColor.x += 0.2;
+//	gl_FragColor.xy = _UV;
+}

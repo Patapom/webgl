@@ -1,0 +1,234 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+	// Diffuse texture tweak & gamma
+//const float	DIFFUSE_COLOR_POWER		= 0.7;				// ]0,oo[ The power to raise the diffuse texture color to (i.e. gamma correction)
+const float	DIFFUSE_COLOR_POWER		= 1.5;				// ]0,oo[ The power to raise the diffuse texture color to (i.e. gamma correction)
+
+const float	NORMAL_AMPLIFIER		= 2.0;				// Amplification factor for the normal map
+
+	// Detail texturing
+const float	DETAIL_UV_SCALE			= 2.0;				// The tiling scale factor (i.e. UV_detail = UV_standard * SCALE)
+const float	DETAIL_WEIGHT_DIFFUSE	= 0.05;				// The weight of the detail diffuse map compared to the weight of common diffuse/normal maps
+const float	DETAIL_OFFSET_DIFFUSE	= -0.5;				// An offset to add to the detail diffuse color so we can also get some negative perturbations
+const float	DETAIL_WEIGHT_NORMAL	= 0.125;			// The weight of the detail normal map compared to the weight of common normal maps
+
+	// SH variation based on normal map
+const float	NORMAL_SH_PERTURBATION_FACTOR	= 1.2;		// ]-oo,+oo[ The amount of perturbation on SH factors based on normal deviation (this makes the normal show even in shadow)
+
+	// Specularity
+const float	SPECULAR_POWER_NEAR		= 2.0;				// ]0,+oo[ The specular power at near range
+const float	SPECULAR_POWER_FAR		= 2.0;				// ]0,+oo[ The specular power at far range
+const float	SPECULAR_FAR_DISTANCE	= 20.0;
+const float	SPECULAR_FACTOR			= 1.0;
+
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+//varying vec3		_pPosition;
+varying vec3		_pNormal;
+varying vec3		_pTangent;
+varying vec4		_pView;	// View + distance to camera
+varying vec2		_pUV;
+varying vec4		_pInScattering;
+varying vec4		_pSH0;
+varying vec4		_pSH1;
+varying vec4		_pSH2;
+
+uniform vec3		_SunDirection;
+uniform mat4		_Camera2World;
+
+uniform vec4		_LightSH0;
+uniform vec4		_LightSH1;
+uniform vec4		_LightSH2;
+
+uniform sampler2D	_TexDiffuse;
+uniform sampler2D	_TexNormal;
+uniform sampler2D	_TexDetailDiffuse;
+uniform sampler2D	_TexDetailNormal;
+
+
+
+// ### DEBUG Parameters
+uniform float	_DEBUGSpecStrength;
+uniform float	_DEBUGSpecExponent;
+uniform float	_DEBUGSpecRoughness;
+uniform float	_DEBUGSpecFresnel;
+uniform float	_DEBUGNormalStrength;
+uniform float	_DEBUGDiffuseBrightness;
+uniform float	_DEBUGDiffuseContrast;
+uniform float	_DEBUGDiffuseGamma;
+uniform float	_DEBUGDetailStrength;
+uniform float	_DEBUGDetailBias;
+uniform float	_DEBUGDetailNormalStrength;
+// ### DEBUG Parameters
+
+
+float	FresnelReflectance( vec3 H, vec3 V, float F0 )
+{
+	float	Dot = 1.0 - dot( V, H );
+	float	Dot4 = Dot * Dot;
+			Dot4 *= Dot4;
+			Dot *= Dot4;
+	return F0 + (1.0 - F0) * Dot;
+}
+
+float	BeckmannDistribution( float CosAlpha, float m )  
+{  
+	float	Sinalpha = sqrt( 1.0-CosAlpha*CosAlpha );
+	float	TanAlpha = Sinalpha / (1e-3 + CosAlpha);
+	float	CosAlpha4 = CosAlpha*CosAlpha;
+			CosAlpha4 *= CosAlpha4;
+
+	float	m2 = m*m;
+	return exp( -(TanAlpha*TanAlpha)/m2 ) / (m2*CosAlpha4);
+}
+
+float	KelemenSpecular(	vec3 N,			// Bumped surface normal  
+							vec3 L,			// Points to light  
+							vec3 V,			// Points to eye  
+							float m,		// Roughness  
+							float rho_s,	// Specular brightness
+							float FO		// Fresnel reflectance
+						)  
+{
+	vec3	h = L + V; // Unnormalized half-way vector  
+	vec3	H = normalize( h );  
+
+	float	ndotl = dot( N, L );  
+	float	ndoth = dot( N, H );  
+
+	float	PH = BeckmannDistribution( ndoth, m );
+	float	F = FresnelReflectance( H, V, FO );
+	float	frSpec = max( 0.0, PH * F / dot( h, h ) );
+
+	return max( 0.0, ndotl ) * rho_s * frSpec; // BRDF * dot(N,L) * rho_s  
+}  
+
+void	main()
+{
+	//////////////////////////////////////////////////////
+	// Rebuild tangent space
+	vec3	VertexNormal = normalize( _pNormal );
+	vec3	VertexTangent = normalize( _pTangent );
+	vec3	VertexBiTangent = normalize( cross( VertexTangent, VertexNormal ) ); 
+
+	mat3	TS2World = mat3( VertexTangent, VertexBiTangent, VertexNormal );
+
+	// Compute view vector
+	vec3	View = normalize( _pView.xyz );
+	float	Distance2Camera = _pView.w;
+
+	// Read diffuse color from texture
+//###	vec3	TextureAlbedo = pow( texture2D( _TexDiffuse, _pUV ).xyz, vec3( DIFFUSE_COLOR_POWER ) );
+//	vec3	TextureAlbedo = pow( _DEBUGDiffuseBrightness * texture2D( _TexDiffuse, _pUV ).xyz, vec3( _DEBUGDiffuseGamma ) );
+	vec3	TextureAlbedo = pow( saturate( vec3( _DEBUGDiffuseBrightness ) + _DEBUGDiffuseContrast * texture2D( _TexDiffuse, _pUV ).xyz ), vec3( _DEBUGDiffuseGamma ) );
+
+	// Read normal from texture
+	vec3	NormalTS = 2.0 * texture2D( _TexNormal, _pUV ).xyz - 1.0;
+//###			NormalTS.xy *= 4.0;
+			NormalTS.xy *= _DEBUGNormalStrength;
+
+	//////////////////////////////////////////////////////
+	// Apply detail
+ 	vec3	DetailAlbedo = pow( texture2D( _TexDetailDiffuse, _pUV * DETAIL_UV_SCALE ).xyz, vec3( DIFFUSE_COLOR_POWER ) );
+//### 			DetailAlbedo = DETAIL_WEIGHT_DIFFUSE * (DetailAlbedo + DETAIL_OFFSET_DIFFUSE);
+ 			DetailAlbedo = _DEBUGDetailStrength * (DetailAlbedo + _DEBUGDetailBias);
+// 			DetailAlbedo = 0.05 * (DetailAlbedo + -0.5);
+//	vec3	DetailAlbedo = vec3( 0.0 );
+
+	vec3	DetailNormalTS = 2.0 * texture2D( _TexDetailNormal, _pUV * DETAIL_UV_SCALE ).xyz - 1.0;
+//###			DetailNormalTS.xy *= DETAIL_WEIGHT_NORMAL;
+			DetailNormalTS.xy *= _DEBUGDetailNormalStrength;
+
+	TextureAlbedo = vec3( 1e-2 ) + saturate( TextureAlbedo + DetailAlbedo );
+ 	NormalTS = normalize( NormalTS + DetailNormalTS );
+
+
+	//////////////////////////////////////////////////////
+	// Get normal in world space
+	vec3	Normal = TS2World * NormalTS;
+
+
+	//////////////////////////////////////////////////////
+	// Compute SH lighting
+
+	// Compute rotation matrix to transform source normal into target normal
+	// (routine from Thomas Moller) (which is actually the same as converting from a quaternion to a matrix)
+	//
+	float	e = dot( _pNormal, Normal );
+	vec3	Ortho = cross( _pNormal, Normal );	// Rotation axis * sin( angle )
+	
+	float	h = 1.0 / (1.0 + e);      // Optimization by Gottfried Chen
+	
+	mat3	Transform;
+	Transform[0].x = e + h * Ortho.x * Ortho.x;
+	Transform[0].y = h * Ortho.x * Ortho.y - Ortho.z;
+	Transform[0].z = h * Ortho.x * Ortho.z + Ortho.y;
+
+	Transform[1].x = h * Ortho.x * Ortho.y + Ortho.z;
+	Transform[1].y = e + h * Ortho.y * Ortho.y;
+	Transform[1].z = h * Ortho.y * Ortho.z - Ortho.x;
+
+	Transform[2].x = h * Ortho.x * Ortho.z - Ortho.y;
+	Transform[2].y = h * Ortho.y * Ortho.z + Ortho.x;
+	Transform[2].z = e + h * Ortho.z * Ortho.z;
+
+	// Transform SH vectors using that matrix
+	vec4	SH0 = vec4( _pSH0.x, _pSH0.yzw * Transform );
+	vec4	SH1 = vec4( _pSH1.x, _pSH1.yzw * Transform );
+	vec4	SH2 = vec4( _pSH2.x, _pSH2.yzw * Transform );
+
+	// Calculate final color using our SH coefficients
+	vec3	LightColor;
+			LightColor.x = max( 0.0, dot( SH0, _LightSH0 ) );
+			LightColor.y = max( 0.0, dot( SH1, _LightSH1 ) );
+			LightColor.z = max( 0.0, dot( SH2, _LightSH2 ) );
+
+
+
+	//////////////////////////////////////////////////////
+	// Compute specular reflection
+
+//###PHONG
+// 	vec3	ReflectedVector = reflect( View, Normal );
+// //	float	SpecularPower = lerp( SPECULAR_POWER_NEAR, SPECULAR_POWER_FAR, saturate( Distance2Camera / SPECULAR_FAR_DISTANCE ) );
+// //	float	SpecularFactor = SPECULAR_FACTOR * pow( saturate( dot( ReflectedVector, _SunDirection ) ), SpecularPower );
+// 	
+// 	float	SpecularFactor = max( 0.0, dot( ReflectedVector, _SunDirection ) );
+// //###			SpecularFactor *= SpecularFactor;
+// 
+// 			SpecularFactor = _DEBUGSpecStrength * pow( SpecularFactor, _DEBUGSpecExponent );
+
+
+//###KELEMEN
+	float	SpecularFactor = KelemenSpecular(
+							Normal,					// Bumped surface normal  
+							_SunDirection,			// Points to light  
+							-View,					// Points to eye  
+							_DEBUGSpecRoughness,	// Roughness  
+							_DEBUGSpecStrength,		// Specular brightness
+							_DEBUGSpecFresnel		// Fresnel reflectance
+						);
+
+
+	//////////////////////////////////////////////////////
+	// Combine final lighting
+	vec3	Result = _pInScattering.xyz + _pInScattering.w * LightColor * TextureAlbedo * (1.0 + SpecularFactor);
+
+	// Encode maximum luminance in alpha
+	float	MaxComponent = max( 1.0, max( max( Result.x, Result.y ), Result.z ) );
+	float	LogRange = saturate( log( 1.0 + MaxComponent ) / 3.0 );	// Compress a [0,20] luminance range into [0,1]
+	Result /= 1e-3 + MaxComponent;	// Normalize...
+
+	gl_FragColor = vec4( Result, LogRange );
+}

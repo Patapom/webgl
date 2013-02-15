@@ -1,0 +1,95 @@
+////////////////////////////////////////////////////////////////
+// Performs advection of ink concentrations
+// Following http://en.wikipedia.org/wiki/Fick%27s_laws_of_diffusion
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform float		_Time;
+uniform float		_DeltaTime;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexSourceInk;
+uniform sampler2D	_TexNoise;
+
+uniform float		_MouseInkStrength;
+uniform float		_CameraInkStrength;
+uniform sampler2D	_TexCameraInput;
+
+uniform vec4		_MouseInfos;
+
+float	MouseInk( vec2 _UV )
+{
+	vec2	ToMousePos = _UV - _MouseInfos.xy;
+	float	DistanceWeight = smoothstep( 360.0*dot( _dUV.xy, _dUV.xy ), 0.0, dot( ToMousePos, ToMousePos ) );	// 1 at mouse position, 0 if larger than 6 pixels away
+
+//	vec2	MouseVelocity = 1000.0 * _MouseInfos.zw;
+	float	VelocityWeight = saturate( 20.0 * length( _MouseInfos.zw ) );
+
+	return _MouseInkStrength * DistanceWeight * VelocityWeight;
+}
+
+float	AddInk( vec2 _UV, vec2 _SourceUV, vec2 _SourceSize )
+{
+	float	Distance2Source = length( (_UV - _SourceUV) / _SourceSize );
+	float	Weight = smoothstep( 1.0, 0.0, Distance2Source );
+	return  2.5 * _DeltaTime * Weight * max( 0.0, texture2D( _TexNoise, 0.25 * _UV ).x );
+}
+
+float	CameraInk( vec2 _UV )
+{
+	return _CameraInkStrength * texture2D( _TexCameraInput, _UV ).z;
+}
+
+void	main()
+{
+	vec2	Velocity = texture2D( _TexVelocity, _UV ).xy;
+	vec2	NewUV = _UV - _DeltaTime * Velocity * _dUV.xy;
+
+	// Concentration diffuses following a laplacian and a coeff
+	vec4	Ink0 = texture2D( _TexSourceInk, NewUV );
+// 	vec4	Ink_Xp = texture2D( _TexSourceInk, NewUV + _dUV.xz );
+// 	vec4	Ink_Xm = texture2D( _TexSourceInk, NewUV - _dUV.xz );
+// 	vec4	Ink_Yp = texture2D( _TexSourceInk, NewUV + _dUV.zy );
+// 	vec4	Ink_Ym = texture2D( _TexSourceInk, NewUV - _dUV.zy );
+// 
+// 	vec4	Laplacian = 4.0 * Ink0 - (Ink_Xp + Ink_Xm + Ink_Yp + Ink_Ym);
+// 
+// 	vec4	NewInk = 0.4 * max( vec4( 0.0 ), Laplacian );
+
+	vec4	NewInk = Ink0;
+
+	// Add continous ink sources
+// 	NewInk.y = min( 1.0, NewInk.y + AddInk( _UV, vec2( 0.6, 0.5 ), vec2( 0.04, 0.04 ) ) );
+// 	NewInk.z = min( 1.0, NewInk.z + AddInk( _UV, vec2( 0.3, 0.4 ), vec2( 0.04, 0.04 ) ) );
+
+	float	Size = 0.12;
+	NewInk.y = min( 1.0, NewInk.y + AddInk( _UV, vec2( 0.7, 0.5 + 0.2 * sin( 0.1 * _Time ) ), vec2( Size, Size ) ) );
+	NewInk.z = min( 1.0, NewInk.z + AddInk( _UV, vec2( 0.3, 0.5 + 0.3 * cos( 0.09267 * _Time ) ), vec2( Size, Size ) ) );
+
+
+//	vec2	MovingPos = 0.5 + 0.4 * vec2( sin( 0.2 * _Time ), cos( 2.0 * _Time ) );
+//	NewInk.w = min( 1.0, NewInk.z + AddInk( _UV, MovingPos, vec2( 0.02, 0.04 ) ) );
+//	NewInk.w = min( 1.0, NewInk.z + AddInk( _UV, MovingPos, vec2( 0.2, 0.2 ) ) );
+
+	// Drop ink from mouse
+	NewInk.x = min( 1.0, NewInk.x + MouseInk( _UV ) * _DeltaTime );
+
+	// Add camera ink
+	NewInk.w = min( 1.0, NewInk.w + CameraInk( _UV ) * _DeltaTime );
+
+	// Add water
+//	NewInk.w = min( 1.0, NewInk.w + AddInk( _UV, vec2( 0.5, 0.5 ), vec2( 0.05, 0.05 ) ) );
+
+	gl_FragColor = NewInk;
+}

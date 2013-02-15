@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{474D5F3D-49B4-4262-8C3B-2E3E26F86C89}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BRDF</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFAnalytical.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFBase.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFList.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPom.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesAnalytical.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesBase.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesPom.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesSlice.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFSlice.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS_NC_Pourrave.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingLM.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Renderer3D.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\RendererBRDF.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\GLViewport.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\RendererGraph.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\index.html" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\3D.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Global.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Graph.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Integration.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\LightModels.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3D.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DBackground.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DGroundPlane.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DHelpers.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DWireframe.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFAreaLight.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFDirectionalLight.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFPointLight.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFBackground.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFHelpers.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFSlice.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFToneMapping.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraph.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphBackground.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphGroundPlane.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphWireframe.shader" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\style.css" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

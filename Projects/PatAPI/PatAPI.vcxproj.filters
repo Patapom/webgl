@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\patapi\base.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\camera_firstperson_walk.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\glow_light_shafts.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\math.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\scenefile.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\skydome.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\skydome_SHCoefficients.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\webgl.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowCombine.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowUpsample.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowCombine.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowDownsample.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowDownsample.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowLightShafts.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowLightShafts.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowMaskEmissive.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowMaskEmissive.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowUpsample.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\o3djs\base.js">
+      <Filter>O3D</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\video.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.ps">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoTemporalFilter.vs">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.vs">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoTemporalFilter.ps">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoNormalize.ps">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoNormalize.vs">
+      <Filter>Shaders\Video</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\camera_orbit.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\ui.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="O3D">
+      <UniqueIdentifier>{d3082602-08aa-47a0-9331-37ec7b13c864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{b349ca35-1425-43ae-a697-848d1a3b86ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Video">
+      <UniqueIdentifier>{773a063d-0070-4b2c-afa3-934718ce71e0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

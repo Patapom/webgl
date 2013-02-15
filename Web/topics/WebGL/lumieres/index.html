@@ -1,0 +1,1187 @@
+﻿<!DOCTYPE html>
+<!-- 
+
+http://www.html5rocks.com/en/tutorials/getusermedia/intro/
+
+Last Change: November 27th 2012
+Changes:
+
+	* november 27th, start !
+
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+Fête des Lumières - WebGL
+</title>
+<style type="text/css">
+.noMouseSelect	{
+	user-select:none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	cursor: pointer;
+}
+.dragging * { cursor: pointer }
+
+body {
+	margin: 0;
+	background-color: #000000;
+	overflow: hidden;
+}
+
+</style>
+
+<script type="text/javascript" src="../o3djs/base.js"></script>						<!-- Include a small part of the O3D library-->
+<script type="text/javascript" src="../patapi/base.js"></script>					<!-- Include PatAPI-->
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.math' );
+o3djs.require( 'patapi.webgl' );
+o3djs.require( 'patapi.video' );
+
+var gl = null;
+var	g_StartTime, g_Time = 0.0;
+var	g_PreviousMouseTime = 0.0;
+
+// Mouse events
+var	g_ButtonsDown = 0;
+var	g_MousePosX = 0.0, g_MousePosY = 0.0;
+var	g_MouseVelX = 0.0, g_MouseVelY = 0.0;
+
+// Webcam
+var g_Video = null;
+var	g_TexSnapshot = null;
+var	g_SnapshotTime = 1.0;
+
+var	g_MatFilterWebcam;
+var	g_MatVelocityWebcam;
+var g_MatDisplayWebcam;
+
+var	g_RTFilteredWebcam;
+var	g_RTTempWebcamBlurVelocity;
+
+// Fluid simulation
+var	g_FluidWidth = 512;
+var	g_FluidHeight = 512;
+
+var	g_MatAdvect;
+var	g_MatDivergence;
+var	g_MatPressureDiffusion;
+var	g_MatProject;
+var	g_MatAdvectInk;
+var	g_MatDiffuseInk;
+var g_MatSplatInk;
+
+var	g_TexNoise;
+var	g_RTVelocity = [ null, null ];		// Double-buffered render targets for the fluid's velocity field
+var	g_RTPressureDiv = [ null, null ];	// Double-buffered render targets for the fluid's pressure & divergence
+
+// Ink mixing
+var	g_RTInkLayer = [ null, null ];		// Double-buffered render targets for 3 inks (RGB) + water (A) concentration
+
+var	g_TexSpectrumXYZ;					// The XYZ color matching function RGBE-encoded
+var	g_TexSpectrumInk0;					// The spectral transmittances for C,Y,M,R inks
+var	g_TexSpectrumInk1;					// The spectral transmittances for C,Y,M,G inks
+
+// Post-processing
+var g_MatFluidDisplay;
+var g_MatFluidBlur;
+
+var g_TexPaperBackground;
+var g_TexStairs;
+var	g_RTTempBlur = [null, null ];
+
+var g_PrimQuad;
+
+// Option values
+var	g_SliderValues = 
+{
+	// Camera filtering
+	_CameraShowRawInput : false,
+	_CameraShowInput : false,
+	_CameraShowFiltered : false,
+	_CameraShowVelocityField : false,
+	_CameraAutoSnap : true,
+	_CameraGaussianWeight : 0.08,
+	_CameraKeystone : -0.02,
+
+	_CameraCurrentImageFactor : 1.22,
+	_CameraCurrentImageBias : 0.08, 
+	_CameraSnapshotImageFactor : 0.88,
+	_CameraSnapshotImageBias : 0.0,
+	_CameraEnhanceDifference : 18.0,
+
+	_CameraVelocityFactor : 30.0,
+	_CameraVelocityBlurSize : 1.0,
+
+	// Fluid
+	_DeltaTime : 2.0,
+	_Vorticity : 1.65,
+	_VorticityReach : 1.50,
+
+	// Ink
+	_InkConcentrations : {},
+	_InkPressureFactor : 29.0,
+	_InkDiffusionRate : 20.0, //20.0,
+	_InkDilutionRate : 50.0, //56.5,
+	_MouseInkStrength : 2.35,
+	_CameraInkStrength : 6.0,
+
+	// Post-processing
+	_PostOverlayBrightness : -0.5,
+	_PostOverlayContrast : 0.73,
+	_PostVignetBloom : 0.07,
+	_PaperSaturation : 0.66,
+	_PostSpecularStrength : 0.1,
+	_PostBlurSize : 0.0,	// Disabled
+
+	_AutoMouseMotion : true,
+
+	// Generic
+	_KeyboardIsQWERTY : false,
+};
+
+
+// From http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function()
+{
+	return window.requestAnimationFrame
+		|| window.webkitRequestAnimationFrame
+		|| window.mozRequestAnimationFrame
+		|| window.oRequestAnimationFrame
+		|| window.msRequestAnimationFrame
+		|| function( callback ) { window.setTimeout( callback, 10 ); };
+})();
+
+function	OnWindowResize()
+{
+	patapi.webgl.Resize( window.innerWidth, window.innerHeight );
+}
+
+function	Init()
+{
+	document.onselectstart = function()
+	{
+		return false;
+	}
+
+	window.addEventListener( 'resize', OnWindowResize, false );
+
+ 	try
+	{
+		var	canvas = document.getElementById( "view" );
+		if ( canvas == null )
+			throw "Canvas element not found !";
+		canvas.focus();
+
+		gl = patapi.webgl.GetContext( canvas );
+		if ( gl == null )
+			throw "Your web-browser does not support webgl !";
+
+		patapi.webgl.Resize( window.innerWidth, window.innerHeight );
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build fluid simulation materials
+		{
+			var	VS = patapi.helpers.LoadFileSynchronous( "Shaders/Fluid.vs" );
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidAdvect.ps" );
+			g_MatAdvect = patapi.webgl.CreateShader( "FluidAdvect", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidDivergence.ps" );
+			g_MatDivergence = patapi.webgl.CreateShader( "FluidDivergence", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidPressureDiffusion.ps" );
+			g_MatPressureDiffusion = patapi.webgl.CreateShader( "FluidPressureDiffusion", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidProject.ps" );
+			g_MatProject = patapi.webgl.CreateShader( "FluidProject", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidAdvectInk.ps" );
+			g_MatAdvectInk = patapi.webgl.CreateShader( "FluidAdvectInk", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidDiffuseInk.ps" );
+			g_MatDiffuseInk = patapi.webgl.CreateShader( "FluidDiffuseInk", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidSplatInk.ps" );
+			g_MatSplatInk = patapi.webgl.CreateShader( "FluidSplatInk", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "Shaders/FluidDisplay.ps" );
+			g_MatFluidDisplay = patapi.webgl.CreateShader( "FluidDisplay", VS, PS );
+
+			PS = patapi.helpers.LoadFileSynchronous( "../patapi/Shaders/PPVideoGaussianFilter.ps" );
+			g_MatFluidBlur = patapi.webgl.CreateShader( "FluidBlur", VS, PS );
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build fluid simulation FBOs
+		{
+			g_RTVelocity[0] = patapi.webgl.CreateFBO( "Velocity0", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+			g_RTVelocity[1] = patapi.webgl.CreateFBO( "Velocity1", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+			g_RTPressureDiv[0] = patapi.webgl.CreateFBO( "PressureDivergence0", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+			g_RTPressureDiv[1] = patapi.webgl.CreateFBO( "PressureDivergence1", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+
+			g_RTVelocity[0].Bind();
+			g_RTVelocity[0].Clear( 0, 0, 0, 0 );
+			g_RTVelocity[1].Bind();
+			g_RTVelocity[1].Clear( 0, 0, 0, 0 );
+			g_RTVelocity[1].UnBind();
+
+			g_RTInkLayer[0] = patapi.webgl.CreateFBO( "Water0", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+			g_RTInkLayer[1] = patapi.webgl.CreateFBO( "Water1", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+
+			g_RTInkLayer[0].Bind();
+			g_RTInkLayer[0].Clear( 0, 0, 0, 0 );
+			g_RTInkLayer[1].Bind();
+			g_RTInkLayer[1].Clear( 0, 0, 0, 0 );
+			g_RTInkLayer[1].UnBind();
+		}
+		
+		// Create the noise texture
+		var	Pixels = new Float32Array( 256 * 256 * 4 );
+		for ( var Y=0; Y < 256; Y++ )
+			for ( var X=0; X < 256; X++ )
+			{
+				Pixels[4*(256*Y+X)+0] = 2.0 * Math.random() - 1.0;
+				Pixels[4*(256*Y+X)+1] = 2.0 * Math.random() - 1.0;
+				Pixels[4*(256*Y+X)+2] = 2.0 * Math.random() - 1.0;
+				Pixels[4*(256*Y+X)+3] = 2.0 * Math.random() - 1.0;
+			}
+		g_TexNoise = patapi.webgl.CreateTextureFromArray( "Noise", Pixels, 256, 256, gl.RGBA_FLOAT );
+
+		g_TexPaperBackground = patapi.webgl.LoadImageTexture( "Paper Background", "PaperBackground.jpg", gl.CLAMP_TO_EDGE, gl.LINEAR, null, true );
+		g_TexStairs = patapi.webgl.LoadImageTexture( "Stairs", "barriere.jpg", gl.CLAMP_TO_EDGE, gl.LINEAR, null, true );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build spectrum convolution textures
+		g_TexSpectrumXYZ = patapi.webgl.LoadImageTexture( "XYZ Color Matching Spectrum", "XYZ32.png", gl.CLAMP_TO_EDGE, gl.NEAREST );
+		g_TexSpectrumInk0 = patapi.webgl.LoadImageTexture( "CMYR Inks Spectrum", "CMYR32.png", gl.CLAMP_TO_EDGE, gl.NEAREST );
+		g_TexSpectrumInk1 = patapi.webgl.LoadImageTexture( "CMYR Inks Spectrum", "CMYG32.png", gl.CLAMP_TO_EDGE, gl.NEAREST );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		g_RTTempBlur[0] = patapi.webgl.CreateFBO( "TempBlur0", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.WRAP, gl.LINEAR );
+		g_RTTempBlur[1] = patapi.webgl.CreateFBO( "TempBlur1", g_FluidWidth, g_FluidHeight, gl.RGBA_FLOAT, gl.WRAP, gl.LINEAR );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Create our screen quad primitive
+		{
+			var	Vertices = new Float32Array( [
+				-1.0, +1.0, 1.0, 1.0,
+				-1.0, -1.0, 1.0, 1.0,
+				+1.0, +1.0, 1.0, 1.0,
+				+1.0, -1.0, 1.0, 1.0,
+			 ] );
+			var	Indices = new Uint16Array( [ 0, 1, 2, 3 ]);
+			g_PrimQuad = patapi.webgl.CreatePrimitiveSynchronous( "ScreenQuad", g_MatAdvect, { _vPosition : Vertices }, Indices, gl.TRIANGLE_STRIP );
+		}
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build sliders
+		g_SliderValues._InkConcentrations = new vec4( 1.75, 2.75, 1.3, 0.75 );
+
+		// Reload default values from cookie if possible
+		try
+		{
+			var	JSONParams = GetCookie( "Params" );
+			if ( JSONParams )
+			{
+				var	Params = eval( '(' + JSONParams + ')' );
+				patapi.helpers.Extend( Params, g_SliderValues );
+
+				// Check invalid vec4 !
+				if ( Params._InkConcentrations.x === undefined )
+					Params._InkConcentrations = g_SliderValues._InkConcentrations;
+
+				g_SliderValues = Params;					// These are the new values now !
+			}
+		}
+		catch ( _e )
+		{
+			// Silently fail...
+		}
+
+		var	EffectVariables =
+		[
+			// Fluid
+			{ title:"Dt", min: 0.0, max: 10.0, value : g_SliderValues._DeltaTime, slide : function( value ) { g_SliderValues._DeltaTime = value; } },
+			{ title:"Vorticity", min: -2.0, max: 2.0, value : g_SliderValues._Vorticity, slide : function( value ) { g_SliderValues._Vorticity = value; } },
+			{ title:"Vorticity Reach", min: -2.0, max: 2.0, value : g_SliderValues._VorticityReach, slide : function( value ) { g_SliderValues._VorticityReach = value; } },
+
+			// Ink
+			{ title:"Yellow Concentration", min: 0.0, max: 10.0, value : g_SliderValues._InkConcentrations.x, slide : function( value ) { g_SliderValues._InkConcentrations.x = value; } },
+			{ title:"Green Concentration", min: 0.0, max: 10.0, value : g_SliderValues._InkConcentrations.y, slide : function( value ) { g_SliderValues._InkConcentrations.y = value; } },
+			{ title:"Magenta Concentration", min: 0.0, max: 10.0, value : g_SliderValues._InkConcentrations.z, slide : function( value ) { g_SliderValues._InkConcentrations.z = value; } },
+			{ title:"Cyan Concentration", min: 0.0, max: 10.0, value : g_SliderValues._InkConcentrations.w, slide : function( value ) { g_SliderValues._InkConcentrations.w = value; } },
+
+//			{ title:"Ink Pressure Fact", min: 0.0, max: 100.0, value : g_SliderValues._InkPressureFactor, slide : function( value ) { g_SliderValues._InkPressureFactor = value; } },
+			{ title:"Ink Diffuse Rate", min: 0.0, max: 100.0, value : g_SliderValues._InkDiffusionRate, slide : function( value ) { g_SliderValues._InkDiffusionRate = value; } },
+			{ title:"Ink Dilute Rate", min: 0.0, max: 100.0, value : g_SliderValues._InkDilutionRate, slide : function( value ) { g_SliderValues._InkDilutionRate = value; } },
+
+	 		{ title:"Auto Mouse", isCheckBox : true, value : g_SliderValues._AutoMouseMotion, click : function( value ) { g_SliderValues._AutoMouseMotion = value; } },
+			{ title:"Mouse Ink Strength", min: 0.0, max: 10.0, value : g_SliderValues._MouseInkStrength, slide : function( value ) { g_SliderValues._MouseInkStrength = value; } },
+			{ title:"Camera Ink Strength", min: 0.0, max: 10.0, value : g_SliderValues._CameraInkStrength, slide : function( value ) { g_SliderValues._CameraInkStrength = value; } },
+
+			// Post-processing
+			{ title:"Post Brightness", min: -1.0, max: 1.0, value : g_SliderValues._PostOverlayBrightness, slide : function( value ) { g_SliderValues._PostOverlayBrightness = value; } },
+			{ title:"Post Contrast", min: -1.0, max: 1.0, value : g_SliderValues._PostOverlayContrast, slide : function( value ) { g_SliderValues._PostOverlayContrast = value; } },
+			{ title:"Post Bloom", min: 0.0, max: 1.0, value : g_SliderValues._PostVignetBloom, slide : function( value ) { g_SliderValues._PostVignetBloom = value; } },
+			{ title:"Paper Saturation", min: 0.0, max: 1.0, value : g_SliderValues._PaperSaturation, slide : function( value ) { g_SliderValues._PaperSaturation = value; } },
+			{ title:"Post Specular", min: 0.0, max: 1.0, value : g_SliderValues._PostSpecularStrength, slide : function( value ) { g_SliderValues._PostSpecularStrength = value; } },
+			{ title:"Post Blur", min: 0.0, max: 1.0, value : g_SliderValues._PostBlurSize, slide : function( value ) { g_SliderValues._PostBlurSize = value; } },
+		];
+
+		CreateSliders( EffectVariables, document.getElementById( "EffectSliders" ) );
+		{
+			// Add a "reset" button
+			var	ResetElement = document.createElement( 'div' );
+			document.getElementById( "EffectSliders" ).appendChild( ResetElement );
+			ResetElement.innerHTML = "<br/><b style=\"background:#303030\">&nbsp;&nbsp;RESET&nbsp;&nbsp;</b>";
+			ResetElement.onclick = function()
+			{
+				g_ResetParams = true;
+				window.location.reload();
+			}
+		}
+//		ToggleEffectSlidersVisibility();
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Attempt to create the video texture
+		try
+		{
+			g_Video = patapi.video.CreateVideoTexture( gl,
+				{
+// 					width : 640,
+//	 				height : 480,
+					width : 640,
+					height : 360,
+					temporalAverageFramesCount : 1,	// Average over 2 frames
+					gaussianFilterWeight : 0.04
+				},
+				function( _Video )
+				{
+					_Video.Play();
+
+					var	CameraVariables =
+					[
+						// Webcam filtering parameters
+	 					{ title:"Show Raw Input", isCheckBox : true, value : g_SliderValues._CameraShowRawInput, click : function( value ) { g_SliderValues._CameraShowRawInput = value; } },
+	 					{ title:"Show Input", isCheckBox : true, value : g_SliderValues._CameraShowInput, click : function( value ) { g_SliderValues._CameraShowInput = value; } },
+	 					{ title:"Show Filtered", isCheckBox : true, value : g_SliderValues._CameraShowFiltered, click : function( value ) { g_SliderValues._CameraShowFiltered = value; } },
+	 					{ title:"Show Velocity Field", isCheckBox : true, value : g_SliderValues._CameraShowVelocityField, click : function( value ) { g_SliderValues._CameraShowVelocityField = value; } },
+	 					{ title:"Auto Snap every 30s", isCheckBox : true, value : g_SliderValues._CameraAutoSnap, click : function( value ) { g_SliderValues._CameraAutoSnap = value; } },
+
+	 					{ title:"KeyStone", min: -1.0, max: 1.0, value : g_SliderValues._CameraKeystone, slide : function( value ) { g_SliderValues._CameraKeystone = value; } },
+	 					{ title:"Camera Gaussian", min: 0.0, max: 4.0, value : g_SliderValues._CameraGaussianWeight, slide : function( value ) { g_SliderValues._CameraGaussianWeight = value; } },
+	 					{ title:"Current Fact", min: 0.0, max: 4.0, value : g_SliderValues._CameraCurrentImageFactor, slide : function( value ) { g_SliderValues._CameraCurrentImageFactor = value; } },
+	 					{ title:"Current Bias", min: -1.0, max: 1.0, value : g_SliderValues._CameraCurrentImageBias, slide : function( value ) { g_SliderValues._CameraCurrentImageBias = value; } },
+	 					{ title:"Snap Fact", min: 0.0, max: 4.0, value : g_SliderValues._CameraSnapshotImageFactor, slide : function( value ) { g_SliderValues._CameraSnapshotImageFactor = value; } },
+	 					{ title:"Snap Bias", min: -1.0, max: 1.0, value : g_SliderValues._CameraSnapshotImageBias, slide : function( value ) { g_SliderValues._CameraSnapshotImageBias = value; } },
+	 					{ title:"Enhance", min: -1.0, max: 20.0, value : g_SliderValues._CameraEnhanceDifference, slide : function( value ) { g_SliderValues._CameraEnhanceDifference = value; } },
+
+	 					{ title:"Velocity Factor", min: 0.0, max: 100.0, value : g_SliderValues._CameraVelocityFactor, slide : function( value ) { g_SliderValues._CameraVelocityFactor = value; } },
+						{ title:"Velocity Blur", min: 0.0, max: 2.0, value : g_SliderValues._CameraVelocityBlurSize, slide : function( value ) { g_SliderValues._CameraVelocityBlurSize = value; } },
+					];
+
+					CreateSliders( CameraVariables, document.getElementById( "CameraSliders" ) );
+					{	// Add a "snapshot" button
+						var	SnapshotElement = document.createElement( 'div' );
+						document.getElementById( "CameraSliders" ).appendChild( SnapshotElement );
+						SnapshotElement.innerHTML = "<br/><b style=\"background:#303030\">&nbsp;&nbsp;SNAP&nbsp;&nbsp;</b>";
+						SnapshotElement.onclick = function()
+						{
+							g_TexSnapshot = g_Video.Snapshot();
+						}
+					}
+
+					ToggleCameraSlidersVisibility();
+					ToggleCameraSlidersVisibility();
+				},
+				function( _Video, _Error )
+				{
+					// It failed !
+					g_Video.Destroy();
+					g_Video = null;
+				} );
+
+			////////////////////////////////////////////////////////////////////////////
+			// Build the materials to filter/display webcam feed
+			var	VS = patapi.helpers.LoadFileSynchronous( "Shaders/TestWebcam.vs" );
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/WebcamFilter.ps" );
+			g_MatFilterWebcam = patapi.webgl.CreateShader( "FilterWebCam", VS, PS );
+
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/WebcamVelocity.ps" );
+			g_MatVelocityWebcam = patapi.webgl.CreateShader( "VelocityWebCam", VS, PS );
+
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/WebcamDisplay.ps" );
+			g_MatDisplayWebcam = patapi.webgl.CreateShader( "DisplayWebCam", VS, PS );
+
+			// Also create the filtered webcam FBO
+			g_RTFilteredWebcam = [
+				patapi.webgl.CreateFBO( "FilteredWebcam0", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR ),
+				patapi.webgl.CreateFBO( "FilteredWebcam1", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR ),
+				patapi.webgl.CreateFBO( "FilteredWebcam2", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR ),
+				patapi.webgl.CreateFBO( "FilteredWebcam3", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR ),
+				patapi.webgl.CreateFBO( "FilteredWebcam4", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR ) ];
+
+			g_RTTempWebcamBlurVelocity = patapi.webgl.CreateFBO( "TempBlurWebcamVelocity", g_Video.width, g_Video.height, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+		}
+		catch ( _e )
+		{	// Silently fail if no video support...
+			g_Video = null;
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Subscribe to mouse events
+		{
+			canvas.addEventListener( 'mousedown', function( _Event )
+			{
+			 	if ( _Event.type != 'mousedown' )
+ 					return false;
+				g_ButtonsDown |= 1 << _Event.button;	// Add this button
+
+			 } );
+			canvas.addEventListener( 'mouseup', function( _Event )
+			{
+				if ( _Event.type != 'mouseup' )
+ 					return;
+
+				g_ButtonsDown &= ~(1 << _Event.button);	// Remove only this button
+			} );
+			canvas.addEventListener( 'mousemove', function( _Event )
+			{
+				if ( _Event.type != 'mousemove' )
+					return;
+
+				var AspectRatio = canvas.width / canvas.height;
+
+				var	MousePosX = (_Event.clientX - canvas.offsetLeft) / canvas.width;
+				var	MousePosY = 1.0 - (_Event.clientY - canvas.offsetTop) / canvas.height;
+
+				var	DeltaTime = 1.0 / Math.max( 1e-3, g_Time - g_PreviousMouseTime );
+
+				g_MouseVelX = (MousePosX - g_MousePosX) * DeltaTime;
+				g_MouseVelY = (MousePosY - g_MousePosY) * DeltaTime;
+
+				if ( !isFinite( g_MouseVelX ) )
+					return;
+
+				g_MousePosX = MousePosX;
+				g_MousePosY = MousePosY;
+				g_PreviousMouseTime = g_Time;
+			} );
+		}
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Start main loop
+		g_StartTime = 0.001 * (new Date()).getTime();
+		(function()
+		{
+			requestAnimFrame( arguments.callee );
+			Render();
+		})();
+	}
+	catch ( _e )
+	{
+		UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + _e );
+		return;
+	}
+}
+
+var	g_ResetParams = false;
+function	Exit()
+{
+	if ( gl == null )
+		return;		// No context anyway...
+	g_Time = -1;	// This will force the render loop to stop
+
+	// Write the current parameters as a cookie for next time...
+	try
+	{
+		if ( !g_ResetParams )
+		{
+			var	StringValues = JSON.stringify( g_SliderValues );
+			SetCookie( "Params", StringValues, 30 );
+		}
+		else
+			SetCookie( "Params", "", -1 );
+	}
+	catch ( _e )
+	{
+		// Silently fail...
+	}
+
+	if ( g_Video )	g_Video.Destroy();
+
+	g_MatAdvect.Destroy();
+	g_MatDivergence.Destroy();
+	g_MatPressureDiffusion.Destroy();
+	g_MatProject.Destroy();
+	g_MatAdvectInk.Destroy();
+	g_MatDiffuseInk.Destroy();
+	g_MatSplatInk.Destroy();
+	g_MatFluidDisplay.Destroy();
+	g_MatFluidBlur.Destroy();
+
+	gl.deleteTexture( g_TexPaperBackground );
+	gl.deleteTexture( g_TexStairs );
+
+	g_RTVelocity[0].Destroy();
+	g_RTVelocity[1].Destroy();
+	g_RTPressureDiv[0].Destroy();
+	g_RTPressureDiv[1].Destroy();
+
+	g_RTInkLayer[0].Destroy();
+	g_RTInkLayer[1].Destroy();
+
+	g_RTTempBlur[0].Destroy();
+	g_RTTempBlur[1].Destroy();
+
+	gl.deleteTexture( g_TexSpectrumXYZ );
+	gl.deleteTexture( g_TexSpectrumInk0 );
+	gl.deleteTexture( g_TexSpectrumInk1 );
+
+	if ( g_Video )
+	{
+		g_MatVelocityWebcam.Destroy();
+		g_MatFilterWebcam.Destroy();
+		g_MatDisplayWebcam.Destroy();
+		g_RTFilteredWebcam[0].Destroy();
+		g_RTFilteredWebcam[1].Destroy();
+		g_RTFilteredWebcam[2].Destroy();
+		g_RTFilteredWebcam[3].Destroy();
+		g_RTFilteredWebcam[4].Destroy();
+		g_RTTempWebcamBlurVelocity.Destroy();
+	}
+
+	g_PrimQuad.Destroy();
+}
+
+var	g_AutoMouseTimeBeforeMotion = 0.0;
+var	g_AutoMouseMotionRemainingTime = 0.0;
+var	g_AutoMouseMotionPreviousPosition = 0.0;
+var	g_AutoMouseMotionPosition = 0.0;
+var	g_AutoMouseMotionVelocity = 0.0;
+var	g_AutoMouseMotionRotationAngle = 0.0;
+var	g_AutoMouseMotionRotationRadius = 0.0;
+var	g_AutoMouseMotionRotationSpeed = 0.0;
+
+function Render()
+{
+	if ( g_Time < 0 )
+		return;	// Stop rendering...
+
+	var	Time = 0.001 * (new Date()).getTime() - g_StartTime;
+	var	DeltaTime = Time - g_Time;
+	g_Time = Time;
+
+	try
+	{
+		patapi.webgl.FrameUpdate();
+
+		// Setup default states
+		gl.disable( gl.DEPTH_TEST );
+		gl.disable( gl.CULL_FACE );
+
+		g_PrimQuad.Use();
+
+		//////////////////////////////////////////////////////////////////////////
+		// Process webcam input
+		if ( g_Video )
+		{
+			g_Video.gaussianFilterWeight = g_SliderValues._CameraGaussianWeight;	// Update gaussian strength
+			g_Video.keyStone = g_SliderValues._CameraKeystone;						// Update keyStone correction
+
+			var	dUV = new vec3( 1.0 / g_Video.width, 1.0 / g_Video.height, 0.0 );
+
+			// Filter webcam to isolate discrepancies
+			g_RTFilteredWebcam[1].Bind();
+			g_MatFilterWebcam.Use();
+
+			g_MatFilterWebcam.uniforms.SafeSet( "_dUV", dUV );
+			g_MatFilterWebcam.uniforms.SafeSet( "_KeyStone", g_SliderValues._CameraKeystone );
+			g_MatFilterWebcam.uniforms.SafeSet( "_Params0", new vec4( g_SliderValues._CameraCurrentImageFactor, g_SliderValues._CameraCurrentImageBias, g_SliderValues._CameraSnapshotImageFactor, g_SliderValues._CameraSnapshotImageBias ) );
+			g_MatFilterWebcam.uniforms.SafeSet( "_Params1", new vec4( g_SliderValues._CameraEnhanceDifference, 0, 0, 0 ) );
+
+//			var	MouseInfos = new vec4( g_MousePosX, g_MousePosY, g_ButtonsDown * g_MouseVelX, g_ButtonsDown * g_MouseVelY );	// Use this to test features & motion detection
+			var	MouseInfos = new vec4( -10.0, -10.0, 0, 0 );
+			g_MatFilterWebcam.uniforms.SafeSet( "_MouseInfos", MouseInfos );
+
+			if ( g_Video.texVideoSource )
+				g_MatFilterWebcam.uniforms.SafeSet( "_TexCameraSource", g_Video.texVideoSource );
+			g_Video.SetTexture( g_MatFilterWebcam.uniforms._TexCamera );
+
+			if ( g_TexSnapshot )
+				g_MatFilterWebcam.uniforms.SafeSet( "_TexSnapshot", g_TexSnapshot );
+
+			g_PrimQuad.Draw();
+
+			// Swap render targets
+			var	Temp = g_RTFilteredWebcam[4];
+			g_RTFilteredWebcam[4] = g_RTFilteredWebcam[3];
+			g_RTFilteredWebcam[3] = g_RTFilteredWebcam[2];
+			g_RTFilteredWebcam[2] = g_RTFilteredWebcam[1];
+			g_RTFilteredWebcam[1] = Temp;
+
+
+			// Filter webcam to isolate motion
+			g_RTFilteredWebcam[0].Bind();
+			g_MatVelocityWebcam.Use();
+
+			g_MatVelocityWebcam.uniforms.SafeSet( "_Time", g_Time );
+			g_MatVelocityWebcam.uniforms.SafeSet( "_dUV", dUV );
+			g_MatVelocityWebcam.uniforms.SafeSet( "_TexCurrent", g_RTFilteredWebcam[2] );
+			g_MatVelocityWebcam.uniforms.SafeSet( "_TexPrevious", g_RTFilteredWebcam[1] );
+			g_MatVelocityWebcam.uniforms.SafeSet( "_VelocityFactor", g_SliderValues._CameraVelocityFactor );
+			if ( g_TexStairs )
+				g_MatVelocityWebcam.uniforms.SafeSet( "_TexStairs", g_TexStairs );
+			
+			g_PrimQuad.Draw();
+
+			// Blur velocities
+			g_RTTempWebcamBlurVelocity.Bind();
+			g_MatFluidBlur.Use();
+			g_MatFluidBlur.uniforms.SafeSet( "_dUV", new vec3( g_SliderValues._CameraVelocityBlurSize * dUV.x, 0.0, 0.0 ) );
+			g_MatFluidBlur.uniforms.SafeSet( "_TexSource", g_RTFilteredWebcam[0] );
+			g_PrimQuad.Draw();
+
+			g_RTFilteredWebcam[0].Bind();
+			g_MatFluidBlur.uniforms.SafeSet( "_dUV", new vec3( 0.0, g_SliderValues._CameraVelocityBlurSize * dUV.y, 0.0 ) );
+			g_MatFluidBlur.uniforms.SafeSet( "_TexSource", g_RTTempWebcamBlurVelocity );
+			g_PrimQuad.Draw();
+
+
+			// Check if we should take a snapshot...
+			if ( g_Video.isPlaying && g_SliderValues._CameraAutoSnap )
+			{
+				g_SnapshotTime -= DeltaTime;
+				if ( g_SnapshotTime < 0.0 )
+				{
+					g_SnapshotTime += 30.0;	// Take a snapshot every 30 seconds
+					g_TexSnapshot = g_Video.Snapshot();
+				}
+			}
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// Simulate mouse motion
+		if ( g_SliderValues._AutoMouseMotion )
+			g_AutoMouseTimeBeforeMotion -= DeltaTime;
+		if ( g_AutoMouseTimeBeforeMotion < 0.0 )
+		{
+			g_AutoMouseTimeBeforeMotion = 1.0 + 4.0 * Math.random();	// Draw another random time before new motion
+
+			g_AutoMouseMotionRemainingTime = 1.0 + 2.0 * Math.random();	// New motion lasts for...
+			g_AutoMouseMotionPosition = new vec2( 0.2 + 0.6 * Math.random(), 0.2 + 0.6 * Math.random() );
+			g_AutoMouseMotionPreviousPosition = g_AutoMouseMotionPosition;
+			g_AutoMouseMotionVelocity = new vec2( 2.0 * Math.random() - 1.0, 2.0 * Math.random() - 1.0 ).mul( 0.1 + 0.3 * Math.random() );
+			g_AutoMouseMotionRotationRadius = 0.01 + 0.1 * Math.random();
+			g_AutoMouseMotionRotationSpeed = (-3.0 + 4.0 * Math.random()) * Math.PI;
+
+			g_ButtonsDown = 1;	// CLICK !
+		}
+
+		if ( g_AutoMouseMotionRemainingTime > 0.0 )
+		{
+			g_AutoMouseMotionRemainingTime -= DeltaTime;
+			if ( g_AutoMouseMotionRemainingTime < 0.0 )
+				g_ButtonsDown = 0;	// UNCLICK!
+
+			g_AutoMouseMotionPosition = g_AutoMouseMotionPosition.add_( g_AutoMouseMotionVelocity.mul_( DeltaTime ) );
+
+			g_AutoMouseMotionRotationAngle += DeltaTime * g_AutoMouseMotionRotationSpeed;
+
+			g_AutoMouseMotionPreviousPosition = new vec2( g_MousePosX, g_MousePosY );
+			g_MousePosX = g_AutoMouseMotionPosition.x + g_AutoMouseMotionRotationRadius * Math.cos( g_AutoMouseMotionRotationAngle );
+			g_MousePosY = g_AutoMouseMotionPosition.y + g_AutoMouseMotionRotationRadius * Math.sin( g_AutoMouseMotionRotationAngle );
+			g_MouseVelX = 0.25 * (g_MousePosX - g_AutoMouseMotionPreviousPosition.x) / Math.max( 1e-2, DeltaTime );
+			g_MouseVelY = 0.25 * (g_MousePosX - g_AutoMouseMotionPreviousPosition.y) / Math.max( 1e-2, DeltaTime );
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// Fluid simulation
+		{
+			function	SwapVelocityBuffers()
+			{
+				var	Temp = g_RTVelocity[0];
+				g_RTVelocity[0] = g_RTVelocity[1];
+				g_RTVelocity[1] = Temp;
+			}
+			function	SwapPressureDivergenceBuffers()
+			{
+				var	Temp = g_RTPressureDiv[0];
+				g_RTPressureDiv[0] = g_RTPressureDiv[1];
+				g_RTPressureDiv[1] = Temp;
+			}
+			function	SwapInkBuffers()
+			{
+				var	Temp = g_RTInkLayer[0];
+				g_RTInkLayer[0] = g_RTInkLayer[1];
+				g_RTInkLayer[1] = Temp;
+			}
+
+			var	dUV = new vec3( 1.0 / g_RTVelocity[0].width, 1.0 / g_RTVelocity[0].height, 0.0 );
+
+			var	MouseInfos = new vec4( g_MousePosX, g_MousePosY, g_ButtonsDown * g_MouseVelX, g_ButtonsDown * g_MouseVelY );
+
+			var	SimulationDeltaTime = 0.01 * g_SliderValues._DeltaTime;
+
+			// 1] Advect velocities
+			g_RTVelocity[1].Bind();
+			g_MatAdvect.Use();
+			g_MatAdvect.uniforms._dUV.Set( dUV );
+			g_MatAdvect.uniforms.SafeSet( "_Time", g_Time );
+			g_MatAdvect.uniforms._DeltaTime.Set( SimulationDeltaTime );
+			g_MatAdvect.uniforms._Vorticity.Set( g_SliderValues._Vorticity, g_SliderValues._VorticityReach );
+			g_MatAdvect.uniforms.SafeSet( "_MouseInfos", MouseInfos );
+			g_MatAdvect.uniforms._TexVelocity.Set( g_RTVelocity[0] );
+			g_MatAdvect.uniforms._TexPressure.Set( g_RTPressureDiv[0] );
+			g_MatAdvect.uniforms.SafeSet( "_TexInkLayer", g_RTInkLayer[0] );
+
+			if ( g_RTFilteredWebcam )
+ 				g_MatAdvect.uniforms.SafeSet( "_TexCameraInput", g_RTFilteredWebcam[0] );
+			
+			g_PrimQuad.Draw();
+
+			// 1.1] Splat velocity
+			if ( true )
+			{
+				var	W = g_RTVelocity[0].width;
+				var	H = g_RTVelocity[0].height;
+
+				g_RTVelocity[1].Bind();
+				g_MatSplatInk.Use();
+				g_MatSplatInk.uniforms.SafeSet( "_Time", g_Time );
+				g_MatSplatInk.uniforms.SafeSet( "_dUV", dUV );
+				g_MatSplatInk.uniforms.SafeSet( "_SplatVelocity", true );
+				g_MatSplatInk.uniforms.SafeSet( "_TexNoise", g_TexNoise );
+
+				// Splat top velocities
+				gl.viewport( 0, 0, W, 1 );
+				g_PrimQuad.Draw();
+
+				// Splat left velocities
+				gl.viewport( 0, 0, 1, H );
+				g_PrimQuad.Draw();
+
+				// Splat bottom velocities
+				gl.viewport( 0, H-1, W, 1 );
+				g_PrimQuad.Draw();
+
+				// Splat right velocities
+				gl.viewport( W-1, 0, 1, H );
+				g_PrimQuad.Draw();
+			}
+
+			SwapVelocityBuffers();
+
+			// 2] Compute initial divergence & vorticity
+			g_RTPressureDiv[1].Bind();
+			g_MatDivergence.Use();
+			g_MatDivergence.uniforms._dUV.Set( dUV );
+			g_MatDivergence.uniforms._TexVelocity.Set( g_RTVelocity[0] );
+			g_MatDivergence.uniforms.SafeSet( "_TexInkLayer", g_RTInkLayer[0] );
+			g_MatDivergence.uniforms.SafeSet( "_InkPressureFactor", g_SliderValues._InkPressureFactor );
+			
+			g_PrimQuad.Draw();
+
+			SwapPressureDivergenceBuffers();
+
+			// 3] Perform pression diffusion
+			g_MatPressureDiffusion.Use();
+			g_MatPressureDiffusion.uniforms._dUV.Set( dUV );
+//			g_MatPressureDiffusion.uniforms._TexVelocity.Set( g_RTVelocity[0] );
+
+			for ( var DiffusionPassIndex=0; DiffusionPassIndex < 2*8; DiffusionPassIndex++ )
+			{
+				g_RTPressureDiv[1].Bind();
+				g_MatPressureDiffusion.uniforms._TexPressure.Set( g_RTPressureDiv[0] );
+				g_PrimQuad.Draw();
+				SwapPressureDivergenceBuffers();
+			}
+
+			// 4] Compute final velocity from pressure field by subtracting the pressure gradient
+			g_RTVelocity[1].Bind();
+			g_MatProject.Use();
+			g_MatProject.uniforms._dUV.Set( dUV );
+			g_MatProject.uniforms._TexVelocity.Set( g_RTVelocity[0] );
+			g_MatProject.uniforms._TexPressure.Set( g_RTPressureDiv[0] );
+			g_PrimQuad.Draw();
+
+			SwapVelocityBuffers();
+
+			// 5] Finally, perform ink advection & diffusion
+			// 5.1] Advection
+			g_RTInkLayer[1].Bind();
+			g_MatAdvectInk.Use();
+			g_MatAdvectInk.uniforms.SafeSet( "_dUV", dUV );
+			g_MatAdvectInk.uniforms.SafeSet( "_DeltaTime", SimulationDeltaTime );
+			g_MatAdvectInk.uniforms.SafeSet( "_Time", g_Time );
+			g_MatAdvectInk.uniforms.SafeSet( "_TexVelocity", g_RTVelocity[0] );
+			g_MatAdvectInk.uniforms.SafeSet( "_MouseInfos", MouseInfos );
+			g_MatAdvectInk.uniforms._TexSourceInk.Set( g_RTInkLayer[0] );
+			g_MatAdvectInk.uniforms.SafeSet( "_MouseInkStrength", g_SliderValues._MouseInkStrength );
+			g_MatAdvectInk.uniforms.SafeSet( "_CameraInkStrength", g_SliderValues._CameraInkStrength );
+			g_MatAdvectInk.uniforms.SafeSet( "_TexNoise", g_TexNoise );
+
+			if ( g_RTFilteredWebcam )
+ 				g_MatAdvectInk.uniforms.SafeSet( "_TexCameraInput", g_RTFilteredWebcam[0] );
+
+			g_PrimQuad.Draw();
+
+			// 5.2] Splat ink
+			if ( false )
+			{
+				var	W = g_RTInkLayer[0].width;
+				var	H = g_RTInkLayer[0].height;
+
+				g_RTInkLayer[1].Bind();
+				g_MatSplatInk.Use();
+				g_MatSplatInk.uniforms.SafeSet( "_dUV", dUV );
+				g_MatSplatInk.uniforms.SafeSet( "_SplatVelocity", false );
+				g_MatSplatInk.uniforms.SafeSet( "_TexNoise", g_TexNoise );
+
+				// Splat top ink
+				gl.viewport( 0, 0, W, 1 );
+				g_PrimQuad.Draw();
+
+				// Splat left ink
+				gl.viewport( 0, 0, 1, H );
+				g_PrimQuad.Draw();
+
+				// Splat bottom ink
+				gl.viewport( 0, H-1, W, 1 );
+				g_PrimQuad.Draw();
+
+				// Splat right ink
+				gl.viewport( W-1, 0, 1, H );
+				g_PrimQuad.Draw();
+			}
+
+			SwapInkBuffers();
+
+			// 5.3] Diffusion
+			g_RTInkLayer[1].Bind();
+			g_MatDiffuseInk.Use();
+			g_MatDiffuseInk.uniforms.SafeSet( "_dUV", dUV );
+			g_MatDiffuseInk.uniforms.SafeSet( "_DeltaTime", SimulationDeltaTime );
+			g_MatDiffuseInk.uniforms.SafeSet( "_InkDiffusion", new vec2( g_SliderValues._InkDiffusionRate, g_SliderValues._InkDilutionRate ) );
+			g_MatDiffuseInk.uniforms._TexSourceInk.Set( g_RTInkLayer[0] );
+			g_PrimQuad.Draw();
+
+			SwapInkBuffers();
+
+			// 6] Show the result...
+			var	bDoPostBlur = g_SliderValues._PostBlurSize > 0.01;
+			if ( bDoPostBlur )
+				g_RTTempBlur[1].Bind();
+			else
+				g_RTVelocity[1].UnBind();
+
+			g_MatFluidDisplay.Use();
+			g_MatFluidDisplay.uniforms.SafeSet( "_dUV", dUV );
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexVelocity", g_RTVelocity[0] );
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexPressure", g_RTPressureDiv[0] );
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexInkLayer", g_RTInkLayer[0] );
+			g_MatFluidDisplay.uniforms.SafeSet( "_MouseInfos", MouseInfos );
+			g_MatFluidDisplay.uniforms.SafeSet( "_InkConcentrations", g_SliderValues._InkConcentrations );
+			g_MatFluidDisplay.uniforms.SafeSet( "_PostProcessingParams", new vec4( -g_SliderValues._PostOverlayBrightness, 1.0 + 1.0 * g_SliderValues._PostOverlayContrast, 1.0+g_SliderValues._PostVignetBloom, g_SliderValues._PostSpecularStrength ) );
+			g_MatFluidDisplay.uniforms.SafeSet( "_PaperSaturation", g_SliderValues._PaperSaturation );
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexSpectrumXYZ", g_TexSpectrumXYZ );
+//			g_MatFluidDisplay.uniforms.SafeSet( "_TexSpectrumInk", g_TexSpectrumInk0 );	// Use Cyan Magenta Yellow Red
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexSpectrumInk", g_TexSpectrumInk1 );	// Use Cyan Magenta Yellow Green
+			g_MatFluidDisplay.uniforms.SafeSet( "_TexNoise", g_TexNoise );
+			if ( g_TexPaperBackground )
+				g_MatFluidDisplay.uniforms.SafeSet( "_TexPaperBackground", g_TexPaperBackground );
+// 			if ( g_Video && g_Video.texVideoSource )
+// //			g_MatFluidDisplay.uniforms.SafeSet( "_TexPaperBackground", g_Video.texVideoSource );
+//			g_Video.SetTexture( g_MatFluidDisplay.uniforms._TexPaperBackground );
+
+			g_PrimQuad.Draw();
+
+			// 7] Post-process blur
+			if ( bDoPostBlur )
+			{
+				g_RTTempBlur[0].Bind();
+				g_MatFluidBlur.Use();
+				g_MatFluidBlur.uniforms.SafeSet( "_dUV", new vec3( g_SliderValues._PostBlurSize * dUV.x, 0.0, 0.0 ) );
+				g_MatFluidBlur.uniforms.SafeSet( "_TexSource", g_RTTempBlur[1] );
+				g_PrimQuad.Draw();
+
+				g_RTTempBlur[0].UnBind();
+				g_MatFluidBlur.uniforms.SafeSet( "_dUV", new vec3( 0.0, g_SliderValues._PostBlurSize * dUV.y, 0.0 ) );
+				g_MatFluidBlur.uniforms.SafeSet( "_TexSource", g_RTTempBlur[0] );
+				g_PrimQuad.Draw();
+			}
+
+			// 8] Optionally display webcam input
+			if ( g_Video && (g_SliderValues._CameraShowRawInput || g_SliderValues._CameraShowInput || g_SliderValues._CameraShowFiltered || g_SliderValues._CameraShowVelocityField) )
+			{
+				g_MatDisplayWebcam.Use();
+				g_MatDisplayWebcam.uniforms._ShowVelocity.Set( false );
+				if ( g_SliderValues._CameraShowVelocityField )
+				{
+					g_MatDisplayWebcam.uniforms._TexCamera.Set( g_RTFilteredWebcam[0] );
+					g_MatDisplayWebcam.uniforms._ShowVelocity.Set( true );
+				}
+				else if ( g_SliderValues._CameraShowFiltered )
+					g_MatDisplayWebcam.uniforms._TexCamera.Set( g_RTFilteredWebcam[2] );
+				else if ( g_SliderValues._CameraShowInput )
+					g_Video.SetTexture( g_MatDisplayWebcam.uniforms._TexCamera );
+				else if ( g_SliderValues._CameraShowRawInput && g_Video.texVideoSource )
+					g_MatDisplayWebcam.uniforms._TexCamera.Set( g_Video.texVideoSource );
+
+				g_PrimQuad.Draw();
+			}
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// WE'RE DONE FOR THAT FRAME !!
+	}
+	catch ( _e )
+	{
+		g_Time = -1;	// This will force the render loop to stop
+		UpdateStatusError( "<u>An error occurred while rendering:</u>\n\n" + _e );
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// Ink splatting
+function	SplatInk()
+{
+	g_SplatInk = true;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// Status & Progress
+var	g_InfosElement;
+function	UpdateStatus( _Status )
+{
+	if ( !g_InfosElement )
+		g_InfosElement = document.getElementById( "Status" );
+	if ( !g_InfosElement )
+		return;
+
+	while ( _Status.indexOf( '\n' ) != -1 )
+		_Status = _Status.replace( '\n', '<br/>' );	// Keep replacing...
+
+	g_InfosElement.innerHTML = _Status;
+}
+
+function	UpdateStatusError( _Error )
+{
+	UpdateStatus( "<font color=\"#FF5040\">" + _Error + "</font>" );
+
+	var	InfosElement = document.getElementById( "Infos" );
+	if ( InfosElement )
+		InfosElement.style.visibility = 'hidden';
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Option sliders management
+//
+var g_MouseDown = false;
+
+function	SetDivText( _Div, _Text )
+{
+	if ( _Div.innerText !== undefined )
+		_Div.innerText = _Text;
+	else if ( _Div.textContent !== undefined )
+		_Div.textContent = _Text;
+	else
+		throw "What the hell is this browser ?";
+}
+
+function	CreateSliders( _Variables, _SlidersContainerElement )
+{
+	// Generic handling to have some sort of global "button down" state
+	document.body.onmousedown = function() { g_MouseDown = true; }
+	document.body.onmouseup = function() { g_MouseDown = false; }
+
+	// Create our debug sliders
+	for ( var SliderIndex=0; SliderIndex < _Variables.length; SliderIndex++ )
+	{
+		var	Desc = _Variables[SliderIndex];
+
+		// Create the title div
+		var	TitleElement = document.createElement( 'div' );
+		_SlidersContainerElement.appendChild( TitleElement );
+
+		if ( Desc.isCheckBox )
+		{	// Create a checkbox instead
+			SetDivText( TitleElement, Desc.title );
+
+			var	CheckBoxHostElement = document.createElement( 'div' );
+			_SlidersContainerElement.appendChild( CheckBoxHostElement );
+			CheckBoxHostElement.setAttribute( "style", "float:left; position:relative;top:-18px;left:0px; border: 2px; margin:0px; padding:0px; width:20px;height:20px;background:#606060;" );
+			CheckBoxHostElement.checkBoxDescriptor = Desc;
+			CheckBoxHostElement.mouseDown = function( _Event )
+			{
+				this.checkBoxDescriptor.value = !this.checkBoxDescriptor.value
+				this.checkBoxDescriptor.click( this.checkBoxDescriptor.value );
+				SetDivText( this, this.checkBoxDescriptor.value ? "x" : " " );
+			}
+			CheckBoxHostElement.addEventListener( 'mousedown', function( _Event ) { return this.mouseDown( _Event ); } );
+			SetDivText( CheckBoxHostElement, Desc.value ? "x" : " " );
+			continue;
+		}
+
+		// Create the slider element that will receive the mouse events
+		var	SliderHostElement = document.createElement( 'div' );
+		_SlidersContainerElement.appendChild( SliderHostElement );
+
+		SliderHostElement.setAttribute( "style", "width:200px;height:10px;background:#202020;" );
+		SliderHostElement.sliderDescriptor = Desc;
+		SliderHostElement.titleElement = TitleElement;
+		SliderHostElement.updateSliderFunc = function( value )
+		{
+			// Update slider width
+			var	SliderElement = this.firstChild;
+
+			var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+			var	t = (value - this.sliderDescriptor.min) / Delta;
+
+			var	Width = this.clientWidth * t;
+				Width = Width | 0;
+
+			SliderElement.setAttribute( "style", "height:10px;background:#0033CC" );
+			SliderElement.style.width = "" + Width + "px";
+
+			// Update title
+			var	NewTitle = this.sliderDescriptor.title + " (" + value.toFixed( 2 ) + ")";
+			SetDivText( this.titleElement, NewTitle );
+
+			// Notify of change
+			this.sliderDescriptor.slide( value );
+		}
+		SliderHostElement.mouseMove = function( _Event )
+			{
+				if ( !g_MouseDown )
+					return false;
+
+				var	t = (_Event.layerX ? _Event.layerX : _Event.clientX) - 2 - this.offsetLeft;
+					t /= this.clientWidth;
+				var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+				var	Value = this.sliderDescriptor.min + t * Delta;
+				this.updateSliderFunc( Value );
+				return true;
+			},
+ 		SliderHostElement.addEventListener( 'mousedown', function( _Event ) { g_MouseDown = true; return this.mouseMove( _Event ); } );
+		SliderHostElement.addEventListener( 'mousemove', function( _Event ) { return this.mouseMove( _Event ); } );
+ 
+		// Create another div inside the main div that will represent the slider itself
+		var	SliderElement = document.createElement( 'div' );
+		SliderHostElement.appendChild( SliderElement );
+		SliderHostElement.updateSliderFunc( Desc.value );
+	}
+}
+
+var	g_SlidersVisible = false;
+function ToggleEffectSlidersVisibility()
+{
+	var	SlidersElement = document.getElementById( "EffectSliders" );
+	var	ShowSlidersIconsElement = document.getElementById( "ShowSlidersIcon" );
+
+	g_SlidersVisible = !g_SlidersVisible;
+	if ( g_SlidersVisible )
+	{
+		SlidersElement.style.visibility = 'visible';
+		ShowSlidersIconsElement.style.backgroundPosition = "103px 0px";
+	}
+	else
+	{
+		SlidersElement.style.visibility = 'hidden';
+		ShowSlidersIconsElement.style.backgroundPosition = "0px 0px";
+	}
+}
+
+var	g_CameraSlidersVisible = false;
+function ToggleCameraSlidersVisibility()
+{
+	var	SlidersElement = document.getElementById( "CameraSliders" );
+	var	ShowSlidersIconsElement = document.getElementById( "ShowCameraSlidersIcon" );
+//	ShowSlidersIconsElement.style.visibility = 'visible';	// For demo purpose, never show icon
+
+	g_CameraSlidersVisible = !g_CameraSlidersVisible;
+	if ( g_CameraSlidersVisible )
+	{
+		SlidersElement.style.visibility = 'visible';
+		ShowSlidersIconsElement.style.backgroundPosition = "103px 0px";
+	}
+	else
+	{
+		SlidersElement.style.visibility = 'hidden';
+		ShowSlidersIconsElement.style.backgroundPosition = "0px 0px";
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Cookies for storing the parameters locally
+function SetCookie( _Name, _Value, _ExpiresInDays )
+{
+	var	ExpirationDate=new Date();
+		ExpirationDate.setDate( ExpirationDate.getDate() + _ExpiresInDays );
+
+	var	CookieValue = escape( _Value) + ((_ExpiresInDays==null) ? "" : "; expires="+ExpirationDate.toUTCString());
+
+	document.cookie = _Name + "=" + CookieValue;
+}
+
+function GetCookie( _Name )
+{
+	var Cookies = document.cookie.split( ";" );
+	for ( var i=0; i < Cookies.length; i++ )
+	{
+		var	x = Cookies[i].substr( 0, Cookies[i].indexOf( "=" ) );
+			x = x.replace(/^\s+|\s+$/g,"");
+
+		var	y = Cookies[i].substr( Cookies[i].indexOf( "=" )+1 );
+		if ( x == _Name)
+			return unescape(y);
+	}
+}
+</script>
+</head>
+
+<body oncontextmenu="return false;" bgcolor="#000000" style="text-align: center; font-family:Trebuchet MS;" onload="Init()" onunload="Exit()">
+
+<div id="Status"></div>
+
+
+<!-- SETTINGS -->
+<div id="SlidersToggle" style="position: absolute; left: 4px; top: 4px;" class="noMouseSelect" onclick='ToggleEffectSlidersVisibility()' >
+	<div id="ShowSlidersIcon" style="width: 103px; height: 20px; visibility:hidden; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(ButtonUpDown.png); background-position: 0px 0px;"></div>
+</div>
+<div id="EffectSliders" style="position: absolute; left: 4px; top: 30px; visibility:hidden" class="noMouseSelect">
+</div>
+
+<div id="CameraSlidersToggle" style="position: absolute; left: 214px; top: 4px;" class="noMouseSelect" onclick='ToggleCameraSlidersVisibility()' >
+	<div id="ShowCameraSlidersIcon" style="width: 103px; height: 20px; visibility:hidden; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(ButtonUpDown.png); background-position: 4px 4px; visibility:hidden"></div>
+</div>
+<div id="CameraSliders" style="position: absolute; left: 214px; top: 30px; visibility:hidden" class="noMouseSelect">
+</div>
+
+<!---->
+	<!-- Sliders will be inserted here by code -->
+
+<!-- 
+<div onclick="javascript: SplatInk()"><br/><b style="background:#303030">&nbsp;&nbsp;SPLAT&nbsp;&nbsp;</b></div>
+ -->
+
+<!-- Start of WebGL canvas -->
+<canvas id="view">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+<!-- End of WebGL canvas -->
+
+</body>
+</html>

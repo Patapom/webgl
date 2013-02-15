@@ -1,0 +1,66 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform float		_KeyStone;
+uniform vec4		_Params0;
+uniform vec4		_Params1;
+uniform sampler2D	_TexCamera;
+uniform sampler2D	_TexCameraSource;
+uniform sampler2D	_TexSnapshot;
+
+uniform vec4		_MouseInfos;
+
+float	MouseSplat( vec2 _UV )
+{
+	vec2	ToMousePos = _UV - _MouseInfos.xy;
+//	float	DistanceWeight = smoothstep( 3600.0*dot( _dUV.xy, _dUV.xy ), 0.0, dot( ToMousePos, ToMousePos ) );	// 1 at mouse position, 0 if larger than 6 pixels away
+
+	float	DistanceWeight = abs( ToMousePos.x ) < 0.05 && abs( ToMousePos.y ) < 0.05 ? 1.0 : 0.0;
+
+	return 4.0 * DistanceWeight;
+}
+
+void	main()
+{
+	float	ScanlineScale = 1.0 + 0.5 * _KeyStone * (2.0 * _UV.y - 1.0);
+	vec2	CorrectedUV = vec2( 0.5 + ScanlineScale * (_UV.x - 0.5), _UV.y );
+
+	vec3	CameraAveraged = texture2D( _TexCamera, _UV ).xyz;
+	vec3	CameraSource = texture2D( _TexCameraSource, CorrectedUV ).xyz;
+	if ( CorrectedUV.x < 0.0 || CorrectedUV.x > 1.0 )
+		CameraSource = vec3( 0.0 );
+
+//	gl_FragColor = vec4( 10.0 * abs(CameraSource - CameraAveraged), 1.0 );
+//	gl_FragColor = vec4( CameraSource, 1.0 );
+// 	gl_FragColor = vec4( 2.0 * CameraSource - CameraAveraged, 1.0 );
+// 	return;
+
+	vec4	CurrentImage = _Params0.x * max( vec4( 0.0 ), texture2D( _TexCamera, _UV ) + _Params0.y );
+			CurrentImage -= _Params0.z * max( vec4( 0.0 ), texture2D( _TexSnapshot, _UV ) + _Params0.w );	// Subtract snapshot
+	if ( _Params1.x > 0.0 )
+		CurrentImage = _Params1.x * max( vec4( 0.0 ), CurrentImage );	// Enhance
+	else
+		CurrentImage = -_Params1.x * max( vec4( 0.0 ), 1.0 - CurrentImage );	// Enhance
+
+	gl_FragColor = vec4( max( 0.0, 1.0 - dot( CurrentImage.xyz, vec3( 0.3, 0.5, 0.2 ) ) ) );
+
+	gl_FragColor += MouseSplat( _UV );
+
+//	gl_FragColor = CurrentImage;
+//	gl_FragColor.x += 0.2;
+//	gl_FragColor.xy = _UV;
+}

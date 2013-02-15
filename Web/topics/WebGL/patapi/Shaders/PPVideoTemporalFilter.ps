@@ -1,0 +1,27 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform sampler2D	_TexFrameOld;
+uniform sampler2D	_TexFrameNew;
+uniform sampler2D	_TexAccum;
+
+void	main()
+{
+	vec4	CurrentAccumulation = texture2D( _TexAccum, _UV );
+			CurrentAccumulation -= texture2D( _TexFrameOld, _UV );	// Subtract old frame
+			CurrentAccumulation += texture2D( _TexFrameNew, _UV );	// Add new frame
+
+	gl_FragColor = CurrentAccumulation;
+}

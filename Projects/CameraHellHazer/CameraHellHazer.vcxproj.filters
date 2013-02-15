@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\hellhazer\index.html" />
+    <None Include="..\..\Web\topics\WebGL\hellhazer\Shaders\Hazer.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\hellhazer\Shaders\Main.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\hellhazer\Shaders\BuildSkyTexture.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\hellhazer\Shaders\ShadowMap.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\hellhazer\Shaders\ShadowMap.vs">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{a44313e4-26f0-4cad-bc5a-ada162182157}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

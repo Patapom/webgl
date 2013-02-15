@@ -1,0 +1,1 @@
+Envmaps are panoramic envmaps taken from http://gl.ict.usc.edu/Data/HighResProbes/

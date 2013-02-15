@@ -1,0 +1,48 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+uniform vec3		_dUV;
+
+uniform float		_Time;
+uniform sampler2D	_TexCurrent;
+uniform sampler2D	_TexPrevious;
+uniform float		_VelocityFactor;
+uniform sampler2D	_TexStairs;
+
+void	main()
+{
+	float	CameraCurrent = texture2D( _TexCurrent, _UV ).x;
+	float	CameraPrevious = texture2D( _TexPrevious, _UV ).x;
+
+//	float	InkDrop = saturate( 100.0 * (CameraCurrent-0.25) );
+	float	InkDrop = saturate( 1.5 * (CameraCurrent-0.25) );			// Always drop ink...
+//	float	InkDrop = saturate( 1.5 * (CameraCurrent-CameraPrevious) );	// Only drop ink when moving
+//			InkDrop += 0.2 * saturate( 10.0 * sin( 1.0 * _Time ) ) * (1.0 - texture2D( _TexStairs, _UV ).x);
+
+	vec3	Reach = 1.0 * _dUV;
+	float	Amplify = 1.0;
+	float	DPXp = saturate( Amplify * (texture2D( _TexCurrent, _UV + Reach.xz ).x - texture2D( _TexPrevious, _UV + Reach.xz ).x) );
+	float	DPXm = saturate( Amplify * (texture2D( _TexCurrent, _UV - Reach.xz ).x - texture2D( _TexPrevious, _UV - Reach.xz ).x) );
+	float	DPYp = saturate( Amplify * (texture2D( _TexCurrent, _UV + Reach.zy ).x - texture2D( _TexPrevious, _UV + Reach.zy ).x) );
+	float	DPYm = saturate( Amplify * (texture2D( _TexCurrent, _UV - Reach.zy ).x - texture2D( _TexPrevious, _UV - Reach.zy ).x) );
+	vec2	Velocity = vec2( DPXp - DPXm, DPYp - DPYm );
+
+// 	vec2	Velocity = vec2( saturate( 10.0 * texture2D( _TexCurrent, _UV + Reach.xz ).x - texture2D( _TexPrevious, _UV - Reach.xz ).x, texture2D( _TexCurrent, _UV + Reach.zy ).x - texture2D( _TexPrevious, _UV + Reach.zy ).x );
+// 	vec2	Velocity = vec2( saturate( 10.0 * texture2D( _TexCurrent, _UV ).x - 10.0 * texture2D( _TexPrevious, _UV ).x ) );
+
+	gl_FragColor = vec4( _VelocityFactor * Velocity, InkDrop, 0.0 );
+
+//	gl_FragColor = vec4( CameraPrevious, CameraCurrent, InkDrop, 0.0 );
+}

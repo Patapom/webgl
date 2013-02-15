@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{1fadaebe-1c5e-4576-8948-f43fbde5ada5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\_SOURCE_">
+      <UniqueIdentifier>{d46e8ce7-a3ac-48b4-a58d-5730cfa0da93}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\Emissive.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\Emissive.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\index.html" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\StainedGlass.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\scene.json">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\scene.json">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\intro.html" />
+    <None Include="..\..\Web\topics\WebGL\cathedral\webgl.js" />
+  </ItemGroup>
+</Project>

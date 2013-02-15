@@ -1,0 +1,11 @@
+precision highp float;
+
+varying vec2	_UV;
+
+uniform vec4		_Color;
+uniform sampler2D	_TexKoala;
+
+void	main()
+{
+	gl_FragColor = _Color + texture2D( _TexKoala, _UV );
+}

@@ -1,0 +1,75 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec3		_Position;
+varying vec2		_UV;
+varying vec3		_View;
+varying vec2		_SlabUV0;
+varying vec2		_SlabUV1;
+varying vec2		_SlabUV2;
+varying vec2		_SlabUV3;
+
+uniform sampler2D	_TexSourceBuffer;	// Contains the source colors to sample and expand as light shafts
+uniform sampler2D	_TexPreviousBuffer;	// Contains the previously rendered buffer
+uniform float		_ShaftIndex;		// Index of the light shaft pass
+uniform float		_ShaftPowerFactor;	// Power factor for luminosity of each pass
+uniform float		_ShaftDecayRate;	// Rate of decay with distance
+uniform vec3		_SunDirection;
+uniform float		_SunLuminance;
+
+vec3	DecodeHDR( sampler2D _Texture, vec2 _UV )
+{
+	vec4	V = texture2D( _Texture, _UV );
+	float	MaxComponent = exp( 2.0 * V.a ) - 1.0;	// Uncompress luminance
+	return V.xyz * (1e-3 + MaxComponent);
+}
+
+vec4	EncodeHDR( vec3 _Color )
+{
+	// Encode maximum luminance in alpha
+	float	MaxComponent = max( 1.0, max( max( _Color.x, _Color.y ), _Color.z ) );
+	float	LogRange = saturate( log( 1.0 + MaxComponent ) / 2.0 );	// Compress a [0,20] luminance range into [0,1]
+	_Color /= 1e-3 + MaxComponent;	// Normalize...
+
+	return vec4( _Color, LogRange );
+}
+
+float	GetSlabFactor( float _SlabIndex )
+{
+	float	t = 0.125 * (_ShaftIndex + 0.25 * _SlabIndex);	// Normalized slab index, including all shaft passes
+	return exp( -_ShaftDecayRate * t );						// Decrease with distance
+}
+
+void	main()
+{
+	// Sample previous color
+	vec3	Color = DecodeHDR( _TexPreviousBuffer, _UV );
+
+	// Add the 4 slabs
+	vec3	SlabColor  = GetSlabFactor( 0.0 ) * DecodeHDR( _TexSourceBuffer, _SlabUV0 );	// 1st tap
+			SlabColor += GetSlabFactor( 1.0 ) * DecodeHDR( _TexSourceBuffer, _SlabUV1 );	// 2nd tap
+			SlabColor += GetSlabFactor( 2.0 ) * DecodeHDR( _TexSourceBuffer, _SlabUV2 );	// 3rd tap
+			SlabColor += GetSlabFactor( 3.0 ) * DecodeHDR( _TexSourceBuffer, _SlabUV3 );	// 4th tap
+			SlabColor *= 0.25;
+
+	// Weight by Sun color
+// 	float	Phase = saturate( dot( normalize( _View ), _SunDirection ) );
+// 			Phase *= Phase;
+float	Phase = 1.0;
+	float	GlobalLightFactor = _ShaftPowerFactor * Phase;
+
+	Color += GlobalLightFactor * SlabColor;
+
+	gl_FragColor = EncodeHDR( Color );
+}

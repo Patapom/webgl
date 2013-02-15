@@ -1,0 +1,199 @@
+{
+	Version : 1,
+
+	// List of shaders
+	Shaders :
+	[
+		{	ID : 0,
+			Name : "Simple",
+
+			// You can declare VS/PS directly in the file 
+// 			VS : "attribute vec3	_vPosition;" +
+// 				"attribute vec2	_vUV;" +
+// 				"uniform mat4	_World2Proj;" +
+// 				"varying vec2	_UV;" +
+// 				"void	main()" +
+// 				"{" +
+// 				"	_UV = _vUV;" +
+// 				"	gl_Position = _World2Proj * vec4( _vPosition, 1 );" +
+// 				"}",
+// 			PS : "precision highp float;"+
+// 				"varying vec2	_UV;"+
+// 				"uniform vec4	_Color;"+
+// 				"uniform sampler2D	_TexKoala;"+
+// 				"void	main()"+
+// 				"{"+
+// 				"	gl_FragColor = _Color + texture2D( _TexKoala, _UV );"+
+// 				"}",
+
+			// Or you can load them from an external file
+			VSFile : "Shaders/simple.vs",
+			PSFile : "Shaders/simple.ps",
+		},
+	],
+
+	// List of materials
+	Materials :
+	[
+		{	ID : 0,
+			Name : "Simple",
+			ShaderID : 0,
+
+			// These are the GLOBAL uniform values for the entire material
+			Uniforms :
+			[
+				{ Name : "_Color", Value : [0.2, 0, 0, 1] },		// Defines a vec4
+				{ Name : "_TexKoala", Value : 1 },					// In that case, it refers to the ID in the texture array
+			],
+		},
+	],
+
+	// List of primitives (a bunch of triangles rendered with materials)
+	Primitives :
+	[
+		{	ID : 0,
+			Name : "CubePrim",
+			MatID : 0,
+			Topology : "TRIANGLES",
+
+			// These are the LOCAL uniform values for this primitive (overloads the GLOBAL uniforms set by the material)
+			Uniforms :
+			[
+				{ Name : "_Color", Value : [0.0, 0.0, 0.2, 1] },	// Defines a vec4
+				{ Name : "_TexKoala", Value : 1 },					// In that case, it refers to the ID in the texture array
+			],
+
+// 			// You can declare index/vertex streams as coming from binary files
+// 			IndexStreamFile : "Primitives/CubeIndex.bin",
+// 			VertexStreams : 
+// 			[
+// 				{ Name : "_vPosition", File : "Primitives/CubeVertex_Pos.bin" },
+// 				{ Name : "_vUV", File : "Primitives/CubeVertex_UV.bin" },
+// 			],
+
+			// Or you can declare index/vertex streams directly in this file
+			IndexStream : [
+				// Front
+				0, 1, 2, 2, 1, 3,
+				// Front
+				4, 5, 6, 6, 5, 7,
+				// Left
+				8, 9, 10, 10, 9, 11,
+				// Right
+				12, 13, 14, 14, 13, 15,
+				// Top
+				16, 17, 18, 18, 17, 19,
+				// Bottom
+				20, 21, 22, 22, 21, 23
+			],
+			VertexStreams : 
+			[
+				{ Name : "_vPosition",
+				  Type : "Float32Array",
+				  Value : [
+					// Front
+					-1.0, +1.0, +1.0,
+					-1.0, -1.0, +1.0,
+					+1.0, +1.0, +1.0,
+					+1.0, -1.0, +1.0,
+					// Back
+					+1.0, +1.0, -1.0,
+					+1.0, -1.0, -1.0,
+					-1.0, +1.0, -1.0,
+					-1.0, -1.0, -1.0,
+					// Left
+					-1.0, +1.0, -1.0,
+					-1.0, -1.0, -1.0,
+					-1.0, +1.0, +1.0,
+					-1.0, -1.0, +1.0,
+					// Right
+					+1.0, +1.0, +1.0,
+					+1.0, -1.0, +1.0,
+					+1.0, +1.0, -1.0,
+					+1.0, -1.0, -1.0,
+					// Top
+					-1.0, +1.0, -1.0,
+					-1.0, +1.0, +1.0,
+					+1.0, +1.0, -1.0,
+					+1.0, +1.0, +1.0,
+					// Bottom
+					-1.0, -1.0, +1.0,
+					-1.0, -1.0, -1.0,
+					+1.0, -1.0, +1.0,
+					+1.0, -1.0, -1.0,
+				 ] },
+				{ Name : "_vUV",
+				  Type : "Float32Array",
+				  Value : [
+					// Front
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+					// Back
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+					// Left
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+					// Right
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+					// Top
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+					// Bottom
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 0.0,
+					1.0, 1.0,
+				] },
+			],
+		},
+	],
+
+	// Hierarchical tree of (possibly animated) objects
+	Objects :
+	[
+		{	Name : "Cube",
+			Primitives : [ 0 ],
+			Transform : [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+
+			// An optional array of animation tracks
+// 			Animations : [
+// 				{ Name : "Idle", P : "CubeAnimationPos.bin", R : "CubeAnimationRot.bin", S : "CubeAnimationScale.bin" },
+// 			],
+
+			Children : [],
+		}
+	],
+
+	// Some textures
+	Textures :
+	[
+		// First we define a very tiny diffuse texture that will be loaded first and very quickly
+		{	ID : 0,
+			Name : "Temp",
+			URL : "Textures/DummyDiffuse.png",
+			WrapMode : "REPEAT",
+			FilteringMode : "LINEAR_MIP_LINEAR",
+		},
+
+		// Next we define the actual texture that can be pretty large
+		{	ID : 1,
+			Name : "Koala",
+			URL : "Textures/Koala.jpg",
+			WrapMode : "REPEAT",
+			FilteringMode : "LINEAR_MIP_LINEAR",
+			WaitTexID : 0,	// But while loading a large texture, we can use the small default one instead (WARNING: the "wait texture" must be declared BEFORE the texture needing it !)
+		},
+	]
+}

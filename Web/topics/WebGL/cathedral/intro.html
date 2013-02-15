@@ -1,0 +1,58 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+	Cathedral Intro Page
+-->
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+Lyon's Saint Jean Cathedral
+</title>
+
+<!-- Pipo VS/PS -->
+<script id="pipo_vs" type="x-shader/x-vertex">
+attribute vec3	_vPosition;
+attribute vec3	_vColor;
+uniform mat4	_Local2World;
+varying vec3	_Color;
+void	main()
+{
+	vec4	Pos = _Local2World * vec4( _vPosition, 1 );	// Rotate the cube
+	gl_Position = vec4( 0.55 * Pos.xyz, 1.0 );			// Dummy projection
+	_Color = _vColor;									// Pass through
+}
+</script> <script id="pipo_ps" type="x-shader/x-fragment">
+precision highp float;
+varying vec3	_Color;
+void	main() { gl_FragColor = vec4( _Color, 1.0 ); }
+</script>
+<script type="text/javascript" src="../o3djs/base.js"></script>	<!-- Include a tiny part of the O3D library-->
+<script type="text/javascript" src="../patapi/base.js"></script>	<!-- Include PatAPI-->
+<script type="text/javascript" src="webgl.js"></script>
+</head>
+<body oncontextmenu="return false;" bgcolor="#101010" link="#7c60a3" vlink="#7c60a3" alink="#7c60a3" style="color:#FFFFFF; text-align: center; font-family:Trebuchet MS;" onload="Init()" onunload="Exit()">
+
+	<h1>Virtual 3D visit, the Saint Jean Cathedral</h1>
+
+	<div id="WebGLContainer" align=center style="margin: auto; position:absolute; left:8px; bottom:8px; background:#151515">
+		
+		<div id="WebGLInfo"></div>
+
+		<!-- Start of WebGL canvas -->
+		<canvas id="viewgl" width="128px" height="128px" />
+		<!-- End of WebGL canvas -->
+	</div>
+
+	<a href="index.html" >
+		<img style="margin: 0px auto; clear: both;" border="0" src='TitleScreen.jpg' />
+	</a>
+	<br />
+	Welcome to Saint Jean Cathedral! Click above to visit the cathedral in real-time 3D using WebGL.<br />
+	The cathedral model is made of more than 500,000 triangles and uses many hires 2048x2048 diffuse and normal textures.<br />
+	Rendering features spherical harmonics radiosity, light shafts, glow, light-scattering.<br />
+	<br />
+
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec3		_Position;
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+//uniform float		
+uniform sampler2D	_TexSourceBuffer;
+
+vec3	DecodeHDR( vec2 _UV )
+{
+	vec4	V = texture2D( _TexSourceBuffer, _UV );
+	float	MaxComponent = exp( 2.0 * V.a ) - 1.0;	// Uncompress luminance
+	return V.xyz * (1e-3 + MaxComponent);
+}
+
+vec4	EncodeHDR( vec3 _Color )
+{
+	// Encode maximum luminance in alpha
+	float	MaxComponent = max( 1.0, max( max( _Color.x, _Color.y ), _Color.z ) );
+	float	LogRange = saturate( log( 1.0 + MaxComponent ) / 2.0 );	// Compress a [0,20] luminance range into [0,1]
+	_Color /= 1e-3 + MaxComponent;	// Normalize...
+
+	return vec4( _Color, LogRange );
+}
+
+void	main()
+{
+	vec2	UVl = _UV - _dUV.xy;
+	vec2	UVr = _UV + _dUV.xy;
+
+	// Used coefficients from http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/
+	vec3	Sum  = 0.16 * DecodeHDR( _UV );
+			Sum += 0.15 * DecodeHDR( UVl );	UVl -= _dUV.xy;
+			Sum += 0.15 * DecodeHDR( UVr );	UVr += _dUV.xy;
+			Sum += 0.12 * DecodeHDR( UVl );	UVl -= _dUV.xy;
+			Sum += 0.12 * DecodeHDR( UVr );	UVr += _dUV.xy;
+			Sum += 0.09 * DecodeHDR( UVl );	UVl -= _dUV.xy;
+			Sum += 0.09 * DecodeHDR( UVr );	UVr += _dUV.xy;
+			Sum += 0.05 * DecodeHDR( UVl );
+			Sum += 0.05 * DecodeHDR( UVr );
+
+	gl_FragColor = EncodeHDR( Sum );
+}

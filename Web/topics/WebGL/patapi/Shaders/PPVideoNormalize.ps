@@ -1,0 +1,33 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform float		_KeyStone;
+uniform float		_TemporalFramesNormalizer;
+uniform sampler2D	_TexAccum;
+
+void	main()
+{
+	float	ScanlineScale = 1.0 + 0.5 * _KeyStone * (2.0 * _UV.y - 1.0);
+	vec2	CorrectedUV = vec2( 0.5 + ScanlineScale * (_UV.x - 0.5), _UV.y );
+
+	vec4	Result = vec4( 0.0 );
+	if ( CorrectedUV.x >= 0.0 && CorrectedUV.x <= 1.0 )
+	{
+		Result = texture2D( _TexAccum, CorrectedUV );
+		Result *= 1.0 * _TemporalFramesNormalizer;	// Normalized result
+	}
+
+	gl_FragColor = Result;
+}

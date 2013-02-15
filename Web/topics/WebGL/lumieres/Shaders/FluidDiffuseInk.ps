@@ -1,0 +1,70 @@
+////////////////////////////////////////////////////////////////
+// Performs advection of ink concentrations
+// Following http://en.wikipedia.org/wiki/Fick%27s_laws_of_diffusion
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform float		_DeltaTime;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexSourceInk;
+
+uniform vec2		_InkDiffusion;	// First parameter is D, second parameter is a tiny discrepancy from D to make the ink disappear with time
+
+void	main()
+{
+	// Concentration diffuses following a laplacian and a coeff
+	vec4	Ink0   = texture2D( _TexSourceInk, _UV );
+	vec4	Ink_Xp = texture2D( _TexSourceInk, _UV + _dUV.xz );
+	vec4	Ink_Xm = texture2D( _TexSourceInk, _UV - _dUV.xz );
+	vec4	Ink_Yp = texture2D( _TexSourceInk, _UV + _dUV.zy );
+	vec4	Ink_Ym = texture2D( _TexSourceInk, _UV - _dUV.zy );
+
+//	vec4	Laplacian = 4.0 * Ink0 - (Ink_Xp + Ink_Xm + Ink_Yp + Ink_Ym);
+// 	vec4	NewInk = Ink0 + 0.5 * _DeltaTime * Laplacian;
+
+	float	GradientStrength = 10.0;
+
+	// Get concentration of first ink
+	vec2	ConcentrationGradient = GradientStrength * vec2( Ink_Xp.x - Ink_Xm.x, Ink_Yp.x - Ink_Ym.x );
+	vec2	NewUV = _UV + ConcentrationGradient * _dUV.xy;	// Points to higher concentration
+	float	HigherConcentrationInk0 = texture2D( _TexSourceInk, NewUV ).x;
+
+	// Get concentration of second ink
+	ConcentrationGradient = GradientStrength * vec2( Ink_Xp.y - Ink_Xm.y, Ink_Yp.y - Ink_Ym.y );
+	NewUV = _UV + ConcentrationGradient * _dUV.xy;	// Points to higher concentration
+	float	HigherConcentrationInk1 = texture2D( _TexSourceInk, NewUV ).y;
+
+	// Get concentration of third ink
+	ConcentrationGradient = GradientStrength * vec2( Ink_Xp.z - Ink_Xm.z, Ink_Yp.z - Ink_Ym.z );
+	NewUV = _UV + ConcentrationGradient * _dUV.xy;	// Points to higher concentration
+	float	HigherConcentrationInk2 = texture2D( _TexSourceInk, NewUV ).z;
+
+	// Get concentration of water
+	ConcentrationGradient = GradientStrength * vec2( Ink_Xp.w - Ink_Xm.w, Ink_Yp.w - Ink_Ym.w );
+	NewUV = _UV + ConcentrationGradient * _dUV.xy;	// Points to higher concentration
+	float	HigherConcentrationWater = texture2D( _TexSourceInk, NewUV ).w;
+
+	// We get ink from higher concentration zones
+	vec4	AddedInk = _InkDiffusion.x * _DeltaTime * vec4( HigherConcentrationInk0, HigherConcentrationInk1, HigherConcentrationInk2, HigherConcentrationWater );
+
+	// But we also lose our own ink to lower concentration zones
+	vec4	SubtractedInk = (_InkDiffusion.x + 0.01 * _InkDiffusion.y) * _DeltaTime * Ink0;
+
+	// Final ink is current ink + incoming and outgoing ink
+  	vec4	NewInk = Ink0 + AddedInk - SubtractedInk;
+			NewInk = max( vec4( 0.0 ), NewInk );
+
+	gl_FragColor = NewInk;
+}

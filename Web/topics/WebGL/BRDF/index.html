@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<!-- 
+
+Last Change: January 10th 2013
+Changes:
+
+	* january 10th, start !
+	* january 11th
+		=> jQuery + jQueryUI + jQuery layout + css
+	* january 12th
+		=> writing the app's layout + setting display style
+	* february 2th
+		=> Starting to actually write the POM BRDF type + widgets for the graph analysis
+	* february 8th
+		=> Finally working on my own Pom model and having quite interesting results very fast using a multiplication of 2 exponential decay functions for both ThetaH and 90-ThetaD (each exp function having a nice round number of 4 parameters!)
+		=> Planning on writing a fitting procedure to match existing materials' specular/Fresnel zones
+		=> Matching of diffuse+retro reflection can be done more easily as a second step where I'll not handle diffuse per-se but "non specularity" or "alpha" (quantity of energy that goes through the interface to reach diffusion stage)
+
+	* february 10th
+		=> Working on small render to target of the 3D BRDF which will write Thetas so we can point at the screen and reflect thetas in the slice (the opposite of the slice marker)
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>BRDF Explorer</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui-themes-1.9.2/themes/base/jquery.ui.all.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="/css/jquery-ui-themes-1.9.2/themes/smoothness/jquery.ui.theme.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="/css/jquery-ui-themes-1.9.2/themes/smoothness/jquery-ui.css"> -->
+<link rel="stylesheet" type="text/css" href="/css/layout-default-1.3.0.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<!-- jQuery + plugs -->
+<script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.js"></script>
+<script type="text/javascript" src="/js/jquery.layout-1.3.0.js"></script>
+
+<!-- patapi -->
+<script type="text/javascript" src="../o3djs/base.js"></script>					<!-- Include a small part of the O3D library to help us with includes-->
+<script type="text/javascript" src="../patapi/base.js"></script>				<!-- Include PatAPI-->
+
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.math' );
+o3djs.require( 'patapi.webgl' );
+
+// Our specific classes
+o3djs.require( 'BRDF.BRDFBase' );
+o3djs.require( 'BRDF.BRDFPropertiesBase' );
+o3djs.require( 'BRDF.BRDFList' );
+o3djs.require( 'BRDF.RendererBRDF' );
+o3djs.require( 'BRDF.RendererGraph' );
+o3djs.require( 'BRDF.Renderer3D' );
+o3djs.require( 'BRDF.BRDFPropertiesSlice' );
+o3djs.require( 'BRDF.BRDFPropertiesAnalytical' );
+o3djs.require( 'BRDF.BRDFPropertiesPom' );
+
+
+var	pageLayout;
+
+var	g_Visible = true;
+var	g_GLRenderBRDF;
+var	g_GLRenderGraph;
+var	g_GLRender3D;
+var	g_BRDFList;
+var	g_BRDFPropertiesSlice;
+var	g_BRDFPropertiesAnalytical;
+var	g_BRDFPropertiesPom;
+
+
+$(document).ready(
+function()
+{
+	document.onselectstart = function() { return false; }
+
+// From http://www.thefutureoftheweb.com/blog/detect-browser-window-focus
+function onBlur() {
+//	document.body.className = 'blurred';
+	g_Visible = false;
+};
+function onFocus(){
+//	document.body.className = 'focused';
+	g_Visible = true;
+};
+
+if (/*@cc_on!@*/false) { // check for Internet Explorer
+	document.onfocusin = onFocus;
+	document.onfocusout = onBlur;
+} else {
+	window.onfocus = onFocus;
+	window.onblur = onBlur;
+}
+
+
+// if ( window.addEventListener )
+// {
+//     window.addEventListener( 'DOMMouseScroll', window.onmousewheel=document.onmousewheel=function wheel(event)
+// 		{
+// 			event.preventDefault();
+// 			event.returnValue=false;
+// 		}
+// 		,false);
+// }
+
+	//////////////////////////////////////////////////////////////////////////
+	// Prepare UI layouts
+	$('#ContainerViewers').tabs( {
+		activate : function( e, ui ) {
+			if ( ui.oldPanel )
+			{
+				var	OldTab = null;
+				if ( ui.oldPanel[0].id == "Tab2D" )			OldTab = g_GLRenderGraph;
+				else if ( ui.oldPanel[0].id == "Tab3D" )	OldTab = g_GLRender3D;
+
+				if ( OldTab )
+					OldTab.setVisible( false );
+			}
+
+			if ( ui.newPanel )
+			{
+				var	NewTab = null;
+				if ( ui.newPanel[0].id == "Tab2D" )			NewTab = g_GLRenderGraph;
+				else if ( ui.newPanel[0].id == "Tab3D" )	NewTab = g_GLRender3D;
+
+				if ( NewTab )
+					NewTab.setVisible( true );
+			}
+		}
+	} );
+
+	$('#PropPom_UIWidgets_Tabs').tabs();
+
+	pageLayout = $('body').layout(
+		{
+			spacing_open : 4,
+
+			// Design the top panel containing our BRDF explorer and renderer
+			north :
+			{
+				closable :		false,
+				size :			"40%",
+				minSize	:		"33%",
+				maxSize	:		"66%",
+				childOptions	:
+				{
+					// BRDF Explorer
+					center :
+					{
+						closable: false,
+						minSize	: 400,
+						childOptions	:
+						{
+							// BRDFs List
+							west :
+							{
+								size : "30%",
+								resizable : false,
+								closable : false,
+								spacing_open : 1,
+							},
+							// Properties
+							center :
+							{
+								onresize : function()
+								{
+									g_BRDFPropertiesSlice.OnResize();
+									g_BRDFPropertiesAnalytical.OnResize();
+									g_BRDFPropertiesPom.OnResize();
+								}
+							}
+						}
+					},
+
+					// BRDF Renderer
+					east :
+					{
+						spacing_open : 4,
+						closable: false,
+//						resizable:false,
+						size	: "33%",
+						minSize	: "20%",
+						maxSize	: "66%",
+						onresize : function() { g_GLRenderBRDF.OnResize(); },
+					},
+				},
+			},
+
+			// Design the main panel with tabs
+			center :
+			{
+				onresize : function() {
+					g_GLRenderGraph.OnResize();
+					g_GLRender3D.OnResize();
+				},
+			},
+
+			// Design the bottom error panel
+			south :
+			{
+				fxSettings_open :	{ duration: "normal", easing: "easeOutBounce" },
+				fxSettings_close :	{ duration: "slow", easing: "linear" },
+
+				spacing_closed	: 2,
+				togglerLength_open : "100%",
+				togglerLength_closed : "100%",
+				initClosed		: true,
+				closable		: true,
+				resizable		: false,
+			},
+		} );
+
+
+// UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + "PUTAIN!" );
+// return;
+	
+
+	//////////////////////////////////////////////////////////////////////////
+	// Initialize GL containers and other views
+	try
+	{
+ 		g_BRDFPropertiesSlice = new BRDFPropertiesSlice();
+ 		g_BRDFPropertiesAnalytical = new BRDFPropertiesAnalytical();
+		g_BRDFPropertiesPom = new BRDFPropertiesPom();
+		// TODO: other BRDF properties types...
+
+		g_GLRenderBRDF = new RendererBRDF( $('#CanvasGLRenderBRDF'), Math.deg2rad( 40.0 ) );
+		g_GLRenderGraph = new RendererGraph( $('#CanvasRenderGraph'), Math.deg2rad( 50.0 ) );
+		g_GLRender3D = new Renderer3D( $('#CanvasRender3D'), Math.deg2rad( 50.0 ) );
+		g_GLRenderGraph.setVisible( false );	// We start invisible...
+
+		g_BRDFList = new BRDFList();
+		g_BRDFList.Subscribe( g_BRDFPropertiesSlice, g_BRDFPropertiesSlice.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_BRDFPropertiesAnalytical, g_BRDFPropertiesAnalytical.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_BRDFPropertiesPom, g_BRDFPropertiesPom.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_GLRenderBRDF, g_GLRenderBRDF.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_GLRenderGraph, g_GLRenderGraph.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_GLRender3D, g_GLRender3D.OnBRDFListEvent );
+
+		// Manually provide the list of BRDFs we need to use to reference other BRDFs
+		g_BRDFPropertiesPom.BRDFList = g_BRDFList;
+	}
+	catch ( _e )
+	{
+		UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + _e );
+		return;
+	}
+} );
+
+var	g_ResetParams = false;
+$(window).unload( function()
+{
+	if ( g_BRDFList	)		g_BRDFList.Destroy();	// Destroy list first so that the BRDF will be removed from selection and other views will be notified
+
+	if ( g_BRDFPropertiesSlice )		g_BRDFPropertiesSlice.Destroy();
+	if ( g_BRDFPropertiesAnalytical )	g_BRDFPropertiesAnalytical.Destroy();
+	if ( g_BRDFPropertiesPom )			g_BRDFPropertiesPom.Destroy();
+	if ( g_GLRenderBRDF )	g_GLRenderBRDF.Destroy();
+	if ( g_GLRenderGraph )	g_GLRenderGraph.Destroy();
+	if ( g_GLRender3D )		g_GLRender3D.Destroy();
+} );
+
+
+//////////////////////////////////////////////////////////////////////////
+// Status & Progress
+function	UpdateStatus( _Status )
+{
+	var	Infos = $( "#Status" );
+	if ( !Infos )
+		return;
+
+	while ( _Status.indexOf( '\n' ) != -1 )
+		_Status = _Status.replace( '\n', '<br/>' );	// Keep replacing...
+
+	Infos.html( _Status );
+ 	pageLayout.sizeContent( "south" );
+
+	// Show the status!
+	pageLayout.open( "south" );
+}
+
+function	UpdateStatusError( _Error )
+{
+	UpdateStatus( "<font color=\"#FF5040\">" + _Error + "</font>" );
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// Cookies for storing the parameters locally
+function SetCookie( _Name, _Value, _ExpiresInDays )
+{
+	var	ExpirationDate=new Date();
+		ExpirationDate.setDate( ExpirationDate.getDate() + _ExpiresInDays );
+
+	var	CookieValue = escape( _Value) + ((_ExpiresInDays==null) ? "" : "; expires="+ExpirationDate.toUTCString());
+
+	document.cookie = _Name + "=" + CookieValue;
+}
+
+function GetCookie( _Name )
+{
+	var Cookies = document.cookie.split( ";" );
+	for ( var i=0; i < Cookies.length; i++ )
+	{
+		var	x = Cookies[i].substr( 0, Cookies[i].indexOf( "=" ) );
+			x = x.replace(/^\s+|\s+$/g,"");
+
+		var	y = Cookies[i].substr( Cookies[i].indexOf( "=" )+1 );
+		if ( x == _Name)
+			return unescape(y);
+	}
+}
+</script>
+</head>
+
+<body oncontextmenu="return false;" style="text-align: center; font-family:Trebuchet MS;">
+
+	<!-- Top panel will contain the BRDF selector and the small renderer -->
+	<div id="ContainerTop" class="ui-layout-north">
+		<!-- --------------------------------------------------------------------------------------- -->
+		<!-- The BRDF explorer -->
+		<div id="ContainerBRDFExplorer" class="ui-layout-center canvas-render canvas-render-BRDF">
+
+			<!-- --------------------------------------------------------------------------------------- -->
+			<!-- It's composed of a list on the left side and the main property panel on the right side -->
+			<div id="ContainerBRDFExplorerList" class="ui-layout-west">
+				<ul id="ContainerBRDFExplorerListToolbar" class="ui-widget ui-helper-clearfix toolbar ui-corner-all" >
+					<li id="BRDFListUI_AddBRDFMERL" class="ui-state-default ui-corner-all drop-down" title="Load MERL BRDF"><span class="ui-icon ui-icon-circle-plus"/></li>
+					<li id="BRDFListUI_AddBRDFAnalytical" class="ui-state-default ui-corner-all drop-down" title="Create Analytical BRDF"><span class="ui-icon ui-icon-bookmark"/></li>
+					<li id="BRDFListUI_AddBRDFPom" class="ui-state-default ui-corner-all drop-down" title="Create a Pom BRDF"><span class="ui-icon ui-icon-star"/></li>
+					<li id="BRDFListUI_AddBRDFPaint" class="ui-state-default ui-corner-all drop-down" title="Create Hand-Painted BRDF"><span class="ui-icon ui-icon-pencil"/></li>
+				</ul>
+				<div id="ContainerBRDFExplorerListBRDFs" class="list ui-corner-all"></div>
+			</div>
+			<div id="ContainerBRDFExplorerProperties" class="ui-layout-center properties">
+
+				<!-- The properties layout for the Slice BRDF that is represented as an image -->
+				<div id="BRDFProperties_Slices" class="BRDF-properties" style="display:none">
+					<canvas id="PropSlice_Viewport" class="BRDF-properties-UI-viewport"></canvas>
+					<div id="PropSlice_UIWidgets" class="BRDF-properties-slice-UI-widgets">
+
+						<div id="PropSliceUI_Radio_ThetaH" class="UI-widget-label">
+							<div class="t0"><span>Theta H</span></div>
+							<div class="t1">
+								<input id="PropSliceUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH" type="radio"><label for="PropSliceUI_Radio_ThetaH0">Normal</label>
+								<input id="PropSliceUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH" type="radio" checked="checked"><label for="PropSliceUI_Radio_ThetaH1">Squared</label>
+								<input id="PropSliceUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH" type="radio"><label for="PropSliceUI_Radio_ThetaH2">Cos</label>
+							</div>
+						</div>
+
+						<div id="PropSliceUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						<div id="PropSliceUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						<div id="PropSliceUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						<div id="PropSliceUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						<div id="PropSliceUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
+						<div id="PropSliceUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
+					</div>
+				</div>
+
+				<!-- The properties layout for the Analytical BRDF models -->
+				<div id="BRDFProperties_Analytical" class="BRDF-properties" style="display:none">
+					<canvas id="PropAnalytical_Viewport" class="BRDF-properties-UI-viewport"></canvas>
+					<div id="PropAnalytical_UIWidgets" class="BRDF-properties-slice-UI-widgets">
+						<div id="PropAnalyticalUI_Checkbox_ToggleStandardWidgets" class="UI-widget-label"><div class="t0"><span>Show Standard Params</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						<div id="PropAnalyticalUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets" style="display:none;">
+
+							<div id="PropAnalyticalUI_Radio_ThetaH" class="UI-widget-label">
+								<div class="t0"><span>Theta H</span></div>
+								<div class="t1">
+									<input id="PropAnalyticalUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH2" type="radio"><label for="PropAnalyticalUI_Radio_ThetaH0">Normal</label>
+									<input id="PropAnalyticalUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH2" type="radio" checked="checked"><label for="PropAnalyticalUI_Radio_ThetaH1">Squared</label>
+									<input id="PropAnalyticalUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH2" type="radio"><label for="PropAnalyticalUI_Radio_ThetaH2">Cos</label>
+								</div>
+							</div>
+
+							<div id="PropAnalyticalUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
+							<div>&nbsp;</div>
+						</div>
+
+						<!-- Diffuse model properties -->
+						<div id="PropAnalyticalUI_Diffuse" class="BRDF-properties-slice-UI-widgets">
+							<div id="PropAnalyticalUI_Radio_DiffuseType" class="UI-widget-label">
+								<div class="t0"><span>Diffuse Type</span></div>
+								<div class="t1">
+									<input id="PropAnalyticalUI_Radio_Diffuse0" value="0" name="radioDiffuseType" type="radio" checked="checked"><label for="PropAnalyticalUI_Radio_Diffuse0">Lambert</label>
+									<input id="PropAnalyticalUI_Radio_Diffuse1" value="1" name="radioDiffuseType" type="radio"><label for="PropAnalyticalUI_Radio_Diffuse1">Oren-Nayar</label>
+									<input id="PropAnalyticalUI_Radio_Diffuse2" value="2" name="radioDiffuseType" type="radio"><label for="PropAnalyticalUI_Radio_Diffuse2">Metal</label>
+									<div id="PropAnalyticalUI_Checkbox_DiffuseOnly" title="Show diffuse only"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
+								</div>
+							</div>
+
+							<div id="PropAnalyticalUI_Slider_DiffuseReflectanceR" class="UI-widget-label"><div class="t0"><span>Diffuse R</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Slider_DiffuseReflectanceG" class="UI-widget-label"><div class="t0"><span>Diffuse G</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Slider_DiffuseReflectanceB" class="UI-widget-label"><div class="t0"><span>Diffuse B</span></div><div class="t1"></div></div>
+
+							<div id="PropAnalyticalUI_Slider_DiffuseRoughness" class="UI-widget-label" style="display:none;"><div class="t0"><span>Roughness</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Checkbox_LerpDiffuseWithFresnel" title="If enabled then diffuse is weighted by 1-Fresnel, otherwise it's simply added to specular." class="UI-widget-label"><div class="t0"><span>Lerp diffuse with Fresnel</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							
+						</div>
+
+						<!-- Specular model properties -->
+						<div>&nbsp;</div>
+						<div id="PropAnalyticalUI_Slider_FresnelF0" class="UI-widget-label">
+							<div class="t0">
+								<a href="http://www.cs.cornell.edu/~srm/publications/EGSR07-btdf.pdf" target="_blank"><span>Fresnel F0</span></a>
+								<div id="PropAnalyticalUI_Checkbox_UseComplexFresnel"><span title="Use full Fresnel instead of Schlick's simplification (see §5.1 in the linked paper)" class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
+							</div>
+							<div class="t1"></div>
+						</div>
+
+						<div id="PropAnalyticalUI_Slider_SpecularColorR" class="UI-widget-label"><div class="t0"><span>Specular R</span></div><div class="t1"></div></div>
+						<div id="PropAnalyticalUI_Slider_SpecularColorG" class="UI-widget-label"><div class="t0"><span>Specular G</span></div><div class="t1"></div></div>
+						<div id="PropAnalyticalUI_Slider_SpecularColorB" class="UI-widget-label"><div class="t0"><span>Specular B</span></div><div class="t1"></div></div>
+
+						<div id="PropAnalyticalUI_BlinnPhong" class="BRDF-properties-slice-UI-widgets">
+							<div>&nbsp;</div>
+							<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Blinn-Phong</strong></div>
+							<div id="PropAnalyticalUI_Slider_SpecularExponent" class="UI-widget-label"><div class="t0"><span>Specular Exponent</span></div><div class="t1"></div></div>
+						</div>
+
+						<div id="PropAnalyticalUI_Ashikmin_Shirley" class="BRDF-properties-slice-UI-widgets">
+							<div>&nbsp;</div>
+							<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Ashikmin-Shirley</strong></div>
+							<div id="PropAnalyticalUI_Slider_SpecularExponent2" class="UI-widget-label"><div class="t0"><span>Specular Exponent</span></div><div class="t1"></div></div>
+						</div>
+
+						<div id="PropAnalyticalUI_Cook_Torrance" class="BRDF-properties-slice-UI-widgets">
+							<div>&nbsp;</div>
+							<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Cook-Torrance</strong></div>
+							<div id="PropAnalyticalUI_Slider_SpecularRoughness" class="UI-widget-label"><div class="t0"><span>Specular Roughness</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Checkbox_IncludeGeometricTerm" class="UI-widget-label"><div class="t0"><span>Include Geometric Term</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Checkbox_UseBeckmann" class="UI-widget-label"><a href="http://en.wikipedia.org/wiki/Specular_highlight#Beckmann_distribution" target="_blank" title="Defines specularity through a roughness parameter. If disabled then Ward distribution is used instead."><div class="t0"><span>Use Beckmann</span></div></a><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+							<div id="PropAnalyticalUI_Checkbox_UseSimplifiedGeometricFactor" class="UI-widget-label"><a href="http://www.hungrycat.hu/microfacet.pdf" target="_blank" title="Introduced by Kelemen and Szirmay-Kalos in 2001"><div class="t0"><span>Use Simplified Geometric Term</span></div></a><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+						</div>
+
+						<div id="PropAnalyticalUI_Walter" class="BRDF-properties-slice-UI-widgets">
+							<div>&nbsp;</div>
+							<div style='text-align:left; font-size:1.5em;'>&nbsp;<a href="http://www.cs.cornell.edu/~srm/publications/EGSR07-btdf.pdf" target="_blank"><strong>Walter</strong></a></div>
+							<div id="PropAnalyticalUI_Slider_SpecularRoughness2" class="UI-widget-label"><div class="t0"><span>Specular Roughness</span></div><div class="t1"></div></div>
+							<div id="PropAnalyticalUI_Slider_GeneralizedTrowbridgeReitzExponent" class="UI-widget-label"><a href="http://blog.selfshadow.com/publications/s2012-shading-course/burley/s2012_pbs_disney_brdf_notes_v2.pdf" target="_blank" title="Idea discretly introduced by Disney at a talk on Physically-Based Shading at Siggraph 2012. I'm using it in a purely experimental manner."><div class="t0"><span>Specular Tail</span></div></a><div class="t1"></div></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- The properties layout for the Slice BRDF that is represented as an image -->
+				<div id="BRDFProperties_Pom" class="BRDF-properties" style="display:none">
+					<canvas id="PropPom_Viewport" class="BRDF-properties-UI-viewport"></canvas>
+
+					<div id="PropPom_UIWidgets">
+
+						<!-- Common Ref BRDF widgets -->
+						<div id="PropPomUI_ComboBox_ReferenceBRDF" class="UI-widget-label"><div class="t0"><span>Pick Reference BRDF</span></div><div class="t1"><select></select></div></div>
+						<div id="PropPomUI_Radio_Display" class="UI-widget-label">
+							<div class="t0"><span>Fitting Method</span></div>
+							<div class="t1">
+								<input id="PropPomUI_Radio_Display0" value="0" name="radioDisplayPomBRDF" type="radio" checked="checked"><label for="PropPomUI_Radio_Display0">Normal</label>
+								<input id="PropPomUI_Radio_Display1" value="1" name="radioDisplayPomBRDF" type="radio"><label for="PropPomUI_Radio_Display1">Ref</label>
+								<input id="PropPomUI_Radio_Display2" value="2" name="radioDisplayPomBRDF" type="radio"><label for="PropPomUI_Radio_Display2">Diff</label>
+								<input id="PropPomUI_Radio_Display3" value="3" name="radioDisplayPomBRDF" type="radio"><label for="PropPomUI_Radio_Display3">Log10(Diff)</label>
+							</div>
+						</div>
+						<br />
+
+						<!-- Tabs with specific widgets -->
+						<div id="PropPom_UIWidgets_Tabs">
+							<ul style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+								<li><a href="#Tab_PomSpecular"><span>Parameters</span></a></li>
+								<li><a href="#Tab_PomFitting"><span>Fitting</span></a></li>
+								<li><a href="#Tab_PomStandard"><span>Standard</span></a></li>
+							</ul>
+
+							<div class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
+								<div id="Tab_PomSpecular">
+									<!-- Pom specular properties -->
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Specular Exponential</strong>
+										<div id="PropPomUI_CheckBox_SoloX" title="Show specular only"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
+									</div>
+									<div id="PropPomUI_Slider_AmplitudeX" class="UI-widget-label"><div class="t0"><span>Amplitude X</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_FalloffX" class="UI-widget-label"><div class="t0"><span>Falloff X</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_ExponentX" class="UI-widget-label"><div class="t0"><span>Exponent X</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_OffsetX" class="UI-widget-label"><div class="t0"><span>Offset X</span></div><div class="t1"></div></div>
+
+									<div>&nbsp;</div>
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Fresnel Exponential</strong>
+										<div id="PropPomUI_CheckBox_SoloY" title="Show Fresnel only"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
+									</div>
+									<div id="PropPomUI_Slider_AmplitudeY" class="UI-widget-label"><div class="t0"><span>Amplitude Y</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_FalloffY" class="UI-widget-label"><div class="t0"><span>Falloff Y</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_ExponentY" class="UI-widget-label"><div class="t0"><span>Exponent Y</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_OffsetY" class="UI-widget-label"><div class="t0"><span>Offset Y</span></div><div class="t1"></div></div>
+
+									<!-- Pom diffuse properties -->
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Diffuse Term</strong>
+										<div id="PropPomUI_CheckBox_SoloDiffuse" title="Show diffuse only"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
+									</div>
+									<div id="PropPomUI_Slider_DiffuseReflectance" class="UI-widget-label"><div class="t0"><span>Reflectance</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_DiffuseRoughness" class="UI-widget-label"><div class="t0"><span>Roughness</span></div><div class="t1"></div></div>
+								</div>
+
+								<div id="Tab_PomFitting">
+									<div id="PropPomUI_Radio_FittingMethod" class="UI-widget-label">
+										<div class="t0"><span>Fitting Method</span></div>
+										<div class="t1">
+											<input id="PropPomUI_Radio_FittingMethod0" value="0" name="radioFittingMethod" type="radio" checked="checked"><label for="PropPomUI_Radio_FittingMethod0">Levenberg-Marquardt</label>
+											<input id="PropPomUI_Radio_FittingMethod1" value="1" name="radioFittingMethod" type="radio"><label for="PropPomUI_Radio_FittingMethod1">BFGS</label>
+										</div>
+									</div>
+									<br />
+									<div id="PropPomUI_Button_Fitting"><span>Perform Fitting</span></div>
+									<div id="PropPomUI_Result_Fitting"></div>
+								</div>
+
+								<div id="Tab_PomStandard">
+									<!-- Standard widgets -->
+									<div id="PropPomUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets">
+
+										<div id="PropPomUI_Radio_ThetaH" class="UI-widget-label">
+											<div class="t0"><span>Theta H</span></div>
+											<div class="t1">
+												<input id="PropPomUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH" type="radio"><label for="PropPomUI_Radio_ThetaH0">Normal</label>
+												<input id="PropPomUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH" type="radio" checked="checked"><label for="PropPomUI_Radio_ThetaH1">Squared</label>
+												<input id="PropPomUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH" type="radio"><label for="PropPomUI_Radio_ThetaH2">Cos</label>
+											</div>
+										</div>
+
+										<div id="PropPomUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+										<div id="PropPomUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+										<div id="PropPomUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+										<div id="PropPomUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+										<div id="PropPomUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
+										<div id="PropPomUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
+
+										<div>&nbsp;</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Add properties elements for other BRDF types -->				
+
+			</div>
+		</div>
+
+		<!-- --------------------------------------------------------------------------------------- -->
+		<!-- The BRDF renderer -->
+		<div id="ContainerGLRenderBRDF" class="ui-layout-east">
+				<ul id="RenderBRDFToolbar" class="ui-widget ui-helper-clearfix toolbar">
+					<li id="RenderBRDFUI_ToggleLightingUI" class="ui-state-default ui-corner-all" title="Light options"><span class="ui-icon ui-icon-lightbulb"/></li>
+					<li id="RenderBRDFUI_ToggleToneMappingUI" class="ui-state-default ui-corner-all" title="Tone Mapping options"><span class="ui-icon ui-icon-bookmark"/></li>
+					<li id="RenderBRDFUI_ResetCamera" class="ui-state-default ui-corner-all" title="Reset camera"><span class="ui-icon ui-icon-arrowstop-1-s"/></li>
+					<li id="RenderBRDFUI_TogglePrimitive" class="ui-state-default ui-corner-all" title="Toggle Primitive"><span class="ui-icon ui-icon-person"/></li>
+				</ul>
+
+				<div id="RenderBRDF_UIWidgetsLighting" class="BRDF-properties-slice-UI-widgets">
+					<div id="RenderBRDFUI_Radio_LightType" class="UI-widget-label">
+						<div class="t0"><span>Light Type</span></div>
+						<div class="t1">
+							<input id="RenderBRDFUI_Radio0" value="0" name="radioLightType" type="radio"><label for="RenderBRDFUI_Radio0">Point</label>
+							<input id="RenderBRDFUI_Radio1" value="1" name="radioLightType" type="radio"><label for="RenderBRDFUI_Radio1">Directional</label>
+							<input id="RenderBRDFUI_Radio2" value="2" name="radioLightType" type="radio" checked="checked"><label for="RenderBRDFUI_Radio2">Area</label>
+							<input id="RenderBRDFUI_Radio3" value="3" name="radioLightType" type="radio"><label for="RenderBRDFUI_Radio3">Sky</label>
+							<input id="RenderBRDFUI_Radio4" value="4" name="radioLightType" type="radio"><label for="RenderBRDFUI_Radio4">IBL</label>
+						</div>
+					</div>
+					<div id="RenderBRDFUI_LightParameters">
+						<div id="RenderBRDFUI_Slider_LightIntensity" class="UI-widget-label"><div class="t0"><span>Light Intensity</span></div><div class="t1"></div></div>
+						<div id="RenderBRDFUI_Slider_LightTheta" class="UI-widget-label"><div class="t0"><span>Light Angle Y</span></div><div class="t1"></div></div>
+						<div id="RenderBRDFUI_Slider_LightPhi" class="UI-widget-label"><div class="t0"><span>Light Azimuth</span></div><div class="t1"></div></div>
+
+						<!-- Test with anisotropy -->
+						<div id="RenderBRDFUI_Slider_Anisotropy" class="UI-widget-label"><div class="t0"><span>Anisotropy</span></div><div class="t1"></div></div>
+						<div id="RenderBRDFUI_Slider_AnisotropyAngle" class="UI-widget-label"><div class="t0"><span>Anisotropy Angle</span></div><div class="t1"></div></div>
+						
+					</div>
+					<div id="RenderBRDFUI_PointLight">
+						<div id="RenderBRDFUI_Slider_LightDistance" class="UI-widget-label"><div class="t0"><span>Light Distance</span></div><div class="t1"></div></div>
+					</div>
+					<div id="RenderBRDFUI_AreaLight">
+						<div id="RenderBRDFUI_Slider_AreaLightSize" class="UI-widget-label"><div class="t0"><span>Light Area</span></div><div class="t1"></div></div>
+					</div>
+					<div id="RenderBRDFUI_SkyLight">
+						<div id="RenderBRDFUI_Radio_SkyType" class="UI-widget-label">
+							<div class="t0"><span>Sky Type</span></div>
+							<div class="t1">
+								<input id="RenderBRDFUI_Sky_Radio1" value="0" name="radioSkyType" type="radio" checked="checked"><label for="RenderBRDFUI_Sky_Radio1">Overcast</label>
+								<input id="RenderBRDFUI_Sky_Radio2" value="1" name="radioSkyType" type="radio"><label for="RenderBRDFUI_Sky_Radio2">Clear</label>
+								<input id="RenderBRDFUI_Sky_Radio3" value="2" name="radioSkyType" type="radio"><label for="RenderBRDFUI_Sky_Radio3">Bli</label>
+							</div>
+						</div>
+					</div>
+					<div id="RenderBRDFUI_IBL">
+						<div id="RenderBRDFUI_Radio_IBLImage" class="UI-widget-label">
+							<div class="t0"><span>Image</span></div>
+							<div class="t1">
+								<input id="RenderBRDFUI_IBL_Radio0" value="0" name="radioIBLType" type="radio"><label for="RenderBRDFUI_IBL_Radio0">Doge</label>
+								<input id="RenderBRDFUI_IBL_Radio1" value="1" name="radioIBLType" type="radio"><label for="RenderBRDFUI_IBL_Radio1">Ennis</label>
+								<input id="RenderBRDFUI_IBL_Radio2" value="2" name="radioIBLType" type="radio"><label for="RenderBRDFUI_IBL_Radio2">Grace</label>
+								<input id="RenderBRDFUI_IBL_Radio3" value="3" name="radioIBLType" type="radio"><label for="RenderBRDFUI_IBL_Radio3">Pisa</label>
+								<input id="RenderBRDFUI_IBL_Radio4" value="4" name="radioIBLType" type="radio" checked="checked"><label for="RenderBRDFUI_IBL_Radio4">Uffizi</label>
+							</div>
+						</div>
+					</div>
+					<div id="RenderBRDFUI_MonteCarloIntegration">
+						<div id="RenderBRDFUI_Slider_ConvergenceRate" class="UI-widget-label"><div class="t0"><span>Convergence Rate</span></div><div class="t1"></div></div>
+						<div id="RenderBRDFUI_Checkbox_KeepSampling" class="UI-widget-label"><div class="t0"><span>Keep on sampling</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+					</div>
+				</div>
+
+				<div id="RenderBRDF_UIWidgetsToneMapping" class="BRDF-properties-slice-UI-widgets">
+					<div id="RenderBRDFUI_Checkbox_EnableToneMapping" class="UI-widget-label"><div class="t0"><span>Enable Tone Mapping</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+					<div id="RenderBRDFUI_Slider_ToneMappingRange" class="UI-widget-label"><div class="t0"><span>Tone Mapping Range</span></div><div class="t1"></div></div>
+					<div id="RenderBRDFUI_Slider_ToneMappingOverbright" class="UI-widget-label"><div class="t0"><span>Tone Mapping Overbright</span></div><div class="t1"></div></div>
+				</div>
+			<canvas id="CanvasGLRenderBRDF" class="canvas-render canvas-render-BRDF">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+		</div>
+	</div>
+
+	<!-- --------------------------------------------------------------------------------------- -->
+	<!-- Center panel will contain the main viewer & analyzer -->
+	<div id="ContainerViewers" class="ui-layout-center">
+		<ul style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+			<li><a href="#Tab3D"><span>3D View</span></a></li>
+			<li><a href="#Tab2D"><span>2D View</span></a></li>
+		</ul>
+		<div class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
+			<div id="Tab2D">
+				<ul id="RenderGraphToolbar" class="ui-widget ui-helper-clearfix toolbar">
+					<li id="RenderGraphUI_ToggleLogLuminance" class="ui-state-default ui-corner-all" title="Toggle Log10 Luminance"><span class="ui-icon ui-icon-arrowreturnthick-1-e"/></li>
+					<li id="RenderGraphUI_ToggleLuminanceX10" class="ui-state-default ui-corner-all" title="Toggle 10x Luminance"><span class="ui-icon ui-icon-arrowreturnthick-1-n"/></li>
+					<li id="RenderGraphUI_ToggleSeparateRGB" class="ui-state-default ui-corner-all" title="Toggle Separate RGB"><span class="ui-icon ui-icon-signal"/></li>
+					<li id="RenderGraphUI_ToggleLuminanceOnly" class="ui-state-default ui-corner-all" title="Toggle RGB/Luminance"><span class="ui-icon ui-icon-battery-0"/></li>
+					<li id="RenderGraphUI_ToggleIsoLines" class="ui-state-default ui-corner-all" title="Toggle RGB/Luminance"><span class="ui-icon ui-icon-signal-diag"/></li>
+					<li id="RenderGraphUI_ToggleWireframe" class="ui-state-default ui-corner-all" title="Toggle Wireframe Display"><span class="ui-icon ui-icon-calculator"/></li>
+					<li id="RenderGraphUI_ToggleGroundPlane" class="ui-state-default ui-corner-all" title="Toggle Ground Plane Display"><span class="ui-icon ui-icon-grip-dotted-horizontal"/></li>
+					<li id="RenderGraphUI_ResetCamera" class="ui-state-default ui-corner-all" title="Reset camera"><span class="ui-icon ui-icon-arrowstop-1-s"/></li>
+				</ul>
+
+				<div id="RenderGraphToolsLeft">
+					<div id="RenderGraphUI_ToggleIsolateThetaD" class="ui-state-default ui-corner-all" title="Isolate a line of ThetaD"><span class="ui-icon ui-icon-circle-triangle-e"/></div>
+					<div id="RenderGraphUI_Slider_IsolateThetaD" class="UI-widget-label" style="display:none; width:100px"><div class="t0"><span>ThetaD</span></div><div class="t1"></div></div>
+					<div id="RenderGraphUI_ToggleIsolateThetaH" class="ui-state-default ui-corner-all" title="Isolate a line of ThetaD"><span class="ui-icon ui-icon-circle-triangle-s"/></div>
+					<div id="RenderGraphUI_Slider_IsolateThetaH" class="UI-widget-label" style="display:none; width:100px"><div class="t0"><span>ThetaH</span></div><div class="t1"></div></div>
+				</div>
+
+				<canvas id="CanvasRenderGraph" class="canvas-render canvas-render-graph">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+			</div>
+			<div id="Tab3D">
+				<ul id="Render3DToolbar" class="ui-widget ui-helper-clearfix toolbar">
+					<!-- List of geometric display modes -->
+					<li id="Render3DUI_ListGeometry" class="ui-state-default ui-corner-all drop-down" title="Selects the type of geometry display"><span class="ui-icon ui-icon-signal"></span>
+						<ul id="Render3DUI_List_Geometry" class="drop-down-list auto-height">
+							<li title="">R</li>
+							<li title="">G</li>
+							<li title="">B</li>
+							<li title="">Luminance</li>
+							<li title="">R + G + B</li>
+							<li title=""><br /></li>
+							<li title="">Log10 R</li>
+							<li title="">Log10 G</li>
+							<li title="">Log10 B</li>
+							<li title="">Log10 Luminance</li>
+							<li title="">Log10 (R + G + B)</li>
+						</ul>
+					</li>
+
+					<!-- List of color display modes -->
+					<li id="Render3DUI_ListColor" class="ui-state-default ui-corner-all drop-down" title="Selects the type of color display"><span class="ui-icon ui-icon-lightbulb"></span>
+						<ul id="Render3DUI_List_Color" class="drop-down-list auto-height">
+							<li title="Use fake lighting for a clear view of the BRDF object">Fake Lighting</li>
+							<li title="Use actual BRDF reflectance as a color">BRDF Color</li>
+							<li title="Use actual log10(BRDF reflectance) as a color">Log10 BRDF Color</li>
+							<li title="Use actual 10*(BRDF reflectance) as a color">10x BRDF Color</li>
+							<li title="Use actual luminance(BRDF reflectance) as a color">BRDF Luma</li>
+							<li title="Use actual log10(luminance(BRDF reflectance)) as a color">Log10 BRDF Luma</li>
+							<li title="Use actual 10*(luminance(BRDF reflectance)) as a color">10x BRDF Luma</li>
+							<li title="Use actual chroma(BRDF reflectance) as a color">BRDF Chroma</li>
+						</ul>
+					</li>
+					<li id="Render3DUI_ToggleWireframe" class="ui-state-default ui-corner-all" title="Toggle Wireframe Display"><span class="ui-icon ui-icon-calculator"/></li>
+					<li id="Render3DUI_ToggleGroundPlane" class="ui-state-default ui-corner-all" title="Toggle Ground Plane Display"><span class="ui-icon ui-icon-grip-dotted-horizontal"/></li>
+					<li id="Render3DUI_ResetCamera" class="ui-state-default ui-corner-all" title="Reset camera"><span class="ui-icon ui-icon-arrowstop-1-s"/></li>
+				</ul>
+
+				<div id="Render3D_UIWidgets" class="BRDF-properties-slice-UI-widgets">
+					<div style="text-align:left;"><strong>Hold Shift to place a marker on the BRDF</strong></div>
+					<div id="Render3DUI_Slider_LightTheta" class="UI-widget-label"><div class="t0"><span>Light Theta</span></div><div class="t1"></div></div>
+					<div id="Render3DUI_Slider_LightPhi" class="UI-widget-label"><div class="t0"><span>Light Phi</span></div><div class="t1"></div></div>
+				</div>
+				<canvas id="CanvasRender3D" class="canvas-render canvas-render-3D">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+			</div>
+		</div>
+	</div>
+
+	<!-- --------------------------------------------------------------------------------------- -->
+	<!-- Bottom panel will only popup when a message needs to be displayed -->
+	<div id="Status" class="ui-layout-south">
+	</div>
+</body>
+</html>

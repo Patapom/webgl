@@ -1,0 +1,114 @@
+////////////////////////////////////////////////////////////////
+// Builds the atmospheric scattering texture
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const int	DENSITY_TEXTURE_STEPS_COUNT = 128;	// Amount of ray-marching steps for density integration up to the top of atmosphere
+
+const float	INV_STEPS_COUNT = 1.0 / float(DENSITY_TEXTURE_STEPS_COUNT);
+
+const float	ATMOSPHERE_THICKNESS_KM = 60.0;
+const float	EARTH_RADIUS_KM = 6400.0;
+const float	ATMOSPHERE_RADIUS_KM = EARTH_RADIUS_KM + ATMOSPHERE_THICKNESS_KM;
+const float	H0_AIR = 7.994;						// Altitude scale factor for air molecules (Rayleigh scattering)
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+// This returns the air density given the atlitude
+// This is an important parameter as it will drastically change the atmosphere's appearance thus it's been externalized as a simple "callback" so it's easy to change.
+//
+// If you want the air from the original paper then you should use exp( -AltitudeKm / H0_AIR ) instead.
+//
+float	ComputeAirDensity( float _AltitudeKm )
+{
+	return exp( -max( 0.0, _AltitudeKm - 0.0 ) / H0_AIR );
+}
+
+// This returns the fog density given the atlitude
+// This is an important parameter as it will drastically change the fog's appearance thus it's been externalized as a simple "callback" so it's easy to change.
+//
+// Indeed, the default values given in the Dobashi paper from 93 are okay but quite uninteresting really. You can often get a better fog when using a uniform density
+//  throughout the atmosphere so the idea here is to offset the altitude down by several kilometers to make the fog much more dense.
+//
+// If you want the fog from the original paper then you should use exp( -AltitudeKm / H0_AEROSOLS ) instead.
+//
+float	ComputeFogDensity( float _AltitudeKm )
+{
+	return exp( -max( 0.0, _AltitudeKm - 10.0 ) / 7.0 );
+}
+
+void	main()
+{
+	float	AltitudeKm = ATMOSPHERE_THICKNESS_KM * _UV.y;
+	vec2	View;
+			View.y = 1.0 - 2.0 * _UV.x;			  // We vary view angle with respect to cos(theta)
+			View.x = sqrt( 1.0 - View.y*View.y );
+
+	// Compute air molecules and aerosols density at current altitude
+	gl_FragColor.x = ComputeAirDensity( AltitudeKm );
+	gl_FragColor.y = ComputeFogDensity( AltitudeKm );
+
+	// Compute intersection of ray with upper atmosphere
+	float	D = EARTH_RADIUS_KM + AltitudeKm;
+	float	b = D * View.y;
+	float	c = D*D - ATMOSPHERE_RADIUS_KM*ATMOSPHERE_RADIUS_KM;
+	float	Delta = sqrt( b*b-c );
+	float	HitDistanceKm = Delta - b;	// Distance at which we hit the upper atmosphere (in kilometers)
+
+	// Check if we hit the Earth's surface earlier
+	c = D*D - EARTH_RADIUS_KM*EARTH_RADIUS_KM;
+	Delta = b*b - c;
+	if ( Delta > 0.0 )
+	{
+		float	EarthHitDistanceKm = -b - sqrt( Delta );
+		if ( EarthHitDistanceKm > 0.0 )
+ 		{	// This means the view is blocked by the Earth at this altitude and angle...
+// 			// We simply clamp the ray down to the Earth's surface
+// 			HitDistanceKm = EarthHitDistanceKm;
+			gl_FragColor.zw = vec2( -6e4 );	// Maximum extinction as a negative value we'll use to know if we're in the Earth shadow
+			return;
+ 		}
+	}
+
+// gl_FragColor = vec4( HitDistanceKm );
+// return;
+
+	// Accumulate densities along the ray
+	float	SumDensityRayleigh = 0.0;
+	float	SumDensityMie = 0.0;
+
+	float	StepLengthKm = HitDistanceKm * INV_STEPS_COUNT;
+	vec2	Pos = vec2( 0.1 * StepLengthKm * View.x,
+						D + 0.1 * StepLengthKm * View.y );
+
+	for ( int StepIndex=0; StepIndex < DENSITY_TEXTURE_STEPS_COUNT; StepIndex++ )
+	{
+		float	CurrentAltitudeKm = length( Pos ) - EARTH_RADIUS_KM;	// Relative altitude from sea level
+				CurrentAltitudeKm = max( 0.0, CurrentAltitudeKm );		// Don't go below the ground... (shouldn't be able to since we tested for ground intersection earlier)
+
+		// Compute and accumulate densities at current altitude
+		float	Rho_air = ComputeAirDensity( CurrentAltitudeKm );
+		float	Rho_aerosols = ComputeFogDensity( CurrentAltitudeKm );
+		SumDensityRayleigh += Rho_air;
+		SumDensityMie += Rho_aerosols;
+
+		// March
+		Pos += StepLengthKm * View;
+	}
+
+	// Normalize integration
+	SumDensityRayleigh *= HitDistanceKm * INV_STEPS_COUNT;
+	SumDensityMie *= HitDistanceKm * INV_STEPS_COUNT;
+
+	// Write accumulated densities (clamp because of float16)
+	gl_FragColor.z = min( 6e4, SumDensityRayleigh );
+	gl_FragColor.w = min( 6e4, SumDensityMie );
+}
+

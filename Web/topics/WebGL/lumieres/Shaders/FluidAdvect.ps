@@ -1,0 +1,144 @@
+////////////////////////////////////////////////////////////////
+// Performs advection of velocities
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform float		_Time;
+uniform float		_DeltaTime;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexPressure;
+uniform sampler2D	_TexInkLayer;
+
+uniform sampler2D	_TexCameraInput;
+uniform sampler2D	_TexSnapshot;
+
+uniform vec4		_MouseInfos;
+uniform vec2		_Vorticity;
+
+vec2	MouseForce( vec2 _UV )
+{
+	vec2	ToMousePos = _UV - _MouseInfos.xy;
+	float	DistanceWeight = smoothstep( 16.0*dot( _dUV.xy, _dUV.xy ), 0.0, dot( ToMousePos, ToMousePos ) );	// 1 at mouse position, 0 if larger than 6 pixels away
+
+	vec2	MouseVelocity = 2000.0 * _MouseInfos.zw;
+	float	VelocityWeight = saturate( 20.0 * length( _MouseInfos.zw ) );
+
+	return DistanceWeight * VelocityWeight * MouseVelocity;
+}
+
+vec2	StreamSource( vec2 _UV )
+{
+	vec2	SourceUV = vec2( 0.5, 1.0 );
+	vec2	SourceSize = vec2( 0.2, 0.1 );
+	float	Distance2Source = length( (_UV - SourceUV) / SourceSize );
+	float	Weight = smoothstep( 1.0, 0.0, Distance2Source );
+
+	return 50.0 * Weight * normalize( vec2( sin( _Time ), -0.5 ) );
+}
+
+vec2	StreamSourceVel( vec2 _UV, vec2 _Velocity )
+{
+	vec2	SourceUV = vec2( 0.5, 1.0 );
+	vec2	SourceSize = vec2( 0.05, 0.04 );
+	float	Distance2Source = length( (_UV - SourceUV) / SourceSize );
+	float	Weight = smoothstep( 1.0, 0.0, Distance2Source );
+
+	return lerp( _Velocity, 100.0 * normalize( vec2( sin( 10.0 * _Time ), -sin( 4.0 * Distance2Source ) ) ), Weight );
+}
+
+vec2	VorticityConfinement( vec2 _UV )
+{
+	// Get curl gradient
+	float	CurlXp = abs( texture2D( _TexPressure, _UV + _Vorticity.x * _dUV.xz ).z );
+	float	CurlXm = abs( texture2D( _TexPressure, _UV - _Vorticity.x * _dUV.xz ).z );
+	float	CurlYp = abs( texture2D( _TexPressure, _UV + _Vorticity.x * _dUV.zy ).z );
+	float	CurlYm = abs( texture2D( _TexPressure, _UV - _Vorticity.x * _dUV.zy ).z );
+
+	vec2	GradCurl = vec2( CurlXp - CurlXm, CurlYp - CurlYm );
+	float	CurlLength = length( GradCurl );
+	GradCurl /= max( 1.0, CurlLength );	// Safe normalize
+
+	// Get central curl
+	float	Curl = texture2D( _TexPressure, _UV ).z;
+
+	// The resulting force is proportional to the curl but in an orthogonal direction to the velocity gradient, hence producing vortices...
+	return _Vorticity.y * Curl * vec2( GradCurl.y, -GradCurl.x );
+}
+
+vec2	CameraForce( vec2 _UV )
+{
+	return 1000.0 * texture2D( _TexCameraInput, _UV ).xy;
+}
+
+bool	IsBorder( vec2 _UV )
+{
+	return _UV.x < _dUV.x || _UV.x > 1.0 - 2.0 * _dUV.x || _UV.y < _dUV.y || _UV.y > 1.0 - 2.0 * _dUV.y;
+}
+
+void	main()
+{
+	vec2	Velocity = texture2D( _TexVelocity, _UV ).xy;
+
+	vec2	PreviousUV = _UV - _DeltaTime * Velocity * _dUV.xy;
+	vec2	PreviousVelocity = texture2D( _TexVelocity, PreviousUV ).xy;
+
+// 	// Check for obstacles
+// 	float	Obstacle = _TexObstacles.SampleLevel( LinearClamp, PreviousUV, 0.0 ).x;
+// 	PreviousVelocity *= 1.0 - Obstacle;
+
+	//////////////////////////////////////////////////////////////////
+	// Add velocity sources
+//	PreviousVelocity = StreamSourceVel( _UV, PreviousVelocity );
+
+	//////////////////////////////////////////////////////////////////
+	// Add forces
+	vec2	Force = vec2( 0.0 );
+
+	// Add continuous source of velocity
+//	Force += StreamSource( _UV );
+
+ 	// Add mouse motion
+	Force += MouseForce( _UV );
+
+	// Add camera motion
+	Force += CameraForce( _UV );
+
+
+	// Compute force based on gradient of ink concentrations
+	vec4	InkConcentrations_Xp = texture2D( _TexInkLayer, _UV + _dUV.xz );
+	vec4	InkConcentrations_Xm = texture2D( _TexInkLayer, _UV - _dUV.xz );
+	vec4	InkConcentrations_Yp = texture2D( _TexInkLayer, _UV + _dUV.zy );
+	vec4	InkConcentrations_Ym = texture2D( _TexInkLayer, _UV - _dUV.zy );
+	float	SumConcentrations_Xp = dot( vec4( 1.0 ), InkConcentrations_Xp );
+	float	SumConcentrations_Xm = dot( vec4( 1.0 ), InkConcentrations_Xm );
+	float	SumConcentrations_Yp = dot( vec4( 1.0 ), InkConcentrations_Yp );
+	float	SumConcentrations_Ym = dot( vec4( 1.0 ), InkConcentrations_Ym );
+	float	NormalizedConcentrations_Xp = SumConcentrations_Xp / max( 1.0, SumConcentrations_Xp );	// Important line => We can't have concentrations that are higher than 1 so we need to normalize them!
+	float	NormalizedConcentrations_Xm = SumConcentrations_Xm / max( 1.0, SumConcentrations_Xm );	// Important line => We can't have concentrations that are higher than 1 so we need to normalize them!
+	float	NormalizedConcentrations_Yp = SumConcentrations_Yp / max( 1.0, SumConcentrations_Yp );	// Important line => We can't have concentrations that are higher than 1 so we need to normalize them!
+	float	NormalizedConcentrations_Ym = SumConcentrations_Ym / max( 1.0, SumConcentrations_Ym );	// Important line => We can't have concentrations that are higher than 1 so we need to normalize them!
+	vec2	GradConcentrations = vec2( NormalizedConcentrations_Xp - NormalizedConcentrations_Xm, NormalizedConcentrations_Yp - NormalizedConcentrations_Ym );
+	Force -= 150.0 * GradConcentrations;
+
+
+	// Add vorticity confinement
+	Force += VorticityConfinement( _UV );
+
+	PreviousVelocity += Force * _DeltaTime;
+
+	if ( IsBorder( _UV ) )
+		PreviousVelocity = vec2( 0.0 );	// Avoid large velocities at borders...
+
+	gl_FragColor = vec4( PreviousVelocity, 0.0, 0.0 );
+}

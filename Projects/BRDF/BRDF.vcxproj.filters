@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0e73c897-aefd-4999-9ec2-ae7fb47294be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Includes">
+      <UniqueIdentifier>{4c6bfb4b-84ea-436e-a4f4-8104028f1437}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\BRDF\index.html" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\style.css" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\GLViewport.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFBackground.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraph.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphBackground.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphWireframe.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\RendererBRDF.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\RendererGraph.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFList.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFSlice.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFSlice.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFHelpers.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFToneMapping.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesSlice.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Global.shader">
+      <Filter>Shaders\Includes</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFPointLight.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFAreaLight.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\LightModels.shader">
+      <Filter>Shaders\Includes</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderBRDFDirectionalLight.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Integration.shader">
+      <Filter>Shaders\Includes</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesAnalytical.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFAnalytical.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPom.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesPom.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFBase.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesBase.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\Graph.shader">
+      <Filter>Shaders\Includes</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\RenderGraphGroundPlane.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Renderer3D.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3D.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DBackground.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DGroundPlane.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DWireframe.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Includes\3D.shader">
+      <Filter>Shaders\Includes</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\Shaders\Render3DHelpers.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS_NC_Pourrave.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\FittingLM.js" />
+  </ItemGroup>
+</Project>

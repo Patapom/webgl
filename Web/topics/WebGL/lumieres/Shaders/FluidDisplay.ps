@@ -1,0 +1,231 @@
+////////////////////////////////////////////////////////////////
+// Computes the velocity divergence and initialize pressure to 0
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexPressure;
+uniform sampler2D	_TexInkLayer;
+
+uniform sampler2D	_TexSpectrumXYZ;
+uniform sampler2D	_TexSpectrumInk;
+uniform sampler2D	_TexNoise;
+uniform sampler2D	_TexPaperBackground;
+
+uniform vec4		_MouseInfos;
+
+uniform vec4		_InkConcentrations;
+uniform vec4		_PostProcessingParams;	// x=overlay brightness y=overlay contrast z=vignetting bloom W=Specular strength
+uniform float		_PaperSaturation;
+
+vec2	MouseForce( vec2 _UV )
+{
+	vec2	ToMousePos = _UV - _MouseInfos.xy;
+	float	DistanceWeight = smoothstep( 360.0*dot( _dUV.xy, _dUV.xy ), 0.0, dot( ToMousePos, ToMousePos ) );	// 1 at mouse position, 0 if larger than 6 pixels away
+
+	vec2	MouseVelocity = 0.1 * _MouseInfos.zw;
+	float	VelocityWeight = saturate( 20.0 * length( _MouseInfos.zw ) );
+
+//DistanceWeight = lerp( DistanceWeight, 1.0, 0.5 );
+//VelocityWeight = 1.0;	// Ignore velocity
+//MouseVelocity = vec2( 1.0, 0.0 );
+
+	return DistanceWeight * VelocityWeight * MouseVelocity;
+}
+
+// Mixes ink and water
+vec3	GetMixedInkColor( vec4 _InkWater )
+{
+	_InkWater *= _InkConcentrations;
+// _InkWater.y *= 2.0;
+// _InkWater.w *= 1.0;
+
+	float	SumImportances = dot( _InkWater, vec4( 1.0 ) );
+	float	WaterImportance = _InkWater.w / max( 1e-3, SumImportances );
+	_InkWater.xyz = lerp( _InkWater.xyz, vec3( 0.0 ), WaterImportance );	// The more water, the more the ink gets diluted to 0 and transmittance goes up
+
+	// Integrate spectral importance of each wavelength
+	vec3	XYZ = vec3( 0.0 );
+	float	dU = 1.0 / 16.0;
+	vec2	UV = vec2( 0.5 * dU, 0.5 );
+	for ( int i=0; i < 16; i++ )
+	{
+		vec4	SpecXYZe = texture2D( _TexSpectrumXYZ, UV );
+		float	Exponent = SpecXYZe.w * (1.1 + 9.96) - 9.96;
+		vec3	SpecXYZ = SpecXYZe.xyz * exp2( Exponent );
+		vec4	SpecInk = texture2D( _TexSpectrumInk, UV );
+
+SpecInk = vec4(
+				SpecInk.z,	// Cyan (dropped by mouse)
+				SpecInk.w,	// Red
+				SpecInk.y,	// Magenta
+				SpecInk.x	// Yellow (dropped by camera)
+			  );
+
+		vec4	Ink = lerp( vec4( 1.0 ), SpecInk, _InkWater );
+		float	Transmittance = Ink.x * Ink.y * Ink.z * Ink.w;	// Final ink transmittance is the product of the 3 inks' transmittances
+
+		XYZ += Transmittance * SpecXYZ;	// Accumulate XYZ importance for that wavelength
+
+		UV.x += dU;
+	}
+	XYZ *= dU;	// Normalize
+
+	// Transform into RGB using D65 white point
+	return saturate( 3.0 * vec3(
+// 			XYZ.x *  3.240479 - XYZ.y * 1.537150 - XYZ.z * 0.498535,
+// 			XYZ.x * -0.969256 + XYZ.y * 1.875992 + XYZ.z * 0.041556,
+// 			XYZ.x *  0.055648 - XYZ.y * 0.204043 + XYZ.z * 1.057311 ) );
+
+			// Returns a nice white for 32 wavelengths
+// 			XYZ.x *  3.240479 - XYZ.y * 1.537150 - XYZ.z * 0.728535,
+// 			XYZ.x * -0.969256 + XYZ.y * 1.875992 + XYZ.z * 0.041556,
+// 			XYZ.x *  0.055648 - XYZ.y * 0.204043 + XYZ.z * 1.117311 ) );
+
+			// Returns a nice white for 16 wavelengths
+			XYZ.x *  3.240479 - XYZ.y * 1.537150 - XYZ.z * 0.738535,
+			XYZ.x * -0.969256 + XYZ.y * 1.875992 + XYZ.z * 0.041556,
+			XYZ.x *  0.055648 - XYZ.y * 0.204043 + XYZ.z * 1.157311 ) );
+}
+
+vec4	ContrastBrightness( vec4 _Color, float _Contrast, float _Brightness )
+{
+//	return saturate( 0.5 + _Contrast * (_Color - 0.5 + _Brightness) );
+	return saturate( _Brightness + 0.5 + _Contrast * (_Color - 0.5 - _Brightness) );
+}
+
+void	main()
+{
+// gl_FragColor = vec4( MouseForce( _UV ), 0, 0 );
+// gl_FragColor = texture2D( _TexSpectrumInk, _UV );
+// return;
+
+// gl_FragColor = abs( texture2D( _TexNoise, _UV ) );
+// return;
+
+// gl_FragColor = texture2D( _TexPaperBackground, _UV );
+// return;
+
+#if 1
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Standard view with post-processing
+	vec4	InkLayer = texture2D( _TexInkLayer, _UV );
+	vec4	Color = vec4( GetMixedInkColor( InkLayer ), 0.0 );
+
+// gl_FragColor = Color;
+// return;
+
+	// Add a little bumpiness based on ink concentrations
+	vec4	InkLayer_Xp = texture2D( _TexInkLayer, _UV + _dUV.xz );
+	vec4	InkLayer_Yp = texture2D( _TexInkLayer, _UV + _dUV.zy );
+	float	InkConcentration = dot( InkLayer, vec4( 1.0 ) );
+	float	InkConcentration_Xp = dot( InkLayer_Xp, vec4( 1.0 ) );
+	float	InkConcentration_Yp = dot( InkLayer_Yp, vec4( 1.0 ) );
+
+	float	NormalAmplitude = 8.0;
+	vec3	Dx = vec3( 1.0, 0.0, NormalAmplitude * (InkConcentration_Xp - InkConcentration) );
+	vec3	Dy = vec3( 0.0, 1.0, NormalAmplitude * (InkConcentration_Yp - InkConcentration) );
+	vec3	Normal = normalize( cross( Dy, Dx ) );
+	vec3	Light = normalize( vec3( 1, 1, 0.01 ) );
+	vec3	View = vec3( 16.0 / 9.0 * 0.5 * (2.0 * _UV.x - 1.0), 0.5 * (1.0 - 2.0 * _UV.y), 1 );
+	vec3	ReflectedLight = reflect( -Light, Normal );
+	float	Spec = _PostProcessingParams.w * pow( saturate( dot( View, ReflectedLight ) ), 10.0 );
+			Spec -= _PostProcessingParams.w * pow( saturate( dot( View, -ReflectedLight ) ), 10.0 );
+	Color = max( vec4( 0.0 ), Color + Spec );
+
+	// Overlay
+	vec4	a = Color;
+	vec4	b = 1.0 - a;
+			a = ContrastBrightness( a, _PostProcessingParams.y, _PostProcessingParams.x );
+//			b = ContrastBrightness( b, _PostProcessingParams.y, _PostProcessingParams.x );
+
+	Color = vec4(	 a.x < 0.5 ? 2.0 * a.x * b.x : 1.0 - 2.0 * (1.0 - a.x) * (1.0 - b.x),
+					 a.y < 0.5 ? 2.0 * a.y * b.y : 1.0 - 2.0 * (1.0 - a.y) * (1.0 - b.y),
+					 a.z < 0.5 ? 2.0 * a.z * b.z : 1.0 - 2.0 * (1.0 - a.z) * (1.0 - b.z),
+					 1.0 );
+
+	// Vignetting
+//	float	Vignet = smoothstep( 1.0, 0.3, length( _UV - 0.5 ) );	// Normal screen
+	float	Vignet = smoothstep( 0.7, 0.3, length( _UV - 0.5 ) );	// Reduced screen (for display on the front window)
+//	Color = saturate( _PostProcessingParams.z * Vignet * Color );
+
+	// Lousy Colored Vignetting
+// 	float	L = length( _UV - 0.5 );
+// 	float	Way = 4.0 * (_UV.y - 0.5);
+// 	float	GradientAmplitude = 0.04;
+// 	float	GradientCenter = 0.7 - GradientAmplitude;
+// 	vec4	Vignet = vec4( smoothstep( GradientCenter + GradientAmplitude * Way, 0.3, L ), smoothstep( GradientCenter, 0.3, L ), smoothstep( GradientCenter - GradientAmplitude * Way, 0.3, L ), 0 );	// Reduced screen (for display on the front window)
+//  	Color = saturate( _PostProcessingParams.z * Vignet * Color );
+
+
+//DARKEN SATURATED COLORS !
+
+
+	// Multiply/blend with paper background
+//	Color = Color * saturate( vec4( 1.0, 1.4, 1.7, 0.0 ) * texture2D( _TexPaperBackground, _UV ) );
+	Color = Color * saturate( _PostProcessingParams.z * lerp( vec4( 1.0 ), texture2D( _TexPaperBackground, _UV ), _PaperSaturation ) );
+
+
+	gl_FragColor = Color;
+	return;
+
+#else
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Split-view
+	vec2	UV = _UV;
+	if ( UV.x < 0.5 )
+		UV.x *= 2.0;
+	else
+		UV.x = 2.0 * (UV.x - 0.5);
+
+	if ( UV.y < 0.5 )
+		UV.y *= 2.0;
+	else
+		UV.y = 2.0 * (UV.y - 0.5);
+
+	vec2	Velocity = texture2D( _TexVelocity, UV ).xy;
+	vec3	PressureDivCurl = texture2D( _TexPressure, UV ).xyz;
+	vec4	InkLayer = texture2D( _TexInkLayer, UV );
+
+// Sharpen ink layer
+//InkLayer.y = pow( saturate( 0.5 + 4.0 * (InkLayer.y-0.5) ), 1.5 );
+//InkLayer.y = saturate( 0.5 + 4.0 * (pow( saturate( InkLayer.y ), 4.0 )-0.5) );
+
+
+	gl_FragColor = vec4( 0.0 );
+	if ( _UV.x < 0.5 )
+	{
+		if ( _UV.y < 0.5 )
+			gl_FragColor = 0.1 * vec4( max( 0.0, PressureDivCurl.x ), 0.0, max( 0.0, -PressureDivCurl.x ), 0.0 );	// Show pressure
+		else
+			gl_FragColor = vec4( 0.5 + 0.025 * Velocity, 0.5, 0.0 );	// Show velocity
+	}
+	else
+	{
+		if ( _UV.y < 0.5 )
+			gl_FragColor = vec4( 1.0 * InkLayer.xxx, 0.0 );	// Show 1st ink concentration
+		else
+//			gl_FragColor = vec4( 1.0 * InkLayer.www, 0.0 );	// Show water concentration
+//			gl_FragColor = vec4( 1.0 * InkLayer.yyy, 0.0 );	// Show 2nd ink concentration
+			gl_FragColor = vec4( GetMixedInkColor( InkLayer ), 0.0 );
+	}
+
+//	gl_FragColor = 0.1 * vec4( max( 0.0, PressureDivCurl.x ), 0.0, max( 0.0, -PressureDivCurl.x ), 0.0 );	// Show pressure
+//	gl_FragColor = 1.0 * vec4( max( 0.0, PressureDivCurl.y ), 0.0, max( 0.0, -PressureDivCurl.y ), 0.0 );	// Show divergence
+//	gl_FragColor = 1.0 * vec4( max( 0.0, PressureDivCurl.z ), 0.0, max( 0.0, -PressureDivCurl.z ), 0.0 );	// Show curl
+//	gl_FragColor = vec4( 0.5 + 0.05 * Velocity, 0.5, 0.0 );	// Show velocity
+//	gl_FragColor = vec4( 1.0 * InkLayer.xxx, 0.0 );	// Show ink concentration
+#endif
+}
+

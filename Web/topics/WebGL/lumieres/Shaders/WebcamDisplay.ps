@@ -1,0 +1,27 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform sampler2D	_TexCamera;
+uniform bool		_ShowVelocity;
+
+void	main()
+{
+	gl_FragColor = texture2D( _TexCamera, _UV );
+	if ( _ShowVelocity )
+//		gl_FragColor = vec4( 0.5 + 1.0 * gl_FragColor.xy, 0.0, 0.0 );
+//		gl_FragColor = vec4( gl_FragColor.zzz, 0.0 );
+		gl_FragColor = vec4( 1.0 * gl_FragColor.xy, 0.0, 0.0 );
+}

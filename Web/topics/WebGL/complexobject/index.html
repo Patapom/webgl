@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<!-- Loads a scene using my proprietary format -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+WebGL Scene Objects
+</title>
+
+<script type="text/javascript" src="../o3djs/base.js"></script>		<!-- Include a small part of the O3D library-->
+<script type="text/javascript" src="../patapi/base.js"></script>	<!-- Include PatAPI-->
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.math' );
+o3djs.require( 'patapi.webgl' );
+o3djs.require( 'patapi.scenefile' );
+
+var gl = null;
+var	g_StartTime, g_Time = 0.0;
+
+var	g_Camera;
+var g_Scene;
+
+
+// From http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function()
+{
+	return window.requestAnimationFrame		|| 
+		window.webkitRequestAnimationFrame	|| 
+		window.mozRequestAnimationFrame		|| 
+		window.oRequestAnimationFrame		|| 
+		window.msRequestAnimationFrame		||
+		function( callback ) { window.setTimeout( callback, 10 ); };
+    })();
+
+
+function	Init()
+{
+ 	try
+	{
+		var	canvas = document.getElementById( "view" );
+		if ( canvas == null )
+			throw "Canvas element not found !";
+
+		gl = patapi.webgl.GetContext( canvas );
+		if ( gl == null )
+			throw "Your web-browser does not support webgl !";
+
+		// Build a simple camera
+		g_Camera = patapi.webgl.CreateCamera( "Camera", Math.deg2rad( 80.0 ), patapi.webgl.width / patapi.webgl.height, 0.1, 1000.0 );
+		g_Camera.LookAt( vec3.zero(), vec3.unitZ(), vec3.unitY() );	// Look in +Z from origin
+
+		// Setup default states
+		gl.enable( gl.DEPTH_TEST );
+		gl.enable( gl.CULL_FACE );
+		gl.cullFace( gl.BACK );
+
+		// Load the test scene
+		g_Scene = patapi.scenefile.LoadScene( gl, "SimpleCube", "scene.json", { throwOnSceneLoadFail : false } );					// This flag tells the scene should default to an "error scene" rather than throw an exception
+//		g_Scene = patapi.scenefile.LoadScene( gl, "SimpleCube", patapi.Scene.prototype.__ErrorSceneJSON, { URLisJSON : true } );	// For localhost testing without file permissions : simply load the embedded "ERROR scene"
+
+	}
+	catch ( _e )
+	{
+		alert( "An error occurred during page initialization:\n" + _e );
+		return;
+	}
+
+	// Start main loop
+	g_StartTime = 0.001 * (new Date()).getTime();
+	(function()
+	{
+		requestAnimFrame( arguments.callee );
+		Render();
+	})();
+}
+
+function Render()
+{
+	if ( g_Time < 0 )
+		return;	// Stop rendering...
+
+	var	Time = 0.001 * (new Date()).getTime() - g_StartTime;
+	var	DeltaTime = Time - g_Time;
+	g_Time = Time;
+
+	try
+	{
+		{	// Animate the camera
+			var	Distance2Object = 3.0;
+			var	Height = 2.0;
+			var	Angle = 0.1 * Math.TWOPI * g_Time;
+
+			var	Position = new vec3( Distance2Object * Math.sin( Angle ), Height, Distance2Object * Math.cos( Angle ) );
+			g_Camera.LookAt( Position, vec3.zero(), vec3.unitY() );
+		}
+
+		// Clear frame buffer
+		patapi.webgl.Clear( 0.3, 0.5, 0.7, 1.0 );
+
+		// Render our primitive with our shader
+		g_Scene.Render( function( _Primitive, _Material, _Local2World )
+		{
+ 			_Material.uniforms._World2Proj.Set( g_Camera.World2Proj );	/// The most important projection matrix
+			_Primitive.Use();
+			_Primitive.Draw();	
+		} );
+		g_Scene.EndRender();
+	}
+	catch ( _e )
+	{
+		g_Time = -1;	// This will force the render loop to stop
+		alert( "An error occurred while rendering:\n\n" + _e );
+	}
+}
+
+function	Exit()
+{
+	if ( gl == null )
+		return;		// No context anyway...
+	g_Time = -1;	// This will force the render loop to stop
+
+	if ( g_Scene )
+		g_Scene.Destroy();
+}
+
+</script>
+</head>
+<body onload="Init()" onunload="Exit()">
+
+<h1>WebGL Custom scene</h1>
+Loads a proprietary JSON scene file<br/>
+
+<!-- Start of WebGL canvas -->
+<canvas id="view" width="1280px" height="720px">Your browser does not support the HTML5 canvas tag.</canvas>
+<!-- End of WebGL canvas -->
+
+</body>
+</html>

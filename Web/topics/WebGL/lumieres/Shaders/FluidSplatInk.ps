@@ -1,0 +1,38 @@
+////////////////////////////////////////////////////////////////
+// Computes the amplitude of fluid vortices
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform float		_Time;
+uniform vec3		_dUV;
+uniform bool		_SplatVelocity;
+uniform sampler2D	_TexNoise;
+
+void	main()
+{
+	vec2	UV = vec2( _UV.x, _UV.y + 0.1 * _Time );
+	vec4	SplatColor = vec4( 0.0 );
+	vec4	Noise = texture2D( _TexNoise, 4.0 * _UV );
+	if ( _SplatVelocity )
+	{
+		float	Amplitude = 300.0 * (0.25 + Noise.x);
+		vec2	V = Amplitude * vec2( 10.0 * Noise.y, Noise.z );
+		SplatColor = vec4( V, 0, 0 );
+	}
+	else
+	{
+		SplatColor = vec4( 20.0 * Noise.y, 0, 20.0 * Noise.x, 0 );
+	}
+
+	gl_FragColor = SplatColor;
+}

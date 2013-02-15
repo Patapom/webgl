@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\lumieres\index.html" />
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\TestWebcam.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\TestWebcam.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\Fluid.vs">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidAdvect.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidDivergence.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidPressureDiffusion.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidProject.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidAdvectInk.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidDisplay.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidSplatInk.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\FluidDiffuseInk.ps">
+      <Filter>Shaders\FluidSimulation</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\WebcamDisplay.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\WebcamFilter.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\lumieres\Shaders\WebcamVelocity.ps">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{26dc868f-3962-418f-8b66-cf9df891f685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\FluidSimulation">
+      <UniqueIdentifier>{4b24de62-085b-47ba-8ca4-8be537714267}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////////
+// Computes new velocity by subtracting the pressure gradient
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexPressure;
+
+void	main()
+{
+//	float	Divergence = texture2D( _TexPressure, _UV ).y;
+
+	float	Pressure_Xp = texture2D( _TexPressure, _UV + _dUV.xz ).x;
+	float	Pressure_Xm = texture2D( _TexPressure, _UV - _dUV.xz ).x;
+	float	Pressure_Yp = texture2D( _TexPressure, _UV + _dUV.zy ).x;
+	float	Pressure_Ym = texture2D( _TexPressure, _UV - _dUV.zy ).x;
+	vec2	PressureGradient = vec2( Pressure_Xp - Pressure_Xm, Pressure_Yp - Pressure_Ym );
+
+// 	float	Obstacle = _TexObstacles.SampleLevel( LinearClamp, UV, 0.0 ).x;
+// 	PressureGradient *= 1.0 - Obstacle;
+
+	vec4	Velocity = texture2D( _TexVelocity, _UV );
+			Velocity.xy -= 0.5 * PressureGradient;
+
+	gl_FragColor = Velocity;
+}

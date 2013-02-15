@@ -1,0 +1,24 @@
+////////////////////////////////////////////////////////////////
+// Simply writes to the shadow map
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+
+varying vec2	_Z;
+
+void	main()
+{
+	if ( _Z.y > 0.5 )
+		discard;	// Skip writing the pixel if clip flag is high!
+
+	gl_FragColor = vec4( _Z.xxx, 1 );
+}
+

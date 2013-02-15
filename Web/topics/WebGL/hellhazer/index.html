@@ -1,0 +1,983 @@
+﻿<!DOCTYPE html>
+<!-- 
+
+Last Change: December 5th 2012
+Changes:
+
+	* december 5th, start !
+
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+Camera Hell-Hazer
+</title>
+<style type="text/css">
+.noMouseSelect	{
+	user-select:none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	cursor: pointer;
+}
+.dragging * { cursor: pointer }
+
+.dottedline {
+    border: 4px dotted #B0B0B0;
+}
+#view {
+/*	float: center;*/
+	position: relative;
+	top: 40px;
+}
+/*#SunCanvas
+{
+	position:relative;
+	top:450px;
+	left:10px;
+}*/
+.hemisphere {
+/*	float: left;
+	left: 4px;
+	bottom:150px;*/
+	
+	position:absolute;
+	bottom:250px;
+	left:4px;
+}
+.stock
+{
+	visibility: hidden;
+}
+.droppedthumb
+{
+	width:80%;
+}
+body {
+	margin: 0;
+	background-color: #E0E0E0;
+	overflow: hidden;
+}
+
+</style>
+
+<script type="text/javascript" src="../o3djs/base.js"></script>						<!-- Include a small part of the O3D library-->
+<script type="text/javascript" src="../patapi/base.js"></script>					<!-- Include PatAPI-->
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.math' );
+o3djs.require( 'patapi.webgl' );
+
+var gl = null;
+var	g_StartTime = 0.0, g_Time = 0.0;
+
+// Mouse events
+var	g_ButtonsDown = 0;
+
+// Main hazer
+var	g_MatHazer;
+var g_PrimQuad;
+
+var	g_RTSkyTexture = null;
+
+// Source images
+var	g_TexSourceImage = null;
+var	g_TexSourceZBuffer = null;
+
+// Shadow map
+var	g_MatShadowMap = null;
+var	g_PrimZBuffer = null;
+var	g_RTShadowMap = null;
+
+var	MESH_RESOLUTION = 128;
+var	SHADOW_MAP_RESOLUTION = 512;
+
+// Option values
+var	g_SliderValues = 
+{
+	// Display
+	_ShowOriginalImage : false,
+	_ShowOriginalZBuffer : false,
+	_InvertZBuffer : false,
+	_ShowShadowMap : false,
+
+	// Sun
+	_SunPower : 375.0,
+	_SunPhi : 30.0,
+	_SunTheta : 50.0,
+
+	// Shadow
+	_ShadowFactor : 800.0,
+	_ClipFarZ : 0.85,
+	_ClipDeltaZ : 0.01,
+
+	// Camera
+	_CameraAltitudeKm : 0.1,
+	_CameraFocalLength : 55.0,	// Focal length in mm
+
+	// Haze
+	_NearDistanceKm : 0.0,
+	_FarDistanceKm : 40.0,
+	_AirFactor : 2.30,
+	_FogFactor : 0.90,
+	_MiePhaseAnisotropy : 0.70,
+};
+
+
+// From http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function()
+{
+	return window.requestAnimationFrame
+		|| window.webkitRequestAnimationFrame
+		|| window.mozRequestAnimationFrame
+		|| window.oRequestAnimationFrame
+		|| window.msRequestAnimationFrame
+		|| function( callback ) { window.setTimeout( callback, 10 ); };
+})();
+
+function	Init()
+{
+	document.onselectstart = function()
+	{
+		return false;
+	}
+
+ 	try
+	{
+		var	canvas = document.getElementById( "view" );
+		if ( canvas == null )
+			throw "Canvas element not found !";
+		canvas.focus();
+
+		gl = patapi.webgl.GetContext( canvas );
+		if ( gl == null )
+			throw "Your web-browser does not support webgl !";
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build haze materials
+		var	VS = patapi.helpers.LoadFileSynchronous( "Shaders/Main.vs" );
+		var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/Hazer.ps" );
+		g_MatHazer = patapi.webgl.CreateShader( "HellHazer", VS, PS );
+
+		// Create our screen quad primitive
+		{
+			var	Vertices = new Float32Array( [
+				-1.0, +1.0, 1.0, 1.0,
+				-1.0, -1.0, 1.0, 1.0,
+				+1.0, +1.0, 1.0, 1.0,
+				+1.0, -1.0, 1.0, 1.0,
+			 ] );
+			var	Indices = new Uint16Array( [ 0, 1, 2, 3 ] );
+			g_PrimQuad = patapi.webgl.CreatePrimitiveSynchronous( "ScreenQuad", g_MatHazer, { _vPosition : Vertices }, Indices, gl.TRIANGLE_STRIP );
+		}
+
+		// Quickly build the sky texture
+		PS = patapi.helpers.LoadFileSynchronous( "Shaders/BuildSkyTexture.ps" );
+		var	MatBuildSkyTexture = patapi.webgl.CreateShader( "SkyTexture", VS, PS );
+
+		g_RTSkyTexture = patapi.webgl.CreateFBO( "SkyTexture", 256, 256, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR );
+
+		g_RTSkyTexture.Bind();
+		MatBuildSkyTexture.Use();
+		g_PrimQuad.Use();
+		g_PrimQuad.Draw();
+		g_RTSkyTexture.UnBind();
+
+		MatBuildSkyTexture.Destroy();
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build the huge mesh used by ZBuffer for shadow map rendering
+		{
+			var	VS = patapi.helpers.LoadFileSynchronous( "Shaders/ShadowMap.vs" );
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/ShadowMap.ps" );
+			g_MatShadowMap = patapi.webgl.CreateShader( "ShadowMap", VS, PS );
+
+			// Build vertices: simple UVs in [0,1[
+			var	Vertices = new Float32Array( 2*MESH_RESOLUTION*MESH_RESOLUTION );
+			for ( var Y=0; Y < MESH_RESOLUTION; Y++ )
+			{
+				var	Offset = 2*MESH_RESOLUTION*Y;
+				for ( var X=0; X < MESH_RESOLUTION; X++ )
+				{
+					Vertices[Offset+2*X+0] = X / (MESH_RESOLUTION-1);
+					Vertices[Offset+2*X+1] = Y / (MESH_RESOLUTION-1);
+				}
+			}
+
+			// Build indices for a continuous triangle strip with 2 degenerate triangles to join 1 line with the next
+			var	LineSize = 2*MESH_RESOLUTION+2;
+			var	Indices = new Uint16Array( LineSize*(MESH_RESOLUTION-1) );
+			for ( var Y=0; Y < MESH_RESOLUTION-1; Y++ )
+			{
+				var	TargetOffset = LineSize*Y;
+				var	SourceOffset0 = MESH_RESOLUTION*Y;
+				var	SourceOffset1 = MESH_RESOLUTION*(Y+1);
+				for ( var X=0; X < MESH_RESOLUTION; X++ )
+				{
+					Indices[TargetOffset+2*X+0] = SourceOffset0+X;
+					Indices[TargetOffset+2*X+1] = SourceOffset1+X;
+				}
+				Indices[TargetOffset+2*MESH_RESOLUTION+0] = SourceOffset1+MESH_RESOLUTION-1;	// Final degenerate triangle at the end of the current line
+				Indices[TargetOffset+2*MESH_RESOLUTION+1] = SourceOffset1+0;					// Final degenerate triangle at the beginning of the next line
+			}
+			g_PrimZBuffer = patapi.webgl.CreatePrimitiveSynchronous( "ZBufferMesh", g_MatShadowMap, { _vUV : Vertices }, Indices, gl.TRIANGLE_STRIP );
+
+			// Build the shadow map FBO with its ZBuffer
+			g_RTShadowMap = patapi.webgl.CreateFBO( "ShadowMap", SHADOW_MAP_RESOLUTION, SHADOW_MAP_RESOLUTION, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR, true );
+		}
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build sliders
+
+		// Reload default values from cookie if possible
+		try
+		{
+			var	JSONParams = GetCookie( "Params" );
+			if ( JSONParams )
+			{
+				var	Params = eval( '(' + JSONParams + ')' );
+				patapi.helpers.Extend( Params, g_SliderValues );
+
+				g_SliderValues = Params;	// These are the new values now !
+			}
+		}
+		catch ( _e )
+		{
+			// Silently fail...
+		}
+
+		var	EffectVariables =
+		[
+	 		{ title:"Show Original Image", isCheckBox : true, value : g_SliderValues._ShowOriginalImage, click : function( value ) { g_SliderValues._ShowOriginalImage = value; } },
+	 		{ title:"Show Original ZBuffer", isCheckBox : true, value : g_SliderValues._ShowOriginalZBuffer, click : function( value ) { g_SliderValues._ShowOriginalZBuffer = value; } },
+	 		{ title:"Invert ZBuffer", isCheckBox : true, value : g_SliderValues._InvertZBuffer, click : function( value ) { g_SliderValues._InvertZBuffer = value; } },
+	 		{ title:"Show Shadow Map", isCheckBox : true, value : g_SliderValues._ShowShadowMap, click : function( value ) { g_SliderValues._ShowShadowMap = value; } },
+
+			// Sun
+			{ title:"Sun Power", min: 0.0, max: 1000.0, value : g_SliderValues._SunPower, slide : function( value ) { g_SliderValues._SunPower = value; } },
+// 			{ title:"Sun Phi", min: -180.0, max: 180.0, value : g_SliderValues._SunPhi, slide : function( value ) { g_SliderValues._SunPhi = value; } },
+// 			{ title:"Sun Theta", min: 0.0, max: 90.0, value : g_SliderValues._SunTheta, slide : function( value ) { g_SliderValues._SunTheta = value; } },
+
+			// Shadow
+			{ title:"Shadow Strength", min: 0.0, max: 1000.0, value : g_SliderValues._ShadowFactor, slide : function( value ) { g_SliderValues._ShadowFactor = value; } },
+			{ title:"Clip Z Above", min: 0.0, max: 1.0, value : g_SliderValues._ClipFarZ, slide : function( value ) { g_SliderValues._ClipFarZ = value; } },
+			{ title:"Clip DeltaZ Above", min: 0.0, max: 1.0, value : g_SliderValues._ClipDeltaZ, slide : function( value ) { g_SliderValues._ClipDeltaZ = value; } },
+
+			// Camera
+			{ title:"Altitude (km)", min: 0.0, max: 10.0, value : g_SliderValues._CameraAltitudeKm, slide : function( value ) { g_SliderValues._CameraAltitudeKm = value; } },
+			{ title:"Focal Length (mm)", min: 10.0, max: 200.0, value : g_SliderValues._CameraFocalLength, slide : function( value ) { g_SliderValues._CameraFocalLength = value; } },
+
+			// Haze
+			{ title:"Near Distance (km)", min: 0.0, max: 100.0, value : g_SliderValues._NearDistanceKm, slide : function( value ) { g_SliderValues._NearDistanceKm = value; } },
+			{ title:"Far Distance (km)", min: 0.0, max: 100.0, value : g_SliderValues._FarDistanceKm, slide : function( value ) { g_SliderValues._FarDistanceKm = value; } },
+			{ title:"Air Factor", min: 0.0, max: 10.0, value : g_SliderValues._AirFactor, slide : function( value ) { g_SliderValues._AirFactor = value; } },
+			{ title:"Fog Factor", min: 0.0, max: 10.0, value : g_SliderValues._FogFactor, slide : function( value ) { g_SliderValues._FogFactor = value; } },
+			{ title:"Fog Anisotropy", min: -0.99, max: 0.99, value : g_SliderValues._MiePhaseAnisotropy, slide : function( value ) { g_SliderValues._MiePhaseAnisotropy = value; } },
+		];
+
+		CreateSliders( EffectVariables, document.getElementById( "EffectSliders" ), function( _Descriptor ) { Render(); } );
+		{
+			// Add a "reset" button
+			var	ResetElement = document.createElement( 'div' );
+			document.getElementById( "EffectSliders" ).appendChild( ResetElement );
+			ResetElement.innerHTML = "<b style=\"background:#606060\">&nbsp;&nbsp;RESET&nbsp;&nbsp;</b>";
+			ResetElement.onclick = function()
+			{
+				g_ResetParams = true;
+				window.location.reload();
+			}
+		}
+		ToggleEffectSlidersVisibility();
+
+		//////////////////////////////////////////////////////////////////////////
+		// Subscribe to mouse events
+		var	SunCanvas = document.getElementById( "SunCanvas" );
+		if ( SunCanvas )
+		{
+			SunCanvas.addEventListener( 'mousedown', function( _Event )
+			{
+			 	if ( _Event.type != 'mousedown' )
+ 					return false;
+				g_ButtonsDown |= 1 << _Event.button;	// Add this button
+
+			} );
+			SunCanvas.addEventListener( 'mouseup', function( _Event )
+			{
+				if ( _Event.type != 'mouseup' )
+ 					return;
+
+				g_ButtonsDown &= ~(1 << _Event.button);	// Remove only this button
+			} );
+			SunCanvas.addEventListener( 'mousemove', function( _Event )
+			{
+				if ( _Event.type != 'mousemove' )
+					return;
+				if ( g_ButtonsDown != 1 )
+					return;	// Only works if mouse button is pressed...
+
+				var	RelX = _Event.layerX ? _Event.layerX : _Event.clientX;
+				var	RelY = _Event.layerY ? _Event.layerY : _Event.clientY;
+				var	MousePosX = 2.0 * (RelX - SunCanvas.offsetLeft) / SunCanvas.width - 1.0;
+				var	MousePosY = 1.0 - 2.0 * (RelY - SunCanvas.offsetTop) / SunCanvas.height;
+
+				RedrawSun( MousePosX, MousePosY );
+			} );
+
+			RedrawSun();
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Subscribe to drag'n drop events
+		SubscribeImageDrop( document.getElementById( "DropImage" ), ImageDrop );
+
+		SubscribeImageDrop( document.getElementById( "DropZBuffer" ), ZBufferDrop );
+
+		////////////////////////////////////////////////////////////////////////////
+		// Start main loop
+ 		g_StartTime = 0.001 * (new Date()).getTime();
+		Render();
+	}
+	catch ( _e )
+	{
+// 		alert( "An error occurred during page initialization:\n\n" + _e );
+		UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + _e );
+		return;
+	}
+}
+
+var	g_ResetParams = false;
+function	Exit()
+{
+	if ( gl == null )
+		return;		// No context anyway...
+	g_Time = -1;	// This will force the render loop to stop
+
+	// Write the current parameters as a cookie for next time...
+	try
+	{
+		if ( !g_ResetParams )
+		{
+			var	StringValues = JSON.stringify( g_SliderValues );
+			SetCookie( "Params", StringValues, 30 );
+		}
+		else
+			SetCookie( "Params", "", -1 );
+	}
+	catch ( _e )
+	{
+		// Silently fail...
+	}
+
+	if ( g_TexSourceImage )
+		gl.deleteTexture( g_TexSourceImage );
+	if ( g_TexSourceZBuffer )
+		gl.deleteTexture( g_TexSourceZBuffer );
+
+	g_MatShadowMap.Destroy();
+	g_PrimZBuffer.Destroy();
+	g_RTShadowMap.Destroy();
+
+	g_RTSkyTexture.Destroy();
+	g_MatHazer.Destroy();
+	g_PrimQuad.Destroy();
+}
+
+function Render()
+{
+	if ( g_Time < 0 || !gl )
+		return;	// Stop rendering...
+
+	var	Time = 0.001 * (new Date()).getTime() - g_StartTime;
+	var	DeltaTime = Time - g_Time;
+	g_Time = Time;
+
+	try
+	{
+		patapi.webgl.FrameUpdate();
+
+		// Setup default states
+		gl.disable( gl.CULL_FACE );
+
+		// Build camera parameters
+		// Assuming a 35mm wide film (24mm x 36mm)
+		var	HalfVFOV = Math.atan( 0.5 * 24.0 / g_SliderValues._CameraFocalLength );
+
+		var	TanVFOV = Math.tan( HalfVFOV );
+		var	TanHFOV = TanVFOV;
+		var	AspectRatio = patapi.webgl.width / patapi.webgl.height;
+		if ( AspectRatio < 1.0 )
+			TanVFOV /= AspectRatio;	// Potrait
+		else
+			TanHFOV *= AspectRatio;	// Landscape
+
+		var	CameraData = new vec4( TanHFOV, TanVFOV, g_SliderValues._NearDistanceKm, g_SliderValues._FarDistanceKm );
+
+		// Build Sun direction
+		var	Phi = Math.PI * g_SliderValues._SunPhi / 180.0;
+		var	Theta = Math.PI * g_SliderValues._SunTheta / 180.0;
+		var	SunDirection = new vec3( Math.sin( Phi ) * Math.sin( Theta ), Math.cos( Theta ), Math.cos( Phi ) * Math.sin( Theta ) );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Render the shadow map
+		if ( g_TexSourceZBuffer )
+		{
+			gl.enable( gl.DEPTH_TEST );
+//			gl.disable( gl.DEPTH_TEST );
+			gl.depthFunc( gl.LESS );
+
+ 			g_RTShadowMap.Bind();
+ 			g_RTShadowMap.Clear( 1, 1, 1, 1, 1.0 );
+
+			g_MatShadowMap.Use();
+			g_PrimZBuffer.Use();
+
+			g_MatShadowMap.uniforms.SafeSet( "_TexZBuffer", g_TexSourceZBuffer );
+			g_MatShadowMap.uniforms.SafeSet( "_InvertZBuffer", g_SliderValues._InvertZBuffer );
+
+			ComputeShadowMapTransform( SunDirection );
+			g_MatShadowMap.uniforms.SafeSet( "_ShadowCenter", g_ShadowCenter );
+			g_MatShadowMap.uniforms.SafeSet( "_ShadowX", g_ShadowX );
+			g_MatShadowMap.uniforms.SafeSet( "_ShadowY", g_ShadowY );
+			g_MatShadowMap.uniforms.SafeSet( "_ShadowZ", g_ShadowZ );
+
+			g_MatShadowMap.uniforms.SafeSet( "_dUV", new vec3( 1.0 / g_TexSourceZBuffer.image.width, 1.0 / g_TexSourceZBuffer.image.height, 0.0 ) );
+			g_MatShadowMap.uniforms.SafeSet( "_ClipZ", new vec2( g_SliderValues._ClipFarZ, g_SliderValues._ClipDeltaZ ) );
+
+			var	TilesCountX = Math.ceil( g_TexSourceZBuffer.image.width / MESH_RESOLUTION ) | 0;
+			var	TilesCountY = Math.ceil( g_TexSourceZBuffer.image.height / MESH_RESOLUTION ) | 0;
+			var	TileUV = vec4.zero();
+			for ( var Y=0; Y < TilesCountY; Y++ )
+			{
+				TileUV.z = Y / TilesCountY;
+				TileUV.w = (Y+1) / TilesCountY;
+				for ( var X=0; X < TilesCountX; X++ )
+				{
+					TileUV.x = X / TilesCountX;
+					TileUV.y = (X+1) / TilesCountX;
+
+					g_MatShadowMap.uniforms.SafeSet( "_TileUV", TileUV );
+
+					g_PrimZBuffer.Draw();
+				}
+			}
+
+			g_RTShadowMap.UnBind();
+
+			gl.disable( gl.DEPTH_TEST );
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// Haze simulation
+		if ( true )
+		{
+			g_MatHazer.Use();
+			g_PrimQuad.Use();
+
+			if ( g_TexSourceImage )
+				g_MatHazer.uniforms.SafeSet( "_TexImage", g_TexSourceImage );
+			if ( g_TexSourceZBuffer )
+				g_MatHazer.uniforms.SafeSet( "_TexZBuffer", g_TexSourceZBuffer );
+			g_MatHazer.uniforms.SafeSet( "_ShowOriginalImage", g_SliderValues._ShowOriginalImage );
+			g_MatHazer.uniforms.SafeSet( "_ShowOriginalZBuffer", g_SliderValues._ShowOriginalZBuffer );
+			g_MatHazer.uniforms.SafeSet( "_InvertZBuffer", g_SliderValues._InvertZBuffer );
+			g_MatHazer.uniforms.SafeSet( "_ShowShadowMap", g_SliderValues._ShowShadowMap );
+			g_MatHazer.uniforms.SafeSet( "_TexScattering", g_RTSkyTexture );
+
+			g_MatHazer.uniforms.SafeSet( "_SunDirection", SunDirection );
+			g_MatHazer.uniforms.SafeSet( "_SunPower", g_SliderValues._SunPower );
+			g_MatHazer.uniforms.SafeSet( "_ShadowFactor", g_SliderValues._ShadowFactor );
+
+			g_MatHazer.uniforms.SafeSet( "_MiePhaseAnisotropy", g_SliderValues._MiePhaseAnisotropy );
+
+			// Setup atmospheric parameters
+			var	RayleighWavelengths = new vec3( 0.650, 0.570, 0.475 );	// Standard RGB wavelengths in µm
+			var	InvWavelengthPow4 = new vec3( Math.pow( RayleighWavelengths.x, -4.0 ),
+											 Math.pow( RayleighWavelengths.y, -4.0 ),
+											 Math.pow( RayleighWavelengths.z, -4.0 ) );
+
+			var	RayleighDensity = 1e-5 * g_SliderValues._AirFactor;
+			var	MieDensity = 1e-4 * g_SliderValues._FogFactor;
+ 			g_MatHazer.uniforms.SafeSet( "_DensitySeaLevel_Rayleigh_InvLambda4", InvWavelengthPow4.mul_( RayleighDensity ) );
+ 			g_MatHazer.uniforms.SafeSet( "_DensitySeaLevel_Mie", MieDensity );
+ 			g_MatHazer.uniforms.SafeSet( "_Sigma_Rayleigh", InvWavelengthPow4.mul_( 4.0 * Math.PI * RayleighDensity ) );
+ 			g_MatHazer.uniforms.SafeSet( "_Sigma_Mie", 4.0 * Math.PI * MieDensity );
+
+			// Camera data
+			g_MatHazer.uniforms.SafeSet( "_CameraData", CameraData );
+			g_MatHazer.uniforms.SafeSet( "_CameraAltitudeKm", g_SliderValues._CameraAltitudeKm );
+
+			// Build shadow map parameters
+			if ( g_TexSourceZBuffer )
+			{
+				g_MatHazer.uniforms.SafeSet( "_ShadowCenter", g_ShadowCenter );
+				g_MatHazer.uniforms.SafeSet( "_ShadowX", g_ShadowX );
+				g_MatHazer.uniforms.SafeSet( "_ShadowY", g_ShadowY );
+				g_MatHazer.uniforms.SafeSet( "_ShadowZ", g_ShadowZ );
+				g_MatHazer.uniforms.SafeSet( '_TexShadowMap', g_RTShadowMap );
+				g_MatHazer.uniforms.SafeSet( "_ClipZ", {}.vec2( g_SliderValues._ClipFarZ, g_SliderValues._ClipDeltaZ ) );
+			}
+
+			g_PrimQuad.Draw();
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// WE'RE DONE FOR THAT FRAME !!
+	}
+	catch ( _e )
+	{
+		g_Time = -1;	// This will force the render loop to stop
+// 		alert( "An error occurred while rendering:\n\n" + _e );
+		UpdateStatusError( "<u>An error occurred while rendering:</u>\n\n" + _e );
+	}
+}
+
+// Builds the various parameters for the shadow map transform
+// We know the Sun stands in the upward hemisphere, we consider the upper half of the camera frustum of apex angle 90° and depth 1
+// We need to find the min/max extents in the shadow plane...
+//
+var	g_ShadowCenter;
+var	g_ShadowX;
+var	g_ShadowY;
+var	g_ShadowZ;
+
+function	ComputeShadowMapTransform( _SunDirection )
+{
+	// Build the shadow plane
+	var	OrthoX = _SunDirection.cross( vec3.unitY() );
+	var	OrthoY;
+	if ( OrthoX.length() > 1e-6 )
+	{
+		OrthoX.normalize();
+		OrthoY = OrthoX.cross( _SunDirection );
+	}
+	else
+	{	// Special case when the Sun is at zenith
+		OrthoX = vec3.unitX();
+		OrthoY = vec3.unitY();
+	}
+
+	// Compute maximum extents of the frustum in this plane
+	var	FrustumCorners = [
+		vec3.zero(),					// Camera position
+		new vec3( -1.0, +1.0, +1.0 ),	// Top left
+		new vec3( +1.0, +1.0, +1.0 ),	// Top right
+		new vec3( -1.0, +0.0, +1.0 ),	// Ground left
+		new vec3( +1.0, +0.0, +1.0 ),	// Ground right
+	];
+	var	CornerMin = new vec3( +1e10, +1e10, +1e10 );
+	var	CornerMax = new vec3( -1e10, -1e10, -1e10 );
+	for ( var CornerIndex=0; CornerIndex < FrustumCorners.length; CornerIndex++ )
+	{
+		var	Corner = FrustumCorners[CornerIndex];
+
+		var	ProjectionX = Corner.dot( OrthoX );
+		var	ProjectionY = Corner.dot( OrthoY );
+		var	ProjectionZ = Corner.dot( _SunDirection );
+
+		CornerMin.x = Math.min( CornerMin.x, ProjectionX );
+		CornerMax.x = Math.max( CornerMax.x, ProjectionX );
+		CornerMin.y = Math.min( CornerMin.y, ProjectionY );
+		CornerMax.y = Math.max( CornerMax.y, ProjectionY );
+		CornerMin.z = Math.min( CornerMin.z, ProjectionZ );
+		CornerMax.z = Math.max( CornerMax.z, ProjectionZ );
+	}
+
+	// Compute center & normalization vectors
+	var	CenterX = 0.5 * (CornerMin.x + CornerMax.x);
+	var	CenterY = 0.5 * (CornerMin.y + CornerMax.y);
+	var	CenterZ = CornerMax.z;
+
+	g_ShadowCenter = CenterX.mul_( OrthoX ).add( CenterY.mul_( OrthoY ).add( CenterZ.mul_( _SunDirection ) ) );
+
+	var	ScaleX = 2.0 / (CornerMax.x - CornerMin.x);
+	var	ScaleY = 2.0 / (CornerMax.y - CornerMin.y);
+	var	ScaleZ = 1.0 / (CornerMax.z - CornerMin.z);
+
+	g_ShadowX = ScaleX, OrthoX.mul_( ScaleX );
+	g_ShadowY = ScaleY, OrthoY.mul_( ScaleY );
+	g_ShadowZ = _SunDirection.mul_( -ScaleZ );
+
+// DEBUG CHECK => Ensure all corners of the frustum are in [-1,+1]
+// var	CornerMin = new vec3( +1e10, +1e10, +1e10 );
+// var	CornerMax = new vec3( -1e10, -1e10, -1e10 );
+// for ( var CornerIndex=0; CornerIndex < FrustumCorners.length; CornerIndex++ )
+// {
+// 	var	Corner = FrustumCorners[CornerIndex];
+// 
+// 	var	Delta = Corner.sub_( g_ShadowCenter );
+// 	var	ProjCorner = new vec3(
+// 		Delta.dot( g_ShadowX ),
+// 		Delta.dot( g_ShadowY ),
+// 		Delta.dot( g_ShadowZ )
+// 	);
+// 
+// 	CornerMin.x = Math.min( CornerMin.x, ProjCorner.x );
+// 	CornerMax.x = Math.max( CornerMax.x, ProjCorner.x );
+// 	CornerMin.y = Math.min( CornerMin.y, ProjCorner.y );
+// 	CornerMax.y = Math.max( CornerMax.y, ProjCorner.y );
+// 	CornerMin.z = Math.min( CornerMin.z, ProjCorner.z );
+// 	CornerMax.z = Math.max( CornerMax.z, ProjCorner.z );
+// }
+// DEBUG CHECK
+}
+
+function	RedrawSun( x, y )
+{
+	var	SunCanvas = document.getElementById( "SunCanvas" );
+	if ( !SunCanvas )
+		return;
+
+	var G = SunCanvas.getContext( '2d' );
+	G.clearRect( 0, 0, SunCanvas.width, SunCanvas.height );
+ 
+	var	Phi = 0.0;
+	var	Theta = 0.0;
+	if ( !x || !y )
+	{	// Patch using current Sun position...
+		Theta = g_SliderValues._SunTheta * Math.PI / 180.0;
+		Phi = g_SliderValues._SunPhi * Math.PI / 180.0;
+	}
+	else
+	{	// Use provided position...
+		var	Radius = Math.min( 0.98, Math.sqrt( x*x + y*y ) );
+		Phi = Math.atan2( x, y );
+		Theta = Math.asin( Radius );
+	}
+
+	// Rebuild cartesian coordinates
+	x = Math.sin( Phi ) * Math.sin( Theta );
+	y = Math.cos( Phi ) * Math.sin( Theta );
+
+	// Draw the background image
+	var	Img = document.getElementById( "SkyHemisphere" );
+	if ( Img )
+		G.drawImage( Img, 0, 0, SunCanvas.width, SunCanvas.height );
+
+	// Draw a circle representing the Sun
+	{
+		var	DrawX = 0.5 * (1.0 + x) * SunCanvas.width;
+		var	DrawY = 0.5 * (1.0 - y) * SunCanvas.height;
+
+		G.fillStyle = "#FFFF00";
+		G.beginPath();
+		G.arc( DrawX, DrawY, 8, 0, 2.0*Math.PI, true ); 
+		G.closePath();
+		G.fill();
+	}
+
+	// Update Sun's position
+	g_SliderValues._SunTheta = Theta * 180.0 / Math.PI;
+	g_SliderValues._SunPhi = Phi * 180.0 / Math.PI;
+
+	// Update rendering
+	Render();
+}
+
+function	SubscribeImageDrop( _Element, _Callback )
+{
+	var	ImgElement = _Element.childNodes[1];
+	if ( ImgElement === undefined )
+		throw "Div doesn't contain image element!";
+
+	// To enable drag and drop
+	_Element.addEventListener("dragover", function( _Event )
+	{
+		_Event.preventDefault();
+	}, false );
+
+	// Handle dropped image file - only Firefox and Google Chrome
+	_Element.addEventListener( "drop", function( _Event )
+	{
+		_Event.preventDefault();
+
+		var Files = _Event.dataTransfer.files;
+		if ( Files.length == 0 )
+			return;
+	
+		var File = Files[0];
+		if ( FileReader === undefined || File.type.indexOf( "image" ) == -1 )
+			return;	// Not an image...
+			
+		var Reader = new FileReader();
+		// Note: addEventListener doesn't work in Google Chrome for this event
+		Reader.onload = function( _Event )
+		{
+			var	Image = _Event.target.result;
+			ImgElement.src = Image;
+			_Callback( Image );
+		};
+		Reader.readAsDataURL( File );
+
+	}, false );
+}
+
+function	ImageDrop( _Image, opt_Callback )
+{
+	if ( g_TexSourceImage )
+		gl.deleteTexture( g_TexSourceImage );
+			
+	g_TexSourceImage = patapi.webgl.LoadImageTexture( "SourceImage", _Image, gl.CLAMP_TO_EDGE, gl.LINEAR,
+	function()
+	{
+		// Rescale the canvas but limit maximum dimension
+		var	MaxValue = Math.max( g_TexSourceImage.image.width, g_TexSourceImage.image.height );
+		var	Scale = 720.0 / MaxValue;
+
+		var	W = Scale * g_TexSourceImage.image.width, H = Scale * g_TexSourceImage.image.height;
+		patapi.webgl.Resize( W, H );
+
+		if ( opt_Callback )
+			opt_Callback( g_TexSourceImage.image );
+
+		Render();
+	}, true );
+}
+
+function	ZBufferDrop( _Image, opt_Callback )
+{
+	if ( g_TexSourceZBuffer )
+		gl.deleteTexture( g_TexSourceZBuffer );
+			
+	g_TexSourceZBuffer = patapi.webgl.LoadImageTexture( "SourceZBuffer", _Image, gl.CLAMP_TO_EDGE, gl.LINEAR, function() { Render(); }, true );
+
+	if ( opt_Callback )
+		opt_Callback( g_TexSourceImage.image );
+}
+
+function	LoadPreset( _PresetID )
+{
+	var	ImageURLs = [ "Poutre.jpg", "Test1.png", "Test0.png", "Pots.png" ];
+	var	ZBufferURLs = [ "PoutreZBuffer.jpeg", "Test1Z.png", "Test0Z.png", "PotsZ.png" ];
+
+	// Load the preset image
+	ImageDrop( ImageURLs[_PresetID], function( _Image )
+	{
+		var	DropImageElement = document.getElementById( "DropImage" );
+		var	ImgElement = DropImageElement.childNodes[1];
+		ImgElement.src = ImageURLs[_PresetID];
+	} );
+
+	// Load the preset ZBuffer
+	ZBufferDrop( ZBufferURLs[_PresetID], function( _Image )
+	{
+		var	DropZBufferElement = document.getElementById( "DropZBuffer" );
+		var	ImgElement = DropZBufferElement.childNodes[1];
+		ImgElement.src = ZBufferURLs[_PresetID];
+	} );
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Status & Progress
+var	g_InfosElement;
+function	UpdateStatus( _Status )
+{
+	if ( !g_InfosElement )
+		g_InfosElement = document.getElementById( "Status" );
+	if ( !g_InfosElement )
+		return;
+
+	while ( _Status.indexOf( '\n' ) != -1 )
+		_Status = _Status.replace( '\n', '<br/>' );	// Keep replacing...
+
+	g_InfosElement.innerHTML = _Status;
+}
+
+function	UpdateStatusError( _Error )
+{
+	UpdateStatus( "<font color=\"#FF5040\">" + _Error + "</font>" );
+
+	var	InfosElement = document.getElementById( "Infos" );
+	if ( InfosElement )
+		InfosElement.style.visibility = 'hidden';
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Option sliders management
+//
+var g_MouseDown = false;
+
+function	SetDivText( _Div, _Text )
+{
+	if ( _Div.innerText !== undefined )
+		_Div.innerText = _Text;
+	else if ( _Div.textContent !== undefined )
+		_Div.textContent = _Text;
+	else
+		throw "What the hell is this browser ?";
+}
+
+function	CreateSliders( _Variables, _SlidersContainerElement, _CallbackOnChange )
+{
+	// Generic handling to have some sort of global "button down" state
+	document.body.onmousedown = function() { g_MouseDown = true; }
+	document.body.onmouseup = function() { g_MouseDown = false; }
+
+	// Create our debug sliders
+	for ( var SliderIndex=0; SliderIndex < _Variables.length; SliderIndex++ )
+	{
+		var	Desc = _Variables[SliderIndex];
+
+		// Create the title div
+		var	TitleElement = document.createElement( 'div' );
+		_SlidersContainerElement.appendChild( TitleElement );
+
+		if ( Desc.isCheckBox )
+		{	// Create a checkbox instead
+			SetDivText( TitleElement, Desc.title );
+
+			var	CheckBoxHostElement = document.createElement( 'div' );
+			_SlidersContainerElement.appendChild( CheckBoxHostElement );
+			CheckBoxHostElement.setAttribute( "style", "float:left; position:relative;top:-18px;left:0px; border: 2px; margin:0px; padding:0px; width:20px;height:20px;background:#606060;" );
+			CheckBoxHostElement.checkBoxDescriptor = Desc;
+			CheckBoxHostElement.mouseDown = function( _Event )
+			{
+				this.checkBoxDescriptor.value = !this.checkBoxDescriptor.value
+				this.checkBoxDescriptor.click( this.checkBoxDescriptor.value );
+				SetDivText( this, this.checkBoxDescriptor.value ? "x" : " " );
+
+				// Notify
+				_CallbackOnChange( Desc );
+			}
+			CheckBoxHostElement.addEventListener( 'mousedown', function( _Event ) { return this.mouseDown( _Event ); } );
+			SetDivText( CheckBoxHostElement, Desc.value ? "x" : " " );
+			continue;
+		}
+
+		// Create the slider element that will receive the mouse events
+		var	SliderHostElement = document.createElement( 'div' );
+		_SlidersContainerElement.appendChild( SliderHostElement );
+
+		SliderHostElement.setAttribute( "style", "width:200px;height:10px;background:#202020;" );
+		SliderHostElement.sliderDescriptor = Desc;
+		SliderHostElement.titleElement = TitleElement;
+		SliderHostElement.updateSliderFunc = function( value )
+		{
+			// Update slider width
+			var	SliderElement = this.firstChild;
+
+			var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+			var	t = (value - this.sliderDescriptor.min) / Delta;
+
+			var	Width = this.clientWidth * t;
+				Width = Width | 0;
+
+			SliderElement.setAttribute( "style", "height:10px;background:#0033CC" );
+			SliderElement.style.width = "" + Width + "px";
+
+			// Update title
+			var	NewTitle = this.sliderDescriptor.title + " (" + value.toFixed( 2 ) + ")";
+			SetDivText( this.titleElement, NewTitle );
+
+			// Notify of change
+			this.sliderDescriptor.slide( value );
+
+			_CallbackOnChange( Desc );
+		}
+		SliderHostElement.mouseMove = function( _Event )
+			{
+				if ( !g_MouseDown )
+					return false;
+
+				var	t = (_Event.layerX ? _Event.layerX : _Event.clientX) - 2 - this.offsetLeft;
+					t /= this.clientWidth;
+				var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+				var	Value = this.sliderDescriptor.min + t * Delta;
+				this.updateSliderFunc( Value );
+				return true;
+			},
+ 		SliderHostElement.addEventListener( 'mousedown', function( _Event ) { g_MouseDown = true; return this.mouseMove( _Event ); } );
+		SliderHostElement.addEventListener( 'mousemove', function( _Event ) { return this.mouseMove( _Event ); } );
+ 
+		// Create another div inside the main div that will represent the slider itself
+		var	SliderElement = document.createElement( 'div' );
+		SliderHostElement.appendChild( SliderElement );
+		SliderHostElement.updateSliderFunc( Desc.value );
+	}
+}
+
+var	g_SlidersVisible = false;
+function ToggleEffectSlidersVisibility()
+{
+	var	SlidersElement = document.getElementById( "EffectSliders" );
+	var	ShowSlidersIconsElement = document.getElementById( "ShowSlidersIcon" );
+
+	g_SlidersVisible = !g_SlidersVisible;
+	if ( g_SlidersVisible )
+	{
+		SlidersElement.style.visibility = 'visible';
+		ShowSlidersIconsElement.style.backgroundPosition = "107px 4px";
+	}
+	else
+	{
+		SlidersElement.style.visibility = 'hidden';
+		ShowSlidersIconsElement.style.backgroundPosition = "4px 4px";
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Cookies for storing the parameters locally
+function SetCookie( _Name, _Value, _ExpiresInDays )
+{
+	var	ExpirationDate=new Date();
+		ExpirationDate.setDate( ExpirationDate.getDate() + _ExpiresInDays );
+
+	var	CookieValue = escape( _Value) + ((_ExpiresInDays==null) ? "" : "; expires="+ExpirationDate.toUTCString());
+
+	document.cookie = _Name + "=" + CookieValue;
+}
+
+function GetCookie( _Name )
+{
+	var Cookies = document.cookie.split( ";" );
+	for ( var i=0; i < Cookies.length; i++ )
+	{
+		var	x = Cookies[i].substr( 0, Cookies[i].indexOf( "=" ) );
+			x = x.replace(/^\s+|\s+$/g,"");
+
+		var	y = Cookies[i].substr( Cookies[i].indexOf( "=" )+1 );
+		if ( x == _Name)
+			return unescape(y);
+	}
+}
+</script>
+</head>
+
+<body oncontextmenu="return false;" style="text-align: center; font-family:Trebuchet MS;" onload="Init()" onunload="Exit()">
+
+<div id="Status"></div>
+
+<!-- SETTINGS -->
+<div id="SlidersToggle" style="position: absolute; left: 4px; top: 4px;" class="noMouseSelect" onclick='ToggleEffectSlidersVisibility()' >
+	<div id="ShowSlidersIcon" style="width: 103px; height: 20px; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(ButtonUpDown.png); background-position: 4px 4px;"></div>
+</div>
+<div id="EffectSliders" style="position: absolute; left: 4px; top: 30px; visibility:hidden" class="noMouseSelect">
+</div>
+<!---->
+	<!-- Sliders will be inserted here by code -->
+
+<!-- Start of WebGL canvas -->
+<canvas id="view" width="450px" height="720px">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+<!-- End of WebGL canvas -->
+
+<div class="hemisphere"><canvas id="SunCanvas" width="200" height="200"></canvas></div>
+<div class="dottedline" id="DropImage" style="position: absolute; left:20px; bottom:20px; width:150px; height:200px">Drop Image Here<img class="droppedthumb" /></div>
+<div class="dottedline" id="DropZBuffer" style="position: absolute; left:190px; bottom:20px; width:150px; height:200px">Drop ZBuffer Here<img class="droppedthumb" /></div>
+
+<div style="background:#606060; position: absolute; left:380px; bottom:110px; height:20px" onclick="javascript: LoadPreset( 0 );"><b>&nbsp;&nbsp;LOAD TEST 0&nbsp;&nbsp;</b></div>
+<div style="background:#606060; position: absolute; left:380px; bottom:80px; height:20px" onclick="javascript: LoadPreset( 1 );"><b>&nbsp;&nbsp;LOAD TEST 1&nbsp;&nbsp;</b></div>
+<div style="background:#606060; position: absolute; left:380px; bottom:50px; height:20px" onclick="javascript: LoadPreset( 2 );"><b>&nbsp;&nbsp;LOAD TEST 2&nbsp;&nbsp;</b></div>
+<div style="background:#606060; position: absolute; left:380px; bottom:20px; height:20px" onclick="javascript: LoadPreset( 3 );"><b>&nbsp;&nbsp;LOAD TEST 2&nbsp;&nbsp;</b></div>
+
+<img class="stock" id="SkyHemisphere" src="SkyHemisphere.png" onload="javascript: RedrawSun()" />
+
+</body>
+</html>

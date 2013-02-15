@@ -1,0 +1,445 @@
+﻿/*!
+ * 
+ */
+
+html, body
+{
+/*	width:		100%;
+	height:		100%;
+	padding:	0;
+	margin:		0;
+	overflow:	hidden !important;
+
+	background-color: #E0E0E0;
+*/
+	font-size:	10px;
+	overflow:	hidden;
+}
+
+.ui-layout-pane
+{ /* all 'panes' */
+	padding:	0px;	/* Override padding to avoid losing too much space */
+	overflow:	hidden;
+}
+
+.ui-layout-content
+{
+	padding:	0px;	/* Override padding to avoid losing too much space */
+	overflow:	hidden;
+}
+
+/*
+.ui-tabs
+{
+	padding:	0px;	/ * Override padding to avoid losing too much space * /
+	overflow:	hidden;
+}
+
+.ui-tabs-panel
+{
+	padding:	0px;	/ * Override padding to avoid losing too much space * /
+	overflow:	hidden;
+	width:		100%;
+	height:		100%;
+}
+*/
+
+.ui-tabs .ui-tabs-panel
+{
+/*
+	display: block;
+	border-width: 0;
+	background: none;
+*/
+	padding: 2px;
+}
+
+.canvas-render
+{
+	background-color: #606080;
+
+	width:		100%;
+	height:		100%;
+	overflow:	hidden;
+}
+
+.canvas-render-BRDF
+{
+}
+
+
+/* Combo-Boxes */
+.ui-combobox
+{
+	position:	relative;
+	display:	inline-block;
+	width:		100%;
+}
+.ui-combobox-toggle
+{
+	position:	absolute;
+	top:		0;
+	bottom:		0;
+	margin-left: -1px;
+	padding:	0;
+	/* support: IE7 */
+	*height:	1.7em;
+	*top:		0.1em;
+}
+.ui-combobox-input
+{
+	margin:		0;
+	padding:	0.3em;
+}
+
+
+
+/* ===================================================
+		Toolbars
+   =================================================== */
+#RenderGraphToolbar
+{
+	position: absolute;	right:16px;	top:12px;
+}
+#RenderGraphToolsLeft
+{
+	position: absolute;	left: 16px;	top:12px;
+	display: inline-block;
+}
+#RenderBRDFToolbar
+{
+	position: absolute;	right:4px;	top:4px;
+}
+#Render3DToolbar
+{
+	position: absolute;	right:4px;	top:4px;
+}
+
+#ContainerBRDFExplorerListToolbar
+{
+	background-color: #AAA;
+}
+
+.toolbar
+{
+	margin: 0;
+	padding: 0;
+
+	list-style: none;
+}
+.toolbar li
+{
+	margin: 1px;
+	padding: 2px 0;
+	cursor: pointer;
+	float: left;
+}
+.toolbar span.ui-icon
+{
+/*
+	float: left;
+*/
+	margin: 0px 2px;
+/* Useless to specify another size than 16x16 otherwise the background is larger than the size of the icons and will show several of them
+	width:16px;
+	height:16px;
+*/
+}
+
+
+/* ===================================================
+		Toolbar Drop-Down button
+   =================================================== */
+
+.drop-down
+{
+}
+.drop-down-list
+{
+	z-index:	100000;
+	margin:		4% 0;
+	top:		24px;
+	padding:	0px;
+	cursor:		pointer;
+	border:		1px solid Black;
+
+	background-color: #EEE;
+
+	list-style:	none;
+
+	display:	none;
+	position:	absolute;
+	width:		auto;
+
+	height:		90%;
+	margin:		0;
+
+	overflow:	scroll;
+	text-align:	center;
+}
+.auto-height
+{
+	height:		auto;
+	overflow:	hidden;
+}
+
+.drop-down li			{ padding: 3px 1em 3px 5px; width:auto; }
+.drop-down li:hover		{ background-color: #FF9; }
+.drop-down-list li		{ float:none; } /* Float prevents our nice block alignment! Thanks Sou! <3 */
+.drop-down-selected		{ background-color: #9FF; }
+
+/* Aspect & positionning of the BRDF Geometry & Color lists */
+#Render3DUI_List_Geometry
+{
+	top:		28px;
+	right:		32px;
+	width:		140px;
+}
+
+#Render3DUI_List_Color
+{
+	top:		28px;
+	right:		16px;
+	width:		140px;
+}
+
+
+/* ===================================================
+		Lists
+   =================================================== */
+.list
+{
+	width:		98%;
+	height:		92%;
+	margin:		1%;
+	padding:	0%;
+	overflow:	auto;	/* Shows the scrollbar if too many BRDFs vertically... */
+	
+	background-image: linear-gradient(#DDD, #CCC, #BBB);
+	background-image:-webkit-linear-gradient(#DDD, #CCC, #BBB);	/* chrome 10+, safari 5.1+ */
+}
+
+.list-element-BRDF
+{
+	width:		94%;
+	height:		20px;
+	margin:		1%;
+	background-color: #888;
+	padding:	8px;
+
+	/* Text alignment */
+	vertical-align: middle;
+	text-align:	left;
+	font-size:	1.5em;	/* Larger */
+	overflow:	hidden;
+}
+
+.list-element-BRDF-button
+{
+	background-color:transparent;
+	position:	relative;
+	float:		right;
+	right:		0px;
+	top:		2px;
+	cursor:		pointer; 
+}
+
+.list-element-BRDF-button:hover
+{
+	right:-1px;
+	top:3px;
+}
+
+.list-element-BRDF-selected
+{
+	background-image: linear-gradient(#FDC, #DA9, #DA9, #C98);
+	background-image:-webkit-linear-gradient(#FDC, #DA9, #DA9, #C98);
+}
+
+
+/* ===================================================
+		Properties & Widgets
+   =================================================== */
+
+.ui-widget
+{
+	font-size: 1em;
+}
+
+.properties
+{
+	background-image: linear-gradient(#FFF, #EEE, #DDD);
+	background-image:-webkit-linear-gradient(#FFF, #EEE, #DDD);
+}
+
+.BRDF-properties
+{
+	float:left;
+	width: 100%;
+	height: 100%;
+
+	background-image: linear-gradient(#EEE, #DDD, #CCC);
+	background-image:-webkit-linear-gradient(#EEE, #DDD, #CCC);
+}
+.BRDF-properties-UI-viewport
+{
+	position:absolute;
+	margin:	5%;
+	width:	200px;
+	height:	90%;
+	right:	10px;
+	vertical-align:middle;
+	background-color: #000;
+	border:		2px solid Black;
+}
+
+#PropSlice_UIWidgets
+{
+	position:	absolute;
+	width:		50%;
+	top:		10px;
+}
+
+#PropAnalytical_UIWidgets
+{
+	position:	absolute;
+	width:		50%;
+	top:		10px;
+}
+
+#PropPom_UIWidgets
+{
+	position:	absolute;
+	width:		50%;
+	top:		10px;
+}
+
+#RenderBRDF_UIWidgetsToneMapping
+{
+	position:	absolute;
+	width:		100%;
+	top:		20px;
+}
+
+#RenderBRDF_UIWidgetsLighting
+{
+	position:	absolute;
+	width:		100%;
+	top:		30px;
+}
+
+#Render3D_UIWidgets
+{
+	position:	absolute;
+	width:		20%;
+	top:		30px;
+}
+
+
+/* This is the class of a div containing text (as a child div) + another child div that is the actual widget */
+.UI-widget-label
+{
+	display:	block;
+	padding:	0.5%;
+}
+.UI-widget-label .t0
+{
+	display:	inline-block;
+	text-align: left;
+	width:		38%;
+}
+.UI-widget-label .t1
+{
+	display:	inline-block;
+	width:		60%;
+}
+
+/* Special cases */
+#PropAnalyticalUI_Checkbox_DiffuseOnly
+{
+	position:	relative;
+	top:		-22px;
+	height:		0px;	/* Must not take any room => we position it ourselves on the line above! */
+}
+
+#PropAnalyticalUI_Checkbox_UseComplexFresnel
+{
+	position:	relative;
+	float:		right;
+	top:		-2px;
+	height:		0px;	/* Must not take any room => we position it ourselves on the line above! */
+}
+
+#PropPomUI_CheckBox_SoloX
+{
+	position:	relative;
+	float:		right;
+	top:		1px;
+	height:		0px;	/* Must not take any room => we position it ourselves on the line above! */
+	right:		45%;
+}
+
+#PropPomUI_CheckBox_SoloY
+{
+	position:	relative;
+	float:		right;
+	top:		1px;
+	height:		0px;	/* Must not take any room => we position it ourselves on the line above! */
+	right:		45%;
+}
+
+#PropPomUI_CheckBox_SoloDiffuse
+{
+	position:	relative;
+	float:		right;
+	top:		1px;
+	height:		0px;	/* Must not take any room => we position it ourselves on the line above! */
+	right:		45%;
+}
+
+/* Viewport infos are a hovering div displaying infos about the currently pointed spot on the BRDF */
+.viewport-infos
+{
+	display:		none;
+	border:			1px solid Black;
+	width:			250px;
+	height:			auto;
+	position:		absolute;
+	background-color:#FFDD88;
+	text-align:		left;
+	padding:		2px;
+	z-index:		100;
+}
+
+
+/* The viewport marker shows up when the user clicks on the BRDF slice and marks that place on the 3D representation of the BRDF as well */
+.viewport-marker
+{
+	display:		none;
+	border:			2px solid #F00;
+	position:		absolute;
+	width:			8px;
+	height:			8px;
+	background-color:#FF0000;
+	z-index:		10;
+	pointer-events: none;
+}
+
+
+
+/*
+.noMouseSelect
+{
+	user-select:none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	cursor: pointer;
+}
+*/
+/*
+.dragging * { cursor: pointer }
+*/

@@ -1,0 +1,125 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+const vec3	LUMINANCE_DOT = vec3( 0.2125, 0.7154, 0.0721 );	// D65 illuminant
+
+
+////////////////////////////////////////////////////////////////
+varying vec3		_Position;
+varying vec2		_UV;
+
+uniform float		_SourceStrength;
+uniform float		_GlowStrength;
+uniform float		_Exposure;
+uniform float		_Gamma;
+uniform float		_UseColorCube;
+
+uniform sampler2D	_TexSourceBuffer;
+uniform sampler2D	_TexGlowVeiling;
+uniform sampler2D	_TexLightShafts;
+uniform sampler2D	_TexColorCube;
+
+vec3	DecodeHDR( sampler2D _Texture, vec2 _UV )
+{
+	vec4	V = texture2D( _Texture, _UV );
+	float	MaxComponent = exp( 3.0 * V.a ) - 1.0;	// Uncompress luminance
+	return V.xyz * (1e-3 + MaxComponent);
+}
+
+// The color cube is encoded into a 512x16 texture with CLAMP_TO_EDGE wrap mode and contains 16 contiguous 16x16 slices
+// Each Z slice of the cube is 17x16 pixels where the last column is the duplicate of the previous column to simulate
+//	CLAMP_TO_EDGE on the U axis and account for bilinear filtering
+//
+// vec3	ApplyColorCube( vec3 _Color )
+// {
+// 	_Color = saturate( _Color );
+// 
+// 	vec3	RGB_pixel = (255.0 / 16.0) * _Color;	// Color in pixels [0,16]
+// 
+// 	// Convert 3D color into 2D position
+// 	float	SliceIndex = floor( RGB_pixel.z );		// Z in [0,16] in integer increments
+// 	float	z = RGB_pixel.z - SliceIndex;			// Z remainder between 2 integer slices
+// 	float	X_pixel  = RGB_pixel.x;					// X in pixels [0,16]
+// //			X_pixel += 17.0 * SliceIndex;			// Offset by the slice index (each slice is supposed to be 17 pixels wide with a last duplicate column to account for bilinear filtering)
+// 
+// //X_pixel += 16.0 * 17.0;
+// 
+// 	// Then back into normalized UVs
+// 	vec2	UV = vec2( X_pixel / 512.0, _Color.y );
+// 
+// //UV.x += 17.0 / 512.0 * SliceIndex;			// Offset by the slice index (each slice is supposed to be 17 pixels wide with a last duplicate column to account for bilinear filtering)
+// 
+// 
+// //	vec2	UV = vec2( 17.0 / 512.0, _Color.y );
+// 	vec3	Slice0 = texture2D( _TexColorCube, UV ).xyz;	UV.x += 17.0 / 512.0;	// Sample current slice and advance to next one...
+// 
+// //Slice0 = Slice0 * 0.001 + z;
+// 
+// return Slice0;
+// 	vec3	Slice1 = texture2D( _TexColorCube, UV ).xyz;
+// 	return lerp( Slice0, Slice1, z );
+// }
+// The color cube is encoded into a 512x16 texture with CLAMP_TO_EDGE wrap mode and contains 16 contiguous 16x16 slices
+// Each Z slice of the cube is 17x16 pixels where the last column is the duplicate of the previous column to simulate
+//	CLAMP_TO_EDGE on the U axis and account for bilinear filtering
+//
+
+vec3	ApplyColorCube( vec3 _Color )
+{
+	_Color = saturate( _Color );
+
+//	vec3	RGB_pixel = (255.0 / 16.0) * _Color;	// Color in pixels [0,16[
+	vec3	RGB_pixel = 15.9375 * _Color;	// Color in pixels [0,16[
+
+	// Convert 3D color into 2D position
+//	float	SliceIndex = floor( RGB_pixel.z );		// Z in [0,16] in integer increments
+
+	float	z = mod( RGB_pixel.z, 1.0 );
+	float	SliceIndex = RGB_pixel.z - z;		// Z in [0,16] in integer increments
+
+SliceIndex = clamp( SliceIndex, 1.0, 2.0 );
+
+//SliceIndex = 15.0;	// 8 marche pas !
+
+	float	SliceOffsetX = 17.0 * mod( SliceIndex, 3.0 );
+	float	SliceOffsetY = 17.0 * floor( SliceIndex / 3.0 );
+
+	float	X_pixel  = SliceOffsetX + RGB_pixel.x;	// X in pixels [0,16]
+	float	Y_pixel  = SliceOffsetY + RGB_pixel.y;	// Y in pixels [0,16]
+
+	// Then back into normalized UVs
+	vec2	UV = vec2( X_pixel / 64.0, Y_pixel / 128.0 );
+	vec3	Slice0 = texture2D( _TexColorCube, UV ).xyz;	UV.x += 17.0 / 512.0;	// Sample current slice and advance to next one...
+return Slice0;
+// 	vec3	Slice1 = texture2D( _TexColorCube, UV ).xyz;
+// 	return lerp( Slice0, Slice1, z );
+}
+
+void	main()
+{
+	vec3	SourceImage = DecodeHDR( _TexSourceBuffer, _UV );
+	vec3	VeilingLuminance = DecodeHDR( _TexGlowVeiling, _UV );
+	vec3	LightShafts = DecodeHDR( _TexLightShafts, _UV );
+
+	vec3	Result = _SourceStrength * SourceImage + _GlowStrength * VeilingLuminance + LightShafts;
+
+	// Apply luminance correction
+	float	Luminance = dot( Result, LUMINANCE_DOT );
+	float	ToneMappedLuminance = 1.0 - exp( -_Exposure * Luminance );
+	Result *= ToneMappedLuminance / (1e-3 + Luminance );	// Simple exponential tone mapping
+
+	// Apply color cube transform
+	vec3	ColorCubedResult = ApplyColorCube( Result );
+	Result = lerp( Result, ColorCubedResult, _UseColorCube );
+
+	// Gamma correct and we're done !
+	gl_FragColor = vec4( pow( Result, vec3( _Gamma ) ), 1.0 );
+}

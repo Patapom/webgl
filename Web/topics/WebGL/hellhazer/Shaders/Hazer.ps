@@ -1,0 +1,203 @@
+////////////////////////////////////////////////////////////////
+// Adds virtual haze to an image
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const int	STEPS_COUNT = 128;
+const float	INV_STEPS_COUNT = 1.0 / float(STEPS_COUNT);
+
+const float	EARTH_RADIUS = 6400.0;
+
+const float	INV_4PI = 0.07957747154594766788444188168626;
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform sampler2D	_TexImage;
+uniform sampler2D	_TexZBuffer;
+uniform sampler2D	_TexScattering;
+
+uniform vec3		_SunDirection;			// Pointing TOWARD the Sun
+uniform float		_SunPower;
+uniform float		_ShadowFactor;
+
+uniform vec3		_Sigma_Rayleigh;						// 4.0 * PI * _DensitySeaLevel_Rayleigh / WAVELENGTHS_POW4
+uniform float		_Sigma_Mie;								// 4.0 * PI * _DensitySeaLevel_Mie;
+uniform vec3		_DensitySeaLevel_Rayleigh_InvLambda4;	// Air molecules density at sea level / WAVELENGTHS_POW4
+uniform float		_DensitySeaLevel_Mie;					// Aerosols density at sea level
+uniform float		_MiePhaseAnisotropy;
+
+uniform vec4		_CameraData;
+uniform float		_CameraAltitudeKm;
+
+// Shadow map data
+uniform vec3		_ShadowCenter;
+uniform vec3		_ShadowX;
+uniform vec3		_ShadowY;
+uniform vec3		_ShadowZ;
+uniform sampler2D	_TexShadowMap;
+
+uniform bool		_ShowOriginalImage;
+uniform bool		_ShowOriginalZBuffer;
+uniform bool		_InvertZBuffer;
+uniform bool		_ShowShadowMap;
+uniform vec2		_ClipZ;			// X=Z far clip  Y=Delta Z clip
+
+// ===================================================================================
+// Phase functions
+float	ComputeMiePhase( float _CosTheta, float _MiePhaseAnisotropy )
+{
+	// Classic Henyey-Greenstein
+// 	float   OneMinusG2 = 1.0 - _MiePhaseAnisotropy*_MiePhaseAnisotropy;
+// 	return INV_4PI * OneMinusG2 * pow( abs(1.0 + _MiePhaseAnisotropy*_MiePhaseAnisotropy - 2.0 * _MiePhaseAnisotropy * _CosTheta), -1.5 );
+
+	// Cornette-Shanks
+	// (from http://arxiv.org/pdf/astro-ph/0304060.pdf)
+	float	Num = 1.5 * (1.0 + _CosTheta*_CosTheta) * (1.0 - _MiePhaseAnisotropy*_MiePhaseAnisotropy);
+	float	Den = (2.0 + _MiePhaseAnisotropy*_MiePhaseAnisotropy) * pow( abs(1.0 + _MiePhaseAnisotropy*_MiePhaseAnisotropy - 2.0 * _MiePhaseAnisotropy * _CosTheta), 1.5 );
+	return INV_4PI * Num / Den;
+}
+
+vec2	ComputePhases( float _CosTheta, float _MiePhaseAnisotropy )
+{
+	float   PhaseRayleigh = INV_4PI * 0.75 * (1.0 + _CosTheta*_CosTheta);
+	return vec2( PhaseRayleigh, ComputeMiePhase( _CosTheta, _MiePhaseAnisotropy ) );
+}
+
+// ===================================================================================
+// Computes the atmospheric optical depth
+//	_AltitudeKm, the current camera altitude in kilometers ***from sea level***
+//	_ViewDirection, the current view direction
+//	_EarthNormal, the Earth's normal at current position
+// Returns :
+//  X,Y = rho(h(_ViewPosition)), the density of air molecules (i.e. Rayleigh) and aerosols (i.e. Mie) respectively, at view position's altitude
+//  Z,W = rho(s,s') = Integral[s,s']( rho(h(l)) dl ), the optical depth of air molecules and aerosols respectively, from view position's altitude to the upper atmosphere
+//
+vec4	ComputeOpticalDepth( float _AltitudeKm, vec3 _ViewDirection, vec3 _EarthNormal )
+{
+	// Normalize altitude
+	_AltitudeKm *= 0.01666666666666666666666666666667;	// 1/60
+
+	// Actual view direction
+	float   CosTheta = dot( _ViewDirection, _EarthNormal );
+
+	vec2  UV = vec2( 0.5 * (1.0 - CosTheta), _AltitudeKm );
+	return texture2D( _TexScattering, UV );
+}
+
+// ===================================================================================
+// Compute shadow map attenuation
+float	GetShadow( vec2 _UV, float _DistanceKm )
+{
+	float	Z = (_DistanceKm - _CameraData.z) / (_CameraData.w - _CameraData.z);
+	vec3	Position = Z * vec3( 2.0 * _UV.x - 1.0, 2.0 * _UV.y - 1.0, 1.0 );
+
+	vec3	ShadowPosition = Position - _ShadowCenter;	// Relative to shadow map's center
+			ShadowPosition = vec3( dot( ShadowPosition, _ShadowX ), dot( ShadowPosition, _ShadowY ), dot( ShadowPosition, _ShadowZ ) );
+
+	vec2	ShadowUV = vec2( 0.5 * (1.0 + ShadowPosition.x), 0.5 * (1.0 + ShadowPosition.y) );
+	float	ShadowZ = texture2D( _TexShadowMap, ShadowUV ).x;
+
+	return saturate( _ShadowFactor * (ShadowZ - ShadowPosition.z) );
+}
+
+// ===================================================================================
+vec3	ComputeSunIntensity( vec2 _UV, float _DistanceKm, vec2 _AtmosphereOpticalDepth )
+{
+	if ( _AtmosphereOpticalDepth.x < 0.0 )
+		_AtmosphereOpticalDepth.x = 1e6;
+	if ( _AtmosphereOpticalDepth.y < 0.0 )
+		_AtmosphereOpticalDepth.y = 1e6;
+
+//	return _SunPower * exp( -_Sigma_Rayleigh * _AtmosphereOpticalDepth.x - _Sigma_Mie * _AtmosphereOpticalDepth.y );
+	return _SunPower * GetShadow( _UV, _DistanceKm ) * exp( -_Sigma_Rayleigh * _AtmosphereOpticalDepth.x - _Sigma_Mie * _AtmosphereOpticalDepth.y );
+}
+
+void	main()
+{
+	gl_FragColor = vec4( _UV, 0, 1 );
+
+// gl_FragColor = vec4( texture2D( _TexShadowMap, _UV ).xyz, 1.0 );
+// return;
+
+	float	Z = texture2D( _TexZBuffer, _UV ).x;
+	if ( _InvertZBuffer )
+		Z = 1.0 - Z;
+	
+	float	DistanceKm = lerp( _CameraData.z, _CameraData.w, Z );
+	vec3	View = normalize( vec3( _CameraData.x * (2.0 * _UV.x - 1.0), _CameraData.y * (1.0 - 2.0 * _UV.y), 1.0 ) );
+
+	vec2	Phases = ComputePhases( dot( View, _SunDirection ), _MiePhaseAnisotropy );
+
+	////////////////////////////////////////////////////////////////
+	// Compute extinction and scattering from atmosphere
+	vec4	PositionKm = vec4( 0.0, _CameraAltitudeKm, 0.0, 0.0 );			// Start at camera position
+	vec4	EndPositionKm = PositionKm + DistanceKm * vec4( View, 1.0 );	// End at ZBuffer
+	vec4	StepKm = (EndPositionKm - PositionKm) * INV_STEPS_COUNT;		// A single step
+	
+	vec3	Extinction = vec3( 1.0 );
+	vec3	Scattering = vec3( 0.0 );
+
+	for ( int StepIndex=0; StepIndex < STEPS_COUNT; StepIndex++ )
+	{
+		// Compute atmosphere's optical depth at current position
+		vec3	PlanetNormal = PositionKm.xyz - vec3( 0.0, -EARTH_RADIUS, 0.0 );
+		float   RadiusKm = length( PlanetNormal );
+				PlanetNormal /= RadiusKm;
+		float   AltitudeKm = RadiusKm - EARTH_RADIUS;
+
+		vec4	OpticalDepth = ComputeOpticalDepth( AltitudeKm, _SunDirection, PlanetNormal );
+
+		// =============================================
+		// Retrieve sun light attenuated when passing through the atmosphere
+		vec3	Light = ComputeSunIntensity( _UV, PositionKm.w, OpticalDepth.zw );
+
+		// =============================================
+		// Accumulate in-scattered light
+		float   Rho_air = OpticalDepth.x;
+		vec3	DensityRayleigh = Rho_air * _DensitySeaLevel_Rayleigh_InvLambda4;
+
+		float   Rho_aerosols = OpticalDepth.y;
+		float	DensityMie = Rho_aerosols * _DensitySeaLevel_Mie;
+
+		vec3	InScattering = Light * (DensityRayleigh * Phases.x + DensityMie * Phases.y);
+		vec3	StepInScattering = StepKm.w * InScattering;	// Added Sun light along a single step
+
+		Scattering += Extinction * StepInScattering;
+
+		// =============================================
+		// Accumulate extinction along view
+		Extinction *= exp( -(_Sigma_Rayleigh * Rho_air + _Sigma_Mie * Rho_aerosols) * StepKm.w );
+
+		// March
+		PositionKm += StepKm;
+	}
+
+	// Combine final color
+	gl_FragColor.xyz = texture2D( _TexImage, _UV ).xyz * Extinction + Scattering;
+
+//	gl_FragColor = vec4( 0.1 * texture2D( _TexScattering, _UV ).yzw, 1.0 );
+
+
+	////////////////////////////////////////////////////////////////
+	// Display override
+	if ( _ShowOriginalImage )
+		gl_FragColor.xyz = texture2D( _TexImage, _UV ).xyz;
+	else if ( _ShowOriginalZBuffer )
+	{
+		gl_FragColor.xyz = Z > _ClipZ.x ? vec3( 1, 0, 1 ) : vec3( Z );
+	}
+	else if ( _ShowShadowMap )
+	{
+		float	Shadow = GetShadow( _UV, 0.99 * DistanceKm );
+		gl_FragColor = vec4( Shadow, Shadow, Shadow, 1.0 );
+//		gl_FragColor.xyz = texture2D( _TexShadowMap, _UV ).xyz;
+	}
+}
+

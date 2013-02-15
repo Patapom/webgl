@@ -1,0 +1,935 @@
+﻿<!DOCTYPE html>
+<!-- The Saint Jean Cathedral of Lyon in WebGL
+
+Last Change: September 5th 2012
+Changes:
+
+	* september 5th, option for QWERTY-speaking people...
+
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>
+Saint Jean Cathedral in WebGL
+</title>
+<style type="text/css">
+.noMouseSelect	{
+	user-select:none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	cursor: pointer;
+}
+.dragging * { cursor: pointer }
+</style>
+
+<script type="text/javascript" src="../o3djs/base.js"></script>						<!-- Include a small part of the O3D library-->
+<script type="text/javascript" src="../patapi/base.js"></script>					<!-- Include PatAPI-->
+<script type="text/javascript" src="../SoundManager2/soundmanager2.js"></script>	<!-- Include Sound Manager -->
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.math' );
+o3djs.require( 'patapi.webgl' );
+o3djs.require( 'patapi.scenefile' );
+o3djs.require( 'patapi.camera_firstperson_walk' );
+o3djs.require( 'patapi.skydome' );
+o3djs.require( 'patapi.glow_light_shafts' );
+
+var	g_Visible = true;
+var gl = null;
+var	g_StartTime, g_Time = 0.0;
+
+var	g_Camera;
+var	g_CameraManipulator;
+
+var	g_SkyDome;
+var	g_LightR;
+var	g_LightG;
+var	g_LightB;
+var	g_SunColor;
+
+var	g_DetailTextureDiffuse;
+var	g_DetailTextureNormal;
+var	g_TexColorCube;
+
+var	g_FBOTemp;	// Temporary FBO where we render the scene
+var	g_PostProcessGlow;
+
+var g_ShaderEmissiveMask;
+var	g_FBOEmissiveMask;
+var g_EmissiveObjects = [];
+
+var g_Scene;
+var	g_SceneProgress = 0.0;
+
+var	g_Music = null;
+
+
+// From http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function()
+{
+	return window.requestAnimationFrame
+		|| window.webkitRequestAnimationFrame
+		|| window.mozRequestAnimationFrame
+		|| window.oRequestAnimationFrame
+		|| window.msRequestAnimationFrame
+		|| function( callback ) { window.setTimeout( callback, 10 ); };
+    })();
+
+
+function	Init()
+{
+	document.onselectstart = function(){ return false; }
+
+ 	try
+	{
+		var	canvas = document.getElementById( "view" );
+		if ( canvas == null )
+			throw "Canvas element not found !";
+		canvas.focus();
+
+		gl = patapi.webgl.GetContext( canvas );
+		if ( gl == null )
+			throw "Your web-browser does not support webgl !";
+
+
+		////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////
+		// Initialize SoundManager
+		////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////
+
+		soundManager = new SoundManager();
+ 		soundManager.debugMode = false;
+ 		soundManager.useConsole = false;
+ 		soundManager.flashVersion = 9;			// We need that for streaming...
+		soundManager.url = '../SoundManager2/';
+		soundManager.reboot();
+
+		soundManager.onready( function( oStatus )
+		{
+			// Check if SM2 successfully loaded..
+			if ( !oStatus.success )
+				return;
+			
+			g_Music = soundManager.createSound(
+			{
+				id : 'Avalon',
+				url : 'Avalon.mp3'
+			} );
+		} );
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build a simple camera
+		//
+		g_Camera = patapi.webgl.CreateCamera( "Camera", Math.deg2rad( 50.0 ), patapi.webgl.width / patapi.webgl.height, 0.1, 1000.0 );
+		g_Camera.LookAt( new vec3( 0.0, 1.0, 20.0 ), new vec3( 0.0, 0.0, 0.0 ), vec3.unitY());
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build the camera walk manipulator
+		//
+		try
+		{
+// 			var FeetPosition = new vec3( -2.69, 0, -2.63 );			// Feet position, this is where our character will stand at.
+ 			var FeetPosition = new vec3( -2.69, 0, 16.77 );			// Feet position, this is where our character will stand at.
+
+			g_CameraManipulator = new patapi.cameraFirstPersonWalk( 0.8, FeetPosition, vec3.unitZ(), 2.0, 2.0, 0.6 );
+			g_CameraManipulator.AttachToEvents( canvas, document );	// Automatically attaches the manipulator to the canvas's events
+
+			g_CameraManipulator.m_bAllowFreezeView = false;			// Default is false
+
+		}
+		catch ( _e )
+		{
+			throw "Exception while creating camera manipulator:\n" + _e;
+		};
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Load the detail textures & the color cube
+		g_DetailTextureDiffuse = patapi.webgl.LoadImageTexture( "DetailDiffuse", "TexturesSmall/DetailDiffuse.jpg" );
+		g_DetailTextureNormal = patapi.webgl.LoadImageTexture( "DetailNormal", "TexturesSmall/DetailNormal.png" );
+		g_TexColorCube = patapi.webgl.LoadImageTexture( "ColorCube", "Textures/ColorCube.png", gl.CLAMP_TO_EDGE, gl.LINEAR_MIPMAP_NEAREST );
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build the skydome
+		//
+		g_SkyDome = new patapi.SkyDome();
+
+		// Setup the original Sun direction
+		UpdateSunDirection( new vec3( -0.5, 0.8, -1.0 ) );
+
+
+		////////////////////////////////////////////////////////////////////////////
+		// Build the temporary FBOs for rendering
+		//
+		try
+		{
+			g_FBOTemp = patapi.webgl.CreateFBO( "FBOTemp", patapi.webgl.width, patapi.webgl.height, gl.RGBA, gl.CLAMP_TO_EDGE, gl.NEAREST, true );
+			g_FBOEmissiveMask = patapi.webgl.CreateFBO( "FBOEmissiveMask", patapi.webgl.width, patapi.webgl.height, gl.RGBA, gl.CLAMP_TO_EDGE, gl.NEAREST, g_FBOTemp.depthBuffer );
+		}
+		catch ( _e )
+		{
+			throw "Exception while creating temporary FBOs:\n" + _e;
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build the post-process glow + light shafts
+		try
+		{
+			g_PostProcessGlow = patapi.postprocess.CreateGlow( gl, patapi.webgl.width, patapi.webgl.height, "../patapi/Shaders/" );
+ // This is a complete disaster because of some moronic precision problems of sort ! Never seen anything quite like that shit...			g_PostProcessGlow.SetColorCube( g_TexColorCube );
+		}
+		catch ( _e )
+		{
+			throw "Exception while creating Glow post-process:\n" + _e;
+		}
+
+		//////////////////////////////////////////////////////////////////////////
+		// Build the emissive materials mask shader
+		try
+		{
+			var	VS = patapi.helpers.LoadFileSynchronous( "Shaders/EmissiveMask.vs" );
+			var	PS = patapi.helpers.LoadFileSynchronous( "Shaders/EmissiveMask.ps" );
+			g_ShaderEmissiveMask = patapi.webgl.CreateShader( "EmissiveMask", VS, PS );
+		}
+		catch ( _e )
+		{
+			throw "Exception while creating EmissiveMask shader:\n" + _e;
+		}
+
+		////////////////////////////////////////////////////////////////////////////
+		// Load the walk zone buffer first to prevent the user to escape from the cathedral !
+		//
+		patapi.helpers.LoadTypedArray( "WalkZone.bin",
+			function( _URL, _ArrayBuffer )
+			{
+//				var	ImageSize = [400,400];
+				var	ImageSize = [1024,1024];
+	
+				// Use bitmap markers to compute offset & scale for that buffer (HARDCODED!)
+				var	MarkerBitmap0 = new vec2( 812 * ImageSize[0] / 1024, 266 * ImageSize[1] / 1024 );	// The ImageSize/1024 factor is here because I sampled the values from a 1024x1024 pixels original image
+				var	MarkerModel0 = new vec2( 10.99, -11.94 );
+				var	MarkerBitmap1 = new vec2( 343 * ImageSize[0] / 1024, 1014 * ImageSize[1] / 1024 );
+				var	MarkerModel1 = new vec2( -10.05, 21.66 );
+
+				var	BufferScale = new vec2(		// Compute the length of a single buffer pixel
+					(MarkerBitmap1.x - MarkerBitmap0.x) / (MarkerModel1.x - MarkerModel0.x),
+					(MarkerBitmap1.y - MarkerBitmap0.y) / (MarkerModel1.y - MarkerModel0.y)
+					 );
+
+				var	BufferOffset = new vec2(	// Compute the world offset to reach the first buffer pixel in (0,0)
+					MarkerBitmap0.x - MarkerModel0.x * BufferScale.x,
+					MarkerBitmap0.y - MarkerModel0.y * BufferScale.y
+				);
+
+				// ZBuffer scale & offset to remap a buffer value into a Y value (floor elevation)
+				var	ZBufferOffset = -0.059348021978021978021978021978022;		// Y=0.01083 ==> Color=10
+				var	ZBufferScale = 0.0070178021978021978021978021978022;		// Y=12.8807 ==> Color=192
+
+				// Build a buffer of floats from this file
+				var	CollisionBuffer = new Uint8Array( _ArrayBuffer );
+
+				g_CameraManipulator.SetWalkZoneData( CollisionBuffer, ImageSize, BufferOffset, BufferScale, ZBufferOffset, ZBufferScale );
+
+				// Load our scene at last !
+				LoadScene();
+			} );
+	}
+	catch ( _e )
+	{
+// 		alert( "An error occurred during page initialization:\n\n" + _e );
+		UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + _e );
+		return;
+	}
+}
+
+function LoadScene()
+{
+	try
+	{
+		// Load the cathedral
+		var	Options =
+		{
+			processTexturePath : function( _Path )
+			{
+				var	NewPath = _Path.replace( "/Textures/", "/TexturesSmall/" );
+				return NewPath;
+			},
+			processObject : ProcessObject,
+			progressCallback : LoadProgress,
+			flipTexturesY : true,
+		};
+
+		g_Scene = patapi.scenefile.LoadScene( gl, "Cathedral", "scene.json", Options );
+	}
+	catch ( _e )
+	{
+// 		alert( "An error occurred during scene loading:\n\n" + _e );
+		UpdateStatusError( "<u>An error occurred during scene loading:</u>\n\n" + _e );
+		return;
+	}
+
+
+	// DEBUG (or is it ?)
+	CreateDebugSliders();
+	// DEBUG
+
+
+
+	// Start main loop
+	g_StartTime = 0.001 * (new Date()).getTime();
+	(function()
+	{
+		requestAnimFrame( arguments.callee );
+		Render();
+	})();
+}
+
+function Render()
+{
+	if ( g_Time < 0 )
+		return;	// Stop rendering...
+
+	var	Time = 0.001 * (new Date()).getTime() - g_StartTime;
+	var	DeltaTime = Time - g_Time;
+	g_Time = Time;
+
+	// Start music after 80% completion...
+	if ( g_Music && g_Music.playState == 0 && g_SceneProgress > 80.0 )
+	{
+		g_Music.play( { onfinish : function() { this.play(); } } );
+	}
+
+	try
+	{
+		patapi.webgl.FrameUpdate();
+
+		//////////////////////////////////////////////////////////////////////////
+		// Update camera using the manipulator
+		//
+		{
+			var	Camera2World = g_CameraManipulator.Update( DeltaTime );
+			g_Camera.SetCamera2World( Camera2World );
+
+			if ( g_CameraManipulator.getButtonLeft() )
+			{
+				var	ViewDirection = new vec3( Camera2World.r2.x, Math.max( 0.01, Camera2World.r2.y ), Camera2World.r2.z );	// Use camera view as light direction
+				UpdateSunDirection( ViewDirection );
+			}
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Render the main scene into the temporary FBO
+		g_FBOTemp.Bind();
+
+		// Setup default states
+		gl.enable( gl.DEPTH_TEST );
+		gl.enable( gl.CULL_FACE );
+		gl.cullFace( gl.BACK );
+
+		// Clear frame buffer
+//		patapi.webgl.Clear( 0.3, 0.5, 0.7, 1.0 );
+		patapi.webgl.Clear( 0.0, 0.0, 0.0, 1.0 );
+
+		var	FrameIndex = patapi.webgl.frameIndex;
+
+		g_Scene.Render(
+			function( _Primitive, _Material, _Local2World )
+			{
+				_Material.uniforms._Local2World.Set( _Local2World );
+				_Primitive.Use();
+				_Primitive.Draw();
+			},
+			function( _Material )
+			{
+				// Setup the detail textures
+				// (unfortunately, setting those once and for all doesn't work because of switching with the emissive material that replace the detail slots)
+				// (for it to work, I should fix the detail textures slots to arbitrary
+				_Material.uniforms.SafeSet( "_TexDetailDiffuse", g_DetailTextureDiffuse );
+				_Material.uniforms.SafeSet( "_TexDetailNormal", g_DetailTextureNormal );
+
+				if ( _Material.shader.FrameIndex == FrameIndex )
+					return;	// Already assigned !
+				_Material.shader.FrameIndex = FrameIndex;
+
+				// Setup the camera data
+				_Material.uniforms._World2Proj.Set( g_Camera.World2Proj );				// The most important projection matrix
+ 				_Material.uniforms.SafeSet( "_Camera2World", g_Camera.Camera2World );
+
+				// Setup the light data
+				_Material.uniforms.SafeSet( "_SunDirection", g_SkyDome.getSunDirection() );
+				_Material.uniforms.SafeSet( "_SunColor", g_SunColor );
+
+				// Setup the SH light coeffs
+ 				_Material.uniforms.SafeSet( "_LightSH0", g_LightR );
+ 				_Material.uniforms.SafeSet( "_LightSH1", g_LightG );
+ 				_Material.uniforms.SafeSet( "_LightSH2", g_LightB );
+
+// ### DEBUG parameters
+_Material.uniforms.SafeSet( "_DEBUGSpecStrength", g_SliderValues._SpecularStrength );
+
+_Material.uniforms.SafeSet( "_DEBUGSpecRoughness", g_SliderValues._SpecularRoughness );
+_Material.uniforms.SafeSet( "_DEBUGSpecFresnel", 0.01 * g_SliderValues._SpecularFresnel );
+
+_Material.uniforms.SafeSet( "_DEBUGNormalStrength", g_SliderValues._NormalStrength );
+
+_Material.uniforms.SafeSet( "_DEBUGDiffuseBrightness", g_SliderValues._DiffuseBrightness );
+_Material.uniforms.SafeSet( "_DEBUGDiffuseContrast", g_SliderValues._DiffuseContrast );
+_Material.uniforms.SafeSet( "_DEBUGDiffuseGamma", g_SliderValues._DiffuseGamma );
+
+_Material.uniforms.SafeSet( "_DEBUGEmissiveBrightness", g_SliderValues._EmissiveBrightness );
+_Material.uniforms.SafeSet( "_DEBUGEmissiveContrast", g_SliderValues._EmissiveContrast );
+_Material.uniforms.SafeSet( "_DEBUGEmissiveGamma", g_SliderValues._EmissiveGamma );
+
+_Material.uniforms.SafeSet( "_DEBUGScatteringStrength", 0.001 * g_SliderValues._ScatteringStrength );
+_Material.uniforms.SafeSet( "_DEBUGScatteringAlbedo", g_SliderValues._ScatteringAlbedo );
+
+_Material.uniforms.SafeSet( "_DEBUGDetailStrength", g_SliderValues._DetailStrength );
+_Material.uniforms.SafeSet( "_DEBUGDetailBias", g_SliderValues._DetailBias );
+_Material.uniforms.SafeSet( "_DEBUGDetailNormalStrength", g_SliderValues._DetailNormalStrength );
+// DEBUG parameters
+
+			} );
+
+		g_Scene.EndRender();
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Render the emissive primitives in white to use as a mask for godrays
+		//
+		{
+			g_FBOEmissiveMask.Bind();
+			g_FBOEmissiveMask.Clear( 0, 0, 0, 0 );
+
+			g_ShaderEmissiveMask.Use(
+				function( _Material )
+				{
+					_Material.uniforms._World2Proj.Set( g_Camera.World2Proj );				// The most important projection matrix
+					_Material.uniforms._SunDirection.Set( g_SkyDome.getSunDirection() );
+
+					var	SetLocal2World = _Material.uniforms._Local2World.Set;
+
+					// Render the emissive objects using our override material
+					for ( var EmissiveObjectIndex=0; EmissiveObjectIndex < g_EmissiveObjects.length; EmissiveObjectIndex++ )
+					{
+						var	Object = g_EmissiveObjects[EmissiveObjectIndex];
+
+	 					SetLocal2World( Object.local2world );
+
+						Object.RenderOverride(
+							function( _Primitive )
+							{
+								_Primitive.Use();
+								_Primitive.Draw();
+							} );
+					}
+				} );
+		}
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Post-Process time !
+		g_FBOTemp.UnBind();
+
+		g_PostProcessGlow.glowSourceAttenuation = g_SliderValues._GlowSourceAttenuation;
+		g_PostProcessGlow.glowStrength = g_SliderValues._GlowStrength;
+		g_PostProcessGlow.lightShaftsStrength = g_SliderValues._GlowLightShaftsStrength;
+		g_PostProcessGlow.lightShaftsDecayRate = g_SliderValues._GlowLightShaftsDecayRate;
+		g_PostProcessGlow.exposure = g_SliderValues._GlowExposure;
+		g_PostProcessGlow.gamma = g_SliderValues._GlowGamma;
+
+		g_PostProcessGlow.Render( g_FBOTemp, null, g_Camera, g_SkyDome.getSunDirection(), g_SunColor, g_FBOEmissiveMask );
+
+		//////////////////////////////////////////////////////////////////////////
+		// WE'RE DONE FOR THAT FRAME !!
+	}
+	catch ( _e )
+	{
+		g_Time = -1;	// This will force the render loop to stop
+// 		alert( "An error occurred while rendering:\n\n" + _e );
+		UpdateStatusError( "<u>An error occurred while rendering:</u>\n\n" + _e );
+	}
+}
+
+var	g_ResetParams = false;
+function	Exit()
+{
+	if ( gl == null )
+		return;		// No context anyway...
+	g_Time = -1;	// This will force the render loop to stop
+
+	// Write the current parameters as a cookie for next time...
+	try
+	{
+		if ( !g_ResetParams )
+		{
+			var	StringValues = JSON.stringify( g_SliderValues );
+			SetCookie( "Params", StringValues, 30 );
+		}
+		else
+			SetCookie( "Params", "", -1 );
+	}
+	catch ( _e )
+	{
+		// Silently fail...
+	}
+
+	if ( g_Scene )					g_Scene.Destroy();
+	if ( g_FBOTemp )				g_FBOTemp.Destroy();
+	if ( g_FBOEmissiveMask )		g_FBOEmissiveMask.Destroy();
+	if ( g_PostProcessGlow )		g_PostProcessGlow.Destroy();
+	if ( g_ShaderEmissiveMask )		g_ShaderEmissiveMask.Destroy();
+	if ( g_SkyDome )				g_SkyDome.Destroy();
+	if ( g_Camera )					g_Camera.Destroy();
+	if ( g_CameraManipulator )		g_CameraManipulator.Destroy();
+}
+
+function	ProcessObject( _Scene, _Object )
+{
+	// Isolate by name...
+	if ( _Object.name.toLowerCase().indexOf( "vitr" ) != -1 )
+		g_EmissiveObjects.push( _Object );
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Sun direction change
+function	UpdateSunDirection( _SunDirection )
+{
+	var	SunDirection = _SunDirection ? _SunDirection.normalize() : g_SkyDome.getSunDirection();
+	g_SkyDome.setSunDirection( SunDirection );
+
+	var	t = SunDirection.y;
+
+	// Update the luminance factor based on sun direction
+	var	sqrtt = Math.sqrt( t );
+
+	var	LuminanceFactor = g_SliderValues._LightStrengthEve * (1-sqrtt) + g_SliderValues._LightStrengthNoon * sqrtt;
+		LuminanceFactor *= 0.000075;
+
+ 	g_SkyDome.setGlobalLuminanceFactor( LuminanceFactor );
+ 
+	// Determine turbidity based on Sun's elevation
+	var	Turbidity = g_SliderValues._SkyTurbidityEvening * (1-t) + g_SliderValues._SkyTurbidityNoon * t;
+
+	g_SkyDome.setTurbidity( Turbidity );
+
+	// Update sky coefficients
+	g_SkyDome.UpdateSkyValues();
+
+	// Compute sky SH coefficients used for global illumination of the cathedral
+	var	SkyDomeSH = g_SkyDome.ComputeSkySHCoefficients();
+
+	g_LightR = new vec4( SkyDomeSH[0][0], SkyDomeSH[1][0], SkyDomeSH[2][0], SkyDomeSH[3][0] );
+	g_LightG = new vec4( SkyDomeSH[0][1], SkyDomeSH[1][1], SkyDomeSH[2][1], SkyDomeSH[3][1] );
+	g_LightB = new vec4( SkyDomeSH[0][2], SkyDomeSH[1][2], SkyDomeSH[2][2], SkyDomeSH[3][2] );
+
+	// Also compute approximate Sun color
+	// We do that by sampling the sky in the Sun's direction
+	g_SunColor = g_SkyDome.ComputeSkyColor( g_SkyDome.getSunDirection() );
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Status & Progress
+var	g_InfosElement;
+function	UpdateStatus( _Status )
+{
+	if ( !g_InfosElement )
+		g_InfosElement = document.getElementById( "Status" );
+	if ( !g_InfosElement )
+		return;
+
+	while ( _Status.indexOf( '\n' ) != -1 )
+		_Status = _Status.replace( '\n', '<br/>' );	// Keep replacing...
+
+	g_InfosElement.innerHTML = _Status;
+}
+
+function	UpdateStatusError( _Error )
+{
+	UpdateStatus( "<font color=\"#FF5040\">" + _Error + "</font>" );
+
+	var	InfosElement = document.getElementById( "Infos" );
+	if ( InfosElement )
+		InfosElement.style.visibility = 'hidden';
+}
+
+function LoadProgress( _Scene, _TotalTexturesCount, _LoadedTexturesCount, _TotalPrimitivesCount, _LoadedPrimitivesCount, opt_Error )
+{
+	if ( opt_Error )
+	{
+// 		window.alert( "An error occurred while loading the scene: " + opt_Error );
+		UpdateStatusError( "An error occurred while loading the scene: " + opt_Error );
+		return;
+	}
+
+	var	TotalCount = _TotalTexturesCount + _TotalPrimitivesCount;
+	var	TotalLoaded = _LoadedTexturesCount + _LoadedPrimitivesCount;
+	g_SceneProgress = (100.0 * TotalLoaded / TotalCount).toFixed( 1 );
+
+	if ( g_SceneProgress == 100.0 )
+		UpdateStatus( "Use ZQSD/Arrows to walk through and mouse to look around. Left button changes the Sun's direction." );
+	else
+		UpdateStatus( "Loading cathedral model <b>" + g_SceneProgress + "%</b>" );
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Volume button management
+function	OnVolumeClicked( _EventArgs )
+{
+	var	DivOffsetX = 115;
+	var	X = _EventArgs.clientX - DivOffsetX;
+	var	VolumeIndex = Math.max( 0, Math.min( 4, 1 + ((X-24) * 4 / 35) | 0 ) );
+
+	if ( g_Music != null )
+		g_Music.setVolume( VolumeIndex * 25 );
+
+	document.getElementById( "Volume" ).style.backgroundPosition= (DivOffsetX - VolumeIndex * 60) + "px 6px";
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Option sliders management
+//
+var	g_SliderValues = 
+{
+// 	// My values
+// 	_LightStrengthNoon : 1.3,
+// 	_LightStrengthEve : 1.3,
+// 	_SkyTurbidityNoon : 10.0,
+// 	_SkyTurbidityEvening : 2.15,
+// 	_SpecularStrength : 0.48,
+// 	_SpecularRoughness : 0.7,
+// 	_SpecularFresnel : 50.0,
+// 	_NormalStrength : 4.0,
+// 	
+// 	_DiffuseBrightness : 0.15,
+// 	_DiffuseContrast : 1.2,
+// 	_DiffuseGamma : 1.0,
+// 	
+// 	_EmissiveBrightness : 0.0,
+// 	_EmissiveContrast : 1.0,
+// 	_EmissiveGamma : 1.4,
+// 	
+// 	_DetailStrength : 0.75,
+// 	_DetailBias : -0.2,
+// 	_DetailNormalStrength : 0.5,
+// 	
+// 	_ScatteringStrength : 4.0,
+// 	_ScatteringAlbedo : 0.07,
+// 	
+//	_GlowSourceAttenuation : 0.5,
+// 	_GlowStrength : 1.5,
+// 	_GlowLightShaftsStrength : 0.4,
+// 	_GlowLightShaftsDecayRate : 3.5,
+// 	_GlowExposure : 0.75,
+// 	_GlowGamma : 1.0,	// 0.9 originally
+
+	// Gaël's values
+	_LightStrengthNoon : 1.4,
+	_LightStrengthEve : 1.4,
+	_SkyTurbidityNoon : 10.0,
+	_SkyTurbidityEvening : 2.15,
+
+	_SpecularStrength : 0.6,
+	_SpecularRoughness : 0.45, // 0.22, Sorry but that's really too much spec !
+	_SpecularFresnel : 21.5,
+	_NormalStrength : 4.0,
+	
+	_DiffuseBrightness : 0.0,
+	_DiffuseContrast : 1.0,
+	_DiffuseGamma : 2.2,
+	
+	_EmissiveBrightness : 0.0,
+	_EmissiveContrast : 0.89,
+	_EmissiveGamma : 1.55,
+	
+	_DetailStrength : 0.8,
+	_DetailBias : -0.01,
+	_DetailNormalStrength : 0.4,
+	
+	_ScatteringStrength : 1.85,
+	_ScatteringAlbedo : 0.08,
+	
+	_GlowSourceAttenuation : 0.5,
+	_GlowStrength : 1.5,
+	_GlowLightShaftsStrength : 0.6,
+	_GlowLightShaftsDecayRate : 2.8,
+	_GlowExposure : 1.0,//0.75,
+	_GlowGamma : 1.0,	// 0.9 originally
+
+	// Generic
+	_KeyboardIsQWERTY : false,
+};
+
+var g_MouseDown = false;
+
+function	SetDivText( _Div, _Text )
+{
+	if ( _Div.innerText !== undefined )
+		_Div.innerText = _Text;
+	else if ( _Div.textContent !== undefined )
+		_Div.textContent = _Text;
+	else
+		throw "What the hell is this browser ?";
+}
+
+function	CreateDebugSliders()
+{
+	// Reload default values from cookie if possible
+	try
+	{
+		var	JSONParams = GetCookie( "Params" );
+		if ( JSONParams )
+		{
+			var	Params = eval( '(' + JSONParams + ')' );
+			patapi.helpers.Extend( Params, g_SliderValues );
+			g_SliderValues = Params;	// These are the new values now !
+		}
+	}
+	catch ( _e )
+	{
+		// Silently fail...
+	}
+
+	var	DebugVariables =
+	[
+		{ title:"Light Strength", min: 0.0, max: 4.0, value : g_SliderValues._LightStrengthNoon, slide : function( value ) { g_SliderValues._LightStrengthNoon = value; UpdateSunDirection(); } },
+//		{ title:"Light Strength Eve", min: 0.0, max: 4.0, value : g_SliderValues._LightStrengthEve, slide : function( value ) { g_SliderValues._LightStrengthEve = value; UpdateSunDirection(); } },
+
+		// Sky
+// 		{ title:"Sky Turbid Noon", min: 0.0, max: 10.0, value : g_SliderValues._SkyTurbidityNoon, slide : function( value ) { g_SliderValues._SkyTurbidityNoon = value; UpdateSunDirection(); } },
+// 		{ title:"Sky Turbid Eve", min: 0.0, max: 10.0, value : g_SliderValues._SkyTurbidityEvening, slide : function( value ) { g_SliderValues._SkyTurbidityEvening = value; UpdateSunDirection(); } },
+
+		// Specular
+		{ title:"Specular Strength", min: 0.0, max: 4.0, value : g_SliderValues._SpecularStrength, slide : function( value ) { g_SliderValues._SpecularStrength = value } },
+		{ title:"Specular Roughness", min: 0.0, max: 1.0, value : g_SliderValues._SpecularRoughness, slide : function( value ) { g_SliderValues._SpecularRoughness = value } },
+		{ title:"Fresnel Reflectance", min: 0.0, max: 100.0, value : g_SliderValues._SpecularFresnel, slide : function( value ) { g_SliderValues._SpecularFresnel = value } },
+		{ title:"Normal Strength", min: 0.0, max: 10.0, value : g_SliderValues._NormalStrength, slide : function( value ) { g_SliderValues._NormalStrength = value } },
+
+		// Diffuse albedo
+		{ title:"Diffuse Brightness", min: -1.0, max: 1.0, value : g_SliderValues._DiffuseBrightness, slide : function( value ) { g_SliderValues._DiffuseBrightness = value } },
+		{ title:"Diffuse Contrast", min: 0.0, max: 2.0, value : g_SliderValues._DiffuseContrast, slide : function( value ) { g_SliderValues._DiffuseContrast = value } },
+		{ title:"Diffuse Gamma", min: 0.0, max: 5.0, value : g_SliderValues._DiffuseGamma, slide : function( value ) { g_SliderValues._DiffuseGamma = value } },
+
+		// Emissive
+		{ title:"Emissive Brightness", min: -1.0, max: 1.0, value : g_SliderValues._EmissiveBrightness, slide : function( value ) { g_SliderValues._EmissiveBrightness = value } },
+		{ title:"Emissive Contrast", min: 0.0, max: 2.0, value : g_SliderValues._EmissiveContrast, slide : function( value ) { g_SliderValues._EmissiveContrast = value } },
+		{ title:"Emissive Gamma", min: 0.0, max: 5.0, value : g_SliderValues._EmissiveGamma, slide : function( value ) { g_SliderValues._EmissiveGamma = value } },
+
+		// Detail
+		{ title:"Detail Strength", min: 0.0, max: 2.0, value : g_SliderValues._DetailStrength, slide : function( value ) { g_SliderValues._DetailStrength = value } },
+		{ title:"Detail Bias", min: -1.0, max: 1.0, value : g_SliderValues._DetailBias, slide : function( value ) { g_SliderValues._DetailBias = value } },
+		{ title:"Detail Norm. Strength", min: 0.0, max: 2.0, value : g_SliderValues._DetailNormalStrength, slide : function( value ) { g_SliderValues._DetailNormalStrength = value } },
+
+		// Scattering
+		{ title:"Fog Strength", min: 0.0, max: 10.0, value : g_SliderValues._ScatteringStrength, slide : function( value ) { g_SliderValues._ScatteringStrength = value } },
+		{ title:"Scattering Strength", min: 0.0, max: 1.0, value : g_SliderValues._ScatteringAlbedo, slide : function( value ) { g_SliderValues._ScatteringAlbedo = value } },
+
+		// Glow + Light shafts parameters
+		{ title:"Glow Source Gain", min: 0.0, max: 10.0, value : g_SliderValues._GlowSourceAttenuation, slide : function( value ) { g_SliderValues._GlowSourceAttenuation = value } },
+		{ title:"Glow Strength", min: 0.0, max: 4.0, value : g_SliderValues._GlowStrength, slide : function( value ) { g_SliderValues._GlowStrength = value } },
+		{ title:"Godrays Strength", min: 0.0, max: 4.0, value : g_SliderValues._GlowLightShaftsStrength, slide : function( value ) { g_SliderValues._GlowLightShaftsStrength = value } },
+		{ title:"Godrays Decay", min: 0.0, max: 10.0, value : g_SliderValues._GlowLightShaftsDecayRate, slide : function( value ) { g_SliderValues._GlowLightShaftsDecayRate = value } },
+
+		// Luminance correction parameters
+		{ title:"Image Exposure", min: 0.0, max: 2.0, value : g_SliderValues._GlowExposure, slide : function( value ) { g_SliderValues._GlowExposure = value } },
+	//	{ title:"Image Gamma", min: 0.0, max: 2.0, value : g_SliderValues._GlowGamma, slide : function( value ) { g_SliderValues._GlowGamma = value } },
+
+	];
+
+	var	ParentElement = document.getElementById( "DebugSliders" );
+
+	// Generic handling to have some sort of global "button down" state
+	document.body.onmousedown = function() { g_MouseDown = true; }
+	document.body.onmouseup = function() { g_MouseDown = false; }
+
+	// Create our debug sliders
+	for ( var SliderIndex=0; SliderIndex < DebugVariables.length; SliderIndex++ )
+	{
+		var	Desc = DebugVariables[SliderIndex];
+
+		// Create the title div
+		var	TitleElement = document.createElement( 'div' );
+		ParentElement.appendChild( TitleElement );
+
+		// Create the slider element that will receive the mouse events
+		var	SliderHostElement = document.createElement( 'div' );
+		ParentElement.appendChild( SliderHostElement );
+
+		SliderHostElement.setAttribute( "style", "width:200px;height:10px;background:#202020;" );
+		SliderHostElement.sliderDescriptor = Desc;
+		SliderHostElement.titleElement = TitleElement;
+		SliderHostElement.updateSliderFunc = function( value )
+		{
+			// Update slider width
+			var	SliderElement = this.firstChild;
+
+			var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+			var	t = (value - this.sliderDescriptor.min) / Delta;
+
+			var	Width = this.clientWidth * t;
+				Width = Width | 0;
+
+			SliderElement.setAttribute( "style", "height:10px;background:#0033CC" );
+			SliderElement.style.width = "" + Width + "px";
+
+			// Update title
+			var	NewTitle = this.sliderDescriptor.title + " (" + value.toFixed( 2 ) + ")";
+			SetDivText( this.titleElement, NewTitle );
+
+			// Notify of change
+			this.sliderDescriptor.slide( value );
+		}
+		SliderHostElement.mouseMove = function( _Event )
+			{
+				if ( !g_MouseDown )
+					return false;
+
+				var	t = _Event.clientX - 2 - this.offsetLeft;
+					t /= this.clientWidth;
+				var	Delta = this.sliderDescriptor.max - this.sliderDescriptor.min;
+				var	Value = this.sliderDescriptor.min + t * Delta;
+				this.updateSliderFunc( Value );
+				return true;
+			},
+ 		SliderHostElement.addEventListener( 'mousedown', function( _Event ) { g_MouseDown = true; return this.mouseMove( _Event ); } );
+		SliderHostElement.addEventListener( 'mousemove', function( _Event ) { return this.mouseMove( _Event ); } );
+ 
+		// Create another div inside the main div that will represent the slider itself
+		var	SliderElement = document.createElement( 'div' );
+		SliderHostElement.appendChild( SliderElement );
+		SliderHostElement.updateSliderFunc( Desc.value );
+	}
+
+	// Add a keyboard switch button
+	var	KeyboardSwitchElement = document.createElement( 'div' );
+	ParentElement.appendChild( KeyboardSwitchElement );
+	KeyboardSwitchElement.onclick = function()
+	{
+		g_SliderValues._KeyboardIsQWERTY = g_CameraManipulator.m_QWERTY = !g_CameraManipulator.m_QWERTY;	// Switch !
+
+		if ( g_CameraManipulator.m_QWERTY )
+			KeyboardSwitchElement.innerHTML = "<br/><b style=\"background:#303030\">&nbsp;&nbsp;Switch to AZERTY&nbsp;&nbsp;</b>";
+		else
+			KeyboardSwitchElement.innerHTML = "<br/><b style=\"background:#303030\">&nbsp;&nbsp;Switch to QWERTY&nbsp;&nbsp;</b>";
+	}
+
+	g_CameraManipulator.m_QWERTY = !g_SliderValues._KeyboardIsQWERTY;	// Set to inverted state on purpose
+	KeyboardSwitchElement.onclick();	// Call onclick() that will invert the state back to normal and setup the appropriate inner HTML
+
+	// Add a "reset" button
+	var	ResetElement = document.createElement( 'div' );
+	ParentElement.appendChild( ResetElement );
+	ResetElement.innerHTML = "<br/><b style=\"background:#303030\">&nbsp;&nbsp;RESET&nbsp;&nbsp;</b>";
+	ResetElement.onclick = function()
+	{
+		g_ResetParams = true;
+		window.location.reload();
+	}
+
+	// Finally, add a note:
+	var	NoteElement = document.createElement( 'div' );
+	ParentElement.appendChild( NoteElement );
+	NoteElement.innerHTML = "<br/><b>NOTE:</b> Right-Click blocks<br/>the view when the<br/> options are visible.";
+}
+
+var	g_SlidersVisible = false;
+function ToggleSlidersVisibility()
+{
+	var	SlidersElement = document.getElementById( "DebugSliders" );
+	if ( !SlidersElement )
+		return;
+	var	ShowSlidersIconElement = document.getElementById( "ShowSlidersIcon" );
+	if ( !ShowSlidersIconElement )
+		return;
+
+	g_SlidersVisible = !g_SlidersVisible;
+	if ( g_SlidersVisible )
+	{
+		SlidersElement.style.visibility = 'visible';
+		ShowSlidersIconElement.style.backgroundPosition = "107px 4px";
+	}
+	else
+	{
+		SlidersElement.style.visibility = 'hidden';
+		ShowSlidersIconElement.style.backgroundPosition = "4px 4px";
+	}
+
+	if ( g_CameraManipulator )
+		g_CameraManipulator.m_bAllowFreezeView = g_SlidersVisible;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Cookies for storing the parameters locally
+function SetCookie( _Name, _Value, _ExpiresInDays )
+{
+	var	ExpirationDate=new Date();
+		ExpirationDate.setDate( ExpirationDate.getDate() + _ExpiresInDays );
+
+	var	CookieValue = escape( _Value) + ((_ExpiresInDays==null) ? "" : "; expires="+ExpirationDate.toUTCString());
+
+	document.cookie = _Name + "=" + CookieValue;
+}
+
+function GetCookie( _Name )
+{
+	var Cookies = document.cookie.split( ";" );
+	for ( var i=0; i < Cookies.length; i++ )
+	{
+		var	x = Cookies[i].substr( 0, Cookies[i].indexOf( "=" ) );
+			x = x.replace(/^\s+|\s+$/g,"");
+
+		var	y = Cookies[i].substr( Cookies[i].indexOf( "=" )+1 );
+		if ( x == _Name)
+			return unescape(y);
+	}
+}
+</script>
+</head>
+<body oncontextmenu="return false;" bgcolor="#000000" link="#7c60a3" vlink="#7c60a3" alink="#7c60a3" style="text-align: center; font-family:Trebuchet MS;" onload="Init()" onunload="Exit()">
+<span style="color: #ffffff">
+
+<div id="Status"></div><br />
+<div id="Volume" style="position: absolute; left: 115px; top: 6px; width: 60px; height: 16px; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(Volume.png); background-position: -125px 6px;" onmousedown="OnVolumeClicked( event )"></div>
+
+
+<!-- SETTINGS -->
+<div id="SlidersToggle" style="position: absolute; left: 4px; top: 4px;" class="noMouseSelect" onclick="ToggleSlidersVisibility()" >
+<!-- 	<div id="Div1" style="width: 103px; height: 20px; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(ButtonUpDown.png); background-position: 107px 4px;"></div> -->
+	<div id="ShowSlidersIcon" style="width: 103px; height: 20px; border: 0px; margin: 0px; padding: 0px; overflow: hidden; background-attachment:fixed; background-image: url(ButtonUpDown.png); background-position: 4px 4px;"></div>
+</div>
+<div id="DebugSliders" style="position: absolute; left: 4px; top: 30px; visibility:hidden" class="noMouseSelect">
+	<!-- Sliders will be inserted here by code -->
+</div>
+<!---->
+
+
+<div align=center style="margin: auto">
+	<!-- Start of WebGL canvas -->
+	<canvas id="view" width="1280px" height="720px">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
+	<!-- End of WebGL canvas -->
+</div>
+
+<br/>
+<div id="Infos">
+This shows the <a href="http://fr.wikipedia.org/wiki/Archidioc%C3%A8se_de_Lyon" target="_blank">St Jean Cathedral</a> model created by Gaël Chaize. Music was shamefully borrowed from Avalon OST by <a href='http://en.wikipedia.org/wiki/Kenji_Kawai' target="_blank">Kenji Kawai</a>.<br />
+Rendering uses 2 bands of Spherical Harmonics for real time radiosity computed using Patapom's secret funky ingredient <img src="360.gif" />.<br />
+The original cathedral project was created in 2009 using Google O3D and ported to WebGL in august 2012.<br />
+
+<br />
+<div style="text-align:center"><a href="http://www.webcounter.com"><img border="0" src="http://www.webcounter.com/5037f6a8f3fa4/counter.png"/></a>&nbsp;<a href="http://www.webcounter.com">web stats</a></div>
+
+</div>
+
+</span>
+</body>
+</html>

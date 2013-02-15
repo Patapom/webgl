@@ -1,0 +1,45 @@
+////////////////////////////////////////////////////////////////
+// Computes the velocity divergence and initialize pressure to 0
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexInkLayer;
+uniform float		_InkPressureFactor;
+
+void	main()
+{
+	vec2	VXp = texture2D( _TexVelocity, _UV + _dUV.xz ).xy;
+	vec2	VXm = texture2D( _TexVelocity, _UV - _dUV.xz ).xy;
+	vec2	VYp = texture2D( _TexVelocity, _UV + _dUV.zy ).xy;
+	vec2	VYm = texture2D( _TexVelocity, _UV - _dUV.zy ).xy;
+
+	float	Dx = VXp.x - VXm.x;
+	float	Dy = VYp.y - VYm.y;
+	float	Divergence = -0.5 * (Dx + Dy);
+
+	float	Curl = (VXp.y - VXm.y) - (VYp.x - VYm.x);
+
+	// Compute pressure based on ink concentrations
+	vec4	InkConcentrations = texture2D( _TexInkLayer, _UV );
+	float	SumConcentrations = dot( vec4( 1.0 ), InkConcentrations );
+	float	NormalizedConcentrations = SumConcentrations / max( 1.0, SumConcentrations );	// Important line => We can't have concentrations that are higher than 1 so we need to normalize them!
+
+//	float	Pressure = _InkPressureFactor * NormalizedConcentrations;	// Pressure is the sum of all concentrations
+//	float	Pressure = _InkPressureFactor * (InkConcentrations.x + InkConcentrations.y + InkConcentrations.z + InkConcentrations.w);
+//	float	Pressure = _InkPressureFactor * InkConcentrations.w;		// Only water influences the fluid...
+	float	Pressure = 0.0;
+
+	gl_FragColor = vec4( Pressure, Divergence, Curl, 0.0 );
+}

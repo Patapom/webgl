@@ -1,0 +1,95 @@
+////////////////////////////////////////////////////////////////
+//
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+const float	PI = 3.1415926535897932384626433832795;
+
+	// In-Scattering
+// const float	SCATTERING_ALBEDO		= 0.25;				// [0,+oo[ The scattering albedo (scattering / extinction)
+// const float	EXTINCTION_COEFFICIENT	= 0.002;			// [0,+oo[ The extinction coefficient (i.e. "amount of extinction" per unit length)
+const float	SCATTERING_ANISOTROPY	= 0.5;				// ]-1,+1[ The prefered direction of scattering (e.g. -1 is backward, 0 is isotropic and +1 is forward)
+
+	// COLOR MULTIPLIER
+const float	EMISSIVE_MULTIPLIER		= 10.0;				// [0,+oo[ The multiplier to apply to the emissive texture colors
+
+	// COLOR MULTIPLIER
+const float	AMBIENT_COLOR_LOW		= 1.0;				// Ambient sky color when the Sun is low
+const float	AMBIENT_COLOR_HIGH		= 1.0;				// Ambient sky color when the Sun is high in the sky
+
+
+////////////////////////////////////////////////////////////////
+varying vec3		_pP;
+varying vec3		_pN;
+varying vec2		_pUV;
+
+uniform vec3		_SunDirection;
+uniform vec3		_SunColor;
+uniform mat4		_Camera2World;
+
+
+
+// ### DEBUG Parameters
+uniform float	_DEBUGScatteringStrength;
+uniform float	_DEBUGScatteringAlbedo;
+uniform float	_DEBUGEmissiveBrightness;
+uniform float	_DEBUGEmissiveContrast;
+uniform float	_DEBUGEmissiveGamma;
+// ### DEBUG Parameters
+
+
+
+uniform sampler2D	_TexDiffuse;
+
+void	main()
+{
+	vec3	View = _pP - _Camera2World[3].xyz;
+	float	Distance2Camera = length( View );
+			View /= Distance2Camera;
+			
+	float	LightPhase = dot( _SunDirection, View );
+
+	// Read the emissive color
+//	vec3	EmissiveColor = vec3( 1e-2 ) + EMISSIVE_MULTIPLIER * saturate( texture2D( _TexDiffuse, _pUV ).xyz - 0.05 );
+//	vec3	EmissiveColor = saturate( texture2D( _TexDiffuse, _pUV ).xyz - 0.05 );
+	vec3	EmissiveColor = pow( saturate( vec3( _DEBUGEmissiveBrightness ) + _DEBUGEmissiveContrast * texture2D( _TexDiffuse, _pUV ).xyz ), vec3( _DEBUGEmissiveGamma ) );
+
+	// Compute approximate lighting based on phase with Sun
+	float	NormalPhase = -dot( _SunDirection, _pN );
+	float	Dot = saturate( NormalPhase );
+			Dot *= Dot;
+			Dot *= Dot;
+	float	Ambient = lerp( AMBIENT_COLOR_LOW, AMBIENT_COLOR_HIGH, _SunDirection.y );
+	vec3	Result = lerp( Ambient, 1.0, Dot ) * _SunColor * EmissiveColor;
+
+	// Add a little in-scattering
+	float	g = SCATTERING_ANISOTROPY;
+//	float	PhaseFunction = (1.0 + LightPhase*LightPhase);										// Rayleigh = 1.0+cos²(theta)
+//	float	PhaseFunction = (1.0 - g * g) / (4.0*PI * (1.0+g*LightPhase) * (1.0+g*LightPhase));	// Schlick
+	float	PhaseFunction = (1.0 - g * g) / (4.0*PI * pow( 1.0+g*g-2.0*g*LightPhase, 1.5 ));	// Henyey-Greenstein
+
+// 	float	Extinction = exp( -EXTINCTION_COEFFICIENT * Distance2Camera );
+// 	float	ScatteringFactor = Distance2Camera * SCATTERING_ALBEDO * PhaseFunction * (1.0 - Extinction);###
+	float	Extinction = exp( -_DEBUGScatteringStrength * Distance2Camera );
+	float	ScatteringFactor = Distance2Camera * _DEBUGScatteringAlbedo * PhaseFunction * (1.0 - Extinction);
+
+	vec3	InScattering = _SunColor * ScatteringFactor;
+
+	Result = Extinction * Result + InScattering;
+
+//	gl_FragColor = vec4( pow( Result, vec3( 1.0 / 2.2 ) ), 1.0 );	// De-gamma correct waiting for HDR post-processing
+// 	gl_FragColor = vec4( Result, 1.0 );
+
+
+	// Encode maximum luminance in alpha
+	float	MaxComponent = max( 1.0, max( max( Result.x, Result.y ), Result.z ) );
+	float	LogRange = saturate( log( 1.0 + MaxComponent ) / 2.0 );	// Compress a [0,20] luminance range into [0,1]
+	Result /= 1e-3 + MaxComponent;	// Normalize...
+
+	gl_FragColor = vec4( Result, LogRange );
+}

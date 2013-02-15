@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{35127848-F4FA-4774-9BC1-2407A7C0366F}</ProjectGuid>
+    <RootNamespace>PatAPI</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\..\Web\topics\WebGL\o3djs\base.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\base.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\camera_firstperson_walk.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\camera_orbit.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoNormalize.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoNormalize.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoTemporalFilter.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoTemporalFilter.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\ui.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\video.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\glow_light_shafts.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\math.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\scenefile.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowCombine.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowCombine.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowDownsample.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowDownsample.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowLightShafts.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowLightShafts.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowMaskEmissive.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowMaskEmissive.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowUpsample.ps" />
+    <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPGlowUpsample.vs" />
+    <None Include="..\..\Web\topics\WebGL\patapi\skydome.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\skydome_SHCoefficients.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\webgl.js" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

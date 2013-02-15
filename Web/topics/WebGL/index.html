@@ -1,0 +1,87 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL
+ WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL
+ WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL WEBGL
+  -->
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<title>WebGL</title>
+	<link rel="stylesheet" type="text/css" href="/index.css" />
+
+
+<!-- Pipo VS/PS -->
+<script id="pipo_vs" type="x-shader/x-vertex">
+attribute vec3	_vPosition;
+attribute vec3	_vColor;
+uniform mat4	_Local2World;
+varying vec3	_Color;
+void	main()
+{
+	vec4	Pos = _Local2World * vec4( _vPosition, 1 );	// Rotate the cube
+	gl_Position = vec4( 0.55 * Pos.xyz, 1.0 );			// Dummy projection
+	_Color = _vColor;									// Pass through
+}
+</script> <script id="pipo_ps" type="x-shader/x-fragment">
+precision highp float;
+varying vec3	_Color;
+void	main() { gl_FragColor = vec4( _Color, 1.0 ); }
+</script>
+<script type="text/javascript" src="./o3djs/base.js"></script>	<!-- Include a tiny part of the O3D library-->
+<script type="text/javascript" src="./patapi/base.js"></script>	<!-- Include PatAPI-->
+<script type="text/javascript" src="webgl.js"></script>
+</head>
+<body onload="Init()" onunload="Exit()">
+
+<div id="main">
+	<div class="titles">
+	<h1>WebGL</h1>
+	<h2>Does "GL" stand for GLOP ?</h2>
+	<a href="/" style="position:relative; left: 250px; top: -48px;" ><img src="/img/Home.png" width="30px" height="30px" style="margin: 0px auto; clear: both;" border="0" /></a>
+	</div>
+
+<div class="container">
+	<div class="link"><a href="http://en.wikipedia.org/wiki/WebGL" target="_blank">WebGL</a> is the new trend in real time graphics embedded in your favorite browser.</div>
+	It consists in a very thin wrapper of OpenGL ES 2.0 that supports only a limited set of OpenGL features when compared to desktop GL but it lets you play with shaders and FBOs, which is really the only thing you need to create very nice effects !<br />
+	<br />
+	Currently, WebGL is only supported by Chrome, Firefox and Safari. You can find out if your browser supports WebGL by looking at the space below:<br />
+	<br />
+	<div id="canvascontainer" align=center style="margin: auto">
+		<!-- Start of WebGL canvas -->
+		<canvas id="viewgl" width="128px" height="128px" bgcolor="#000000" ><font color="#FF5040">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</font></canvas>
+		<!-- End of WebGL canvas -->
+	</div>
+	<br />
+	If you can see a spinning cube then hurray ! Otherwise, you should consider installing Chrome or another great browser.<br />
+	<br />
+	<b>NOTE:</b> Sometimes with Firefox, WebGL is available but disabled (in the latest version at least). All you need to do is type "about:config" in the URL bar, then search for "webgl" and double-click the "webgl.force-enabled" property to enable WebGL once and for all. That's it, WebGL is now operational ! Just reload this page and you should see the spinning cube now...<br />
+	<br />
+	<br />
+	<h3>PatAPI</h3>
+	I ported a small part of the PatAPI that I created for <a href="/topics/O3D">O3D</a> in 2009 and rewrote parts of the O3DJS library, mainly the math and scene format to be able to re-create my cathedral demo in WebGL that you can see in a link below.<br />
+	The patapi is available <a href="patapi">here</a> and is free to use.<br />
+	<br />
+	<br />
+	<h3>Examples:</h3>
+	<ul>
+		<li>[17-08-12]&nbsp <a href=firsttest>Simple cube display with a texture.</a> The primitive and shader are created directly by script.</li>
+		<li>[19-08-12]&nbsp <a href=complexobject>Simple cube display with a texture.</a> Same scene except this time, everything is loaded from my brand new scene format.</li>
+		<li>[28-08-12]&nbsp <a href=cathedral>The final cathedral project.</a> Converted from O3D and now in your favorite browser for free!</li>
+		<li>[28-11-12]&nbsp A small project for a display for the anual <a href=lumieres>"Fête des Lumières"</a> in Lyon held on the 8th of december</li>
+		<li>[05-12-12]&nbsp <a href=hellhazer>Photo Re-Hazer</a>, an idea I had to add atmospheric haze to macro-photographs to make them appear with as large scale.</li>
+		<li>[07-01-13]&nbsp <a href=BRDF>BRDF Explorer</a>, a small web app that lets you explore BRDFs from the <a href="http://www.merl.com/brdf/">MERL database</a>.</li>
+	</ul>
+	<br />
+
+</div>
+    
+<!-- 
+	<div class="container tutorial-info">
+	FOOTER
+	</div>
+ -->
+</div>
+
+</body>
+</html>

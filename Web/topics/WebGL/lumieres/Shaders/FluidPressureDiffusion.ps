@@ -1,0 +1,36 @@
+////////////////////////////////////////////////////////////////
+// Performs pressure diffusion
+#define saturate( a )	clamp( a, 0.0, 1.0 )
+#define lerp( a, b, t )	mix( a, b, t )
+
+precision highp float;
+
+////////////////////////////////////////////////////////////////
+// CONSTANTS
+//
+
+
+////////////////////////////////////////////////////////////////
+varying vec2		_UV;
+
+uniform vec3		_dUV;
+uniform sampler2D	_TexVelocity;
+uniform sampler2D	_TexPressure;
+
+void	main()
+{
+	vec2	DivergenceCurl = texture2D( _TexPressure, _UV ).yz;
+
+	float	Pressure_Xp = texture2D( _TexPressure, _UV + _dUV.xz ).x;
+	float	Pressure_Xm = texture2D( _TexPressure, _UV - _dUV.xz ).x;
+	float	Pressure_Yp = texture2D( _TexPressure, _UV + _dUV.zy ).x;
+	float	Pressure_Ym = texture2D( _TexPressure, _UV - _dUV.zy ).x;
+
+	float	NewPressure = 0.25 * (Pressure_Xm + Pressure_Xp + Pressure_Ym + Pressure_Yp + DivergenceCurl.x);
+
+// 	// Nullify if we're inside an obstacle
+//  	float	Obstacle = _TexObstacles.SampleLevel( LinearClamp, UV, 0.0 ).x;
+// 	NewPressure *= 1.0 - Obstacle;
+
+	gl_FragColor = vec4( NewPressure, DivergenceCurl, 0.0 );
+}
