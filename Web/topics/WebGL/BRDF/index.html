@@ -35,6 +35,11 @@ Changes:
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="/js/jquery.layout-1.3.0.js"></script>
 
+<!-- Color picker -->
+<link rel="stylesheet" href="../patapi/ColorPicker/css/colorpicker.css" type="text/css" />
+<script type="text/javascript" src="../patapi/ColorPicker/js/colorpicker.js"></script>
+
+
 <!-- patapi -->
 <script type="text/javascript" src="../o3djs/base.js"></script>					<!-- Include a small part of the O3D library to help us with includes-->
 <script type="text/javascript" src="../patapi/base.js"></script>				<!-- Include PatAPI-->
@@ -469,6 +474,7 @@ function GetCookie( _Name )
 						<div id="PropPom_UIWidgets_Tabs">
 							<ul style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
 								<li><a href="#Tab_PomSpecular"><span>Parameters</span></a></li>
+								<li><a href="#Tab_PomColors"><span>Colors</span></a></li>
 								<li><a href="#Tab_PomFitting"><span>Fitting</span></a></li>
 								<li><a href="#Tab_PomStandard"><span>Standard</span></a></li>
 							</ul>
@@ -501,12 +507,28 @@ function GetCookie( _Name )
 									<div id="PropPomUI_Slider_DiffuseRoughness" class="UI-widget-label"><div class="t0"><span>Roughness</span></div><div class="t1"></div></div>
 								</div>
 
+								<div id="Tab_PomColors">
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Specular Chroma</strong></div>
+									<div id="PropPomUI_ColorPicker_Specular"><div style="background-color: #ffffff"></div></div>
+									<div id="PropPomUI_Button_PickSpecular"><span>Pick Specular</span></div>
+									<br />
+
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Fresnel Chroma</strong></div>
+									<div id="PropPomUI_ColorPicker_Fresnel"><div style="background-color: #ffffff"></div></div>
+									<div id="PropPomUI_Button_PickFresnel"><span>Pick Fresnel</span></div>
+									<br />
+
+									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Diffuse Chroma</strong></div>
+									<div id="PropPomUI_ColorPicker_Diffuse"><div style="background-color: #ffffff"></div></div>
+									<div id="PropPomUI_Button_PickDiffuse"><span>Pick Diffuse</span></div>
+								</div>
+
 								<div id="Tab_PomFitting">
 									<div id="PropPomUI_Radio_FittingMethod" class="UI-widget-label">
 										<div class="t0"><span>Fitting Method</span></div>
 										<div class="t1">
-											<input id="PropPomUI_Radio_FittingMethod0" value="0" name="radioFittingMethod" type="radio" checked="checked"><label for="PropPomUI_Radio_FittingMethod0">Levenberg-Marquardt</label>
-											<input id="PropPomUI_Radio_FittingMethod1" value="1" name="radioFittingMethod" type="radio"><label for="PropPomUI_Radio_FittingMethod1">BFGS</label>
+											<input id="PropPomUI_Radio_FittingMethod0" value="0" name="radioFittingMethod" type="radio" checked="checked"><label for="PropPomUI_Radio_FittingMethod0">BFGS</label>
+											<input id="PropPomUI_Radio_FittingMethod1" value="1" name="radioFittingMethod" type="radio"><label for="PropPomUI_Radio_FittingMethod1">Levenberg-Marquardt</label>
 										</div>
 									</div>
 									<br />

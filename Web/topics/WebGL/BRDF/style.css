@@ -397,6 +397,48 @@ html, body
 	right:		45%;
 }
 
+/* Color pickers */
+#PropPomUI_ColorPicker_Specular
+{
+	position: relative;
+	width: 36px;
+	height: 36px;
+	background: url(../patapi/ColorPicker/images/select2.png);
+}
+#PropPomUI_Button_PickSpecular
+{
+	position:	relative;
+	bottom:		32px;
+}
+
+#PropPomUI_ColorPicker_Fresnel
+{
+	position: relative;
+	width: 36px;
+	height: 36px;
+	background: url(../patapi/ColorPicker/images/select2.png);
+}
+#PropPomUI_Button_PickFresnel
+{
+	position:	relative;
+	bottom:		32px;
+}
+
+#PropPomUI_ColorPicker_Diffuse
+{
+	position: relative;
+	width: 36px;
+	height: 36px;
+	background: url(../patapi/ColorPicker/images/select2.png);
+}
+#PropPomUI_Button_PickDiffuse
+{
+	position:	relative;
+	bottom:		32px;
+}
+
+
+
 /* Viewport infos are a hovering div displaying infos about the currently pointed spot on the BRDF */
 .viewport-infos
 {

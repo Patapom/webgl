@@ -26,17 +26,20 @@ BRDFPom = function()
 	this.falloffX = 0.3;
 	this.exponentX = 0.4;
 	this.offsetX = 0.0;
+	this.chromaSpecular = vec3.one();
 
 	this.soloY = false;
 	this.amplitudeY = 1.0;
 	this.falloffY = 1.0;
 	this.exponentY = 0.8;
 	this.offsetY = 0.0;
+	this.chromaFresnel = vec3.one();
 
 	// Diffuse parameters
 	this.soloDiffuse = false;
 	this.diffuseReflectance = 0.1;
 	this.diffuseRoughness = 1.0;
+	this.chromaDiffuse = vec3.one();
 
 // 	// Disney model
 // 	this.soloX = false;
@@ -318,9 +321,9 @@ BRDFPom.prototype =
 		// Finally multiply by base color
 		Diffuse *= this.diffuseReflectance * Math.INVPI;
 
-		_Reflectance.x = Diffuse;
-		_Reflectance.y = Diffuse;
-		_Reflectance.z = Diffuse;
+		_Reflectance.x = Diffuse * this.chromaDiffuse.x;
+		_Reflectance.y = Diffuse * this.chromaDiffuse.y;
+		_Reflectance.z = Diffuse * this.chromaDiffuse.z;
 	}
 
 	, ComputeSpecular : function( _Reflectance )
@@ -332,24 +335,36 @@ BRDFPom.prototype =
 		var	v = 1.0 - this.__thetaD / Math.HALFPI;
 		var	Cy = this.offsetY + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
 
-		var	C;
 		if ( this.soloX )
-			C = Cx;
+		{
+			_Reflectance.x = Cx * this.chromaSpecular.x;
+			_Reflectance.y = Cx * this.chromaSpecular.y;
+			_Reflectance.z = Cx * this.chromaSpecular.z;
+		}
 		else if ( this.soloY )
-			C = Cy;
-		else	// Actual model
-			C = Cx * Cy - this.offsetX * this.offsetY;
+		{
+			_Reflectance.x = Cy * this.chromaFresnel.x;
+			_Reflectance.y = Cy * this.chromaFresnel.y;
+			_Reflectance.z = Cy * this.chromaFresnel.z;
+		}
+		else
+		{	// Complete model
+			_Reflectance.x = Cx * this.chromaSpecular.x + Cy * this.chromaFresnel.x;
+			_Reflectance.y = Cx * this.chromaSpecular.y + Cy * this.chromaFresnel.y;
+			_Reflectance.z = Cx * this.chromaSpecular.z + Cy * this.chromaFresnel.z;
+		}
+
+//			C = Cx * Cy - this.offsetX * this.offsetY;
+
 //*/
-/*
-		// Test with a simple Phong model
+/*		// Test with a simple Phong model
 		var	N = this.amplitudeX;
 		var	Fact = (N+2)*(N+4)/(8.0*Math.PI*(Math.pow( 2.0, -0.5*N ) + N));	// From http://www.farbrausch.de/~fg/stuff/phong.pdf
 		var	C = Fact * Math.pow( this.__cosThetaH, N );
-*/
-
 		_Reflectance.x = C;
 		_Reflectance.y = C;
 		_Reflectance.z = C;
+*/
 	}
 
 // 	// Try Disney model
@@ -445,7 +460,6 @@ BRDFPom.prototype =
 		this.exponentX = value;
 		this.NotifyChange();
 	}
-
 	, setFalloffX : function( value )
 	{
 		if ( Math.almost( value, this.falloffX ) )
@@ -454,7 +468,6 @@ BRDFPom.prototype =
 		this.falloffX = value;
 		this.NotifyChange();
 	}
-
 	, setAmplitudeX : function( value )
 	{
 		if ( Math.almost( value, this.amplitudeX ) )
@@ -463,7 +476,6 @@ BRDFPom.prototype =
 		this.amplitudeX = value;
 		this.NotifyChange();
 	}
-
 	, setOffsetX : function( value )
 	{
 		if ( Math.almost( value, this.offsetX ) )
@@ -472,7 +484,18 @@ BRDFPom.prototype =
 		this.offsetX = value;
 		this.NotifyChange();
 	}
+	, setChromaSpecular : function( R, G, B )
+	{
+		if ( Math.almost( R, this.chromaSpecular.x ) && Math.almost( G, this.chromaSpecular.y ) && Math.almost( B, this.chromaSpecular.z ))
+			return;
 
+		this.chromaSpecular.x = R;
+		this.chromaSpecular.y = G;
+		this.chromaSpecular.z = B;
+		this.NotifyChange();	// Needs a rebuild !
+	}
+
+	// Fresnel parameters
 	, setSoloY : function( value )
 	{
 		if ( value == this.soloY )
@@ -494,7 +517,6 @@ BRDFPom.prototype =
 		this.exponentY = value;
 		this.NotifyChange();
 	}
-
 	, setFalloffY : function( value )
 	{
 		if ( Math.almost( value, this.falloffY ) )
@@ -503,7 +525,6 @@ BRDFPom.prototype =
 		this.falloffY = value;
 		this.NotifyChange();
 	}
-
 	, setAmplitudeY : function( value )
 	{
 		if ( Math.almost( value, this.amplitudeY ) )
@@ -512,7 +533,6 @@ BRDFPom.prototype =
 		this.amplitudeY = value;
 		this.NotifyChange();
 	}
-
 	, setOffsetY : function( value )
 	{
 		if ( Math.almost( value, this.offsetY ) )
@@ -520,6 +540,16 @@ BRDFPom.prototype =
 
 		this.offsetY = value;
 		this.NotifyChange();
+	}
+	, setChromaFresnel : function( R, G, B )
+	{
+		if ( Math.almost( R, this.chromaFresnel.x ) && Math.almost( G, this.chromaFresnel.y ) && Math.almost( B, this.chromaFresnel.z ))
+			return;
+
+		this.chromaFresnel.x = R;
+		this.chromaFresnel.y = G;
+		this.chromaFresnel.z = B;
+		this.NotifyChange();	// Needs a rebuild !
 	}
 
 	// Diffuse parameters
@@ -536,7 +566,6 @@ BRDFPom.prototype =
 		}
 		this.NotifyChange();
 	}
-
 	, setDiffuseReflectance : function( value )
 	{
 		if ( Math.almost( value, this.diffuseReflectance ) )
@@ -545,7 +574,6 @@ BRDFPom.prototype =
 		this.diffuseReflectance = value;
 		this.NotifyChange();
 	}
-
 	, setDiffuseRoughness : function( value )
 	{
 		if ( Math.almost( value, this.diffuseRoughness ) )
@@ -554,6 +582,17 @@ BRDFPom.prototype =
 		this.diffuseRoughness = value;
 		this.NotifyChange();
 	}
+	, setChromaDiffuse : function( R, G, B )
+	{
+		if ( Math.almost( R, this.chromaDiffuse.x ) && Math.almost( G, this.chromaDiffuse.y ) && Math.almost( B, this.chromaDiffuse.z ))
+			return;
+
+		this.chromaDiffuse.x = R;
+		this.chromaDiffuse.y = G;
+		this.chromaDiffuse.z = B;
+		this.NotifyChange();	// Needs a rebuild !
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Notification system

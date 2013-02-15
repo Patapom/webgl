@@ -104,6 +104,7 @@ this.showIsolines = true;
 			}
 		 } );
 
+
 		// ===========================================
 		this.UICheckBox_SoloY = new patapi.ui.LabelCheckBox( {
 			selector : "#PropPomUI_CheckBox_SoloY span",
@@ -224,6 +225,118 @@ this.showIsolines = true;
 
 
 		//////////////////////////////////////////////////////////////////////////
+		// Color Picking widgets
+		this.pickingColor = false;
+		this.pickColorType = -1;
+		this.canvas.mousedown( function( e ) {
+			if ( !that.pickingColor )
+				return true;	// Don't intercept
+			
+			// Intercept button down and pick color at position
+			var	Reflectance = that.BRDF.sample( that.hoveredThetaH, that.hoveredThetaD );
+
+			// We need chroma = RGB/max(max(R,G),B)
+			var	Chroma = Reflectance.div_( Reflectance.max() );
+
+			switch ( that.pickColorType )
+			{
+			case 0: that.BRDF.setChromaSpecular( Chroma.x, Chroma.y, Chroma.z ); break;
+			case 1: that.BRDF.setChromaFresnel( Chroma.x, Chroma.y, Chroma.z ); break;
+			case 2: that.BRDF.setChromaDiffuse( Chroma.x, Chroma.y, Chroma.z ); break;
+			}
+
+			that.UpdateUI__();
+
+			return false;
+		} );
+
+
+		this.UIColorPicker_Specular = $('#PropPomUI_ColorPicker_Specular');
+		this.UIColorPicker_Specular.ColorPicker( {
+			color: '#ffffff',
+			onShow: function( colpkr ) {
+				$(colpkr).fadeIn(100);
+				return false;
+			},
+			onHide: function( colpkr ) {
+				$(colpkr).fadeOut(250);
+				return false;
+			},
+			onChange: function( hsb, hex, rgb ) {
+				
+				if ( that.BRDF )
+				{
+					var	Color = that.ColorTovec3( rgb );
+					that.BRDF.setChromaSpecular( Color.x, Color.y, Color.z );
+				}
+
+				$('#PropPomUI_ColorPicker_Specular div').css( 'backgroundColor', '#' + hex );
+			}
+		});
+		
+		$('#PropPomUI_Button_PickSpecular').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 0;
+		} );
+
+		this.UIColorPicker_Fresnel = $('#PropPomUI_ColorPicker_Fresnel');
+		this.UIColorPicker_Fresnel.ColorPicker( {
+			color: '#ffffff',
+			onShow: function( colpkr ) {
+				$(colpkr).fadeIn(100);
+				return false;
+			},
+			onHide: function( colpkr ) {
+				$(colpkr).fadeOut(250);
+				return false;
+			},
+			onChange: function( hsb, hex, rgb ) {
+				
+				if ( that.BRDF )
+				{
+					var	Color = that.ColorTovec3( rgb );
+					that.BRDF.setChromaFresnel( Color.x, Color.y, Color.z );
+				}
+
+				$('#PropPomUI_ColorPicker_Fresnel div').css( 'backgroundColor', '#' + hex );
+			}
+		});
+		
+		$('#PropPomUI_Button_PickFresnel').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 1;
+		} );
+
+		this.UIColorPicker_Diffuse = $('#PropPomUI_ColorPicker_Diffuse');
+		this.UIColorPicker_Diffuse.ColorPicker( {
+			color: '#ffffff',
+			onShow: function( colpkr ) {
+				$(colpkr).fadeIn(100);
+				return false;
+			},
+			onHide: function( colpkr ) {
+				$(colpkr).fadeOut(250);
+				return false;
+			},
+			onChange: function( hsb, hex, rgb ) {
+				
+				if ( that.BRDF )
+				{
+					var	Color = that.ColorTovec3( rgb );
+					that.BRDF.setChromaDiffuse( Color.x, Color.y, Color.z );
+				}
+
+				$('#PropPomUI_ColorPicker_Diffuse div').css( 'backgroundColor', '#' + hex );
+			}
+		});
+		
+		$('#PropPomUI_Button_PickDiffuse').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 2;
+		} );
+
+
+		//////////////////////////////////////////////////////////////////////////
 		// Fitting widgets
 		this.UIComboBox_ReferenceBRDF = new patapi.ui.LabelComboBox( {
 			labelSelector : "#PropPomUI_ComboBox_ReferenceBRDF .t0 span",
@@ -243,7 +356,7 @@ this.showIsolines = true;
 		} );
 
 		// Fitting method
-		this.fittingMethod = 0;	// Levenberg
+		this.fittingMethod = 0;	// BFGS
 		new patapi.ui.LabelRadioButtons( {
 			selector : '#PropPomUI_Radio_FittingMethod',
 			value : this.fittingMethod,
@@ -315,10 +428,10 @@ BRDFPropertiesPom.prototype =
 		function	ApplyConstraints( _Params )
 		{
 			// Specular parameters
-// 			_Params[0] = Math.clamp( _Params[0], 1e-3, 4.0 );	// Exponents can't go negative
-// 			_Params[4] = Math.clamp( _Params[4], 1e-3, 4.0 );
+			_Params[0] = Math.clamp( _Params[0], 1e-3, 4.0 );	// Exponents can't go negative
+			_Params[4] = Math.clamp( _Params[4], 1e-3, 4.0 );
 
-_Params[0] = _Params[4] = 1
+// _Params[0] = _Params[4] = 1
 
 			_Params[1] = Math.clamp( _Params[1], 1e-3, 1.0 );	// Falloff neither
 			_Params[5] = Math.clamp( _Params[5], 1e-3, 1.0 );
@@ -413,13 +526,13 @@ _Params[0] = _Params[4] = 1
 		// Start fitting
 		var	RMS = 0/0;
 		var	IterationsCount = 0;
-		if ( this.fittingMethod == 0 )
+		if ( this.fittingMethod == 1 )
 		{	// Levenberg-Marquard fitting
  			this.fitterLM.PerformFitting( this.BRDF.referenceBRDF, this.BRDF, InitialParameters, ApplyConstraints, PrepareEvalModel, EvalModel, UpdateParams );
 			RMS = Math.sqrt( this.fitterLM._sqSum );
 			IterationsCount = this.fitterLM._iterationsCount;
 		}
-		else if ( this.fittingMethod == 1 )
+		else if ( this.fittingMethod == 0 )
  		{	// BFGS Fitting
 			this.fitterBFGS.PerformFitting( this.BRDF.referenceBRDF, this.BRDF, InitialParameters, ApplyConstraints, PrepareEvalModel, EvalModel, UpdateParams );
 			RMS = Math.sqrt( this.fitterBFGS._functionMinimum );
@@ -462,11 +575,28 @@ _Params[0] = _Params[4] = 1
 		this.UISliderDiffuseReflectance.set( this.BRDF.diffuseReflectance );
 		this.UISliderDiffuseRoughness.set( this.BRDF.diffuseRoughness );
 
+		// Colors
+		var	Color = this.vec3ToColor( this.BRDF.chromaSpecular );
+		this.UIColorPicker_Specular.ColorPickerSetColor( Color );
+			Color = this.vec3ToColor( this.BRDF.chromaFresnel );
+		this.UIColorPicker_Fresnel.ColorPickerSetColor( Color );
+			Color = this.vec3ToColor( this.BRDF.chromaDiffuse );
+		this.UIColorPicker_Diffuse.ColorPickerSetColor( Color );
+
 		// Fitting
 		if ( this.BRDF.referenceBRDF )
 			this.UIComboBox_ReferenceBRDF.set( this.BRDF2UI[this.BRDF.referenceBRDF] );
 		this.UIRadio_ShowReferenceBRDF.set( this.BRDF.displayType );
  	}
+
+	, vec3ToColor : function( v )
+	{
+		return { r : (255 * v.x) | 0, g : (255 * v.y) | 0, b : (255 * v.z) | 0 };
+	}
+	, ColorTovec3 : function( rgb )
+	{
+		return new vec3( rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0 );
+	}
 
 	// Refreshes slice view if the BRDF changed its appearance
 	, OnBRDFEvent : function( _BRDF, _Event )

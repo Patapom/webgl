@@ -165,6 +165,13 @@ vec2.prototype =
 		}
 		return this;
 	}
+
+	, almost : function( b )
+	{
+		if ( b instanceof vec2 )
+			return Math.almost( this.x, b.x ) && Math.almost( this.y, b.y );
+		return Math.almost( this.x, b ) && Math.almost( this.y, b );
+	}
 };
 
 
@@ -248,7 +255,7 @@ vec3.prototype =
 		else						{ this.x /= b;		this.y /= b;	this.z /= b; }
 		return this;
 	}
-	, div_ : function()				{ return new vec3( this ).div( b ); }
+	, div_ : function( b )			{ return new vec3( this ).div( b ); }
 	, min : function( b )
 	{
 		if ( b === undefined )
@@ -329,6 +336,13 @@ vec3.prototype =
 		this.x = this.x * Cos + Cross.x * Sin + Dot * _Axis.x;
 		this.y = this.y * Cos + Cross.y * Sin + Dot * _Axis.y;
 		this.z = this.z * Cos + Cross.z * Sin + Dot * _Axis.z;
+	}
+
+	, almost : function( b )
+	{
+		if ( b instanceof vec3 )
+			return Math.almost( this.x, b.x ) && Math.almost( this.y, b.y ) && Math.almost( this.z, b.z );
+		return Math.almost( this.x, b ) && Math.almost( this.y, b ) && Math.almost( this.z, b );
 	}
 }
 
@@ -506,6 +520,13 @@ vec4.prototype =
 		case 3: this.w = value; break;
 		}
 		return this;
+	}
+
+	, almost : function( b )
+	{
+		if ( b instanceof vec4 )
+			return Math.almost( this.x, b.x ) && Math.almost( this.y, b.y ) && Math.almost( this.z, b.z ) && Math.almost( this.w, b.w );
+		return Math.almost( this.x, b ) && Math.almost( this.y, b ) && Math.almost( this.z, b ) && Math.almost( this.w, b );
 	}
 }
 

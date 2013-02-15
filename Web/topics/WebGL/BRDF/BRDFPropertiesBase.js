@@ -61,6 +61,8 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 	} );
 
 	// Hook the hover event on the canvas to enable our display infos
+	this.hoveredThetaH = 0;
+	this.hoveredThetaD = 0;
 	this.canvas.hover(
 		function() {
 			that.UIViewportInfos.css( 'display', 'block' );
@@ -72,24 +74,24 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 		var	TopLeftSlice = patapi.helpers.GetElementPosition( that.canvas[0] );
 		var	TopLeftParent = patapi.helpers.GetElementPosition( that.UIRoot[0] );
 
-		var	ThetaH = Math.clamp( 90 * (e.pageX - 5 - TopLeftSlice.x) / that.canvas[0].width, 0, 90 );
-		var	ThetaD = Math.clamp( 90 * (that.canvas[0].height-1 - (e.pageY - 5 - TopLeftSlice.y)) / that.canvas[0].height, 0, 90 );
+		that.hoveredThetaH = Math.clamp( 90 * (e.pageX - 5 - TopLeftSlice.x) / that.canvas[0].width, 0, 90 );
+		that.hoveredThetaD = Math.clamp( 90 * (that.canvas[0].height-1 - (e.pageY - 5 - TopLeftSlice.y)) / that.canvas[0].height, 0, 90 );
 
 		// Notify of marker change in position
 		if ( that.markerVisible )
-			that.setMarkerPosition( Math.deg2rad( ThetaH ), Math.deg2rad( ThetaD ) );
+			that.setMarkerPosition( Math.deg2rad( that.hoveredThetaH ), Math.deg2rad( that.hoveredThetaD ) );
 
 		// Position the viewport infos frame
-		that.UIViewportInfos.html( that.RefreshViewportInfos( ThetaH, ThetaD ) );
+		that.UIViewportInfos.html( that.RefreshViewportInfos( that.hoveredThetaH, that.hoveredThetaD ) );
 
 		var	Dx = e.pageX - TopLeftParent.x;
 		var	Dy = e.pageY - TopLeftParent.y;
 
-		if ( ThetaH > 45 )
+		if ( that.hoveredThetaH > 45 )
 			Dx -= 20 + that.UIViewportInfos.width();	// Move to the left of the pointer
 		else
 			Dx += 20;
-		if ( ThetaD < 45 )
+		if ( that.hoveredThetaD < 45 )
 			Dy -= 20 + that.UIViewportInfos.height();	// Move to the top of the pointer
 
 		that.UIViewportInfos.css( 'left', Dx ).css( 'top', Dy );
@@ -176,7 +178,12 @@ BRDFPropertiesBase.prototype =
 		// Update UI
 		this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
 
-		this.NotifyMarkerChanged();
+// 		var	ThetaH = this.markerPosition.x;
+// 		var	ThetaD = this.markerPosition.y;
+// 		this.markerPosition.x--;	// Just to make sure it's different from current value
+		this.setMarkerPosition( this.hoveredThetaH, this.hoveredThetaD );
+
+//		this.NotifyMarkerChanged();
 	}
 	, setMarkerPosition : function( _ThetaH, _ThetaD )
 	{
