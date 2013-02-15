@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Web\complexobject\Shaders\simple.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\complexobject\Shaders\simple.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\complexobject\index.html" />
+    <None Include="..\..\Web\topics\WebGL\complexobject\scene.json" />
+    <None Include="..\..\Web\topics\WebGL\complexobject\simple.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{6f5242f2-0526-4d73-bbbe-532e12d0618c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
