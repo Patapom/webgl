@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="O3D">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ZLib">
+      <UniqueIdentifier>{9e9a40ab-cf96-41b6-8deb-780d4eaafa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DDS Loader">
+      <UniqueIdentifier>{54b6c287-faca-42de-a76d-2e87fc155848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TGA Loader">
+      <UniqueIdentifier>{409306f2-6d11-449d-b386-2d113767cf16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="O3D\BasicTypes.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="O3D\GzCompressor.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="O3D\MemoryBuffer.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="O3D\MemoryStream.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="O3D\TarGenerator.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="O3D\Types.h">
+      <Filter>O3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\deflate.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\infblock.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\infcodes.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\inffast.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\inffixed.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\inftrees.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\infutil.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\StdAfx.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\trees.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\zconf.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\zlib.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLib\zutil.h">
+      <Filter>ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="DDS Loader\LoadDDS.h">
+      <Filter>DDS Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="TGA Loader\TGALoader.h">
+      <Filter>TGA Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="O3D\GzCompressor.cpp">
+      <Filter>O3D</Filter>
+    </ClCompile>
+    <ClCompile Include="O3D\MemoryStream.cpp">
+      <Filter>O3D</Filter>
+    </ClCompile>
+    <ClCompile Include="O3D\TarGenerator.cpp">
+      <Filter>O3D</Filter>
+    </ClCompile>
+    <ClCompile Include="DDS Loader\LoadDDS.cpp">
+      <Filter>DDS Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="TGA Loader\TGALoader.cpp">
+      <Filter>TGA Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>O3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ZLib\BUILT\zlib.lib">
+      <Filter>ZLib</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
