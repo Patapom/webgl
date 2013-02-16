@@ -531,8 +531,8 @@ this.showIsolines = true;
 			case 1: PresetParams = that.fittingPresets['specular_plastic']; break;
 			case 2: PresetParams = that.fittingPresets['matte_plastic']; break;
 			case 3: PresetParams = that.fittingPresets['paint']; break;
-			case 4: PresetParams = that.fittingPresets['matte_metallic_paint']; break;
-			case 5: PresetParams = that.fittingPresets['specular_metallic_paint']; break;
+			case 4: PresetParams = that.fittingPresets['specular_metallic_paint']; break;
+			case 5: PresetParams = that.fittingPresets['matte_metallic_paint']; break;
 			case 6: PresetParams = that.fittingPresets['phenolic']; break;
 
 			case 7: PresetParams = that.fittingPresets['metal']; break;
