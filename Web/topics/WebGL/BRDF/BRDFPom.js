@@ -17,7 +17,6 @@ BRDFPom = function()
 	// Reference BRDF for fitting
 	this.referenceBRDF = null;
 	this.referenceBRDFDirty = true;
-//	this.showReferenceBRDF = false;
 	this.displayType = 0;	// This BRDF
 
 	// Specular parameters
@@ -40,6 +39,7 @@ BRDFPom = function()
 	this.diffuseReflectance = 0.1;
 	this.diffuseRoughness = 1.0;
 	this.chromaDiffuse = vec3.one();
+	this.chromaRetroDiffuse = vec3.one();
 
 // 	// Disney model
 // 	this.soloX = false;
@@ -318,12 +318,15 @@ BRDFPom.prototype =
 		var	Diffuse = 1 + (Fd90-1)*Cos5;
 			Diffuse *= Diffuse;	// Diffuse uses double Fresnel from both ThetaV and ThetaL
 
-		// Finally multiply by base color
-		Diffuse *= this.diffuseReflectance * Math.INVPI;
+		var	RetroDiffuse = Math.max( 0, Diffuse-1 );	// Retro-reflection starts above 1
+//		Diffuse = Math.lerp( Diffuse, 0, Math.min( 1, RetroDiffuse ) );	// Retro-reflection makes diffuse lower...
 
-		_Reflectance.x = Diffuse * this.chromaDiffuse.x;
-		_Reflectance.y = Diffuse * this.chromaDiffuse.y;
-		_Reflectance.z = Diffuse * this.chromaDiffuse.z;
+		// Finally multiply by base color
+		var	Fact = this.diffuseReflectance * Math.INVPI;
+
+		_Reflectance.x = Fact * (Diffuse * this.chromaDiffuse.x + RetroDiffuse * this.chromaRetroDiffuse.x);
+		_Reflectance.y = Fact * (Diffuse * this.chromaDiffuse.y + RetroDiffuse * this.chromaRetroDiffuse.y);
+		_Reflectance.z = Fact * (Diffuse * this.chromaDiffuse.z + RetroDiffuse * this.chromaRetroDiffuse.z);
 	}
 
 	, ComputeSpecular : function( _Reflectance )
@@ -349,9 +352,9 @@ BRDFPom.prototype =
 		}
 		else
 		{	// Complete model
-			_Reflectance.x = Cx * this.chromaSpecular.x + Cy * this.chromaFresnel.x;
-			_Reflectance.y = Cx * this.chromaSpecular.y + Cy * this.chromaFresnel.y;
-			_Reflectance.z = Cx * this.chromaSpecular.z + Cy * this.chromaFresnel.z;
+			_Reflectance.x = Cx * this.chromaSpecular.x * Cy * this.chromaFresnel.x;
+			_Reflectance.y = Cx * this.chromaSpecular.y * Cy * this.chromaFresnel.y;
+			_Reflectance.z = Cx * this.chromaSpecular.z * Cy * this.chromaFresnel.z;
 		}
 
 //			C = Cx * Cy - this.offsetX * this.offsetY;
@@ -590,6 +593,16 @@ BRDFPom.prototype =
 		this.chromaDiffuse.x = R;
 		this.chromaDiffuse.y = G;
 		this.chromaDiffuse.z = B;
+		this.NotifyChange();	// Needs a rebuild !
+	}
+	, setChromaRetroDiffuse : function( R, G, B )
+	{
+		if ( Math.almost( R, this.chromaRetroDiffuse.x ) && Math.almost( G, this.chromaRetroDiffuse.y ) && Math.almost( B, this.chromaRetroDiffuse.z ))
+			return;
+
+		this.chromaRetroDiffuse.x = R;
+		this.chromaRetroDiffuse.y = G;
+		this.chromaRetroDiffuse.z = B;
 		this.NotifyChange();	// Needs a rebuild !
 	}
 

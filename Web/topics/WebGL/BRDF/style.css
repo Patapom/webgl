@@ -307,6 +307,12 @@ html, body
 	top:		10px;
 }
 
+#PropPomUI_Radio_Tabs
+{
+	width:		300px;
+	margin-bottom:10px;
+}
+
 #PropPom_UIWidgets
 {
 	position:	absolute;
@@ -340,7 +346,9 @@ html, body
 .UI-widget-label
 {
 	display:	block;
+/*
 	padding:	0.5%;
+*/
 }
 .UI-widget-label .t0
 {
@@ -397,44 +405,27 @@ html, body
 	right:		45%;
 }
 
+
 /* Color pickers */
-#PropPomUI_ColorPicker_Specular
+.PropPomUI_ColorWidgets
 {
-	position: relative;
-	width: 36px;
-	height: 36px;
-	background: url(../patapi/ColorPicker/images/select2.png);
-}
-#PropPomUI_Button_PickSpecular
-{
-	position:	relative;
-	bottom:		32px;
+	height:		40px;	
 }
 
-#PropPomUI_ColorPicker_Fresnel
-{
-	position: relative;
-	width: 36px;
-	height: 36px;
-	background: url(../patapi/ColorPicker/images/select2.png);
-}
-#PropPomUI_Button_PickFresnel
+.PropPomUI_ColorPicker
 {
 	position:	relative;
-	bottom:		32px;
+	width:		36px;
+	height:		36px;
+	background:	url(../patapi/ColorPicker/images/select2.png);
+	bottom:		20px;
+	left:		45%;
 }
-
-#PropPomUI_ColorPicker_Diffuse
-{
-	position: relative;
-	width: 36px;
-	height: 36px;
-	background: url(../patapi/ColorPicker/images/select2.png);
-}
-#PropPomUI_Button_PickDiffuse
+.PropPomUI_Button_Pick
 {
 	position:	relative;
-	bottom:		32px;
+	bottom:		50px;
+	left:		100px;
 }
 
 

@@ -312,7 +312,8 @@
 						hsb.h = 4 + (rgb.r - rgb.g) / delta;
 					}
 				} else {
-					hsb.h = -1;
+//					hsb.h = -1;	// ###POM### For greys, it showed the default "pink" hue which is a bit gay...
+					hsb.h = 0;
 				}
 				hsb.h *= 60;
 				if (hsb.h < 0) {
@@ -470,6 +471,10 @@
 						setSelector(col, cal.get(0));
 						setCurrentColor(col, cal.get(0));
 						setNewColor(col, cal.get(0));
+
+						// ###POM###
+						// Added notification!
+						cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col)]);
 					}
 				});
 			}

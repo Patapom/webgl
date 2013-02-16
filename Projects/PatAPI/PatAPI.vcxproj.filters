@@ -63,6 +63,111 @@
     </None>
     <None Include="..\..\Web\topics\WebGL\patapi\camera_orbit.js" />
     <None Include="..\..\Web\topics\WebGL\patapi\ui.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\index.html">
+      <Filter>ColorPicker</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\blank.gif">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_background.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_hex.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_hsb_b.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_hsb_h.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_hsb_s.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_indic.gif">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_overlay.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_rgb_b.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_rgb_g.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_rgb_r.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_select.gif">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\colorpicker_submit.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_background.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_hex.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_hsb_b.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_hsb_h.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_hsb_s.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_indic.gif">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_rgb_b.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_rgb_g.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_rgb_r.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\custom_submit.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\select.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\select2.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\slider.png">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\images\Thumbs.db">
+      <Filter>ColorPicker\Images</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\css\colorpicker.css">
+      <Filter>ColorPicker\css</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\css\layout.css">
+      <Filter>ColorPicker\css</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\colorpicker.js">
+      <Filter>ColorPicker\js</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\eye.js">
+      <Filter>ColorPicker\js</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\jquery.js">
+      <Filter>ColorPicker\js</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\layout.js">
+      <Filter>ColorPicker\js</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\utils.js">
+      <Filter>ColorPicker\js</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="O3D">
@@ -73,6 +178,18 @@
     </Filter>
     <Filter Include="Shaders\Video">
       <UniqueIdentifier>{773a063d-0070-4b2c-afa3-934718ce71e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorPicker">
+      <UniqueIdentifier>{6a46cd90-69f1-41e8-bcfa-f79e5672a10f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorPicker\Images">
+      <UniqueIdentifier>{1fff66d3-d3a9-488a-9b20-71f48b97d5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorPicker\css">
+      <UniqueIdentifier>{ea675db8-0587-4f1f-becb-c7e14df60e7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorPicker\js">
+      <UniqueIdentifier>{49b451fc-4e19-422c-9c04-a632de8eab0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

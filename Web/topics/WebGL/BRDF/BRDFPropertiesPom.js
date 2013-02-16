@@ -30,6 +30,20 @@ this.showIsolines = true;
 		// Standard widgets
 		this.CreateStandardPropertiesWidgets( '#PropPomUI' );	// Create standard widgets given our particular prefix
 
+		// Create tabs manually since jquery fucks my background!
+		this.tabIndex = 0;
+		new patapi.ui.LabelRadioButtons( {
+			selector : '#PropPomUI_Radio_Tabs',
+			value : 0,
+			change : function( value )
+			{
+				that.tabIndex = value;
+				$('#Tab_PomSpecular').css( 'display', value == 0 ? 'inherit' : 'none' );
+				$('#Tab_PomColors').css( 'display', value == 1 ? 'inherit' : 'none' );
+				$('#Tab_PomFitting').css( 'display', value == 2 ? 'inherit' : 'none' );
+				$('#Tab_PomStandard').css( 'display', value == 3 ? 'inherit' : 'none' );
+			}
+		} );
 
 		//////////////////////////////////////////////////////////////////////////
 		// Specular widgets
@@ -243,6 +257,7 @@ this.showIsolines = true;
 			case 0: that.BRDF.setChromaSpecular( Chroma.x, Chroma.y, Chroma.z ); break;
 			case 1: that.BRDF.setChromaFresnel( Chroma.x, Chroma.y, Chroma.z ); break;
 			case 2: that.BRDF.setChromaDiffuse( Chroma.x, Chroma.y, Chroma.z ); break;
+			case 3: that.BRDF.setChromaRetroDiffuse( Chroma.x, Chroma.y, Chroma.z ); break;
 			}
 
 			that.UpdateUI__();
@@ -270,9 +285,10 @@ this.showIsolines = true;
 					that.BRDF.setChromaSpecular( Color.x, Color.y, Color.z );
 				}
 
-				$('#PropPomUI_ColorPicker_Specular div').css( 'backgroundColor', '#' + hex );
+				$('#PropPomUI_ColorPicker_Specular').css( 'backgroundColor', '#' + hex );
 			}
 		});
+		this.UIColorPicker_Specular.ColorPickerSetColor( '#ffffff' );
 		
 		$('#PropPomUI_Button_PickSpecular').button().click( function() {
 			that.pickingColor = true;
@@ -298,7 +314,7 @@ this.showIsolines = true;
 					that.BRDF.setChromaFresnel( Color.x, Color.y, Color.z );
 				}
 
-				$('#PropPomUI_ColorPicker_Fresnel div').css( 'backgroundColor', '#' + hex );
+				$('#PropPomUI_ColorPicker_Fresnel').css( 'backgroundColor', '#' + hex );
 			}
 		});
 		
@@ -326,13 +342,41 @@ this.showIsolines = true;
 					that.BRDF.setChromaDiffuse( Color.x, Color.y, Color.z );
 				}
 
-				$('#PropPomUI_ColorPicker_Diffuse div').css( 'backgroundColor', '#' + hex );
+				$('#PropPomUI_ColorPicker_Diffuse').css( 'backgroundColor', '#' + hex );
 			}
 		});
 		
 		$('#PropPomUI_Button_PickDiffuse').button().click( function() {
 			that.pickingColor = true;
 			that.pickColorType = 2;
+		} );
+
+		this.UIColorPicker_RetroDiffuse = $('#PropPomUI_ColorPicker_RetroDiffuse');
+		this.UIColorPicker_RetroDiffuse.ColorPicker( {
+			color: '#ffffff',
+			onShow: function( colpkr ) {
+				$(colpkr).fadeIn(100);
+				return false;
+			},
+			onHide: function( colpkr ) {
+				$(colpkr).fadeOut(250);
+				return false;
+			},
+			onChange: function( hsb, hex, rgb ) {
+				
+				if ( that.BRDF )
+				{
+					var	Color = that.ColorTovec3( rgb );
+					that.BRDF.setChromaRetroDiffuse( Color.x, Color.y, Color.z );
+				}
+
+				$('#PropPomUI_ColorPicker_RetroDiffuse').css( 'backgroundColor', '#' + hex );
+			}
+		});
+		
+		$('#PropPomUI_Button_PickRetroDiffuse').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 3;
 		} );
 
 
@@ -582,6 +626,8 @@ BRDFPropertiesPom.prototype =
 		this.UIColorPicker_Fresnel.ColorPickerSetColor( Color );
 			Color = this.vec3ToColor( this.BRDF.chromaDiffuse );
 		this.UIColorPicker_Diffuse.ColorPickerSetColor( Color );
+			Color = this.vec3ToColor( this.BRDF.chromaRetroDiffuse );
+		this.UIColorPicker_RetroDiffuse.ColorPickerSetColor( Color );
 
 		// Fitting
 		if ( this.BRDF.referenceBRDF )
