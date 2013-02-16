@@ -438,7 +438,7 @@ function GetCookie( _Name )
 						<!-- Tabs with specific widgets -->
 						<div id="PropPom_UIWidgets_Tabs">
 							<div style="border-top: 0; padding-bottom: 1em;">
-								<div id="Tab_PomSpecular" style="display:none;">
+								<div id="Tab_PomSpecular" class="tab-Pom" style="display:none;">
 									<!-- Pom specular properties -->
 									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Specular Exponential</strong>
 										<div id="PropPomUI_CheckBox_SoloX" title="Show specular only"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div>
@@ -464,9 +464,13 @@ function GetCookie( _Name )
 									</div>
 									<div id="PropPomUI_Slider_DiffuseReflectance" class="UI-widget-label"><div class="t0"><span>Reflectance</span></div><div class="t1"></div></div>
 									<div id="PropPomUI_Slider_DiffuseRoughness" class="UI-widget-label"><div class="t0"><span>Roughness</span></div><div class="t1"></div></div>
+
+
+									<div id="PropPomUI_Button_CopyToClipboard"><span>Copy To Clipboard</span></div>
+
 								</div>
 
-								<div id="Tab_PomColors" style="display:none;">
+								<div id="Tab_PomColors" class="tab-Pom" style="display:none;">
 									<div class="PropPomUI_ColorWidgets">
 										<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Specular Chroma</strong></div>
 										<div id="PropPomUI_ColorPicker_Specular" class="PropPomUI_ColorPicker"><div style="background-color: #ffffff"></div></div>
@@ -492,7 +496,31 @@ function GetCookie( _Name )
 									</div>
 								</div>
 
-								<div id="Tab_PomFitting" style="display:none;">
+								<div id="Tab_PomFitting" class="tab-Pom" style="display:none;">
+
+									<!-- Presets -->
+									<div id="PropPomUI_Presets_Container">
+										<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Presets</strong></div>
+										<div id="PropPomUI_Presets">
+											<!-- Row 0 -->
+											<div title="Plastic" class="Pom-preset Pom-preset-plastic"></div>
+											<div title="Specular Plastic" class="Pom-preset Pom-preset-plastic-specular"></div>
+											<div title="Matte Plastic" class="Pom-preset Pom-preset-plastic-matte"></div>
+											<div title="Paint" class="Pom-preset Pom-preset-paint"></div>
+											<div title="Specular Metallic Paint" class="Pom-preset Pom-preset-paint-metallic"></div>
+											<div title="Matte Metallic Paint" class="Pom-preset Pom-preset-paint-metallic2"></div>
+											<div title="Phenolic" class="Pom-preset Pom-preset-phenolic"></div>
+											<!-- Row 1 -->
+											<div title="Metal" class="Pom-preset Pom-preset-metal"></div>
+											<div title="Fabric" class="Pom-preset Pom-preset-fabric"></div>
+											<div title="Latex" class="Pom-preset Pom-preset-latex"></div>
+											<div title="Rubber" class="Pom-preset Pom-preset-rubber"></div>
+											<div title="Acrylic" class="Pom-preset Pom-preset-acrylic"></div>
+											<div title="Wood" class="Pom-preset Pom-preset-wood"></div>
+											<div title="Marble" class="Pom-preset Pom-preset-marble"></div>
+										</div>
+									</div>
+
 									<div id="PropPomUI_Radio_FittingMethod" class="UI-widget-label">
 										<div class="t0"><span>Fitting Method</span></div>
 										<div class="t1">
@@ -506,7 +534,7 @@ function GetCookie( _Name )
 								</div>
 
 								<!-- Standard widgets -->
-								<div id="Tab_PomStandard" style="display:none;">
+								<div id="Tab_PomStandard" class="tab-Pom" style="display:none;">
 									<div id="PropPomUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets"></div>
 								</div>
 							</div>

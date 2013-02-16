@@ -21,6 +21,99 @@ BRDFPropertiesPom = function()
 this.showIsolines = true;
 
 
+	//////////////////////////////////////////////////////////////////////////
+	// Fitting Presets
+	this.fittingPresets = {
+
+		// X Exp Fall Amp Off
+		// Y Exp Fall Amp Off
+		// Diff Rough
+
+		// Measured from beige fabric
+		fabric : /*[	0.19, 1.0, 0.001, 0,
+					1.081, 0.85, 1.0471285480508996, 0,
+					0.26, 1.42 ],*/
+[5.11,0.651,0.02754228703338166,0,0.941,1,21.87761623949553,0,0.27,1.62],
+
+		// Measured from aluminium
+		metal : /*[	0.51, 0.251, 490.0, 0,
+					0.721, 1, 3.1622776601683795, 0,
+					0.01, 0.3 ],*/
+[0.47,0.281,1047.1285480508996,0.01,0.561,0.9999997247431525,3.2359365692962827,0,0.01,0.33],
+
+		// Measured from blue acrylic
+		acrylic : /*[	0.32, 0.171, 1318.2567385564075, 0,
+					1.331, 0.52, 0.72443596007499, 0,
+					0.07, 0.52 ],*/
+[0.42,0.151,1513.5612484362086,0.02,1.531,0.44,1.62181009735893,0,0.11,0.03],
+
+		// Measured from blue metalic paint
+		matte_metallic_paint :/* [	0.56, 0.331, 1318.2567385564075, 0,
+								1.451, 0.35, 0.831763771102671, 0,
+								0.02, 0 ],*/
+[0.94,0.711,5.011872336272722,0.05,1.111,0.7,1.1220184543019633,0,0,1.28],
+
+		// Measured from blue metalic paint 2
+		specular_metallic_paint :/* [	1.37, 0.531, 5.248074602497725, 0,
+							0.461, 1.0, 4.677351412871983, 0,
+							0.05,0 ],*/
+[0.49,0.401,1479.1083881682073,0.01,0.681,0.62,3.890451449942806,0,0.03,0],
+
+		// Measured from pearl paint
+		paint : /*[	0.86, 1.00, 4.168693834703354, 0,
+					0.801, 0.61, 2.290867652767773, 0,
+					0.08, 2.28 ],*/
+[0.85,1.001,10.232929922807541,0.03,0.741,0.53,2.2387211385683394,0,0.17,1.08],
+
+		// Measured from gray plastic
+		plastic : /*[	0.38, 0.261, 177.82794100389228, 0,
+					1.781, 0.54, 0.7762471166286917, 0,
+					0.06, 0.9 ],*/
+[0.44,0.261,407.3802778041126,0.01,1.291,0.51,2.1877616239495525,0,0.11,0.32],
+
+		// Measured from red specular plastic
+		specular_plastic : /*[	0.33, 0.191, 630.957344480193, 0,
+								0.471, 0.92, 7.079457843841379, 0,
+								0.1, 0.79 ],*/
+[0.44,0.161,1000,0.01,0.721,0.54,20.892961308540396,0,0.23,0.08],
+
+		// Measured from yellow matte plastic
+		matte_plastic : /*[	0.35, 0.841, 43.65158322401658, 0,
+							0.651, 0.64, 10, 0,
+							0.08, 1.67 ],*/
+[0.56,0.251,87.09635899560806,0.01,0.781,0.52,49.99999999999999,0,0.31,0.1],
+
+		// Measured from blue rubber
+		rubber : /*[	1.18, 0.791, 1.7378008287493754, 0,
+					0.841, 0.52, 7.943282347242816, 0,
+					0.05, 2.71 ],*/
+[0.95,0.541,2.6302679918953817,0.01,0.891,0.48,15.13561248436208,0,0.16,0.79],
+
+		// Measured from cherry
+		wood : /*[	0.88, 0.471, 3.2359365692962827, 0,
+					1.051, 0.53, 5.7543993733715695, 0,
+					0.03, 1.69 ],*/
+[0.87,0.471,3.9810717055349722,0.02,1.041,0.52,6.309573444801933,0,0.04,1.3],
+
+		// Measured from green latex
+		latex : /*[	2.1, 1.0, 0.5888436553555889, 0,
+					0.861, 0.54, 1.4125375446227544, 0,
+					0.06, 1.92 ],*/
+[1.79,1.001,0.6918309709189365,0.03,0.851,0.53,1.5135612484362082,0,0.09,1.25],
+
+		// Measured from red phenolic
+		phenolic : /*[	0.28, 0.421, 676.0829753919819, 0,
+						0.791, 0.77, 4.265795188015927, 0,
+						0.08, 0.87 ],*/
+[0.35,0.321,1230.268770812381,0.01,0.941,0.5,7.413102413009175,0,0.15,0.02],
+
+		// Measured from white marble
+		marble : /*[	0.36, 0.261, 389.04514499428046, 0,
+					1.291, 0.59, 1.202264434617413, 0,
+					0.12, 0.74 ],*/
+[0.49,0.191,812.8305161640995,0.01,1.031,0.52,4.36515832240166,0,0.23,0.14],
+	};
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Create our UI elements
@@ -44,6 +137,27 @@ this.showIsolines = true;
 				$('#Tab_PomStandard').css( 'display', value == 3 ? 'inherit' : 'none' );
 			}
 		} );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Reference BRDF
+		this.UIComboBox_ReferenceBRDF = new patapi.ui.LabelComboBox( {
+			labelSelector : "#PropPomUI_ComboBox_ReferenceBRDF .t0 span",
+			selector : "#PropPomUI_ComboBox_ReferenceBRDF .t1 select",
+		} );
+		this.BRDF_UIs = [];
+		this.BRDF2UI = {};
+
+		this.UIRadio_ShowReferenceBRDF = new patapi.ui.LabelRadioButtons( {
+			selector : '#PropPomUI_Radio_Display',
+			value : 0,
+			change : function( value )
+			{
+				if ( that.BRDF )
+					that.BRDF.setDisplayType( value );
+			}
+		} );
+
 
 		//////////////////////////////////////////////////////////////////////////
 		// Specular widgets
@@ -79,7 +193,7 @@ this.showIsolines = true;
 		this.UISliderExponentX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_ExponentX .t0 span",
 			selector : "#PropPomUI_Slider_ExponentX .t1",
-			sliderParams : { min: 0.0, max : 4.0, value: 1.0 },
+			sliderParams : { min: 0.0, max : 8.0, value: 1.0 },
 			step : 0.001,
 			change : function( value, _OriginalText )
 			{
@@ -138,7 +252,7 @@ this.showIsolines = true;
 		this.UISliderAmplitudeY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_AmplitudeY .t0 span",
 			selector : "#PropPomUI_Slider_AmplitudeY .t1",
-			sliderParams : { min: -3.0, max : 1.0, value: 0.1 },
+			sliderParams : { min: -3.0, max : 1.6989700043360188047862611052755, value: 0.1 },
 			step : 0.001,
 			change : function( value, _OriginalText )
 			{
@@ -153,7 +267,7 @@ this.showIsolines = true;
 		this.UISliderExponentY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_ExponentY .t0 span",
 			selector : "#PropPomUI_Slider_ExponentY .t1",
-			sliderParams : { min: 1e-3, max : 4.0, value: 1.0 },
+			sliderParams : { min: 1e-3, max : 8.0, value: 1.0 },
 			step : 0.0001,
 			change : function( value, _OriginalText )
 			{
@@ -236,6 +350,31 @@ this.showIsolines = true;
 				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
 			}
 		 } );
+
+
+		$('#PropPomUI_Button_CopyToClipboard').button().click( function() {
+
+			var	Parameters = [
+				// Specular parameters
+				that.BRDF.exponentX,
+				that.BRDF.falloffX,
+				that.BRDF.amplitudeX,
+				that.BRDF.offsetX,
+
+				that.BRDF.exponentY,
+				that.BRDF.falloffY,
+				that.BRDF.amplitudeY,
+				that.BRDF.offsetY,
+
+				// Diffuse parameters
+				that.BRDF.diffuseReflectance,
+				that.BRDF.diffuseRoughness,
+			];
+//			var	Text = JSON.stringify( Parameters, null, '\t' );
+			var	Text = JSON.stringify( Parameters );	// Single line only :(
+
+			window.prompt ("Copy to clipboard: Ctrl+C, Enter", Text );
+		} );
 
 
 		//////////////////////////////////////////////////////////////////////////
@@ -381,22 +520,56 @@ this.showIsolines = true;
 
 		//////////////////////////////////////////////////////////////////////////
 		// Fitting widgets
-		this.UIComboBox_ReferenceBRDF = new patapi.ui.LabelComboBox( {
-			labelSelector : "#PropPomUI_ComboBox_ReferenceBRDF .t0 span",
-			selector : "#PropPomUI_ComboBox_ReferenceBRDF .t1 select",
-		} );
-		this.BRDF_UIs = [];
-		this.BRDF2UI = {};
 
-		this.UIRadio_ShowReferenceBRDF = new patapi.ui.LabelRadioButtons( {
-			selector : '#PropPomUI_Radio_Display',
-			value : 0,
-			change : function( value )
+		// Presets
+		function ClickPreset( i )
+		{
+			var	PresetParams = null;
+			switch ( i )
 			{
-				if ( that.BRDF )
-					that.BRDF.setDisplayType( value );
+			case 0: PresetParams = that.fittingPresets['plastic']; break;
+			case 1: PresetParams = that.fittingPresets['specular_plastic']; break;
+			case 2: PresetParams = that.fittingPresets['matte_plastic']; break;
+			case 3: PresetParams = that.fittingPresets['paint']; break;
+			case 4: PresetParams = that.fittingPresets['matte_metallic_paint']; break;
+			case 5: PresetParams = that.fittingPresets['specular_metallic_paint']; break;
+			case 6: PresetParams = that.fittingPresets['phenolic']; break;
+
+			case 7: PresetParams = that.fittingPresets['metal']; break;
+			case 8: PresetParams = that.fittingPresets['fabric']; break;
+			case 9: PresetParams = that.fittingPresets['latex']; break;
+			case 10: PresetParams = that.fittingPresets['rubber']; break;
+			case 11: PresetParams = that.fittingPresets['acrylic']; break;
+			case 12: PresetParams = that.fittingPresets['wood']; break;
+			case 13: PresetParams = that.fittingPresets['marble']; break;
 			}
-		} );
+			if ( !PresetParams )
+				throw "Unrecognized preset!";
+
+			return function() {
+				// Update specular parameters
+				that.BRDF.exponentX = PresetParams[0];
+				that.BRDF.falloffX = PresetParams[1];
+				that.BRDF.amplitudeX = PresetParams[2];
+				that.BRDF.offsetX = PresetParams[3];
+
+				that.BRDF.exponentY = PresetParams[4];
+				that.BRDF.falloffY = PresetParams[5];
+				that.BRDF.amplitudeY = PresetParams[6];
+				that.BRDF.offsetY = PresetParams[7];
+
+				// Update diffuse parameters
+				that.BRDF.diffuseReflectance = PresetParams[8];
+				that.BRDF.diffuseRoughness = PresetParams[9];
+
+				that.BRDF.NotifyChange.call( that.BRDF );	// So the BRDF gets updated...
+			}
+		}
+		for ( var i=0; i < 14; i++ )
+		{
+			var	ButtonPreset = $('#PropPomUI_Presets > div:nth-child(' + (i+1) + ')');
+			ButtonPreset.click( ClickPreset( i ) )
+		}
 
 		// Fitting method
 		this.fittingMethod = 0;	// BFGS
@@ -471,13 +644,13 @@ BRDFPropertiesPom.prototype =
 		function	ApplyConstraints( _Params )
 		{
 			// Specular parameters
-			_Params[0] = Math.clamp( _Params[0], 1e-3, 4.0 );	// Exponents can't go negative
-			_Params[4] = Math.clamp( _Params[4], 1e-3, 4.0 );
+			_Params[0] = Math.clamp( _Params[0], 1e-3, 8.0 );	// Exponents can't go negative
+			_Params[4] = Math.clamp( _Params[4], 1e-3, 8.0 );
 
 // _Params[0] = _Params[4] = 1
 
-			_Params[1] = Math.clamp( _Params[1], 1e-3, 1.0 );	// Falloff neither
-			_Params[5] = Math.clamp( _Params[5], 1e-3, 1.0 );
+			_Params[1] = Math.clamp( _Params[1], 1e-2, 1.0 );	// Falloff neither
+			_Params[5] = Math.clamp( _Params[5], 1e-2, 1.0 );
 			_Params[2] = Math.max( 0.0, _Params[2] );			// Nor amplitudes
 			_Params[6] = Math.max( 0.0, _Params[6] );
 			_Params[3] = Math.clamp( _Params[3], 0.0, 1.0 );	// Offsets are in [0,1]
