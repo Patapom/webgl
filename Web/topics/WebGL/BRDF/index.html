@@ -333,22 +333,7 @@ function GetCookie( _Name )
 				<div id="BRDFProperties_Slices" class="BRDF-properties" style="display:none">
 					<canvas id="PropSlice_Viewport" class="BRDF-properties-UI-viewport"></canvas>
 					<div id="PropSlice_UIWidgets" class="BRDF-properties-slice-UI-widgets">
-
-						<div id="PropSliceUI_Radio_ThetaH" class="UI-widget-label">
-							<div class="t0"><span>Theta H</span></div>
-							<div class="t1">
-								<input id="PropSliceUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH" type="radio"><label for="PropSliceUI_Radio_ThetaH0">Normal</label>
-								<input id="PropSliceUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH" type="radio" checked="checked"><label for="PropSliceUI_Radio_ThetaH1">Squared</label>
-								<input id="PropSliceUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH" type="radio"><label for="PropSliceUI_Radio_ThetaH2">Cos</label>
-							</div>
-						</div>
-
-						<div id="PropSliceUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-						<div id="PropSliceUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-						<div id="PropSliceUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-						<div id="PropSliceUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-						<div id="PropSliceUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
-						<div id="PropSliceUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
+						<div id="PropSliceUI_StandardWidgets"></div>
 					</div>
 				</div>
 
@@ -356,26 +341,8 @@ function GetCookie( _Name )
 				<div id="BRDFProperties_Analytical" class="BRDF-properties" style="display:none">
 					<canvas id="PropAnalytical_Viewport" class="BRDF-properties-UI-viewport"></canvas>
 					<div id="PropAnalytical_UIWidgets" class="BRDF-properties-slice-UI-widgets">
-						<div id="PropAnalyticalUI_Checkbox_ToggleStandardWidgets" class="UI-widget-label"><div class="t0"><span>Show Standard Params</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-						<div id="PropAnalyticalUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets" style="display:none;">
-
-							<div id="PropAnalyticalUI_Radio_ThetaH" class="UI-widget-label">
-								<div class="t0"><span>Theta H</span></div>
-								<div class="t1">
-									<input id="PropAnalyticalUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH2" type="radio"><label for="PropAnalyticalUI_Radio_ThetaH0">Normal</label>
-									<input id="PropAnalyticalUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH2" type="radio" checked="checked"><label for="PropAnalyticalUI_Radio_ThetaH1">Squared</label>
-									<input id="PropAnalyticalUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH2" type="radio"><label for="PropAnalyticalUI_Radio_ThetaH2">Cos</label>
-								</div>
-							</div>
-
-							<div id="PropAnalyticalUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-							<div id="PropAnalyticalUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-							<div id="PropAnalyticalUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-							<div id="PropAnalyticalUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-							<div id="PropAnalyticalUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
-							<div id="PropAnalyticalUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
-							<div>&nbsp;</div>
-						</div>
+						<div id="PropAnalyticalUI_Checkbox_ToggleStandardWidgets" class="UI-widget-label"><div class="t0"><span>Show Standard Params</span></div><div class="t1"></div></div>
+						<div id="PropAnalyticalUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets" style="display:none;"></div>
 
 						<!-- Diffuse model properties -->
 						<div id="PropAnalyticalUI_Diffuse" class="BRDF-properties-slice-UI-widgets">
@@ -470,15 +437,6 @@ function GetCookie( _Name )
 
 						<!-- Tabs with specific widgets -->
 						<div id="PropPom_UIWidgets_Tabs">
-<!-- 
-							<ul style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-								<li><a href="#Tab_PomSpecular"><span>Parameters</span></a></li>
-								<li><a href="#Tab_PomColors"><span>Colors</span></a></li>
-								<li><a href="#Tab_PomFitting"><span>Fitting</span></a></li>
-								<li><a href="#Tab_PomStandard"><span>Standard</span></a></li>
-							</ul>
- -->
-
 							<div style="border-top: 0; padding-bottom: 1em;">
 								<div id="Tab_PomSpecular" style="display:none;">
 									<!-- Pom specular properties -->
@@ -547,28 +505,9 @@ function GetCookie( _Name )
 									<div id="PropPomUI_Result_Fitting"></div>
 								</div>
 
+								<!-- Standard widgets -->
 								<div id="Tab_PomStandard" style="display:none;">
-									<!-- Standard widgets -->
-									<div id="PropPomUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets">
-
-										<div id="PropPomUI_Radio_ThetaH" class="UI-widget-label">
-											<div class="t0"><span>Theta H</span></div>
-											<div class="t1">
-												<input id="PropPomUI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH" type="radio"><label for="PropPomUI_Radio_ThetaH0">Normal</label>
-												<input id="PropPomUI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH" type="radio" checked="checked"><label for="PropPomUI_Radio_ThetaH1">Squared</label>
-												<input id="PropPomUI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH" type="radio"><label for="PropPomUI_Radio_ThetaH2">Cos</label>
-											</div>
-										</div>
-
-										<div id="PropPomUI_Checkbox_LogLuma" class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-										<div id="PropPomUI_Checkbox_Chroma" class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-										<div id="PropPomUI_Checkbox_Normalized" class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-										<div id="PropPomUI_Checkbox_IsoLines" class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
-										<div id="PropPomUI_Slider_Exposure" class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>
-										<div id="PropPomUI_Slider_Gamma" class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>
-
-										<div>&nbsp;</div>
-									</div>
+									<div id="PropPomUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets"></div>
 								</div>
 							</div>
 						</div>

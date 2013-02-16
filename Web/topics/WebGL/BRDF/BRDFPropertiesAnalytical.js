@@ -19,7 +19,7 @@ BRDFPropertiesAnalytical = function()
 	{
 		//////////////////////////////////////////////////////////////////////////
 		// Standard widgets
-		this.CreateStandardPropertiesWidgets( '#PropAnalyticalUI' );
+		this.CreateStandardPropertiesWidgets( 'Analytical', '#PropAnalyticalUI_StandardWidgets', '#PropAnalyticalUI_Checkbox_ToggleStandardWidgets .t0' );
 
 
 		//////////////////////////////////////////////////////////////////////////

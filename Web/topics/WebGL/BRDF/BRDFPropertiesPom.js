@@ -28,7 +28,7 @@ this.showIsolines = true;
 	{
 		//////////////////////////////////////////////////////////////////////////
 		// Standard widgets
-		this.CreateStandardPropertiesWidgets( '#PropPomUI' );	// Create standard widgets given our particular prefix
+		this.CreateStandardPropertiesWidgets( 'Pom', '#PropPomUI_StandardWidgets' );
 
 		// Create tabs manually since jquery fucks my background!
 		this.tabIndex = 0;
@@ -86,21 +86,21 @@ this.showIsolines = true;
 				if ( that.BRDF )
 					that.BRDF.setExponentX( value );
 
-				return _OriginalText + " (" + value.toFixed( 2 ) + ")";	// Update text
+				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
 			}
 		 } );
 
 		this.UISliderFalloffX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_FalloffX .t0 span",
 			selector : "#PropPomUI_Slider_FalloffX .t1",
-			sliderParams : { min: 0.0, max : 10.0, value: 0.1 },
-			step : 0.001,
+			sliderParams : { min: 1e-3, max : 10.0, value: 0.1 },
+			step : 0.0001,
 			change : function( value, _OriginalText )
 			{
 				if ( that.BRDF )
 					that.BRDF.setFalloffX( value );
 
-				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
+				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
 			}
 		 } );
 
@@ -153,14 +153,14 @@ this.showIsolines = true;
 		this.UISliderExponentY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_ExponentY .t0 span",
 			selector : "#PropPomUI_Slider_ExponentY .t1",
-			sliderParams : { min: 0.0, max : 4.0, value: 1.0 },
-			step : 0.001,
+			sliderParams : { min: 1e-3, max : 4.0, value: 1.0 },
+			step : 0.0001,
 			change : function( value, _OriginalText )
 			{
 				if ( that.BRDF )
 					that.BRDF.setExponentY( value );
 
-				return _OriginalText + " (" + value.toFixed( 2 ) + ")";	// Update text
+				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
 			}
 		 } );
 
@@ -174,7 +174,7 @@ this.showIsolines = true;
 				if ( that.BRDF )
 					that.BRDF.setFalloffY( value );
 
-				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
+				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
 			}
 		 } );
 
@@ -288,7 +288,6 @@ this.showIsolines = true;
 				$('#PropPomUI_ColorPicker_Specular').css( 'backgroundColor', '#' + hex );
 			}
 		});
-		this.UIColorPicker_Specular.ColorPickerSetColor( '#ffffff' );
 		
 		$('#PropPomUI_Button_PickSpecular').button().click( function() {
 			that.pickingColor = true;

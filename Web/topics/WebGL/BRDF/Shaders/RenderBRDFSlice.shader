@@ -68,6 +68,11 @@ void	main()
 	{
 		Reflectance = Chroma( Reflectance );
 	}
+	else if ( _ShowDeChromatized )
+	{
+		vec3	Chr = Chroma( Reflectance );
+		Reflectance /= Chr;
+	}
 	else
 	{
 		Reflectance *= exp2( _Exposure );	// Use exposure

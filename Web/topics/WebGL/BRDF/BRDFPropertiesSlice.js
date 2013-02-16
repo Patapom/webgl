@@ -14,8 +14,7 @@ BRDFPropertiesSlice = function()
 
 	//////////////////////////////////////////////////////////////////////////
 	// Create our UI elements
-	var that = this;
-	this.CreateStandardPropertiesWidgets( '#PropSliceUI' );
+	this.CreateStandardPropertiesWidgets( 'Slice', '#PropSliceUI_StandardWidgets' );
 
 	// Simulate resize, which should also trigger a render
 	this.OnResize();

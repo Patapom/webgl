@@ -333,10 +333,12 @@ BRDFPom.prototype =
 	{
 //*
 		var	u = this.__thetaH / Math.HALFPI;
-		var	Cx = this.offsetX + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
+//		var	Cx = this.offsetX + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
+		var	Cx = this.diffuseReflectance + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
 
 		var	v = 1.0 - this.__thetaD / Math.HALFPI;
-		var	Cy = this.offsetY + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
+//		var	Cy = this.offsetY + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
+		var	Cy = this.diffuseReflectance + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
 
 		if ( this.soloX )
 		{
@@ -352,9 +354,12 @@ BRDFPom.prototype =
 		}
 		else
 		{	// Complete model
-			_Reflectance.x = Cx * this.chromaSpecular.x * Cy * this.chromaFresnel.x;
-			_Reflectance.y = Cx * this.chromaSpecular.y * Cy * this.chromaFresnel.y;
-			_Reflectance.z = Cx * this.chromaSpecular.z * Cy * this.chromaFresnel.z;
+// 			_Reflectance.x = Cx * this.chromaSpecular.x * Cy * this.chromaFresnel.x;
+// 			_Reflectance.y = Cx * this.chromaSpecular.y * Cy * this.chromaFresnel.y;
+// 			_Reflectance.z = Cx * this.chromaSpecular.z * Cy * this.chromaFresnel.z;
+			_Reflectance.x = (Cx * Cy - this.diffuseReflectance*this.diffuseReflectance) * this.chromaSpecular.x;
+			_Reflectance.y = (Cx * Cy - this.diffuseReflectance*this.diffuseReflectance) * this.chromaSpecular.y;
+			_Reflectance.z = (Cx * Cy - this.diffuseReflectance*this.diffuseReflectance) * this.chromaSpecular.z;
 		}
 
 //			C = Cx * Cy - this.offsetX * this.offsetY;

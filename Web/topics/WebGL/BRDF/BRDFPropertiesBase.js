@@ -20,6 +20,7 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 	this.displayTypeThetaH = 1;			// Default is "squared" (which is the actual encoding of ThetaH btw)
 	this.showLogLuma = false;
 	this.showChroma = false;
+	this.showDeChromatized = false;
 	this.showNormalized = false;
 	this.showIsolines = false;
 
@@ -158,6 +159,11 @@ BRDFPropertiesBase.prototype =
 		this.showChroma = value;
 		this.Render();
 	}
+	, setShowDeChromatized : function( value )
+	{
+		this.showDeChromatized = value;
+		this.Render();
+	}
 	, setShowNormalized : function( value )
 	{
 		this.showNormalized = value;
@@ -235,6 +241,7 @@ BRDFPropertiesBase.prototype =
 						M.uniforms.SafeSet( "_DisplayTypeThetaH", that.displayTypeThetaH );
 						M.uniforms.SafeSet( "_ShowLogLuma", that.showLogLuma );
 						M.uniforms.SafeSet( "_ShowChroma", that.showChroma );
+						M.uniforms.SafeSet( "_ShowDeChromatized", that.showDeChromatized );
 						M.uniforms.SafeSet( "_ShowNormalized", that.showNormalized );
 						M.uniforms.SafeSet( "_MaxReflectance", that.BRDF.maxReflectance );
 						M.uniforms.SafeSet( "_ShowIsolines", that.showIsolines );
@@ -362,26 +369,64 @@ BRDFPropertiesBase.prototype =
 	}
 
 	// Create standard widgets given a particular prefix specific to the BRDF type calling this function
-	, CreateStandardPropertiesWidgets : function( _SelectorPrefix )
+	, CreateStandardPropertiesWidgets : function( _Prefix, _ContainerSelector, _ToggleCheckboxSelector )
 	{
 		var	that = this;
 
-		new patapi.ui.LabelCheckBox( {
-			selector : _SelectorPrefix + "_Checkbox_ToggleStandardWidgets .t1 span",
-			labelSelector : _SelectorPrefix + "_Checkbox_ToggleStandardWidgets .t0",
-			value : this.showStandardWidgets,
-			button : true,
-			change : function( value )
-			{
-				that.showStandardWidgets = value;
-				$(_SelectorPrefix+"_StandardWidgets").css( 'display', value ? 'inherit' : 'none' );	// Toggle visibility
-			}
-		} );
+		//////////////////////////////////////////////////////////////////////////
+		// Create the DOM elements
+		var	Container = $(_ContainerSelector);
+
+		Container.append(
+		'<div class="UI-widget-label">' +
+			'<div class="t0"><span>Theta H</span></div>' +
+			'<div class="t1">' +
+				'<input id="' + _Prefix + 'UI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio"><label for="' + _Prefix + 'UI_Radio_ThetaH0">Normal</label>' +
+				'<input id="' + _Prefix + 'UI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio" checked="checked"><label for="' + _Prefix + 'UI_Radio_ThetaH1">Squared</label>' +
+				'<input id="' + _Prefix + 'UI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio"><label for="' + _Prefix + 'UI_Radio_ThetaH2">Cos</label>' +
+			'</div>' +
+		'</div>' );
+
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show Log10 Luma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show Chroma</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show De-Chromatized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show Normalized</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show Isolines every powers of 10</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>' );
+
+
+		var	Selectors = [
+			_ContainerSelector + " > div:nth-child(1)",		// Radio ThetaH
+			_ContainerSelector + " > div:nth-child(2)",		// Log10 Luma
+			_ContainerSelector + " > div:nth-child(3)",		// Chroma
+			_ContainerSelector + " > div:nth-child(4)",		// De-Chromatized
+			_ContainerSelector + " > div:nth-child(5)",		// Normalized
+			_ContainerSelector + " > div:nth-child(6)",		// Isolines
+			_ContainerSelector + " > div:nth-child(7)",		// Exposure
+			_ContainerSelector + " > div:nth-child(8)",		// Gamma
+		];
+
+		//////////////////////////////////////////////////////////////////////////
+		// Bind controls
+		if ( _ToggleCheckboxSelector )
+		{
+			new patapi.ui.LabelCheckBox( {
+				labelSelector : _ToggleCheckboxSelector,
+				value : this.showStandardWidgets,
+				button : true,
+				change : function( value )
+				{
+					that.showStandardWidgets = value;
+					$(_ContainerSelector).css( 'display', value ? 'inherit' : 'none' );	// Toggle visibility
+				}
+			} );
+		}
 
 		// Create sqr/luma/chroma check boxes
 		new patapi.ui.LabelRadioButtons( {
-			selector : _SelectorPrefix + "_Radio_ThetaH",
-			labelSelector : _SelectorPrefix + "_Radio_ThetaH .t0 span",
+			selector : Selectors[0],
+			labelSelector : Selectors[0] + " .t0 span",
 			value : this.displayTypeThetaH,
 			change : function( value )
 			{
@@ -390,7 +435,7 @@ BRDFPropertiesBase.prototype =
 		} );
 
 		new patapi.ui.LabelCheckBox( {
-			selector : _SelectorPrefix + "_Checkbox_LogLuma .t1 span",
+			selector : Selectors[1] + " .t1 span",
 			value : this.showLogLuma,
 			change : function( value )
 			{
@@ -399,7 +444,7 @@ BRDFPropertiesBase.prototype =
 		} );
 
 		new patapi.ui.LabelCheckBox( {
-			selector : _SelectorPrefix + "_Checkbox_Chroma .t1 span",
+			selector : Selectors[2] + " .t1 span",
 			value : this.showChroma,
 			change : function( value )
 			{
@@ -408,7 +453,16 @@ BRDFPropertiesBase.prototype =
 		} );
 
 		new patapi.ui.LabelCheckBox( {
-			selector : _SelectorPrefix + "_Checkbox_Normalized .t1 span",
+			selector : Selectors[3] + " .t1 span",
+			value : this.showDeChromatized,
+			change : function( value )
+			{
+				that.setShowDeChromatized( value );
+			}
+		} );
+
+		new patapi.ui.LabelCheckBox( {
+			selector : Selectors[4] + " .t1 span",
 			value : this.showNormalized,
 			change : function( value )
 			{
@@ -417,7 +471,7 @@ BRDFPropertiesBase.prototype =
 		} );
 
 		new patapi.ui.LabelCheckBox( {
-			selector : _SelectorPrefix + "_Checkbox_IsoLines .t1 span",
+			selector : Selectors[5] + " .t1 span",
 			value : this.showIsolines,
 			change : function( value )
 			{
@@ -427,8 +481,8 @@ BRDFPropertiesBase.prototype =
 
 		// Create exposure/gamma slider
 		this.UISliderExposure = new patapi.ui.LabelSlider( {
-			labelSelector : _SelectorPrefix + "_Slider_Exposure .t0 span",
-			selector : _SelectorPrefix + "_Slider_Exposure .t1",
+			labelSelector : Selectors[6] + " .t0 span",
+			selector : Selectors[6] + " .t1",
 			sliderParams : { min: -6.0, max: 6.0 },
 			change : function( value, _OriginalText )
 			{
@@ -442,8 +496,8 @@ BRDFPropertiesBase.prototype =
 		 } );
 
 		this.UISliderGamma = new patapi.ui.LabelSlider( {
-			labelSelector : _SelectorPrefix + "_Slider_Gamma .t0 span",
-			selector : _SelectorPrefix + "_Slider_Gamma .t1",
+			labelSelector : Selectors[7] + " .t0 span",
+			selector : Selectors[7] + " .t1",
 			sliderParams : { min: 1.0, max : 4.0, value: 2.2 },
 			change : function( value, _OriginalText )
 			{

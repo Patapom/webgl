@@ -19,6 +19,8 @@ FittingBFGS.prototype =
 
 	, PerformFitting : function( _BRDFTarget, _BRDFPom, _InitialParameters, _ConstraintCallback, _PrepareEvalModelCallback, _EvalModelCallback, _UpdateParametersCallback )
 	{
+		this._constraintCallback = _ConstraintCallback;
+
 		// Prepare the array of luminance values from the BRDF
 		var	Values = this.InitMatrix( 90, 90 );
 		var	Luminance = new vec3( 0.2126, 0.7152, 0.0722 );		// Observer. = 2°, Illuminant = D65
@@ -110,13 +112,19 @@ B = Math.log( Math.max( 1e-8, B ) );
 			for ( var i=0; i < _Params.length; i++ )
 			{
 				var	OldCoeff = _Params[i];
-				_Params[i] += EPS;
-				var	OffsetValue = _Eval( _Params );
+
+				_Params[i] -= EPS;
+				var	OffsetValueNeg = _Eval( _Params );
+
+				_Params[i] += 2*EPS;
+				var	OffsetValuePos = _Eval( _Params );
+
 				_Params[i] = OldCoeff;
 
-				this._evalCallsCount++;	// One more eval
+				this._evalCallsCount+=2;	// Two more evals
 
-				var	Derivative = OffsetValue - CentralValue;
+//				var	Derivative = OffsetValue - CentralValue;
+				var	Derivative = 0.5 * (OffsetValuePos - OffsetValueNeg);
 					Derivative /= EPS;
 
 				_Gradient[i] = Derivative;

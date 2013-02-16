@@ -37,6 +37,7 @@ uniform float		_LightIntensity;
 uniform float		_Exposure;
 uniform bool		_ShowLogLuma;
 uniform bool		_ShowChroma;
+uniform bool		_ShowDeChromatized;
 uniform bool		_ShowNormalized;
 uniform vec3		_MaxReflectance;
 uniform bool		_ShowIsolines;
@@ -224,6 +225,11 @@ vec3	GetReflectance( vec2 _UV, bool _ShowLogLuma )
 	else if ( _ShowChroma )
 	{
 		Reflectance = Chroma( Reflectance );
+	}
+	else if ( _ShowDeChromatized )
+	{
+		vec3	Chr = Chroma( Reflectance );
+		Reflectance /= Chr;
 	}
 	else
 	{
