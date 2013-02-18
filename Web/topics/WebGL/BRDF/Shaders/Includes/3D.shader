@@ -13,6 +13,8 @@ uniform bool		_UseBRDFColors;
 uniform bool		_ShowX10;
 uniform int			_SeparateRGB;
 
+uniform bool		_ShowRefBRDF;	// Reference BRDF is displayed in 50% alpha blended mode
+
 uniform bool		_RenderPickable;
 
 uniform bool		_ShowMarker;
@@ -129,7 +131,15 @@ vec4	ComputeBRDFColor( vec3 _Direction, vec2 _UV, vec2 _DiffuseSpecular, bool _I
 
 	BlendWithMarker( Color, _Direction );
 
-	return vec4( Color, _BRDFValid && _IsWireframe ? 0.5 : 1.0 );
+	float	Alpha = 1.0;
+	if ( _BRDFValid )
+	{
+		if ( _ShowRefBRDF )
+			Alpha = 0.5;
+		else if ( _IsWireframe )
+			Alpha = 0.5;
+	}
+	return vec4( Color, Alpha );
 }
 
 #endif	//  _3D_INCLUDED_

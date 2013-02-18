@@ -292,19 +292,20 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderOffsetY = new patapi.ui.LabelSlider( {
-			labelSelector : "#PropPomUI_Slider_OffsetY .t0 span",
-			selector : "#PropPomUI_Slider_OffsetY .t1",
-			sliderParams : { min: 0.0, max : 1.0, value: 0.0 },
-			step : 0.001,
-			change : function( value, _OriginalText )
-			{
-				if ( that.BRDF )
-					that.BRDF.setOffsetY( value );
-
-				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
-			}
-		 } );
+// Not used anymore
+// 		this.UISliderOffsetY = new patapi.ui.LabelSlider( {
+// 			labelSelector : "#PropPomUI_Slider_OffsetY .t0 span",
+// 			selector : "#PropPomUI_Slider_OffsetY .t1",
+// 			sliderParams : { min: 0.0, max : 1.0, value: 0.0 },
+// 			step : 0.001,
+// 			change : function( value, _OriginalText )
+// 			{
+// 				if ( that.BRDF )
+// 					that.BRDF.setOffsetY( value );
+// 
+// 				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
+// 			}
+// 		 } );
 
 
 		// ===========================================
@@ -783,7 +784,7 @@ BRDFPropertiesPom.prototype =
 		this.UISliderAmplitudeY.set( Math.LOG10E * Math.log( this.BRDF.amplitudeY ) );
 		this.UISliderFalloffY.set( this.BRDF.falloffY );
 		this.UISliderExponentY.set( this.BRDF.exponentY );
-		this.UISliderOffsetY.set( this.BRDF.offsetY );
+//		this.UISliderOffsetY.set( this.BRDF.offsetY );
 
 		// Diffuse
 		this.UISliderDiffuseReflectance.set( this.BRDF.diffuseReflectance );

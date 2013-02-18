@@ -108,6 +108,46 @@ vec3	RotateVector( vec3 v, vec3 _Axis, float _Angle )
 	return CosAngle * v + SinAngle * Ortho + Dot * _Axis;
 }
 
+vec3	RotateVector( vec3 v, vec3 _Axis, vec2 _SinCosAngle )
+{
+	float	Dot = dot( v, _Axis );
+			Dot *= 1.0 - _SinCosAngle.y;
+
+	vec3	Ortho = cross( _Axis, v );
+	
+	return _SinCosAngle.y * v + _SinCosAngle.x * Ortho + Dot * _Axis;
+}
+
+
+////////////////////////////////////////////////////////////////
+// Samples the normal map
+vec3	SampleNormalMap( sampler2D _TexNormalMap, vec2 _UV, float _Strength )
+{
+	vec3	NormalTS = 2.0 * texture2D( _TexNormalMap, _UV ).xyz - vec3(1.0);
+			NormalTS.z *= 4.0;	// Attenuate strength
+
+	NormalTS = lerp( vec3( 0, 0, 1 ), NormalTS, _Strength );
+	return normalize( NormalTS );
+}
+
+////////////////////////////////////////////////////////////////
+// Transform tangent space based on new normal from a normal map
+void	RotateTangentSpace( inout vec3 _Tangent, inout vec3 _BiTangent, inout vec3 _Normal, vec3 _NormalTS )
+{
+	vec3	Ortho = cross( vec3( 0, 0, 1 ), _NormalTS );
+	vec2	SinCos = vec2( length( Ortho ), 0.0 );
+	if ( SinCos.x > 1e-6 )
+		Ortho /= SinCos.x;
+	else
+		Ortho = vec3( 1, 0, 0 );
+	SinCos.y = sqrt( 1.0 - SinCos.x*SinCos.x );
+
+	_Normal = RotateVector( _Normal, Ortho, SinCos );
+	_Tangent = RotateVector( _Tangent, Ortho, SinCos );
+	_BiTangent = RotateVector( _BiTangent, Ortho, SinCos );
+}
+
+
 ////////////////////////////////////////////////////////////////
 // Isolines
 float	IsoTest( float a, float b )

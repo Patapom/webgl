@@ -21,6 +21,7 @@ RendererBRDF = function( _canvas, _FOV )
 	this.convergenceRate = 0.025;
 	this.keepSampling = true;
 	this.primitiveType = false;	// Use teapot by default
+	this.normalMapStrength = 0.0;
 
 	// Light params
 	this.lightIntensity = 1.0;
@@ -114,6 +115,11 @@ RendererBRDF = function( _canvas, _FOV )
 			that.textureWarp = patapi.webgl.CreateTextureFromArray( "WarpTexture", Pixels, 64, 64, gl.RGBA_FLOAT, gl.CLAMP_TO_EDGE, gl.LINEAR, true );
 		} );
 	}
+
+
+	// Load the optional normal map
+	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMap.jpg", gl.REPEAT, gl.LINEAR );
+
 
 	// Create our sphere mesh we will render with the BRDF
 	{
@@ -294,6 +300,7 @@ RendererBRDF.prototype =
 	, setLightDistance : function( value )			{ this.lightDistance = value; this.NotifyChange(); }
 	, setSkyType : function( value )				{ this.skyType = value; this.NotifyChange(); }
 	, setPrimitiveType : function( value )			{ this.primitiveType = value; this.NotifyChange(); }
+	, setNormalMapStrength : function( value )		{ this.normalMapStrength = value; this.NotifyChange(); }
 	, setIBLImage : function( value )
 	{
 		if ( value == this.IBLImageIndex )
@@ -488,6 +495,7 @@ RendererBRDF.prototype =
 					break;
 				}
 
+				// Send the BRDF
 				var	TextureBRDF = that.BRDF ? that.BRDF.getSliceTextureForViewport( that.viewport ) : null;
 				M.uniforms.SafeSet( "_BRDFValid", TextureBRDF != null );
 				if ( TextureBRDF )
@@ -501,6 +509,10 @@ RendererBRDF.prototype =
 					M.uniforms.SafeSet( "_ShowChroma", that.BRDF.showChroma );
 					M.uniforms.SafeSet( "_ShowNormalized", false );
 				}
+
+				// Send the normal map
+				M.uniforms.SafeSet( "_NormalStrength", that.normalMapStrength );
+				M.uniforms.SafeSet( "_TexNormalMap", that.normalMap );
 
 				// Render the primitive
 				var	Prim = that.primitiveType ? that.primitiveSphere : that.primitiveTeapot;
@@ -634,13 +646,11 @@ RendererBRDF.prototype =
 	{
 		var	that = this;
 
-		//////////////////////////////////////////////////////////////////////////
-		// Lighting UI
 		$("#RenderBRDFUI_ResetCamera").click( function() {
 			that.cameraManipulator.MoveTarget( vec3.zero() );
 		} );
 		
-		this.UICheckBoxToggleLighting = new patapi.ui.LabelCheckBox( {
+		new patapi.ui.LabelCheckBox( {
 			selector : "#RenderBRDFUI_TogglePrimitive",
 			value : this.primitiveType,
 			change : function( value )
@@ -648,8 +658,38 @@ RendererBRDF.prototype =
 				that.setPrimitiveType( value );
 			}
 		} );
+		
+		//////////////////////////////////////////////////////////////////////////
+		// Normal Map UI
+		this.UICheckBoxToggleNormalMap = new patapi.ui.LabelCheckBox( {
+			selector : "#RenderBRDFUI_ToggleNormalMapUI",
+			value : false,
+			change : function( value )
+			{
+				if ( value )
+				{
+					$( "#RenderBRDF_UIWidgetsNormalMap" ).css( "display", "block" );
+					that.UICheckBoxToggleLighting.set( false );	// Hide everything else
+					that.UICheckBoxToggleToneMapping.set( false );
+				}
+				else
+					$( "#RenderBRDF_UIWidgetsNormalMap" ).css( "display", "none" );
+			}
+		} );
 
+		new patapi.ui.LabelSlider( {
+			labelSelector : "#RenderBRDFUI_Slider_NormalMapStrength .t0 span",
+			selector : "#RenderBRDFUI_Slider_NormalMapStrength .t1",
+			sliderParams : { min: 0, max : 1, step : 0.01, value: this.normalMapStrength },
+			change : function( value, _OriginalText )
+			{
+				that.setNormalMapStrength( value );
+				return _OriginalText + " (" + that.normalMapStrength.toFixed( 2 ) + ")";	// Update text
+			}
+		 } );
 
+		//////////////////////////////////////////////////////////////////////////
+		// Lighting UI
 		this.UICheckBoxToggleLighting = new patapi.ui.LabelCheckBox( {
 			selector : "#RenderBRDFUI_ToggleLightingUI",
 			value : false,	// UI is hidden by default
@@ -659,6 +699,7 @@ RendererBRDF.prototype =
 				{
 					$( "#RenderBRDF_UIWidgetsLighting" ).css( "display", "block" );
 					that.UICheckBoxToggleToneMapping.set( false );	// Hide everything else
+					that.UICheckBoxToggleNormalMap.set( false );
 				}
 				else
 					$( "#RenderBRDF_UIWidgetsLighting" ).css( "display", "none" );
@@ -831,6 +872,7 @@ RendererBRDF.prototype =
 				{
 					$( "#RenderBRDF_UIWidgetsToneMapping" ).css( "display", "block" );
 					that.UICheckBoxToggleLighting.set( false );	// Hide everything else
+					that.UICheckBoxToggleNormalMap.set( false );
 				}
 				else
 					$( "#RenderBRDF_UIWidgetsToneMapping" ).css( "display", "none" );

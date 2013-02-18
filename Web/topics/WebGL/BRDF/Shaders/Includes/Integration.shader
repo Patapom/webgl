@@ -11,6 +11,9 @@ uniform int			_Random1;
 uniform sampler2D	_TexPreviousImage;	// Previous pass rendering for accumulation
 uniform float		_ConvergenceRate;	// Convergence rate of the Monte Carlo integration
 
+uniform float		_NormalStrength;
+uniform sampler2D	_TexNormalMap;		// Optional normal map
+
 
 // Small test with anisotropy
 uniform vec3		_Anisotropy;
@@ -116,10 +119,23 @@ vec3	AccumulateRadiance( vec3 _ViewTS, vec3 _Position, vec3 _Tangent, vec3 _BiTa
 	return fNormalizer * Result;
 }
 
-vec3	IntegrateBRDF( vec3 _ViewTS, vec3 _Position, vec3 _Tangent, vec3 _BiTangent, vec3 _Normal )
+vec3	IntegrateBRDF( vec2 _UV, vec3 _View, vec3 _Position, vec3 _Tangent, vec3 _BiTangent, vec3 _Normal )
 {
 	if ( !_BRDFValid )
-		return vec3( _ViewTS.zzz );
+		return vec3( _View.zzz );
+
+	// Rotate tangent space with new normal
+	{
+
+// Remap planar into pipo spherical
+vec3	Pipo = normalize( _Position );
+_UV = vec2( 1.0 + atan( Pipo.x, Pipo.z ) * INV_PI, acos( Pipo.y ) * INV_PI );
+
+		vec3	NormalTS = SampleNormalMap( _TexNormalMap, _UV, _NormalStrength );
+		RotateTangentSpace( _Tangent, _BiTangent, _Normal, NormalTS );
+	}
+
+	vec3	ViewTS = vec3( dot( _View, _Tangent ), dot( _View, _BiTangent ), dot( _View, _Normal ) );
 
 	vec3	PreviousRadiance = vec3( 0.0 );
 	if ( _PassIndex > 0 )
@@ -128,7 +144,7 @@ vec3	IntegrateBRDF( vec3 _ViewTS, vec3 _Position, vec3 _Tangent, vec3 _BiTangent
 		PreviousRadiance = texture2D( _TexPreviousImage, ScreenUVs ).xyz;
 	}
 
-	vec3	Radiance = AccumulateRadiance( _ViewTS, _Position, _Tangent, _BiTangent, _Normal );
+	vec3	Radiance = AccumulateRadiance( ViewTS, _Position, _Tangent, _BiTangent, _Normal );
 
 	vec3	ConvergedRadiance = lerp( PreviousRadiance, Radiance, _ConvergenceRate );
 

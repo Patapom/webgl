@@ -17,7 +17,7 @@
 // Varying values
 varying vec3	_WorldPosition;
 varying vec2	_UV;
-varying vec3	_ViewTS;
+varying vec3	_View;
 varying vec3	_Tangent;
 varying vec3	_BiTangent;
 varying vec3	_Normal;
@@ -46,7 +46,7 @@ void	main()
 	gl_Position = _World2Proj * vec4( _vPosition + vec3( 0, 0, 0 ), 1 );
 	_WorldPosition = _vPosition;
 	_UV = _vUV;
-	_ViewTS = vec3( dot( WorldView, WorldTangent ), dot( WorldView, WorldBiTangent ), dot( WorldView, WorldNormal ) );
+	_View = WorldView;
 	_Tangent = WorldTangent;
 	_BiTangent = WorldBiTangent;
 	_Normal = WorldNormal;
@@ -60,11 +60,7 @@ void	main()
 
 void	main()
 {
-	gl_FragColor = vec4( IntegrateBRDF( normalize( _ViewTS ), _WorldPosition, normalize( _Tangent ), normalize( _BiTangent ), normalize( _Normal ) ), 1 );
-
-// Debug tangent space
-//gl_FragColor = vec4( normalize( _Normal ), 1 );
-//gl_FragColor = vec4( normalize( _Tangent ), 1 );
+	gl_FragColor = vec4( IntegrateBRDF( _UV, normalize( _View ), _WorldPosition, normalize( _Tangent ), normalize( _BiTangent ), normalize( _Normal ) ), 1 );
 }
 
 #endif

@@ -24,6 +24,7 @@ Renderer3D = function( _canvas, _FOV )
 
 	this.showWireframe = false;
 	this.showGroundPlane = true;
+	this.showRefBRDF = false;	// When the displayed BRDF also has a "referenceBRDF" property then a button appears to toggle this state
 
 	// Marker handling
 	this.markerVisible = false;
@@ -293,6 +294,11 @@ Renderer3D = function( _canvas, _FOV )
 		}
 	}
 
+	// Build the "Show Reference" button
+	this.button_ShowRefBRDF = $('#Render3DUI_ShowReferenceBRDF').button().click( function() {
+		that.setShowRefBRDF( !that.showRefBRDF );
+	} );
+
 	//////////////////////////////////////////////////////////////////////////
 	// Subscribe to all properties' marker event so we can track and position the marker on our 3D representation
 	BRDFPropertiesBase.prototype.SubscribeOnMarkerChanged.call( BRDFPropertiesBase.prototype, this, function( _Properties ) {
@@ -332,12 +338,20 @@ Renderer3D.prototype =
 			return;	// No change...
 
 		if ( this.BRDF )
+		{
 			this.BRDF.UnSubscribe( this );
+			this.button_ShowRefBRDF.css( 'display', 'none' );	// Hide button
+			this.showRefBRDF = false;
+		}
 
 		this.BRDF = value;
 
 		if ( this.BRDF )
+		{
 			this.BRDF.Subscribe( this, this.OnBRDFEvent );
+			if ( this.BRDF.referenceBRDF !== undefined )
+				this.button_ShowRefBRDF.css( 'display', 'inherit' );	// Show button if property exists (don't care if it's null)
+		}
 
 		// Trigger a render to update view
 		this.Render();
@@ -420,6 +434,14 @@ Renderer3D.prototype =
 			return;
 
 		this.showGroundPlane = value;
+		this.Render();
+	}
+	, setShowRefBRDF : function( value )
+	{
+		if ( value == this.showRefBRDF )
+			return;
+
+		this.showRefBRDF = value;
 		this.Render();
 	}
 
@@ -585,8 +607,29 @@ Renderer3D.prototype =
 
 				M.uniforms.SafeSet( "_ShowMarker", that.markerVisible );
 				M.uniforms.SafeSet( "_MarkerPosition", that.markerPosition );
+				M.uniforms.SafeSet( "_ShowRefBRDF", false );
 
 				DrawGeometry( M,that.primitive );
+
+				// Draw reference BRDF geometry in alpha blend
+				var	ReferenceBRDFSliceTexture = that.showRefBRDF && that.BRDF && that.BRDF.referenceBRDF ? that.BRDF.referenceBRDF.getSliceTextureForViewport( that.viewport ) : null;
+				if ( !ReferenceBRDFSliceTexture )
+					return;
+
+				M.uniforms.SafeSet( "_TexBRDF", ReferenceBRDFSliceTexture );
+
+				gl.enable( gl.BLEND );
+				gl.disable( gl.DEPTH_TEST );
+				gl.blendEquation( gl.FUNC_ADD );
+				gl.blendFunc( gl.SRC_ALPHA, gl.ONE );	// Pre-multiplied alpha
+//				gl.blendFunc( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );	// Alpha blending
+				gl.blendFunc( gl.SRC_ALPHA, gl.ZERO );	// Choucourte blending
+
+				M.uniforms.SafeSet( "_ShowRefBRDF", true );
+				DrawGeometry( M,that.primitive );
+
+				gl.enable( gl.DEPTH_TEST );
+				gl.disable( gl.BLEND );
 			} );
 
 			//////////////////////////////////////////////////////////////////////////

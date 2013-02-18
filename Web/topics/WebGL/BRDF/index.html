@@ -206,13 +206,6 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 		} );
 
 
-// UpdateStatusError( "<u>An error occurred during page initialization:</u>\n\n" + "PUTAIN!" );
-// return;
-	
-
-// 	$('#PropPom_UIWidgets_Tabs').tabs();
-
-
 	//////////////////////////////////////////////////////////////////////////
 	// Initialize GL containers and other views
 	try
@@ -250,14 +243,14 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 var	g_ResetParams = false;
 $(window).unload( function()
 {
-	if ( g_BRDFList	)		g_BRDFList.Destroy();	// Destroy list first so that the BRDF will be removed from selection and other views will be notified
-
+	if ( g_BRDFList	)					g_BRDFList.Destroy();	// Destroy list first so that the BRDF will be removed from selection and other views will be notified
 	if ( g_BRDFPropertiesSlice )		g_BRDFPropertiesSlice.Destroy();
 	if ( g_BRDFPropertiesAnalytical )	g_BRDFPropertiesAnalytical.Destroy();
 	if ( g_BRDFPropertiesPom )			g_BRDFPropertiesPom.Destroy();
-	if ( g_GLRenderBRDF )	g_GLRenderBRDF.Destroy();
-	if ( g_GLRenderGraph )	g_GLRenderGraph.Destroy();
-	if ( g_GLRender3D )		g_GLRender3D.Destroy();
+	if ( g_BRDFPropertiesPainter )		g_BRDFPropertiesPainter.Destroy();
+	if ( g_GLRenderBRDF )				g_GLRenderBRDF.Destroy();
+	if ( g_GLRenderGraph )				g_GLRenderGraph.Destroy();
+	if ( g_GLRender3D )					g_GLRender3D.Destroy();
 } );
 
 
@@ -451,7 +444,7 @@ function GetCookie( _Name )
 									<div id="PropPomUI_Slider_AmplitudeX" class="UI-widget-label"><div class="t0"><span>Amplitude X</span></div><div class="t1"></div></div>
 									<div id="PropPomUI_Slider_FalloffX" class="UI-widget-label"><div class="t0"><span>Falloff X</span></div><div class="t1"></div></div>
 									<div id="PropPomUI_Slider_ExponentX" class="UI-widget-label"><div class="t0"><span>Exponent X</span></div><div class="t1"></div></div>
-									<div id="PropPomUI_Slider_OffsetX" class="UI-widget-label"><div class="t0"><span>Offset X</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_OffsetX" class="UI-widget-label"><div class="t0"><span>Offset</span></div><div class="t1"></div></div>
 
 									<br />
 									<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Fresnel Exponential</strong>
@@ -460,7 +453,9 @@ function GetCookie( _Name )
 									<div id="PropPomUI_Slider_AmplitudeY" class="UI-widget-label"><div class="t0"><span>Amplitude Y</span></div><div class="t1"></div></div>
 									<div id="PropPomUI_Slider_FalloffY" class="UI-widget-label"><div class="t0"><span>Falloff Y</span></div><div class="t1"></div></div>
 									<div id="PropPomUI_Slider_ExponentY" class="UI-widget-label"><div class="t0"><span>Exponent Y</span></div><div class="t1"></div></div>
+<!-- Not used anymore
 									<div id="PropPomUI_Slider_OffsetY" class="UI-widget-label"><div class="t0"><span>Offset Y</span></div><div class="t1"></div></div>
+ -->
 
 									<!-- Pom diffuse properties -->
 									<br />
@@ -550,14 +545,14 @@ function GetCookie( _Name )
 					</div>
 				</div>
 
-				<!-- Add properties elements for other BRDF types -->	
-
 				<!-- The properties layout for the Slice BRDF that is represented as an image -->
 				<div id="BRDFProperties_Painter" class="BRDF-properties" style="display:none">
 					<canvas id="PropPainter_Viewport" class="BRDF-properties-UI-viewport"></canvas>
 
 					<div id="PropPainterUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets"></div>
 				</div>	
+
+				<!-- Add properties elements for other BRDF types -->	
 
 			</div>
 		</div>
@@ -569,6 +564,7 @@ function GetCookie( _Name )
 					<li id="RenderBRDFUI_ToggleLightingUI" class="ui-state-default ui-corner-all" title="Light options"><span class="ui-icon ui-icon-lightbulb"/></li>
 					<li id="RenderBRDFUI_ToggleToneMappingUI" class="ui-state-default ui-corner-all" title="Tone Mapping options"><span class="ui-icon ui-icon-bookmark"/></li>
 					<li id="RenderBRDFUI_ResetCamera" class="ui-state-default ui-corner-all" title="Reset camera"><span class="ui-icon ui-icon-arrowstop-1-s"/></li>
+					<li id="RenderBRDFUI_ToggleNormalMapUI" class="ui-state-default ui-corner-all" title="Toggle Normal Map"><span class="ui-icon ui-icon-image"/></li>
 					<li id="RenderBRDFUI_TogglePrimitive" class="ui-state-default ui-corner-all" title="Toggle Primitive"><span class="ui-icon ui-icon-person"/></li>
 				</ul>
 
@@ -632,6 +628,11 @@ function GetCookie( _Name )
 					<div id="RenderBRDFUI_Slider_ToneMappingRange" class="UI-widget-label"><div class="t0"><span>Tone Mapping Range</span></div><div class="t1"></div></div>
 					<div id="RenderBRDFUI_Slider_ToneMappingOverbright" class="UI-widget-label"><div class="t0"><span>Tone Mapping Overbright</span></div><div class="t1"></div></div>
 				</div>
+
+				<div id="RenderBRDF_UIWidgetsNormalMap" class="BRDF-properties-slice-UI-widgets">
+					<div id="RenderBRDFUI_Slider_NormalMapStrength" class="UI-widget-label"><div class="t0"><span>Normal Map Strength</span></div><div class="t1"></div></div>
+				</div>
+
 			<canvas id="CanvasGLRenderBRDF" class="canvas-render canvas-render-BRDF">Your browser does not support the HTML5 canvas tag.<br/>WebGL is only working with Chrome, Firefox and Safari.</canvas>
 		</div>
 	</div>
@@ -701,6 +702,8 @@ function GetCookie( _Name )
 					<li id="Render3DUI_ToggleGroundPlane" class="ui-state-default ui-corner-all" title="Toggle Ground Plane Display"><span class="ui-icon ui-icon-grip-dotted-horizontal"/></li>
 					<li id="Render3DUI_ResetCamera" class="ui-state-default ui-corner-all" title="Reset camera"><span class="ui-icon ui-icon-arrowstop-1-s"/></li>
 				</ul>
+
+				<div id="Render3DUI_ShowReferenceBRDF" style="display:none;">Show Reference BRDF</div>
 
 				<div id="Render3D_UIWidgets" class="BRDF-properties-slice-UI-widgets">
 					<div style="text-align:left;"><strong>Hold Shift to place a marker on the BRDF</strong></div>

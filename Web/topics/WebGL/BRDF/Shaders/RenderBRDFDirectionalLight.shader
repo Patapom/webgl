@@ -12,8 +12,10 @@
 // Varying values
 varying vec3	_WorldPosition;
 varying vec2	_UV;
-varying vec3	_ViewTS;
-varying vec3	_LightTS;
+varying vec3	_View;
+varying vec3	_Tangent;
+varying vec3	_BiTangent;
+varying vec3	_Normal;
 
 uniform vec3	_LightDirection;
 
@@ -41,23 +43,45 @@ void	main()
 	gl_Position = _World2Proj * vec4( _vPosition + vec3( 0, 0, 0 ), 1 );
 	_WorldPosition = _vPosition;
 	_UV = _vUV;
-	_ViewTS = vec3( dot( WorldView, WorldTangent ), dot( WorldView, WorldBiTangent ), dot( WorldView, WorldNormal ) );
-	_LightTS = vec3( dot( _LightDirection, WorldTangent ), dot( _LightDirection, WorldBiTangent ), dot( _LightDirection, WorldNormal ) );
+	_View = WorldView;
+	_Tangent = WorldTangent;
+	_BiTangent = WorldBiTangent;
+	_Normal = WorldNormal;
 }
 
 ////////////////////////////////////////////////////////////////
 // Pixel Shader
 #else
 
+uniform float		_NormalStrength;
+uniform sampler2D	_TexNormalMap;			// Optional normal map
+
 void	main()
 {
-	vec3	View = normalize( _ViewTS );
-	vec3	Light = normalize( _LightTS );
-	vec3	Reflectance = BRDF( View, Light, _ShowLogLuma );
+	vec3	View = normalize( _View );
+	vec3	Tangent = normalize( _Tangent );
+	vec3	BiTangent = normalize( _BiTangent );
+	vec3	Normal = normalize( _Normal );
 
-	vec3	Radiance = PI * Reflectance * vec3( _LightIntensity ) * saturate( Light.z );	// BRDF * Li * (N.L)
+	// Rotate tangent space with new normal
+	{
 
-	gl_FragColor = vec4( _BRDFValid ? Radiance : Light.zzz, 1 );
+// Remap planar into pipo spherical
+vec3	Pipo = normalize( _WorldPosition );
+vec2	UV = vec2( 1.0 + atan( Pipo.x, Pipo.z ) * INV_PI, acos( Pipo.y ) * INV_PI );
+
+		vec3	NormalTS = SampleNormalMap( _TexNormalMap, UV, _NormalStrength );
+		RotateTangentSpace( Tangent, BiTangent, Normal, NormalTS );
+	}
+
+	vec3	ViewTS = vec3( dot( View, Tangent ), dot( View, BiTangent ), dot( View, Normal ) );
+	vec3	LightTS = vec3( dot( _LightDirection, Tangent ), dot( _LightDirection, BiTangent ), dot( _LightDirection, Normal ) );
+
+	vec3	Reflectance = BRDF( ViewTS, LightTS, _ShowLogLuma );
+
+	vec3	Radiance = PI * Reflectance * vec3( _LightIntensity ) * saturate( LightTS.z );	// BRDF * Li * (N.L)
+
+	gl_FragColor = vec4( _BRDFValid ? Radiance : LightTS.zzz, 1 );
 }
 
 #endif
