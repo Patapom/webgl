@@ -430,7 +430,8 @@ function GetCookie( _Name )
 							<input id="PropPomUI_Radio_Tab0" value="0" name="radioPomBRDFTab" type="radio" checked="checked"><label for="PropPomUI_Radio_Tab0">Parameters</label>
 							<input id="PropPomUI_Radio_Tab1" value="1" name="radioPomBRDFTab" type="radio"><label for="PropPomUI_Radio_Tab1">Colors</label>
 							<input id="PropPomUI_Radio_Tab2" value="2" name="radioPomBRDFTab" type="radio"><label for="PropPomUI_Radio_Tab2">Fitting</label>
-							<input id="PropPomUI_Radio_Tab3" value="3" name="radioPomBRDFTab" type="radio"><label for="PropPomUI_Radio_Tab3">Standard</label>
+							<input id="PropPomUI_Radio_Tab3" value="3" name="radioPomBRDFTab" type="radio"><label for="PropPomUI_Radio_Tab3">Dynamic</label>
+							<input id="PropPomUI_Radio_Tab4" value="4" name="radioPomBRDFTab" type="radio"><label for="PropPomUI_Radio_Tab4">Standard</label>
 						</div>
 
 						<!-- Tabs with specific widgets -->
@@ -477,11 +478,13 @@ function GetCookie( _Name )
 										<div id="PropPomUI_Button_PickSpecular" class="PropPomUI_Button_Pick"><span>Pick Specular</span></div>
 									</div>
 
+<!-- Not used anymore
 									<div class="PropPomUI_ColorWidgets">
 										<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Fresnel Chroma</strong></div>
 										<div id="PropPomUI_ColorPicker_Fresnel" class="PropPomUI_ColorPicker"><div style="background-color: #ffffff"></div></div>
 										<div id="PropPomUI_Button_PickFresnel" class="PropPomUI_Button_Pick"><span>Pick Fresnel</span></div>
 									</div>
+ -->
 
 									<div class="PropPomUI_ColorWidgets">
 										<div style='text-align:left; font-size:1.5em;'>&nbsp;<strong>Diffuse Chroma</strong></div>
@@ -533,6 +536,14 @@ function GetCookie( _Name )
 										<div id="PropPomUI_Button_Fitting"><span>Perform Fitting</span></div>
 										<div id="PropPomUI_Result_Fitting"></div>
 									</div>
+								</div>
+
+								<!-- Dynamic properties widgets -->
+								<div id="Tab_PomDynamic" class="tab-Pom" style="display:none;">
+									<div id="PropPomUI_CheckBox_UseDynamicParameters" class="UI-widget-label"><div class="t0"><span>Use Dynamic Parameters</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>
+									<div id="PropPomUI_Slider_DynGlossiness" class="UI-widget-label"><div class="t0"><span>Glossiness Bias</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Slider_DynRoughness" class="UI-widget-label"><div class="t0"><span>Roughness Bias</span></div><div class="t1"></div></div>
+									<div id="PropPomUI_Button_ResetDynParams">Reset</div>
 								</div>
 
 								<!-- Standard widgets -->

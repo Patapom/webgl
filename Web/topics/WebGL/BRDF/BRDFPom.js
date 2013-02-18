@@ -41,6 +41,13 @@ BRDFPom = function()
 	this.chromaDiffuse = vec3.one();
 	this.chromaRetroDiffuse = vec3.one();
 
+
+	//////////////////////////////////////////////////////////////////////////
+	// Dynamic parameters
+	this.useDynamicParameters = false;
+	this.dynGlossinessBias = 0.0;
+	this.dynRoughnessBias = 0.0;
+
 // 	// Disney model
 // 	this.soloX = false;
 // 	this.amplitudeX = 0.01;	// Specular reflectance
@@ -295,23 +302,85 @@ BRDFPom.prototype =
 	// Main computation
 	, __tempS0 : 0.0
 	, __tempS1 : 0.0
+
+	, __tempAmplitudeX : 0.0
+	, __tempExponentX : 0.0
+	, __tempAmplitudeY : 0.0
+	, __tempExponentY : 0.0
+
+	, __tempDiffuse : 0.0
+	, __tempDiffuseRoughness : 0.0
+
 	, Prepare : function()
 	{
-		var	Goal = 0.01;
-		var	x = Math.pow( this.falloffX, this.exponentX );	// We must reach the goal at this position
-		this.__tempS0 = Math.log( Goal / Math.max( 1e-3, this.amplitudeX ) ) / x;
+		var	AmplitudeX = this.amplitudeX;
+		var	ExponentX = this.exponentX;
+		var	FallOffX = this.falloffX;
+		var	AmplitudeY = this.amplitudeY;
+		var	ExponentY = this.exponentY;
+		var	FallOffY = this.falloffY;
+		var	Diffuse = this.diffuseReflectance;
+		var	DiffuseRoughness = this.diffuseRoughness;
 
-		var	y = Math.pow( this.falloffY, this.exponentY );	// We must reach the goal at this position
-		this.__tempS1 = Math.log( Goal / Math.max( 1e-3, this.amplitudeY ) ) / y;
-		
-		// CHECK!
-// 		var	V = this.offsetX + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( this.falloffX, this.exponentX ) );
+		if ( this.useDynamicParameters )
+		{	// Modify physical parameters based on dynamic parameters...
+
+			// Glossiness 
+			if ( this.dynGlossinessBias < 0.0 )
+			{	// Double falloff and halve amplitude
+//				FallOffX *= 1.0 - 3.0 * this.dynGlossinessBias;		// Quadruple falloff
+//				AmplitudeX *= 1.0 + 0.75 * this.dynGlossinessBias;	// Quarter of amplitude
+
+				FallOffX *= 1.0 - 7.0 * this.dynGlossinessBias;		// x8 falloff
+				AmplitudeX *= Math.pow( 10.0, 2.0 * this.dynGlossinessBias );	// 1/100th of amplitude
+			}
+			else
+			{
+				FallOffX /= 1.0 + 1.0 * this.dynGlossinessBias;		// /2 falloff
+				AmplitudeX *= Math.pow( 10.0, 0.5 * this.dynGlossinessBias );	// xN amplitude
+				Diffuse *= 1.0 - 0.75 * this.dynGlossinessBias;		// /4 diffuse
+			}
+
+			// Roughness
+			if ( this.dynRoughnessBias < 0.0 )
+			{	// Double falloff and halve amplitude
+				FallOffY /= 1.0 - 1.0 * this.dynRoughnessBias;		// /2 falloff
+//				AmplitudeX *= Math.pow( 10.0, -0.5 * this.dynGlossinessBias );	// xN amplitude
+				AmplitudeY *= Math.pow( 10.0, -1.0 * this.dynRoughnessBias );	// x10 amplitude
+//				ExponentY /= 1.0 - 1.0 * this.dynRoughnessBias;	// /2 exponent
+				DiffuseRoughness /= 1.0 - 3.0 * this.dynRoughnessBias;		// /4 diffuse roughness
+			}
+			else
+			{
+//				FallOffX *= 1.0 + 3.0 * this.dynRoughnessBias;		// x4 falloff
+				FallOffY *= 1.0 + 1.0 * this.dynRoughnessBias;		// x2 falloff
+				AmplitudeY *= Math.pow( 10.0, 0.5 * this.dynRoughnessBias );	// xN amplitude
+				AmplitudeX *= Math.pow( 10.0, -2.6 * this.dynRoughnessBias );	// 1/400th of amplitude
+				ExponentX /= 1.0 + 1.0 * this.dynRoughnessBias;	// /2 exponent
+				ExponentY *= 1.0 + 0.5 * this.dynRoughnessBias;	// x1.5 exponent
+				DiffuseRoughness *= 1.0 + 3.0 * this.dynRoughnessBias;		// x4 diffuse roughness
+			}
+		}
+
+		this.__tempAmplitudeX = AmplitudeX;
+		this.__tempExponentX = ExponentX;
+		this.__tempAmplitudeY = AmplitudeY;
+		this.__tempExponentY = ExponentY;
+		this.__tempDiffuse = Diffuse;
+		this.__tempDiffuseRoughness = DiffuseRoughness;
+
+		var	Goal = 0.01;
+		var	x = Math.pow( FallOffX, ExponentX );	// We must reach the goal at this position
+		this.__tempS0 = Math.log( Goal / Math.max( 1e-3, AmplitudeX ) ) / x;
+
+		var	y = Math.pow( FallOffY, ExponentY );	// We must reach the goal at this position
+		this.__tempS1 = Math.log( Goal / Math.max( 1e-3, AmplitudeY ) ) / y;
 	}
 
 	, ComputeDiffuse : function( _Reflectance )
 	{
 		// I borrowed the diffuse term from §5.3 of http://disney-animation.s3.amazonaws.com/library/s2012_pbs_disney_brdf_notes_v2.pdf
-		var	Fd90 = 0.5 + this.diffuseRoughness * this.__cosThetaD*this.__cosThetaD;
+		var	Fd90 = 0.5 + this.__tempDiffuseRoughness * this.__cosThetaD*this.__cosThetaD;
 		var	a = 1 - this.__toLight.z;	// 1-cos(ThetaL) = 1-cos(ThetaV)
 		var	Cos5 = a * a;
 			Cos5 *= Cos5 * a;
@@ -322,7 +391,7 @@ BRDFPom.prototype =
 //		Diffuse = Math.lerp( Diffuse, 0, Math.min( 1, RetroDiffuse ) );	// Retro-reflection makes diffuse lower...
 
 		// Finally multiply by base color
-		var	Fact = this.diffuseReflectance * Math.INVPI;
+		var	Fact = this.__tempDiffuse * Math.INVPI;
 
 		_Reflectance.x = Fact * (Diffuse * this.chromaDiffuse.x + RetroDiffuse * this.chromaRetroDiffuse.x);
 		_Reflectance.y = Fact * (Diffuse * this.chromaDiffuse.y + RetroDiffuse * this.chromaRetroDiffuse.y);
@@ -332,15 +401,17 @@ BRDFPom.prototype =
 	, ComputeSpecular : function( _Reflectance )
 	{
 //*
+
 		var	u = this.__thetaH / Math.HALFPI;
-//		var	Cx = this.offsetX + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
-//		var	Cx = this.diffuseReflectance + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
-		var	Cx = this.offsetX + this.amplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.exponentX ) );
+//		var	Cx = this.offsetX + this.__tempAmplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.__tempExponentX ) );
+//		var	Cx = this.diffuseReflectance + this.__tempAmplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.__tempExponentX ) );
+		var	Cx = this.offsetX + this.__tempAmplitudeX * Math.exp( this.__tempS0 * Math.pow( u, this.__tempExponentX ) );	// Both exponentials now use the same OffsetX
+
 
 		var	v = 1.0 - this.__thetaD / Math.HALFPI;
 //		var	Cy = this.offsetY + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
 //		var	Cy = this.diffuseReflectance + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
-		var	Cy = this.offsetX + this.amplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.exponentY ) );
+		var	Cy = this.offsetX + this.__tempAmplitudeY * Math.exp( this.__tempS1 * Math.pow( v, this.__tempExponentY ) );
 
 		if ( this.soloX )
 		{
@@ -453,7 +524,7 @@ BRDFPom.prototype =
 		this.NotifyChange();
 	}
 
-	// Specular parameters
+	// ========== Specular parameters ==========
 	, setSoloX : function( value )
 	{
 		if ( value == this.soloX )
@@ -510,7 +581,7 @@ BRDFPom.prototype =
 		this.NotifyChange();	// Needs a rebuild !
 	}
 
-	// Fresnel parameters
+	// ========== Fresnel parameters ==========
 	, setSoloY : function( value )
 	{
 		if ( value == this.soloY )
@@ -567,7 +638,7 @@ BRDFPom.prototype =
 		this.NotifyChange();	// Needs a rebuild !
 	}
 
-	// Diffuse parameters
+	// ========== Diffuse parameters ==========
 	, setSoloDiffuse : function( value )
 	{
 		if ( value == this.soloDiffuse )
@@ -616,6 +687,40 @@ BRDFPom.prototype =
 		this.chromaRetroDiffuse.y = G;
 		this.chromaRetroDiffuse.z = B;
 		this.NotifyChange();	// Needs a rebuild !
+	}
+
+	// ========== Dynamic parameters ==========
+	, setUseDynamicParameters : function( value )
+	{
+		if ( value == this.useDynamicParameters )
+			return;
+
+		this.useDynamicParameters = value;
+		this.NotifyChange();
+	}
+
+	// This parameter will bias the glossiness toward totally not glossy (-1) to twice more glossy (+1)
+	, setDynGlossinessBias : function( value )
+	{
+		if ( Math.almost( value, this.dynGlossinessBias ) )
+			return;
+
+		this.setUseDynamicParameters( true );	// Authorize using dynamic parameters if we're modifying the parameter...
+
+		this.dynGlossinessBias = value;
+		this.NotifyChange();
+	}
+
+	// This parameter will bias the roughness toward totally not rough (-1) to twice more rough (+1)
+	, setDynRoughnessBias : function( value )
+	{
+		if ( Math.almost( value, this.dynRoughnessBias ) )
+			return;
+
+		this.setUseDynamicParameters( true );	// Authorize using dynamic parameters if we're modifying the parameter...
+
+		this.dynRoughnessBias = value;
+		this.NotifyChange();
 	}
 
 

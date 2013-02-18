@@ -122,7 +122,7 @@ vec3	AccumulateRadiance( vec3 _ViewTS, vec3 _Position, vec3 _Tangent, vec3 _BiTa
 vec3	IntegrateBRDF( vec2 _UV, vec3 _View, vec3 _Position, vec3 _Tangent, vec3 _BiTangent, vec3 _Normal )
 {
 	if ( !_BRDFValid )
-		return vec3( _View.zzz );
+		return vec3( saturate( dot( _Normal, normalize( vec3( 1 ) ) ) ) );
 
 	// Rotate tangent space with new normal
 	{

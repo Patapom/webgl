@@ -134,7 +134,8 @@ this.showIsolines = true;
 				$('#Tab_PomSpecular').css( 'display', value == 0 ? 'inherit' : 'none' );
 				$('#Tab_PomColors').css( 'display', value == 1 ? 'inherit' : 'none' );
 				$('#Tab_PomFitting').css( 'display', value == 2 ? 'inherit' : 'none' );
-				$('#Tab_PomStandard').css( 'display', value == 3 ? 'inherit' : 'none' );
+				$('#Tab_PomDynamic').css( 'display', value == 3 ? 'inherit' : 'none' );
+				$('#Tab_PomStandard').css( 'display', value == 4 ? 'inherit' : 'none' );
 			}
 		} );
 
@@ -176,7 +177,7 @@ this.showIsolines = true;
 			}
 		} );		
 
-		this.UISliderAmplitudeX = new patapi.ui.LabelSlider( {
+		this.UISlider_AmplitudeX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_AmplitudeX .t0 span",
 			selector : "#PropPomUI_Slider_AmplitudeX .t1",
 			sliderParams : { min: -3.0, max : 4.0, value: 0.0 },
@@ -190,7 +191,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderExponentX = new patapi.ui.LabelSlider( {
+		this.UISlider_ExponentX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_ExponentX .t0 span",
 			selector : "#PropPomUI_Slider_ExponentX .t1",
 			sliderParams : { min: 0.0, max : 8.0, value: 1.0 },
@@ -204,7 +205,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderFalloffX = new patapi.ui.LabelSlider( {
+		this.UISlider_FalloffX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_FalloffX .t0 span",
 			selector : "#PropPomUI_Slider_FalloffX .t1",
 			sliderParams : { min: 1e-3, max : 10.0, value: 0.1 },
@@ -218,7 +219,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderOffsetX = new patapi.ui.LabelSlider( {
+		this.UISlider_OffsetX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_OffsetX .t0 span",
 			selector : "#PropPomUI_Slider_OffsetX .t1",
 			sliderParams : { min: 0.0, max : 1.0, value: 0.0 },
@@ -249,7 +250,7 @@ this.showIsolines = true;
 			}
 		} );		
 
-		this.UISliderAmplitudeY = new patapi.ui.LabelSlider( {
+		this.UISlider_AmplitudeY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_AmplitudeY .t0 span",
 			selector : "#PropPomUI_Slider_AmplitudeY .t1",
 			sliderParams : { min: -3.0, max : 1.6989700043360188047862611052755, value: 0.1 },
@@ -264,7 +265,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderExponentY = new patapi.ui.LabelSlider( {
+		this.UISlider_ExponentY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_ExponentY .t0 span",
 			selector : "#PropPomUI_Slider_ExponentY .t1",
 			sliderParams : { min: 1e-3, max : 8.0, value: 1.0 },
@@ -278,7 +279,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderFalloffY = new patapi.ui.LabelSlider( {
+		this.UISlider_FalloffY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_FalloffY .t0 span",
 			selector : "#PropPomUI_Slider_FalloffY .t1",
 			sliderParams : { min: 0.0, max : 10.0, value: 0.0 },
@@ -293,7 +294,7 @@ this.showIsolines = true;
 		 } );
 
 // Not used anymore
-// 		this.UISliderOffsetY = new patapi.ui.LabelSlider( {
+// 		this.UISlider_OffsetY = new patapi.ui.LabelSlider( {
 // 			labelSelector : "#PropPomUI_Slider_OffsetY .t0 span",
 // 			selector : "#PropPomUI_Slider_OffsetY .t1",
 // 			sliderParams : { min: 0.0, max : 1.0, value: 0.0 },
@@ -324,7 +325,7 @@ this.showIsolines = true;
 			}
 		} );		
 
-		this.UISliderDiffuseReflectance = new patapi.ui.LabelSlider( {
+		this.UISlider_DiffuseReflectance = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_DiffuseReflectance .t0 span",
 			selector : "#PropPomUI_Slider_DiffuseReflectance .t1",
 			sliderParams : { min: 0.0, max : 1.0, value: 0.01 },
@@ -338,7 +339,7 @@ this.showIsolines = true;
 			}
 		 } );
 
-		this.UISliderDiffuseRoughness = new patapi.ui.LabelSlider( {
+		this.UISlider_DiffuseRoughness = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_DiffuseRoughness .t0 span",
 			selector : "#PropPomUI_Slider_DiffuseRoughness .t1",
 			sliderParams : { min: 0.0, max : 4.0, value: 0.0 },
@@ -351,7 +352,6 @@ this.showIsolines = true;
 				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
 			}
 		 } );
-
 
 		$('#PropPomUI_Button_CopyToClipboard').button().click( function() {
 
@@ -564,6 +564,7 @@ this.showIsolines = true;
 				that.BRDF.diffuseRoughness = PresetParams[9];
 
 				that.BRDF.NotifyChange.call( that.BRDF );	// So the BRDF gets updated...
+				that.UpdateUI__();
 			}
 		}
 		for ( var i=0; i < 14; i++ )
@@ -591,6 +592,62 @@ this.showIsolines = true;
 		this.UIButton_Fit.button( "disable" );
 
 		this.UIResult_Fitting = $('#PropPomUI_Result_Fitting');
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Dynamic parameters (not accounted for in fitting)
+		//
+		this.UICheckBox_UseDynamicParameters = new patapi.ui.LabelCheckBox( {
+			selector : "#PropPomUI_CheckBox_UseDynamicParameters span",
+			change : function( value )
+			{
+				if ( that.BRDF )
+					that.BRDF.setUseDynamicParameters( value );
+			}
+		} );		
+
+		this.UISlider_DynGlossinessBias = new patapi.ui.LabelSlider( {
+			labelSelector : "#PropPomUI_Slider_DynGlossiness .t0 span",
+			selector : "#PropPomUI_Slider_DynGlossiness .t1",
+			sliderParams : { min: -1.0, max : 1.0, value: 0.0 },
+			step : 0.001,
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+				{
+					that.BRDF.setDynGlossinessBias( value );
+					that.UICheckBox_UseDynamicParameters.set( that.BRDF.useDynamicParameters );	// Also update the checkbox as it may have been enabled
+				}
+
+				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
+			}
+		 } );
+
+		this.UISlider_DynRoughnessBias = new patapi.ui.LabelSlider( {
+			labelSelector : "#PropPomUI_Slider_DynRoughness .t0 span",
+			selector : "#PropPomUI_Slider_DynRoughness .t1",
+			sliderParams : { min: -1.0, max : 1.0, value: 0.0 },
+			step : 0.001,
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+				{
+					that.BRDF.setDynRoughnessBias( value );
+					that.UICheckBox_UseDynamicParameters.set( that.BRDF.useDynamicParameters );	// Also update the checkbox as it may have been enabled
+				}
+
+				return _OriginalText + " (" + value.toFixed( 3 ) + ")";	// Update text
+			}
+		 } );
+
+		 $('#PropPomUI_Button_ResetDynParams').button().click( function() {
+				if ( !that.BRDF )
+					return;
+
+				that.BRDF.setDynGlossinessBias( 0.0 );
+				that.BRDF.setDynRoughnessBias( 0.0 );
+				that.UpdateUI__();
+		 } );
 	}
 
 	// Simulate resize, which should also trigger a render
@@ -603,7 +660,7 @@ BRDFPropertiesPom.prototype =
 
 	//////////////////////////////////////////////////////////////////////////
 	// BRDF Fitting algorithm using BFGS optimization algorithm
-	, lastRMS : 0.0
+	, lastRMS : 1/0
 	, fitterBFGS : null
 	, fitterLM : null
 	, maskingArray : null
@@ -621,6 +678,14 @@ BRDFPropertiesPom.prototype =
 
 		//////////////////////////////////////////////////////////////////////////
 		// POM MODEL
+
+
+		// !IMPORTANT! Fitting MUST NOT account for dynamic parameters
+		// Dynamic parameters occur as an additional layer of parameters that are not the parameters of the BRDF itself
+		// They're only used to modify fitted parameters to modify the aspect of the base BRDF...
+		this.BRDF.setUseDynamicParameters( false );
+
+
 		// Prepare parameters for model evaluation
 		var	InitialParameters = [
 
@@ -659,30 +724,6 @@ BRDFPropertiesPom.prototype =
 			_Params[8] = Math.clamp( _Params[8], 0.0, 1.0 );	// Reflectance can't go higher than 1
 			_Params[9] = Math.clamp( _Params[9], 0.0, 4.0 );	// Let's clamp roughness to 4
 		}
-
-// From the time 
-// 		var	Goal = 0.01;
-// 		var	kx, ky;
-// 		function	PrepareEvalModel( _Params )
-// 		{
-// 			var	x = Math.pow( _Params[1], _Params[0] );	// We must reach the goal at this position
-// 			kx = Math.log( Goal / Math.max( Goal, _Params[2] ) ) / x;
-// 
-// 			var	y = Math.pow( _Params[5], _Params[4] );	// We must reach the goal at this position
-// 			ky = Math.log( Goal / Math.max( Goal, _Params[6] ) ) / y;
-// 		}
-// 
-// 		function	EvalModel( _Params, X, Y )
-// 		{
-// 			var	v = 1.0 - Y / 90.0;
-// 			var	Cy = _Params[7] + _Params[6] * Math.exp( ky * Math.pow( v, _Params[4] ) );
-// 
-// 			var	u = X*X / 8100.0;
-// 			var	Cx = _Params[3] + _Params[2] * Math.exp( kx * Math.pow( u, _Params[0] ) );
-// 			var	C = Cx * Cy - _Params[3] * _Params[7];
-// 
-// 			return C;
-// 		}
 
 		// Generic re-use of the BRDF's own eval functions
 		// Slower but at least I don't have to do the job of writing model eval twice (once in the BRDF and once here)!
@@ -739,7 +780,7 @@ BRDFPropertiesPom.prototype =
 
 		//////////////////////////////////////////////////////////////////////////
 		// Start fitting
-		var	RMS = 0/0;
+		var	RMS = 1/0;
 		var	IterationsCount = 0;
 		if ( this.fittingMethod == 1 )
 		{	// Levenberg-Marquard fitting
@@ -775,20 +816,20 @@ BRDFPropertiesPom.prototype =
 
 		// Specular parameters
 		this.UICheckBox_SoloX.set( this.BRDF.soloX );
-		this.UISliderAmplitudeX.set( Math.LOG10E * Math.log( this.BRDF.amplitudeX ) );
-		this.UISliderFalloffX.set( this.BRDF.falloffX );
-		this.UISliderExponentX.set( this.BRDF.exponentX );
-		this.UISliderOffsetX.set( this.BRDF.offsetX );
+		this.UISlider_AmplitudeX.set( Math.LOG10E * Math.log( this.BRDF.amplitudeX ) );
+		this.UISlider_FalloffX.set( this.BRDF.falloffX );
+		this.UISlider_ExponentX.set( this.BRDF.exponentX );
+		this.UISlider_OffsetX.set( this.BRDF.offsetX );
 
 		this.UICheckBox_SoloY.set( this.BRDF.soloY );
-		this.UISliderAmplitudeY.set( Math.LOG10E * Math.log( this.BRDF.amplitudeY ) );
-		this.UISliderFalloffY.set( this.BRDF.falloffY );
-		this.UISliderExponentY.set( this.BRDF.exponentY );
-//		this.UISliderOffsetY.set( this.BRDF.offsetY );
+		this.UISlider_AmplitudeY.set( Math.LOG10E * Math.log( this.BRDF.amplitudeY ) );
+		this.UISlider_FalloffY.set( this.BRDF.falloffY );
+		this.UISlider_ExponentY.set( this.BRDF.exponentY );
+//		this.UISlider_OffsetY.set( this.BRDF.offsetY );
 
 		// Diffuse
-		this.UISliderDiffuseReflectance.set( this.BRDF.diffuseReflectance );
-		this.UISliderDiffuseRoughness.set( this.BRDF.diffuseRoughness );
+		this.UISlider_DiffuseReflectance.set( this.BRDF.diffuseReflectance );
+		this.UISlider_DiffuseRoughness.set( this.BRDF.diffuseRoughness );
 
 		// Colors
 		var	Color = this.vec3ToColor( this.BRDF.chromaSpecular );
@@ -799,6 +840,11 @@ BRDFPropertiesPom.prototype =
 		this.UIColorPicker_Diffuse.ColorPickerSetColor( Color );
 			Color = this.vec3ToColor( this.BRDF.chromaRetroDiffuse );
 		this.UIColorPicker_RetroDiffuse.ColorPickerSetColor( Color );
+
+		// Dynamic
+		this.UICheckBox_UseDynamicParameters.set( this.BRDF.useDynamicParameters );
+		this.UISlider_DynGlossinessBias.set( this.BRDF.dynGlossinessBias );
+		this.UISlider_DynRoughnessBias.set( this.BRDF.dynRoughnessBias );
 
 		// Fitting
 		if ( this.BRDF.referenceBRDF )
@@ -819,9 +865,6 @@ BRDFPropertiesPom.prototype =
 	, OnBRDFEvent : function( _BRDF, _Event )
 	{
 		BRDFPropertiesBase.prototype.OnBRDFEvent.call( this, _BRDF, _Event );
-
-// 		if ( _Event.type != "parametersChanged" )
-// 			return;
 
 		// Update the status of our UI button based on the existence of a valid reference BRDF
 		this.UIButton_Fit.button( _BRDF.referenceBRDF ? "enable" : "disable" );
@@ -862,15 +905,6 @@ BRDFPropertiesPom.prototype =
 				this.BRDF2UI[BRDF] = UI;
 			}
 		}
-
-// 		if ( _Event.type == "selection" )
-// 		{	// Update combo box elements' visibility
-// 			for ( var i=0; i < this.BRDF_UIs.length; i++ )
-// 			{
-// 				var	UI = this.BRDF_UIs[i];
-// 				UI.css( 'display', UI.BRDF == this.BRDF ? 'none' : 'inherit' );	// Hide our currently selected BRDF so it can't reference itself! DOESNT WORK!!
-// 			}
-// 		}
 	}
 };
 
