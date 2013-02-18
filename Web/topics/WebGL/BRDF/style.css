@@ -591,3 +591,25 @@ html, body
 	top: 66px;
 	background-position: -64px 0px;
 }
+
+/* Perform Fitting */
+#PropPomUI_PerformFittingContainer
+{
+	width: 100%;
+	height: 40px;
+}
+#PropPomUI_Button_Fitting
+{
+	float:left;
+	width: 30%;
+	top: 30%;
+	left: 10%;
+}
+#PropPomUI_Result_Fitting
+{
+	float: right;
+	width: 50%;
+/*
+	float: right;
+*/
+}

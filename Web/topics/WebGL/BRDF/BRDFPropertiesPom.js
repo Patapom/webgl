@@ -590,8 +590,6 @@ this.showIsolines = true;
 		this.UIButton_Fit.button( "disable" );
 
 		this.UIResult_Fitting = $('#PropPomUI_Result_Fitting');
-		this.UIResult_Fitting.width( '100%' );
-		this.UIResult_Fitting.height( 'auto' );
 	}
 
 	// Simulate resize, which should also trigger a render
@@ -759,7 +757,7 @@ BRDFPropertiesPom.prototype =
 		this.UpdateUI__();
 
 		this.UIResult_Fitting.html(
-			'<br/><strong>Last RMS: ' + this.lastRMS + '<br/>' +
+			'<strong>Last RMS: ' + this.lastRMS + '<br/>' +
 			'New RMS: ' + RMS + '<br/>' + 
 			'Difference: ' + (RMS- this.lastRMS).toFixed( 3 ) + ' (' + (100 * (RMS / this.lastRMS - 1)).toFixed(1) + '%)<br/>' + 
 			'Iterations: ' + IterationsCount + '<br/>' + 
