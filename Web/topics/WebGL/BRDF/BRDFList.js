@@ -9,6 +9,7 @@ o3djs.require( 'patapi.webgl' );
 o3djs.require( 'BRDF.BRDFSlice' );
 o3djs.require( 'BRDF.BRDFAnalytical' );
 o3djs.require( 'BRDF.BRDFPom' );
+o3djs.require( 'BRDF.BRDFPainter' );
 
 BRDFList = function()
 {
@@ -64,7 +65,9 @@ BRDFList = function()
 	//////////////////////////////////////////////////////////////////////////
 	// Build the toolbar button for Hand-Painted BRDFs
 	this.toolbarButton_AddBRDPaint = $("#BRDFListUI_AddBRDFPaint");
-	this.toolbarButton_AddBRDPaint.click( function() { window.alert( "TODO!" ); } );
+	this.toolbarButton_AddBRDPaint.click( function() {
+		 that.AddBRDF_Painter();
+	} );
 	// TODO!
 }
 
@@ -116,6 +119,16 @@ BRDFList.prototype =
 	{
 		var	BRDF = new BRDFPom()
 		var	ListElementName = BRDF.name + " (Pom)";
+
+		return this.AddBRDFListElement( BRDF, ListElementName );
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Adds a new "Painter BRDF"
+	, AddBRDF_Painter : function()
+	{
+		var	BRDF = new BRDFPainter()
+		var	ListElementName = BRDF.name + " (Painter)";
 
 		return this.AddBRDFListElement( BRDF, ListElementName );
 	}

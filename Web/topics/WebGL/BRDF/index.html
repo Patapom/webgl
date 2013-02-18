@@ -59,6 +59,7 @@ o3djs.require( 'BRDF.Renderer3D' );
 o3djs.require( 'BRDF.BRDFPropertiesSlice' );
 o3djs.require( 'BRDF.BRDFPropertiesAnalytical' );
 o3djs.require( 'BRDF.BRDFPropertiesPom' );
+o3djs.require( 'BRDF.BRDFPropertiesPainter' );
 
 
 var	pageLayout;
@@ -71,6 +72,7 @@ var	g_BRDFList;
 var	g_BRDFPropertiesSlice;
 var	g_BRDFPropertiesAnalytical;
 var	g_BRDFPropertiesPom;
+var	g_BRDFPropertiesPainter;
 
 
 $(document).ready(
@@ -159,6 +161,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 									g_BRDFPropertiesSlice.OnResize();
 									g_BRDFPropertiesAnalytical.OnResize();
 									g_BRDFPropertiesPom.OnResize();
+									g_BRDFPropertiesPainter.OnResize();
 								}
 							}
 						}
@@ -217,6 +220,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
  		g_BRDFPropertiesSlice = new BRDFPropertiesSlice();
  		g_BRDFPropertiesAnalytical = new BRDFPropertiesAnalytical();
 		g_BRDFPropertiesPom = new BRDFPropertiesPom();
+		g_BRDFPropertiesPainter = new BRDFPropertiesPainter();
 		// TODO: other BRDF properties types...
 
 		g_GLRenderBRDF = new RendererBRDF( $('#CanvasGLRenderBRDF'), Math.deg2rad( 40.0 ) );
@@ -228,6 +232,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 		g_BRDFList.Subscribe( g_BRDFPropertiesSlice, g_BRDFPropertiesSlice.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_BRDFPropertiesAnalytical, g_BRDFPropertiesAnalytical.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_BRDFPropertiesPom, g_BRDFPropertiesPom.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_BRDFPropertiesPainter, g_BRDFPropertiesPainter.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRenderBRDF, g_GLRenderBRDF.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRenderGraph, g_GLRenderGraph.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRender3D, g_GLRender3D.OnBRDFListEvent );
@@ -545,7 +550,14 @@ function GetCookie( _Name )
 					</div>
 				</div>
 
-				<!-- Add properties elements for other BRDF types -->				
+				<!-- Add properties elements for other BRDF types -->	
+
+				<!-- The properties layout for the Slice BRDF that is represented as an image -->
+				<div id="BRDFProperties_Painter" class="BRDF-properties" style="display:none">
+					<canvas id="PropPainter_Viewport" class="BRDF-properties-UI-viewport"></canvas>
+
+					<div id="PropPainterUI_StandardWidgets" class="BRDF-properties-slice-UI-widgets"></div>
+				</div>	
 
 			</div>
 		</div>
