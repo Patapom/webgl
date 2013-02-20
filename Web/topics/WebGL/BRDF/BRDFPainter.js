@@ -36,28 +36,6 @@ BRDFPainter.prototype =
 
 		if( opt_LoadedCallback )
 			opt_LoadedCallback( this );
-
-		var	that = this;
-
-		for ( var Y=0; Y < 90; Y++ )
-			for ( var X=0; X < 90; X++ )
-			{
-					that.sliceTexturePixels[4*(90*Y+X)+0] = Y/90 * 255;
-					that.sliceTexturePixels[4*(90*Y+X)+1] = X/90 * 255;
-					that.sliceTexturePixels[4*(90*Y+X)+2] = 0.;
-					that.sliceTexturePixels[4*(90*Y+X)+3] = 0.0;
-
-						// Update stats
-					that.minReflectance.x = 0;
-					that.maxReflectance.x = 255;
-					that.avgReflectance.x = 128;
-					that.minReflectance.y = 0;
-					that.maxReflectance.y = 255;
-					that.avgReflectance.y = 128;
-					that.minReflectance.z = 0;
-					that.maxReflectance.z = 0;
-					that.avgReflectance.z = 1;
-			}
 	}
 
 	, DestroyTextures : function()

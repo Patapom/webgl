@@ -20,6 +20,20 @@ BRDFPropertiesPainter = function()
 		//////////////////////////////////////////////////////////////////////////
 		// Standard widgets
 		this.CreateStandardPropertiesWidgets( 'Painter', '#PropPainterUI_StandardWidgets' );
+					
+		// Create tabs manually since jquery fucks the background!
+		this.tabIndex = 0;
+		new patapi.ui.LabelRadioButtons( {
+			selector : '#PropPainterUI_Radio_Tabs',
+			value : 0,
+			change : function( value )
+			{
+				that.tabIndex = value;
+				$('#Tab_PainterBrushes').css( 'display', value == 0 ? 'inherit' : 'none' );
+				$('#Tab_PainterLayers').css( 'display', value == 1 ? 'inherit' : 'none' );
+				$('#Tab_PainterStandard').css( 'display', value == 2 ? 'inherit' : 'none' );
+			}
+		} );
 	}
 }
 
