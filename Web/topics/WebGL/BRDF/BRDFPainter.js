@@ -1,6 +1,7 @@
 /*
  Contains the definition for a Pom BRDF
- */
+Try access with atlantis
+*/
 
 o3djs.provide( 'BRDF.BRDFPainter' );
 o3djs.require( 'patapi.math' );
@@ -39,7 +40,7 @@ BRDFPainter.prototype =
 		var	that = this;
 
 		for ( var Y=0; Y < 90; Y++ )
-			for ( var X=0; X < 90; X++ )	
+			for ( var X=0; X < 90; X++ )
 			{
 					that.sliceTexturePixels[4*(90*Y+X)+0] = Y/90 * 255;
 					that.sliceTexturePixels[4*(90*Y+X)+1] = X/90 * 255;
