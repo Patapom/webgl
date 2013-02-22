@@ -1,5 +1,5 @@
 /*
- Hosts the display of properties for POM BRDFs
+ Hosts the display of properties for Painter BRDFs
  */
 
 o3djs.provide( 'BRDF.BRDFPropertiesPainter' );
@@ -34,6 +34,76 @@ BRDFPropertiesPainter = function()
 				$('#Tab_PainterStandard').css( 'display', value == 2 ? 'inherit' : 'none' );
 			}
 		} );
+		
+
+		
+		
+		// Brush 
+		
+		this.UISlider_BrushExponent = new patapi.ui.LabelSlider( {
+			labelSelector : "#PropPainterUI_Slider_Exponent .t0 span",
+			selector : "#PropPainterUI_Slider_Exponent .t1",
+			sliderParams : { min: 0.0, max : 4.0, value: 0.0 },
+			step : 0.001,
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+					that.BRDF.setBrushExponent( value );
+
+				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
+			}
+		 } );
+		
+		
+		this.UIColorPicker_Brush = $('#PropPainterUI_BrushColor');
+		this.UIColorPicker_Brush.ColorPicker( {
+			color: '#ffffff',
+			onShow: function( colpkr ) {
+				$(colpkr).fadeIn(100);
+				return false;
+			},
+			onHide: function( colpkr ) {
+				$(colpkr).fadeOut(250);
+				return false;
+			},
+			onChange: function( hsb, hex, rgb ) {
+				
+				if ( that.BRDF )
+				{
+					var	Color = that.ColorTovec3( rgb );
+					that.BRDF.setBrushChroma( Color.x, Color.y, Color.z );
+				}
+
+				$('#PropPainterUI_ColorPicker_Brush').css( 'backgroundColor', '#' + hex );
+			}
+		});
+		
+		$('#PropPainterUI_Button_Brush').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 0;
+		} );
+		
+		this.UISlider_BrushSize = new patapi.ui.LabelSlider( {
+			labelSelector : "#PropPainterUI_Slider_Size .t0 span",
+			selector : "#PropPainterUI_Slider_Size .t1",
+			sliderParams : { min: 0.0, max : 10.0, value: 0.0 },
+			step : 0.5,
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+					that.BRDF.setBrushSize( value );
+
+				return _OriginalText + " (" + value.toFixed( 4 ) + ")";	// Update text
+			}
+		 } );
+		
+		
+//		$('#PropPainterUI_Button_Brush').button().click( function() {
+//			that.pickingColor = true;
+//			that.pickColorType = 0;
+//		} );
+		
+		
 	}
 }
 
@@ -41,9 +111,23 @@ BRDFPropertiesPainter.prototype =
 {
 	SupportsBRDF__ : function( _BRDF )	{ return _BRDF instanceof BRDFPainter; }
 
+	// Tools : Maybe factorization is a good idea
+	, vec3ToColor : function( v )
+	{
+		return { r : (255 * v.x) | 0, g : (255 * v.y) | 0, b : (255 * v.z) | 0 };
+	}
+	, ColorTovec3 : function( rgb )
+	{
+		return new vec3( rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0 );
+	}
+
+
 	, UpdateUI__ : function()
 	{
+		// Brush
 		this.UISliderExposure.set( this.BRDF.exposure );
+		var Color = this.vec3ToColor( this.BRDF.brushChroma );
+		this.UIColorPicker_Brush.ColorPickerSetColor( Color );
 		this.UISliderGamma.set( this.BRDF.gamma );
 	}
 

@@ -14,7 +14,16 @@ BRDFPainter = function()
 
 	this.uniqueID = BRDFPainter.uniqueID++;
 	this.name = "Painter #" + this.uniqueID;
-
+	
+	// Reference for layer
+	this.referenceBRDF = null;
+	
+	// Brush parameter
+	this.brushExponent = .5;
+	this.brushChroma = vec3.one();
+	this.brushSize = 1.;
+	
+	// 
 }
 
 BRDFPainter.uniqueID = 0;
@@ -53,7 +62,35 @@ BRDFPainter.prototype =
 
 	}
 
-		//////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+	// Accessors
+	, setBrushChroma : function( R, G, B)
+	{
+		if ( Math.almost( R, this.brushChroma.x ) && Math.almost( G, this.brushChroma.y ) && Math.almost( B, this.brushChroma.z ))
+		return;
+
+		this.brushChroma.x = R;
+		this.brushChroma.y = G;
+		this.brushChroma.z = B;
+		this.NotifyChange();	// Needs a rebuild !
+	}
+	
+	, setBrushSize : function( value )
+	{
+		if( value < 0. ) 
+		    return ; // We have never seen a negativ size; 
+		this.brushSize = ( value > 10.)? 10. : value; // clamp
+		this.NotifyChange();
+	}
+	
+	, setBrushExponent : function( value )
+	{
+		this.brushExponent = value;
+		this.NotifyChange();
+	}
+	
+
+	/////////////////////////////////////////////////////////////////////////
 	// Notification system
 	, NotifyChange : function( opt_UpdateTexture )
 	{
