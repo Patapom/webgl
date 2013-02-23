@@ -1,6 +1,7 @@
 /*
  Contains the definition for a Pom BRDF
- */
+Try access with atlantis
+*/
 
 o3djs.provide( 'BRDF.BRDFPainter' );
 o3djs.require( 'patapi.math' );
@@ -13,7 +14,16 @@ BRDFPainter = function()
 
 	this.uniqueID = BRDFPainter.uniqueID++;
 	this.name = "Painter #" + this.uniqueID;
-
+	
+	// Reference for layer
+	this.referenceBRDF = null;
+	
+	// Brush parameter
+	this.brushExponent = .5;
+	this.brushChroma = vec3.one();
+	this.brushSize = 1.;
+	
+	// 
 }
 
 BRDFPainter.uniqueID = 0;
@@ -35,28 +45,6 @@ BRDFPainter.prototype =
 
 		if( opt_LoadedCallback )
 			opt_LoadedCallback( this );
-
-		var	that = this;
-
-		for ( var Y=0; Y < 90; Y++ )
-			for ( var X=0; X < 90; X++ )	
-			{
-					that.sliceTexturePixels[4*(90*Y+X)+0] = Y/90 * 255;
-					that.sliceTexturePixels[4*(90*Y+X)+1] = X/90 * 255;
-					that.sliceTexturePixels[4*(90*Y+X)+2] = 0.;
-					that.sliceTexturePixels[4*(90*Y+X)+3] = 0.0;
-
-						// Update stats
-					that.minReflectance.x = 0;
-					that.maxReflectance.x = 255;
-					that.avgReflectance.x = 128;
-					that.minReflectance.y = 0;
-					that.maxReflectance.y = 255;
-					that.avgReflectance.y = 128;
-					that.minReflectance.z = 0;
-					that.maxReflectance.z = 0;
-					that.avgReflectance.z = 1;
-			}
 	}
 
 	, DestroyTextures : function()
@@ -74,7 +62,35 @@ BRDFPainter.prototype =
 
 	}
 
-		//////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+	// Accessors
+	, setBrushChroma : function( R, G, B)
+	{
+		if ( Math.almost( R, this.brushChroma.x ) && Math.almost( G, this.brushChroma.y ) && Math.almost( B, this.brushChroma.z ))
+		return;
+
+		this.brushChroma.x = R;
+		this.brushChroma.y = G;
+		this.brushChroma.z = B;
+		this.NotifyChange();	// Needs a rebuild !
+	}
+	
+	, setBrushSize : function( value )
+	{
+		if( value < 0. ) 
+		    return ; // We have never seen a negativ size; 
+		this.brushSize = ( value > 10.)? 10. : value; // clamp
+		this.NotifyChange();
+	}
+	
+	, setBrushExponent : function( value )
+	{
+		this.brushExponent = value;
+		this.NotifyChange();
+	}
+	
+
+	/////////////////////////////////////////////////////////////////////////
 	// Notification system
 	, NotifyChange : function( opt_UpdateTexture )
 	{
