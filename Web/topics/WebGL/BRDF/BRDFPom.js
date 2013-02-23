@@ -273,11 +273,11 @@ BRDFPom.prototype =
 		var	LightTS = new vec3( Math.sin( this.renderer3DLightTheta ), 0.0, Math.cos( this.renderer3DLightTheta ) );
 		var	ViewTS = new vec3( 0 );
 
-		var	COUNT_Y = 200;
-		var	COUNT_X = 50;
+		var	COUNT_Y = 400;
+		var	COUNT_X = 200;
 		for ( var Y=0; Y < COUNT_Y; Y++ )
 		{
-			var	PhiV = Math.TWOPI * (Y / COUNT_Y - 0.5);
+			var	PhiV = Math.PI * (Y / COUNT_Y - 0.5);
 			var	CosPhiV = Math.cos( PhiV );
 			var	SinPhiV = Math.sin( PhiV );
 			for ( var X=0; X < COUNT_X; X++ )
@@ -297,7 +297,7 @@ BRDFPom.prototype =
 
 				var	PixelX = Math.min( 89, Math.floor( 90 * Math.sqrt( ThetaH / Math.HALFPI ) ) ) | 0;
 				var	PixelY = Math.min( 89, Math.floor( 90 * ThetaD / Math.HALFPI ) ) | 0;
-				Pixels[4 * (90*PixelY + PixelX) + 3] = 1;	// Only paint alpha...
+				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;	// Only paint alpha...
 			}
 		}
 	}
