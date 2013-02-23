@@ -62,8 +62,11 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 	} );
 
 	// Hook the hover event on the canvas to enable our display infos
-	this.hoveredThetaH = 0;
+	this.hoveredThetaH = 0;	// In radians!
 	this.hoveredThetaD = 0;
+	this.hoveredSliceY = 0;	// In [0,90]
+	this.hoveredSliceX = 0;
+
 	this.canvas.hover(
 		function() {
 			that.UIViewportInfos.css( 'display', 'block' );
@@ -75,24 +78,43 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 		var	TopLeftSlice = patapi.helpers.GetElementPosition( that.canvas[0] );
 		var	TopLeftParent = patapi.helpers.GetElementPosition( that.UIRoot[0] );
 
-		that.hoveredThetaH = Math.clamp( 90 * (e.pageX - 5 - TopLeftSlice.x) / that.canvas[0].width, 0, 90 );
-		that.hoveredThetaD = Math.clamp( 90 * (that.canvas[0].height-1 - (e.pageY - 5 - TopLeftSlice.y)) / that.canvas[0].height, 0, 90 );
+		var	SliceX = Math.clamp( 90 * (e.pageX - 5 - TopLeftSlice.x) / that.canvas[0].width, 0, 90 );
+		var	SliceY = Math.clamp( 90 * (that.canvas[0].height-1 - (e.pageY - 5 - TopLeftSlice.y)) / that.canvas[0].height, 0, 90 );
+		that.hoveredThetaH = Math.deg2rad( SliceX );
+		that.hoveredThetaD = Math.deg2rad( SliceY );
+
+		// Transform coordinates based on display type
+		switch ( that.displayTypeThetaH )
+		{
+		case 1:	// Square ThetaH
+			that.hoveredThetaH = Math.INVHALFPI * that.hoveredThetaH*that.hoveredThetaH;
+			break;
+
+		case 2:	// Screen coordinates are actually cosines
+			that.hoveredThetaH = Math.HALFPI - Math.acos( SliceX / 90.0 );
+			that.hoveredThetaD = Math.HALFPI - Math.acos( SliceY / 90.0 );
+			break;
+		}
+
+		// Reconstruct final slice coordinates
+		that.hoveredSliceX = 90.0 * Math.sqrt( that.hoveredThetaH * Math.INVHALFPI );
+		that.hoveredSliceY = 90.0 * that.hoveredThetaD * Math.INVHALFPI;
 
 		// Notify of marker change in position
 		if ( that.markerVisible )
-			that.setMarkerPosition( Math.deg2rad( that.hoveredThetaH ), Math.deg2rad( that.hoveredThetaD ) );
+			that.setMarkerPosition( that.hoveredThetaH, that.hoveredThetaD );
 
 		// Position the viewport infos frame
-		that.UIViewportInfos.html( that.RefreshViewportInfos( that.hoveredThetaH, that.hoveredThetaD ) );
+		that.UIViewportInfos.html( that.RefreshViewportInfos( Math.rad2deg( that.hoveredThetaH ), Math.rad2deg( that.hoveredThetaD ), that.hoveredSliceX, that.hoveredSliceY ) );
 
 		var	Dx = e.pageX - TopLeftParent.x;
 		var	Dy = e.pageY - TopLeftParent.y;
 
-		if ( that.hoveredThetaH > 45 )
+		if ( SliceX > 35 )
 			Dx -= 20 + that.UIViewportInfos.width();	// Move to the left of the pointer
 		else
 			Dx += 20;
-		if ( that.hoveredThetaD < 45 )
+		if ( SliceY < 45 )
 			Dy -= 20 + that.UIViewportInfos.height();	// Move to the top of the pointer
 
 		that.UIViewportInfos.css( 'left', Dx ).css( 'top', Dy );
@@ -100,12 +122,7 @@ BRDFPropertiesBase = function( _PropertiesPanelSelector, _ViewportSelector )
 
 	// Here we break the compartimentalized objects assumption to subscribe to Renderer3D's change in marker state/position
 	// Honestly I don't give a damn since I'm the one who know which elements exist in the application, not really a big deal I'm not after genericity at all cost but rather efficiency
-	Renderer3D.prototype.SubscribeOnMarkerChanged( this, function( _Renderer ) {
-
-		if ( that.markerVisible != _Renderer.markerVisible )
-			that.setShowMarker( _Renderer.markerVisible );
-		that.setMarkerPosition( _Renderer.markerPosition.x, _Renderer.markerPosition.y );
-	} );
+	Renderer3D.prototype.Subscribe( this, this.OnRenderer3DEvent );
 }
 
 BRDFPropertiesBase.prototype =
@@ -184,12 +201,7 @@ BRDFPropertiesBase.prototype =
 		// Update UI
 		this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
 
-// 		var	ThetaH = this.markerPosition.x;
-// 		var	ThetaD = this.markerPosition.y;
-// 		this.markerPosition.x--;	// Just to make sure it's different from current value
 		this.setMarkerPosition( this.hoveredThetaH, this.hoveredThetaD );
-
-//		this.NotifyMarkerChanged();
 	}
 	, setMarkerPosition : function( _ThetaH, _ThetaD )
 	{
@@ -198,6 +210,19 @@ BRDFPropertiesBase.prototype =
 
 		this.markerPosition.x = _ThetaH;
 		this.markerPosition.y = _ThetaD;
+
+		// Transform Thetas based on display type
+		switch ( this.displayTypeThetaH )
+		{
+		case 1:	// Square
+			_ThetaH = Math.HALFPI * Math.sqrt( _ThetaH * Math.INVHALFPI );
+			break;
+
+		case 2:	// Screen coordinates are actually cosines
+			_ThetaH = Math.sin( _ThetaH ) * Math.HALFPI;
+			_ThetaD = Math.sin( _ThetaD ) * Math.HALFPI;
+			break;
+		}
 
 		// Udpate UI
 		var	TopLeftSlice = patapi.helpers.GetElementPosition( this.canvas[0] );
@@ -314,6 +339,17 @@ BRDFPropertiesBase.prototype =
 		this.Render();
 	}
 
+	// Occurs when marker or light theta changed 
+	, OnRenderer3DEvent : function( _Renderer, _Event )
+	{
+		if ( _Event.type != "markerChanged" )
+			return;	// Not our concern...
+
+		if ( this.markerVisible != _Renderer.markerVisible )
+			this.setShowMarker( _Renderer.markerVisible );
+		this.setMarkerPosition( _Renderer.markerPosition.x, _Renderer.markerPosition.y );
+	}
+
 	// Reacts to layout resize so we keep the viewport square
 	, OnResize : function()
 	{
@@ -327,21 +363,9 @@ BRDFPropertiesBase.prototype =
 		this.Render();
 	}
 
-	, RefreshViewportInfos : function( _ThetaH, _ThetaD )
+	// Expects _Thetas in degrees!
+	, RefreshViewportInfos : function( _ThetaH, _ThetaD, _SliceX, _SliceY )
 	{
-		// Transform Thetas based on display type
-		switch ( this.displayTypeThetaH )
-		{
-		case 0:	// Take square root
-			_ThetaH = 90.0 * Math.sqrt( _ThetaH / 90.0 );
-			break;
-
-		case 2:	// Screen coordinates are actually cosines
-			_ThetaH = 90.0 * (1.0 - Math.acos( _ThetaH / 90.0 ) * Math.INVHALFPI);
-			_ThetaD = 90.0 * (1.0 - Math.acos( _ThetaD / 90.0 ) * Math.INVHALFPI);
-			break;
-		}
-
 		// Start by displaying cosines
 		var	Text = "θh = " + _ThetaH.toFixed( 2 ) + "<br/>"
 				 + "θd = " + _ThetaD.toFixed( 2 ) + "<br/>";
@@ -350,7 +374,7 @@ BRDFPropertiesBase.prototype =
 		if ( this.BRDF )
 		{
 			var	Precision = 3;
-			var	Reflectance = this.BRDF.sample( _ThetaH, _ThetaD );
+			var	Reflectance = this.BRDF.sample( _SliceX, _SliceY );
 			Text += "f(θh,θd) = (" + Reflectance.x.toFixed( Precision+1 ) + ", " + Reflectance.y.toFixed( Precision+1 ) + ", " + Reflectance.z.toFixed( Precision+1 ) + ") Y=" + (Reflectance.x * 0.2126 + Reflectance.y * 0.7152 + Reflectance.z * 0.0722).toFixed( Precision+1 ) + "<br/>";
 
 			var	Albedo = this.BRDF.albedo;
@@ -369,19 +393,23 @@ BRDFPropertiesBase.prototype =
 	}
 
 	// Create standard widgets given a particular prefix specific to the BRDF type calling this function
-	, CreateStandardPropertiesWidgets : function( _Prefix, _ContainerSelector, _ToggleCheckboxSelector )
+	, CreateStandardPropertiesWidgets : function( _Prefix, _ContainerParentSelector, _ToggleCheckboxSelector )
 	{
 		var	that = this;
 
 		//////////////////////////////////////////////////////////////////////////
 		// Create the DOM elements
-		var	Container = $(_ContainerSelector);
+		var	ContainerParent = $(_ContainerParentSelector);
+		var	ContainerName = _Prefix + '_StandardWidgets';
+		ContainerParent.append( '<div id="' + ContainerName + '"></div>');
 
+		var	ContainerSelector = '#' + ContainerName;
+		var	Container = $(ContainerSelector);
 		Container.append(
 		'<div class="UI-widget-label">' +
 			'<div class="t0"><span>Theta H</span></div>' +
 			'<div class="t1">' +
-				'<input id="' + _Prefix + 'UI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio"><label for="' + _Prefix + 'UI_Radio_ThetaH0">Normal</label>' +
+				'<input id="' + _Prefix + 'UI_Radio_ThetaH0" value="0" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio"><label for="' + _Prefix + 'UI_Radio_ThetaH0">Linear</label>' +
 				'<input id="' + _Prefix + 'UI_Radio_ThetaH1" value="1" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio" checked="checked"><label for="' + _Prefix + 'UI_Radio_ThetaH1">Squared</label>' +
 				'<input id="' + _Prefix + 'UI_Radio_ThetaH2" value="2" name="radioDisplayTypeThetaH' + _Prefix + '" type="radio"><label for="' + _Prefix + 'UI_Radio_ThetaH2">Cos</label>' +
 			'</div>' +
@@ -397,14 +425,14 @@ BRDFPropertiesBase.prototype =
 
 
 		var	Selectors = [
-			_ContainerSelector + " > div:nth-child(1)",		// Radio ThetaH
-			_ContainerSelector + " > div:nth-child(2)",		// Log10 Luma
-			_ContainerSelector + " > div:nth-child(3)",		// Chroma
-			_ContainerSelector + " > div:nth-child(4)",		// De-Chromatized
-			_ContainerSelector + " > div:nth-child(5)",		// Normalized
-			_ContainerSelector + " > div:nth-child(6)",		// Isolines
-			_ContainerSelector + " > div:nth-child(7)",		// Exposure
-			_ContainerSelector + " > div:nth-child(8)",		// Gamma
+			ContainerSelector + " > div:nth-child(1)",		// Radio ThetaH
+			ContainerSelector + " > div:nth-child(2)",		// Log10 Luma
+			ContainerSelector + " > div:nth-child(3)",		// Chroma
+			ContainerSelector + " > div:nth-child(4)",		// De-Chromatized
+			ContainerSelector + " > div:nth-child(5)",		// Normalized
+			ContainerSelector + " > div:nth-child(6)",		// Isolines
+			ContainerSelector + " > div:nth-child(7)",		// Exposure
+			ContainerSelector + " > div:nth-child(8)",		// Gamma
 		];
 
 		//////////////////////////////////////////////////////////////////////////

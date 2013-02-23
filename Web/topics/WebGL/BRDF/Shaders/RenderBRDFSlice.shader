@@ -46,7 +46,8 @@ void	main()
 	else if ( _DisplayTypeThetaH == 2 )
 		UV = 1.0 - INV_HALFPI * acos( UV );
 
-	vec3	Reflectance = texture2D( _TexBRDF, UV ).xyz;
+	vec4	TexColor = texture2D( _TexBRDF, UV );
+	vec3	Reflectance = TexColor.xyz;
 
 	if ( _ShowIsolines )
 	{
@@ -83,7 +84,7 @@ void	main()
 
  	Reflectance = pow( Reflectance, vec3( 1.0 / _Gamma ) );
 
-	gl_FragColor = vec4( Reflectance, 1.0 );
+	gl_FragColor = lerp( vec4( Reflectance, 1.0 ), vec4( 0, 1, 0, 1 ), TexColor.w );	// We use alpha to display special events!
 }
 
 #endif

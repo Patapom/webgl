@@ -118,13 +118,13 @@ RendererBRDF = function( _canvas, _FOV )
 
 
 	// Load the optional normal map
-//	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMap.jpg", gl.REPEAT, gl.LINEAR );
- 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalSquares.png", gl.REPEAT, gl.LINEAR );	//***
-// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMetal.png", gl.REPEAT, gl.LINEAR );	//
-// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalPerlin.jpg", gl.REPEAT, gl.LINEAR );	//*
-// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalDots.jpg", gl.REPEAT, gl.LINEAR );	//**
-// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalStone.jpg", gl.REPEAT, gl.LINEAR );	//*
-//	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalTurtle.png", gl.REPEAT, gl.LINEAR );	//***
+//	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalMap.jpg", gl.REPEAT, gl.LINEAR );
+ 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalSquares.png", gl.REPEAT, gl.LINEAR );	//***
+// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalMetal.png", gl.REPEAT, gl.LINEAR );	//
+// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalPerlin.jpg", gl.REPEAT, gl.LINEAR );	//*
+// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalDots.jpg", gl.REPEAT, gl.LINEAR );		//**
+// 	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalStone.jpg", gl.REPEAT, gl.LINEAR );	//*
+//	this.normalMap = patapi.webgl.LoadImageTexture( "NormalMap", "./NormalMaps/NormalTurtle.png", gl.REPEAT, gl.LINEAR );	//***
 
 
 	// Create our sphere mesh we will render with the BRDF

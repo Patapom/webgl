@@ -18,6 +18,8 @@ BRDFPropertiesPom = function()
 	this.BRDFList = null;
 
 
+	this.showRenderer3DSamplingArea = false;
+
 this.showIsolines = true;
 
 
@@ -208,7 +210,7 @@ this.showIsolines = true;
 		this.UISlider_FalloffX = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_FalloffX .t0 span",
 			selector : "#PropPomUI_Slider_FalloffX .t1",
-			sliderParams : { min: 1e-3, max : 10.0, value: 0.1 },
+			sliderParams : { min: 0.001, max : 10.0, value: 0.1 },
 			step : 0.0001,
 			change : function( value, _OriginalText )
 			{
@@ -282,7 +284,7 @@ this.showIsolines = true;
 		this.UISlider_FalloffY = new patapi.ui.LabelSlider( {
 			labelSelector : "#PropPomUI_Slider_FalloffY .t0 span",
 			selector : "#PropPomUI_Slider_FalloffY .t1",
-			sliderParams : { min: 0.0, max : 10.0, value: 0.0 },
+			sliderParams : { min: 0.001, max : 10.0, value: 0.0 },
 			step : 0.001,
 			change : function( value, _OriginalText )
 			{
@@ -377,6 +379,30 @@ this.showIsolines = true;
 			window.prompt ("Copy to clipboard: Ctrl+C, Enter", Text );
 		} );
 
+		$('#PropPomUI_Button_CopyToClipboardCpp').button().click( function() {
+
+			var	Parameters = [
+				// Specular & Fresnel parameters
+				that.BRDF.amplitudeX,
+				that.BRDF.amplitudeY,
+				that.BRDF.falloffX,
+				that.BRDF.falloffY,
+				that.BRDF.exponentX,
+				that.BRDF.exponentY,
+				that.BRDF.offsetX,
+
+				// Diffuse parameters
+				that.BRDF.diffuseReflectance,
+				that.BRDF.diffuseRoughness,
+			];
+//			var	Text = JSON.stringify( Parameters, null, '\t' );
+			var	Text = JSON.stringify( Parameters );	// Single line only :(
+				Text = Text.replace( '[', '{' );
+				Text = Text.replace( ']', '}' );
+
+			window.prompt ("Copy to clipboard: Ctrl+C, Enter", Text );
+		} );
+
 
 		//////////////////////////////////////////////////////////////////////////
 		// Color Picking widgets
@@ -387,7 +413,7 @@ this.showIsolines = true;
 				return true;	// Don't intercept
 			
 			// Intercept button down and pick color at position
-			var	Reflectance = that.BRDF.sample( that.hoveredThetaH, that.hoveredThetaD );
+			var	Reflectance = that.BRDF.sample( Math.rad2deg( that.hoveredThetaH ), Math.rad2deg( that.hoveredThetaD ) );
 
 			// We need chroma = RGB/max(max(R,G),B)
 			var	Chroma = Reflectance.div_( Reflectance.max() );
@@ -648,6 +674,18 @@ this.showIsolines = true;
 				that.BRDF.setDynRoughnessBias( 0.0 );
 				that.UpdateUI__();
 		 } );
+
+
+		//////////////////////////////////////////////////////////////////////////
+		// Additional standard parameters to show sampling area of the 3D view given current ThetaL
+		this.UICheckBox_ShowSamplingArea = new patapi.ui.LabelCheckBox( {
+			selector : "#PropPomUI_CheckBox_Show3DViewSamplingArea span",
+			change : function( value )
+			{
+				if ( that.BRDF )
+					that.BRDF.setShowRenderer3DSamplingArea( value );
+			}
+		} );		
 	}
 
 	// Simulate resize, which should also trigger a render
@@ -657,6 +695,7 @@ this.showIsolines = true;
 BRDFPropertiesPom.prototype =
 {
 	SupportsBRDF__ : function( _BRDF )	{ return _BRDF instanceof BRDFPom; }
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// BRDF Fitting algorithm using BFGS optimization algorithm
@@ -850,6 +889,9 @@ BRDFPropertiesPom.prototype =
 		if ( this.BRDF.referenceBRDF )
 			this.UIComboBox_ReferenceBRDF.set( this.BRDF2UI[this.BRDF.referenceBRDF] );
 		this.UIRadio_ShowReferenceBRDF.set( this.BRDF.displayType );
+
+		// Special info
+		this.UICheckBox_ShowSamplingArea.set( this.BRDF.showRenderer3DSamplingArea );
  	}
 
 	, vec3ToColor : function( v )
@@ -905,6 +947,16 @@ BRDFPropertiesPom.prototype =
 				this.BRDF2UI[BRDF] = UI;
 			}
 		}
+	}
+
+	, OnRenderer3DEvent : function( _Renderer, _Event )
+	{
+		BRDFPropertiesBase.prototype.OnRenderer3DEvent.call( this, _Renderer, _Event );
+
+		if ( _Event.type != "lightTheta" )
+			return;
+
+		this.BRDF.setRenderer3DLightTheta( _Event.value );
 	}
 };
 

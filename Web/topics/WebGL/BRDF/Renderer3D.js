@@ -38,7 +38,7 @@ Renderer3D = function( _canvas, _FOV )
 		gl.name = "GLRenderer3D";
 
 	// Build our camera and light
-	this.camera = new patapi.Camera( gl, "3DRendererCamera", this.FOV, patapi.webgl.width / patapi.webgl.height, 0.1, 50.0 );
+	this.camera = new patapi.Camera( gl, "3DRendererCamera", this.FOV, patapi.webgl.width / patapi.webgl.height, 0.01, 50.0 );
 	this.camera.LookAt( new vec3( 2.5, 1.0, 0.0 ).mul( 0.2 ), vec3.zero(), vec3.unitY() );
 
 	// Attach a camera manipulator
@@ -373,6 +373,9 @@ Renderer3D.prototype =
 
 		this.lightTheta = value;
 		this.Render();
+
+		// Notify of the change
+		this.Notify( { type : "lightTheta", value : value } );
 	}
 
 	, setLightPhi : function( value )
@@ -737,21 +740,21 @@ Renderer3D.prototype =
 
 	//////////////////////////////////////////////////////////////////////////
 	// Notification system
-	, markerChangedSubscribers : []
+	, subscribers : []
 
-	, SubscribeOnMarkerChanged : function( _This, _Callback )
+	, Subscribe : function( _This, _Callback )
 	{
-		this.markerChangedSubscribers.push( { This : _This, Callback : _Callback } );
+		this.subscribers.push( { This : _This, Callback : _Callback } );
 	}
 
-	, UnSubscribeOnMarkerChanged : function( _Callback )
+	, UnSubscribe : function( _Callback )
 	{
-		for ( var Key in this.markerChangedSubscribers )
+		for ( var Key in this.subscribers )
 		{
-			var	Value = this.markerChangedSubscribers[Key];
+			var	Value = this.subscribers[Key];
 			if ( Value.This == _Callback )
 			{	// Remove that subscriber
-				this.markerChangedSubscribers.splice( Key, 1 );
+				this.subscribers.splice( Key, 1 );
 				return;
 			}
 		}
@@ -760,10 +763,14 @@ Renderer3D.prototype =
 	// Notifies the BRDF changed so subscribers have a chance to redraw their appearance
 	, NotifyMarkerChanged : function()
 	{
-		for ( var SubscriberIndex=0; SubscriberIndex < this.markerChangedSubscribers.length; SubscriberIndex++ )
+		this.Notify( { type: "markerChanged" } )
+	}
+	, Notify : function( _Event )
+	{
+		for ( var SubscriberIndex=0; SubscriberIndex < this.subscribers.length; SubscriberIndex++ )
 		{
-			var	Value = this.markerChangedSubscribers[SubscriberIndex];
-			Value.Callback.call( Value.This, this );
+			var	Value = this.subscribers[SubscriberIndex];
+			Value.Callback.call( Value.This, this, _Event );
 		}
 	}
 

@@ -19,6 +19,12 @@ BRDFPom = function()
 	this.referenceBRDFDirty = true;
 	this.displayType = 0;	// This BRDF
 
+
+	// Special display of renderer 3D's sampling area
+	this.showRenderer3DSamplingArea = false;
+	this.renderer3DLightTheta = 0.25 * Math.PI;
+
+
 	// Specular parameters
 	this.soloX = false;
 	this.amplitudeX = 100.0;
@@ -258,6 +264,42 @@ BRDFPom.prototype =
 		this.albedo.z *= dThetaD;
 
 		this.avgReflectance.mul( 1.0 / (90*90) );
+
+
+		// Post-process by adding smudges where the view angles are sampling for a given light orientation
+		if ( !this.showRenderer3DSamplingArea )
+			return;
+
+		var	LightTS = new vec3( Math.sin( this.renderer3DLightTheta ), 0.0, Math.cos( this.renderer3DLightTheta ) );
+		var	ViewTS = new vec3( 0 );
+
+		var	COUNT_Y = 200;
+		var	COUNT_X = 50;
+		for ( var Y=0; Y < COUNT_Y; Y++ )
+		{
+			var	PhiV = Math.TWOPI * (Y / COUNT_Y - 0.5);
+			var	CosPhiV = Math.cos( PhiV );
+			var	SinPhiV = Math.sin( PhiV );
+			for ( var X=0; X < COUNT_X; X++ )
+			{
+				var	ThetaV = Math.HALFPI * X / COUNT_X;
+				var	CosThetaV = Math.cos( ThetaV );
+				var	SinThetaV = Math.sin( ThetaV );
+
+				ViewTS.x = SinThetaV * SinPhiV;
+				ViewTS.y = SinThetaV * CosPhiV;
+				ViewTS.z = CosThetaV;
+
+				var	Half = ViewTS.add_( LightTS ).normalize();
+
+				var	ThetaH = Math.acos( Half.z );
+				var	ThetaD = Math.acos( LightTS.dot( Half ) );
+
+				var	PixelX = Math.min( 89, Math.floor( 90 * Math.sqrt( ThetaH / Math.HALFPI ) ) ) | 0;
+				var	PixelY = Math.min( 89, Math.floor( 90 * ThetaD / Math.HALFPI ) ) | 0;
+				Pixels[4 * (90*PixelY + PixelX) + 3] = 1;	// Only paint alpha...
+			}
+		}
 	}
 
 	// Computes the current light direction based on ThetaH/ThetaD
@@ -370,10 +412,10 @@ BRDFPom.prototype =
 		this.__tempDiffuseRoughness = DiffuseRoughness;
 
 		var	Goal = 0.01;
-		var	x = Math.pow( FallOffX, ExponentX );	// We must reach the goal at this position
+		var	x = Math.pow( Math.max( 1e-4, FallOffX ), ExponentX );	// We must reach the goal at this position
 		this.__tempS0 = Math.log( Goal / Math.max( 1e-3, AmplitudeX ) ) / x;
 
-		var	y = Math.pow( FallOffY, ExponentY );	// We must reach the goal at this position
+		var	y = Math.pow( Math.max( 1e-4, FallOffY ), ExponentY );	// We must reach the goal at this position
 		this.__tempS1 = Math.log( Goal / Math.max( 1e-3, AmplitudeY ) ) / y;
 	}
 
@@ -381,6 +423,7 @@ BRDFPom.prototype =
 	{
 		// I borrowed the diffuse term from §5.3 of http://disney-animation.s3.amazonaws.com/library/s2012_pbs_disney_brdf_notes_v2.pdf
 		var	Fd90 = 0.5 + this.__tempDiffuseRoughness * this.__cosThetaD*this.__cosThetaD;
+//		var	Fd90 = this.__tempDiffuseRoughness * this.__cosThetaD*this.__cosThetaD;
 		var	a = 1 - this.__toLight.z;	// 1-cos(ThetaL) = 1-cos(ThetaV)
 		var	Cos5 = a * a;
 			Cos5 *= Cos5 * a;
@@ -389,6 +432,9 @@ BRDFPom.prototype =
 
 		var	RetroDiffuse = Math.max( 0, Diffuse-1 );	// Retro-reflection starts above 1
 //		Diffuse = Math.lerp( Diffuse, 0, Math.min( 1, RetroDiffuse ) );	// Retro-reflection makes diffuse lower...
+
+		Diffuse = Math.min( 1, Diffuse );				// Clamp diffuse to avoid double-counting retro-reflection...
+
 
 		// Finally multiply by base color
 		var	Fact = this.__tempDiffuse * Math.INVPI;
@@ -721,6 +767,27 @@ BRDFPom.prototype =
 
 		this.dynRoughnessBias = value;
 		this.NotifyChange();
+	}
+
+
+	// ========== Special Informative Parameter ==========
+	, setShowRenderer3DSamplingArea : function( value )
+	{
+		if ( value == this.showRenderer3DSamplingArea )
+			return;
+
+		this.showRenderer3DSamplingArea = value;
+		this.NotifyChange();
+	}
+
+	, setRenderer3DLightTheta : function( value )
+	{
+		if ( Math.almost( value, this.renderer3DLightTheta ) )
+			return;
+
+		this.renderer3DLightTheta = value;
+		if ( this.showRenderer3DSamplingArea )
+			this.NotifyChange();	// Only render if we're actually showing it!
 	}
 
 
