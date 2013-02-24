@@ -163,33 +163,57 @@ BRDFPropertiesBase.prototype =
 
 	, setDisplayTypeThetaH : function( value )
 	{
+		if ( value == this.displayTypeThetaH )
+			return;
+
 		this.displayTypeThetaH = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowLogLuma : function( value )
 	{
+		if ( value == this.showLogLuma )
+			return;
+
 		this.showLogLuma = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowChroma : function( value )
 	{
+		if ( value == this.showChroma )
+			return;
+
 		this.showChroma = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowDeChromatized : function( value )
 	{
+		if ( value == this.showDeChromatized )
+			return;
+
 		this.showDeChromatized = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowNormalized : function( value )
 	{
+		if ( value == this.showNormalized )
+			return;
+
 		this.showNormalized = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowIsolines : function( value )
 	{
+		if ( value == this.showIsolines )
+			return;
+
 		this.showIsolines = value;
 		this.Render();
+		this.NotifyPropertyChanged();
 	}
 	, setShowMarker : function( value )
 	{
@@ -287,33 +311,35 @@ BRDFPropertiesBase.prototype =
 
 	//////////////////////////////////////////////////////////////////////////
 	// Notification system
-	, markerChangedSubscribers : []
+	, subscribers : []
 
-	, SubscribeOnMarkerChanged : function( _This, _Callback )
+	, Subscribe : function( _This, _Callback )
 	{
-		this.markerChangedSubscribers.push( { This : _This, Callback : _Callback } );
+		this.subscribers.push( { This : _This, Callback : _Callback } );
 	}
 
-	, UnSubscribeOnMarkerChanged : function( _Callback )
+	, UnSubscribe : function( _Callback )
 	{
-		for ( var Key in this.markerChangedSubscribers )
+		for ( var Key in this.subscribers )
 		{
-			var	Value = this.markerChangedSubscribers[Key];
+			var	Value = this.subscribers[Key];
 			if ( Value.This == _Callback )
 			{	// Remove that subscriber
-				this.markerChangedSubscribers.splice( Key, 1 );
+				this.subscribers.splice( Key, 1 );
 				return;
 			}
 		}
 	}
 
 	// Notifies the BRDF changed so subscribers have a chance to redraw their appearance
-	, NotifyMarkerChanged : function()
+	, NotifyMarkerChanged : function()		{ this.Notify( { type: "markerChanged" } ) }
+	, NotifyPropertyChanged : function()	{ this.Notify( { type: "propertyChanged" } ); }
+	, Notify : function( _Event )
 	{
-		for ( var SubscriberIndex=0; SubscriberIndex < this.markerChangedSubscribers.length; SubscriberIndex++ )
+		for ( var SubscriberIndex=0; SubscriberIndex < this.subscribers.length; SubscriberIndex++ )
 		{
-			var	Value = this.markerChangedSubscribers[SubscriberIndex];
-			Value.Callback.call( Value.This, this );
+			var	Value = this.subscribers[SubscriberIndex];
+			Value.Callback.call( Value.This, this, _Event );
 		}
 	}
 
@@ -375,7 +401,7 @@ BRDFPropertiesBase.prototype =
 		{
 			var	Precision = 3;
 			var	Reflectance = this.BRDF.sample( _SliceX, _SliceY );
-			Text += "f(θh,θd) = (" + Reflectance.x.toFixed( Precision+1 ) + ", " + Reflectance.y.toFixed( Precision+1 ) + ", " + Reflectance.z.toFixed( Precision+1 ) + ") Y=" + (Reflectance.x * 0.2126 + Reflectance.y * 0.7152 + Reflectance.z * 0.0722).toFixed( Precision+1 ) + "<br/>";
+			Text += "f(θh,θd) = (" + Reflectance.x.toFixed( Precision+1 ) + ", " + Reflectance.y.toFixed( Precision+1 ) + ", " + Reflectance.z.toFixed( Precision+1 ) + (Reflectance.w > 1e-6 ? ", " + Reflectance.w.toFixed( Precision+1 ) : "") + ") Y=" + (Reflectance.x * 0.2126 + Reflectance.y * 0.7152 + Reflectance.z * 0.0722).toFixed( Precision+1 ) + "<br/>";
 
 			var	Albedo = this.BRDF.albedo;
 			var	AlbedoText = "Albedo = (" + Albedo.x.toFixed( Precision+1 ) + ", " + Albedo.y.toFixed( Precision+1 ) + ", " + Albedo.z.toFixed( Precision+1 ) + ") Y=" + (Albedo.x * 0.2126 + Albedo.y * 0.7152 + Albedo.z * 0.0722).toFixed( Precision+1 );

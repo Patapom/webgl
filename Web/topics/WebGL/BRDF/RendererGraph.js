@@ -20,6 +20,7 @@ RendererGraph = function( _canvas, _FOV )
 	this.showLogLuminance = false;
 	this.showLuminanceX10 = false;
 	this.separateRGB = false;
+	this.displayTypeThetaH = 1;	// Default is "squared" (which is the actual encoding of ThetaH btw)
 
 	// Create the GL viewport
 	this.viewport = new GLViewport( "GraphViewport", _canvas );
@@ -209,6 +210,10 @@ RendererGraph = function( _canvas, _FOV )
 		 } );
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Subscribe to all properties' event so we can handle change of properties local to the properties editor (most notably the DisplayTypeThetaH)
+	BRDFPropertiesBase.prototype.Subscribe.call( BRDFPropertiesBase.prototype, this, this.OnPropertiesEditorChangedEvent );
+
 	// Render once...
 	this.ready = true;
 	this.Render();
@@ -340,6 +345,15 @@ RendererGraph.prototype =
 		this.Render();
 	}
 
+	, setDisplayTypeThetaH : function( value )
+	{
+		if ( value == this.displayTypeThetaH )
+			return;
+
+		this.displayTypeThetaH = value;
+		this.Render();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	, Render : function()
 	{
@@ -394,6 +408,8 @@ RendererGraph.prototype =
 				if ( SliceTexture )
 					M.uniforms.SafeSet( "_TexBRDF", SliceTexture );
 
+				M.uniforms.SafeSet( "_DisplayTypeThetaH", that.displayTypeThetaH );
+
 				M.uniforms.SafeSet( "_ShowLogLuma", that.showLogLuminance )
 				M.uniforms.SafeSet( "_ShowLumaX10", that.showLuminanceX10 )
 				M.uniforms.SafeSet( "_ShowLuminance", that.showLuminance )
@@ -437,6 +453,8 @@ RendererGraph.prototype =
 					M.uniforms.SafeSet( "_BRDFValid", SliceTexture != null );
 					if ( SliceTexture )
 						M.uniforms.SafeSet( "_TexBRDF", SliceTexture );
+
+					M.uniforms.SafeSet( "_DisplayTypeThetaH", that.displayTypeThetaH );
 
 					M.uniforms.SafeSet( "_ShowLogLuma", that.showLogLuminance )
 					M.uniforms.SafeSet( "_ShowLumaX10", that.showLuminanceX10 )
@@ -484,6 +502,14 @@ RendererGraph.prototype =
 	, OnBRDFEvent : function( _BRDF )
 	{
 		this.Render();
+	}
+
+	, OnPropertiesEditorChangedEvent : function( _Properties, _Event )
+	{
+		if ( _Event.type != "propertyChanged" )
+			return;
+
+		this.setDisplayTypeThetaH( _Properties.displayTypeThetaH );
 	}
 
 	, OnResize : function()

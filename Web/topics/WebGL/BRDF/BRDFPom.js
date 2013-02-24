@@ -271,6 +271,7 @@ BRDFPom.prototype =
 			return;
 
 		var	LightTS = new vec3( Math.sin( this.renderer3DLightTheta ), 0.0, Math.cos( this.renderer3DLightTheta ) );
+//		var	LightTS = new vec3( 0.0, Math.sin( this.renderer3DLightTheta ), Math.cos( this.renderer3DLightTheta ) );
 		var	ViewTS = new vec3( 0 );
 
 		var	COUNT_Y = 400;
@@ -280,6 +281,7 @@ BRDFPom.prototype =
 			var	PhiV = Math.PI * (Y / COUNT_Y - 0.5);
 			var	CosPhiV = Math.cos( PhiV );
 			var	SinPhiV = Math.sin( PhiV );
+
 			for ( var X=0; X < COUNT_X; X++ )
 			{
 				var	ThetaV = Math.HALFPI * X / COUNT_X;
@@ -293,11 +295,34 @@ BRDFPom.prototype =
 				var	Half = ViewTS.add_( LightTS ).normalize();
 
 				var	ThetaH = Math.acos( Half.z );
-				var	ThetaD = Math.acos( LightTS.dot( Half ) );
+				var	ThetaD = Math.acos( ViewTS.dot( Half ) );
+
+
+// Compute diff vector
+var	PhiH = Math.atan2( Half.y, Half.x );
+var	Temp = LightTS.rotate( vec3.unitZ(), -PhiH );	// Rotate back in Tangent^Normal plane
+var	Diff = Temp.rotate( vec3.unitY(), -ThetaH );	// Realign H with normal
+
+var	ThetaD_Confirm = Math.acos( Diff.z );			// ThetaD is the half angle between view and light
+var	PhiD = Math.atan2( Diff.y, Diff.x );			// PhiD is the angle between the Light and the Normal^Half Vector plane
+if ( PhiD < 0.0 )
+	PhiD += Math.PI;	// Make sure we're always in [0,PI]
+
+
+// CHECK
+var	ViewTS_Check = new vec3( Math.cos( ThetaD) * Math.sin( ThetaH ), Math.sin( ThetaD ), Math.cos( ThetaD) * Math.cos( ThetaH ));
+
 
 				var	PixelX = Math.min( 89, Math.floor( 90 * Math.sqrt( ThetaH / Math.HALFPI ) ) ) | 0;
 				var	PixelY = Math.min( 89, Math.floor( 90 * ThetaD / Math.HALFPI ) ) | 0;
-				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;	// Only paint alpha...
+//				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;		// Only paint alpha...
+
+				Pixels[4 * (90*PixelY + PixelX) + 3] = ViewTS.z;	// Paint cos(N.V) importance
+//				Pixels[4 * (90*PixelY + PixelX) + 3] = 10.0 * Math.abs( ViewTS.z - Math.cos( ThetaH ) * Math.cos( ThetaD ) );	// Paint cos(N.V) importance
+//				Pixels[4 * (90*PixelY + PixelX) + 3] = Math.max( ViewTS.z );	// Paint cos(N.V) importance
+// 				Pixels[4 * (90*PixelY + PixelX) + 3] = Pixels[4 * (90*PixelY + PixelX) + 3] > 0.0 ? Math.min( Pixels[4 * (90*PixelY + PixelX) + 3], ViewTS.z ) : ViewTS.z;	// Paint cos(N.V) importance
+// 
+// 				Pixels[4 * (90*PixelY + PixelX) + 3] = PhiD / Math.PI;
 			}
 		}
 	}
@@ -323,7 +348,7 @@ BRDFPom.prototype =
 // 		this.__toLight.y = y;
 // 		this.__toLight.z = z * Cos - x * Sin;
 
-		// Simplifies into due to x=0
+		// Simplifies due to x=0
 		this.__toLight.x = z * Sin;
 		this.__toLight.y = y;
 		this.__toLight.z = z * Cos;

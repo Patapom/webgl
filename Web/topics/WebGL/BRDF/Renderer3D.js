@@ -301,11 +301,7 @@ Renderer3D = function( _canvas, _FOV )
 
 	//////////////////////////////////////////////////////////////////////////
 	// Subscribe to all properties' marker event so we can track and position the marker on our 3D representation
-	BRDFPropertiesBase.prototype.SubscribeOnMarkerChanged.call( BRDFPropertiesBase.prototype, this, function( _Properties ) {
-		if ( that.markerVisible != _Properties.markerVisible )
-			that.setShowMarker( _Properties.markerVisible );
-		that.setMarkerPosition( _Properties.markerPosition.x, _Properties.markerPosition.y );
-	} );
+	BRDFPropertiesBase.prototype.Subscribe.call( BRDFPropertiesBase.prototype, this, this.OnPropertiesEditorChangedEvent );
 
 	// Render once...
 	this.ready = true;
@@ -761,10 +757,7 @@ Renderer3D.prototype =
 	}
 
 	// Notifies the BRDF changed so subscribers have a chance to redraw their appearance
-	, NotifyMarkerChanged : function()
-	{
-		this.Notify( { type: "markerChanged" } )
-	}
+	, NotifyMarkerChanged : function()	{ this.Notify( { type: "markerChanged" } ) }
 	, Notify : function( _Event )
 	{
 		for ( var SubscriberIndex=0; SubscriberIndex < this.subscribers.length; SubscriberIndex++ )
@@ -785,6 +778,16 @@ Renderer3D.prototype =
 	, OnBRDFEvent : function( _BRDF )
 	{
 		this.Render();
+	}
+
+	, OnPropertiesEditorChangedEvent : function( _Properties, _Event )
+	{
+		if ( _Event.type != "markerChanged" )
+			return;
+
+		if ( this.markerVisible != _Properties.markerVisible )
+			this.setShowMarker( _Properties.markerVisible );
+		this.setMarkerPosition( _Properties.markerPosition.x, _Properties.markerPosition.y );
 	}
 
 	, OnResize : function()

@@ -68,7 +68,7 @@ BRDFBase.prototype =
 
 	// Bilinearly samples the BRDF
 	//	_ThetaH/D € [0,89]
-	// Returns a vec3
+	// Returns a vec4 (because we sometimes need the alpha value for additional infos)
 	//
 	, sample : function( _ThetaH, _ThetaD )
 	{
@@ -82,10 +82,10 @@ BRDFBase.prototype =
 			Y0 = Math.clamp( Y0, 0, 89 );
 		var	Y1 = Math.clamp( Y0+1, 0, 89 );
 
-		var	V00 = new vec3( this.sliceTexturePixels[4*(90*Y0+X0)+0], this.sliceTexturePixels[4*(90*Y0+X0)+1], this.sliceTexturePixels[4*(90*Y0+X0)+2] );
-		var	V01 = new vec3( this.sliceTexturePixels[4*(90*Y0+X1)+0], this.sliceTexturePixels[4*(90*Y0+X1)+1], this.sliceTexturePixels[4*(90*Y0+X1)+2] );
-		var	V10 = new vec3( this.sliceTexturePixels[4*(90*Y1+X0)+0], this.sliceTexturePixels[4*(90*Y1+X0)+1], this.sliceTexturePixels[4*(90*Y1+X0)+2] );
-		var	V11 = new vec3( this.sliceTexturePixels[4*(90*Y1+X1)+0], this.sliceTexturePixels[4*(90*Y1+X1)+1], this.sliceTexturePixels[4*(90*Y1+X1)+2] );
+		var	V00 = new vec4( this.sliceTexturePixels[4*(90*Y0+X0)+0], this.sliceTexturePixels[4*(90*Y0+X0)+1], this.sliceTexturePixels[4*(90*Y0+X0)+2], this.sliceTexturePixels[4*(90*Y0+X0)+3] );
+		var	V01 = new vec4( this.sliceTexturePixels[4*(90*Y0+X1)+0], this.sliceTexturePixels[4*(90*Y0+X1)+1], this.sliceTexturePixels[4*(90*Y0+X1)+2], this.sliceTexturePixels[4*(90*Y0+X1)+3] );
+		var	V10 = new vec4( this.sliceTexturePixels[4*(90*Y1+X0)+0], this.sliceTexturePixels[4*(90*Y1+X0)+1], this.sliceTexturePixels[4*(90*Y1+X0)+2], this.sliceTexturePixels[4*(90*Y1+X0)+3] );
+		var	V11 = new vec4( this.sliceTexturePixels[4*(90*Y1+X1)+0], this.sliceTexturePixels[4*(90*Y1+X1)+1], this.sliceTexturePixels[4*(90*Y1+X1)+2], this.sliceTexturePixels[4*(90*Y1+X1)+3] );
 
 		var	V0 = V00.mul( 1.0-x ).add( V01.mul( x ) );
 		var	V1 = V10.mul( 1.0-x ).add( V11.mul( x ) );

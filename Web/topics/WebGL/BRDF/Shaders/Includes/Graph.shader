@@ -5,6 +5,9 @@
 
 const float	VERTICAL_SCALE = 0.1;	// 1/10th of the actual value otherwise the graph is ginormous!
 
+#define	LINEAR_THETA
+
+uniform int			_DisplayTypeThetaH;
 
 uniform bool		_ShowLuminance;
 uniform bool		_ShowLumaX10;
@@ -17,13 +20,17 @@ uniform float		_IsolatedThetaValue;
 // Compute the world height offset of a graph vertex given the 2D UV coordinates on the plane
 float	ComputeWorldHeight( vec2 _UV )
 {
-// Show actual thetaH ###
-//_UV.x = sqrt( _UV.x );
-//
+	if ( _DisplayTypeThetaH == 0 )
+		_UV.x = sqrt( _UV.x );
+	else if ( _DisplayTypeThetaH == 2 )
+		_UV = 1.0 - INV_HALFPI * acos( _UV );
 
 	vec3	Reflectance = 10.0 * vec3( 0.2 * sin( 16.0 * _UV.x ) * sin( 16.0 * _UV.y ) );
 	if ( _BRDFValid )
-		Reflectance = texture2D( _TexBRDF, _UV ).xyz;
+	{
+		vec4	Color = texture2D( _TexBRDF, _UV );
+		Reflectance = lerp( Color.xyz, vec3( 0, 1, 0 ), Color.w );
+	}
 
 	if ( _IsolateThetaD )
 		Reflectance *= 1.0 - saturate( 100.0 * abs( _UV.y - _IsolatedThetaValue ) );
@@ -47,13 +54,17 @@ float	ComputeWorldHeight( vec2 _UV )
 
 vec4	ComputeGraphColor( vec2 _UV, bool _IsWireframe )
 {
-// Show actual thetaH ###
-//_UV.x = sqrt( _UV.x );
-//
+	if ( _DisplayTypeThetaH == 0 )
+		_UV.x = sqrt( _UV.x );
+	else if ( _DisplayTypeThetaH == 2 )
+		_UV = 1.0 - INV_HALFPI * acos( _UV );
 
 	vec3	Reflectance = _IsWireframe ? vec3( 0 ) : vec3( _UV, 0 );
 	if ( _BRDFValid )
-		Reflectance = texture2D( _TexBRDF, _UV ).xyz;
+	{
+		vec4	Color = texture2D( _TexBRDF, _UV );
+		Reflectance = lerp( Color.xyz, vec3( 0, 1, 0 ), Color.w );
+	}
 
 	if ( _ShowIsolines )
 	{

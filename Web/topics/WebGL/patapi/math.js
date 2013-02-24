@@ -333,9 +333,12 @@ vec3.prototype =
 
 		var	Cross = _Axis.cross( this );
 
-		this.x = this.x * Cos + Cross.x * Sin + Dot * _Axis.x;
-		this.y = this.y * Cos + Cross.y * Sin + Dot * _Axis.y;
-		this.z = this.z * Cos + Cross.z * Sin + Dot * _Axis.z;
+		var	Result = new vec3();
+		Result.x = this.x * Cos + Cross.x * Sin + Dot * _Axis.x;
+		Result.y = this.y * Cos + Cross.y * Sin + Dot * _Axis.y;
+		Result.z = this.z * Cos + Cross.z * Sin + Dot * _Axis.z;
+
+		return Result;
 	}
 
 	, almost : function( b )
