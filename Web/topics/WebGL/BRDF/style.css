@@ -311,6 +311,13 @@ html, body
 	top:		10px;
 }
 
+#PropPainter_UIWidgets
+{
+	position:	absolute;
+	width:		50%;
+	top:		10px;
+}
+
 #PropPomUI_Radio_Tabs
 {
 	width:		400px;
