@@ -446,6 +446,28 @@ html, body
 	left:		100px;
 }
 
+/* Color pickers */
+.PropPainterUI_ColorWidgets
+{
+	height:		40px;	
+}
+
+.PropPainterUI_ColorPicker
+{
+	position:	relative;
+	width:		36px;
+	height:		36px;
+	background:	url(../patapi/ColorPicker/images/select2.png);
+	bottom:		20px;
+	left:		45%;
+}
+.PropPainterUI_Button_Pick
+{
+	position:	relative;
+	bottom:		50px;
+	left:		100px;
+}
+
 
 
 /* Viewport infos are a hovering div displaying infos about the currently pointed spot on the BRDF */
