@@ -297,7 +297,7 @@ BRDFPom.prototype =
 				var	ThetaH = Math.acos( Half.z );
 				var	ThetaD = Math.acos( ViewTS.dot( Half ) );
 
-
+				 
 // Compute diff vector
 var	PhiH = Math.atan2( Half.y, Half.x );
 var	Temp = LightTS.rotate( vec3.unitZ(), -PhiH );	// Rotate back in Tangent^Normal plane
@@ -321,8 +321,7 @@ var	ViewTS_Check = new vec3( Math.cos( ThetaD) * Math.sin( ThetaH ), Math.sin( T
 //				Pixels[4 * (90*PixelY + PixelX) + 3] = 10.0 * Math.abs( ViewTS.z - Math.cos( ThetaH ) * Math.cos( ThetaD ) );	// Paint cos(N.V) importance
 //				Pixels[4 * (90*PixelY + PixelX) + 3] = Math.max( ViewTS.z );	// Paint cos(N.V) importance
 // 				Pixels[4 * (90*PixelY + PixelX) + 3] = Pixels[4 * (90*PixelY + PixelX) + 3] > 0.0 ? Math.min( Pixels[4 * (90*PixelY + PixelX) + 3], ViewTS.z ) : ViewTS.z;	// Paint cos(N.V) importance
-// 
-// 				Pixels[4 * (90*PixelY + PixelX) + 3] = PhiD / Math.PI;
+ 				Pixels[4 * (90*PixelY + PixelX) + 3] = PhiD / Math.PI;
 			}
 		}
 	}

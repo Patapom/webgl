@@ -25,7 +25,7 @@ FittingBFGS.prototype =
 			for ( X=0; X < 90; X++ )
 			{
 				var	Reflectance = _BRDFTarget.sample( X, Y );
-				Values[90*Y+X] = Reflectance.dot( Luminance );
+				Values[90*Y+X] = Luminance.dot( Reflectance );
 			}
 
 		// Prepare the initial coefficients (indexed from 1!)

@@ -29,7 +29,7 @@ FittingBFGS.prototype =
 			for ( X=0; X < 90; X++ )
 			{
 				var	Reflectance = _BRDFTarget.sample( X, Y );
-				var	Luma = Reflectance.dot( Luminance );
+				var	Luma = Luminance.dot( Reflectance );
 				Values[Y][X] = Luma;
 			}
 

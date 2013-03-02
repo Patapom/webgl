@@ -77,9 +77,11 @@
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFAnalytical.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFBase.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFList.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPainter.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPom.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesAnalytical.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesBase.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesPainter.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesPom.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesSlice.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\BRDFSlice.js" />

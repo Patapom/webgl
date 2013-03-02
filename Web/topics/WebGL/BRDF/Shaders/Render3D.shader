@@ -56,6 +56,12 @@ void	main()
 
 			1.0 * pow( saturate( dot( H, _vPosition ) ), 20.0 )
 		);
+
+// Fake electronic microscope effect
+vec2	CameraNormal = vec2( dot( _vPosition, _Camera2World[0].xyz ), dot( _vPosition, _Camera2World[1].xyz ) );
+_DiffuseSpecular.x = length( CameraNormal );
+_DiffuseSpecular.x *= _DiffuseSpecular.x;
+_DiffuseSpecular.x *= _DiffuseSpecular.x;
 }
 
 ////////////////////////////////////////////////////////////////

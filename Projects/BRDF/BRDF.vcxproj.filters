@@ -90,5 +90,7 @@
     <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\FittingBFGS_NC_Pourrave.js" />
     <None Include="..\..\Web\topics\WebGL\BRDF\FittingLM.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPainter.js" />
+    <None Include="..\..\Web\topics\WebGL\BRDF\BRDFPropertiesPainter.js" />
   </ItemGroup>
 </Project>

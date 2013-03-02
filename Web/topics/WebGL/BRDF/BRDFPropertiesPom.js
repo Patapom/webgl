@@ -389,11 +389,10 @@ this.showIsolines = true;
 				that.BRDF.falloffY,
 				that.BRDF.exponentX,
 				that.BRDF.exponentY,
-				that.BRDF.offsetX,
-
 				// Diffuse parameters
 				that.BRDF.diffuseReflectance,
 				that.BRDF.diffuseRoughness,
+				that.BRDF.offsetX,
 			];
 //			var	Text = JSON.stringify( Parameters, null, '\t' );
 			var	Text = JSON.stringify( Parameters );	// Single line only :(

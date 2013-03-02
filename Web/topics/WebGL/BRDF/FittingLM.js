@@ -54,7 +54,7 @@ FittingLM.prototype =
 			for ( var X=0; X < 90; X++ )
 			{
 				var	Reflectance = _BRDFTarget.sample( X, Y );
-				var	Luma = Reflectance.dot( Luminance );
+				var	Luma = Luminance.dot( Reflectance );
 				this._data[Y][X] = Luma;
 			}
 //*/
