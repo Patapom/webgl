@@ -105,6 +105,9 @@ BRDFPropertiesPainter = function()
 		
 		
 	}
+	
+	// Simulate resize, which should also trigger a render
+	this.OnResize();
 }
 
 BRDFPropertiesPainter.prototype =

@@ -311,6 +311,13 @@ html, body
 	top:		10px;
 }
 
+#PropPainter_UIWidgets
+{
+	position:	absolute;
+	width:		50%;
+	top:		10px;
+}
+
 #PropPomUI_Radio_Tabs
 {
 	width:		400px;
@@ -433,6 +440,28 @@ html, body
 	left:		45%;
 }
 .PropPomUI_Button_Pick
+{
+	position:	relative;
+	bottom:		50px;
+	left:		100px;
+}
+
+/* Color pickers */
+.PropPainterUI_ColorWidgets
+{
+	height:		40px;	
+}
+
+.PropPainterUI_ColorPicker
+{
+	position:	relative;
+	width:		36px;
+	height:		36px;
+	background:	url(../patapi/ColorPicker/images/select2.png);
+	bottom:		20px;
+	left:		45%;
+}
+.PropPainterUI_Button_Pick
 {
 	position:	relative;
 	bottom:		50px;
