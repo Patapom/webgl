@@ -98,13 +98,22 @@ BRDFPropertiesPainter = function()
 		 } );
 		
 		
-//		$('#PropPainterUI_Button_Brush').button().click( function() {
-//			that.pickingColor = true;
-//			that.pickColorType = 0;
-//		} );
+		$('#PropPainterUI_Button_Brush').button().click( function() {
+			that.pickingColor = true;
+			that.pickColorType = 0;
+		} );
 		
 		
 	}
+	
+	// Create events to manage dropping & dragging of the marker
+	this.canvas.mousedown( function( e ) {
+		that.setShowMarker( true );
+		that.BRDF.draw( this.hoveredThetaH, this.hoveredThetaD );
+	} );
+	this.canvas.mouseup( function( e ) {
+		that.setShowMarker( false );
+	} );
 	
 	// Simulate resize, which should also trigger a render
 	this.OnResize();

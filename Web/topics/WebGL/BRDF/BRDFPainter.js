@@ -31,7 +31,7 @@ BRDFPainter.prototype =
 {
 	Destroy : function ()
 	{
-		this.DestroyTexures();
+		this.DestroyTextures();
 	}
 
 	, GetHash : function()
@@ -45,6 +45,71 @@ BRDFPainter.prototype =
 
 		if( opt_LoadedCallback )
 			opt_LoadedCallback( this );
+		
+		this.InitTexture();
+
+	} 
+	
+	, InitTexture : function()
+	{
+	  		this.DestroyTextures();
+
+		var	Pixels = this.sliceTexturePixels;
+		this.minReflectance = new vec3( 1e6 );
+		this.maxReflectance = new vec3( -1e6 );
+		this.avgReflectance = new vec3( 0.0 );
+
+		this.albedo = vec3.zero();
+		var	dThetaH, Temp;
+
+		var	Offset = 0, R, G, B;
+		for ( var Y=0; Y < 90; Y++ )
+		{
+			for ( var X=0; X < 90; X++ )
+			{
+				R = 1e6;
+				G = 0;
+				B = 0;
+				//R = G = B = Fresnel;
+
+				Pixels[Offset++] = R;
+				Pixels[Offset++] = G;
+				Pixels[Offset++] = B;
+				Pixels[Offset++] = 0.0;
+
+				// Update stats
+				this.minReflectance.x = Math.min( this.minReflectance.x, R );
+				this.maxReflectance.x = Math.max( this.maxReflectance.x, R );
+				this.avgReflectance.x += R;
+				this.minReflectance.y = Math.min( this.minReflectance.y, G );
+				this.maxReflectance.y = Math.max( this.maxReflectance.y, G );
+				this.avgReflectance.y += G;
+				this.minReflectance.z = Math.min( this.minReflectance.z, B );
+				this.maxReflectance.z = Math.max( this.maxReflectance.z, B );
+				this.avgReflectance.z += B;
+
+				// Update albedo integral
+				Temp = (X+0.5) / 90.0;					// We need to avoid useless X=0 values... Sample at half a step offset.
+				dThetaH = Math.HALFPI * (2*X+1) / (90*90);		// Theta0 = 0²/90², Theta1 = 1²/90², ... ThetaN = N²/90² so dTheta = ((N+1)² - N²)/90² = (2N+1)/90²
+				dThetaH *= Math.sin( Temp * Temp * Math.HALFPI );	// Smaller at the top of the hemisphere
+				dThetaH *= Math.cos( Temp * Temp * Math.HALFPI );	// Not part of the dThetaH element but helpful factorization
+
+				//R = G = B = 1;	// DEBUG => Albedo should equal PI
+
+				this.albedo.x += dThetaH * R;
+				this.albedo.y += dThetaH * G;
+				this.albedo.z += dThetaH * B;
+			}
+		}
+
+		// Finalize values
+		var	dThetaD = Math.HALFPI / 90;	// Uniform pieces
+			dThetaD *= 4.0;				// Not part of the dThetaD element but helpful factorization (remember we integrated only on a quarter of a sphere)
+		this.albedo.x *= dThetaD;		// Should yield PI if reflectances were all 1
+		this.albedo.y *= dThetaD;
+		this.albedo.z *= dThetaD;
+
+		this.avgReflectance.mul( 1.0 / (90*90) );
 	}
 
 	, DestroyTextures : function()
@@ -59,8 +124,24 @@ BRDFPainter.prototype =
 
 	, UpdateTexture : function()
 	{
-
+//		this.DestroyTextures();
 	}
+	
+	/////////////////////////////////////////////////////////////////////////
+	// Model's Methods
+	// x : mouse.x
+	// y : mouse.y
+	, draw : function(x, y)
+	{ 
+	      var Pixels = this.sliceTexturePixels;
+	  
+	      Pixels[4*(y*90+x)] = 0;
+	      Pixels[4*(y*90+x)+1] = 0;
+	      Pixels[4*(y*90+x)+2] = 1e6;
+	      Pixels[4*(y*90+x)+3] = 0;
+		
+	}
+	
 
 	/////////////////////////////////////////////////////////////////////////
 	// Accessors
