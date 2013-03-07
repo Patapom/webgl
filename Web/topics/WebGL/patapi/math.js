@@ -341,6 +341,18 @@ vec3.prototype =
 		return Result;
 	}
 
+	// Mirrors the current vector about _Axis (the equivalent of a 180° rotation using the method above)
+	, mirror : function( _Axis )
+	{
+		var	Dot = 2.0 * this.dot( _Axis );
+		var	Result = new vec3(
+			Dot * _Axis.x - this.x,
+			Dot * _Axis.y - this.y,
+			Dot * _Axis.z - this.z
+		);
+		return Result;
+	}
+
 	, almost : function( b )
 	{
 		if ( b instanceof vec3 )

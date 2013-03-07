@@ -952,7 +952,7 @@ BRDFPropertiesPom.prototype =
 	{
 		BRDFPropertiesBase.prototype.OnRenderer3DEvent.call( this, _Renderer, _Event );
 
-		if ( _Event.type != "lightTheta" )
+		if ( _Event.type != "lightTheta" || !this.SupportsBRDF__( this.BRDF ) )
 			return;
 
 		this.BRDF.setRenderer3DLightTheta( _Event.value );

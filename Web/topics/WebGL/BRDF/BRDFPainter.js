@@ -45,14 +45,11 @@ BRDFPainter.prototype =
 
 		if( opt_LoadedCallback )
 			opt_LoadedCallback( this );
-		
-		this.InitTexture();
-
 	} 
 	
-	, InitTexture : function()
+	, UpdateTexture : function()
 	{
-	  		this.DestroyTextures();
+	  	this.DestroyTextures();
 
 		var	Pixels = this.sliceTexturePixels;
 		this.minReflectance = new vec3( 1e6 );
@@ -120,11 +117,6 @@ BRDFPainter.prototype =
 			Texture.gl.deleteTexture( Texture );
 		}
 		this.sliceTextures = {};
-	}
-
-	, UpdateTexture : function()
-	{
-//		this.DestroyTextures();
 	}
 	
 	/////////////////////////////////////////////////////////////////////////

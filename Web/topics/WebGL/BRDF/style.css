@@ -292,7 +292,9 @@ html, body
 	width:	200px;
 	height:	90%;
 	right:	10px;
+/*
 	vertical-align:middle;
+*/
 	background-color: #000;
 	border:		2px solid Black;
 }

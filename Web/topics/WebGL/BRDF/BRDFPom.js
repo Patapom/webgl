@@ -274,6 +274,11 @@ BRDFPom.prototype =
 //		var	LightTS = new vec3( 0.0, Math.sin( this.renderer3DLightTheta ), Math.cos( this.renderer3DLightTheta ) );
 		var	ViewTS = new vec3( 0 );
 
+
+var	CheckHalfMaxDiscrepancy = new vec3();
+var	CheckViewMaxDiscrepancy = new vec3();
+var	CheckMaxThetaV = 0.0;
+
 		var	COUNT_Y = 400;
 		var	COUNT_X = 200;
 		for ( var Y=0; Y < COUNT_Y; Y++ )
@@ -299,31 +304,78 @@ BRDFPom.prototype =
 
 				 
 // Compute diff vector
-var	PhiH = Math.atan2( Half.y, Half.x );
-var	Temp = LightTS.rotate( vec3.unitZ(), -PhiH );	// Rotate back in Tangent^Normal plane
-var	Diff = Temp.rotate( vec3.unitY(), -ThetaH );	// Realign H with normal
+// var	PhiH = Math.atan2( Half.y, Half.x );
+// var	Temp = LightTS.rotate( vec3.unitZ(), -PhiH );	// Rotate back in Tangent^Normal plane
+// var	Diff = Temp.rotate( vec3.unitY(), -ThetaH );	// Realign H with normal
+// 
+// var	ThetaD_Confirm = Math.acos( Diff.z );			// ThetaD is the half angle between view and light
+// var	PhiD = Math.atan2( Diff.y, Diff.x );			// PhiD is the angle between the Light and the Normal^Half Vector plane
+// if ( PhiD < 0.0 )
+// 	PhiD += Math.PI;	// Make sure we're always in [0,PI]
+// 
+// // CHECK
+// var	ViewTS_Check = new vec3( Math.cos( ThetaD ) * Math.sin( ThetaH ), Math.sin( ThetaD ), Math.cos( ThetaD ) * Math.cos( ThetaH ));
 
-var	ThetaD_Confirm = Math.acos( Diff.z );			// ThetaD is the half angle between view and light
-var	PhiD = Math.atan2( Diff.y, Diff.x );			// PhiD is the angle between the Light and the Normal^Half Vector plane
-if ( PhiD < 0.0 )
-	PhiD += Math.PI;	// Make sure we're always in [0,PI]
 
 
-// CHECK
-var	ViewTS_Check = new vec3( Math.cos( ThetaD) * Math.sin( ThetaH ), Math.sin( ThetaD ), Math.cos( ThetaD) * Math.cos( ThetaH ));
+// Here we know only:
+//	ThetaL, the angle of the light with the normal
+//	ThetaH, the half angle
+//	ThetaD, the difference angle
+//
+// From http://en.wikipedia.org/wiki/Solution_of_triangles#Three_sides_given, we know the 3 sides of the triangle
+//	and we need only a single angle to find the longitude of the half vector from the source light/normal vector planes
+//
+var	CosThetaL = LightTS.z;
+var	SinThetaL = Math.sqrt( 1.0 - LightTS.z*LightTS.z );
+var	CosAlpha = (Math.cos( ThetaD ) - CosThetaL * Math.cos( ThetaH )) / (SinThetaL * Math.sin( ThetaH ));
+if ( isNaN( CosAlpha ) )
+	CosAlpha = (Math.cos( ThetaD ) - CosThetaL * Math.cos( ThetaH )) / Math.max( 1e-6, SinThetaL * Math.sin( ThetaH ) );
+
+var	Alpha = Math.acos( Math.clamp( CosAlpha, -1, +1 ) );
+if ( isNaN( Alpha ) )
+	throw "SHIT!";
+
+var	ProjectedLight = new vec3( LightTS.xy(), 0 );
+var	ProjectedLightSize = ProjectedLight.length();
+if ( ProjectedLightSize > 1e-6 )
+	ProjectedLight.div( ProjectedLightSize );
+else
+	ProjectedLight = vec3.unitX();
+
+var	ProjectedOrtho = new vec3( ProjectedLight.y, -ProjectedLight.x, 0 );
+
+var	HalfVectorDir = ProjectedLight.mul_( Math.cos( Alpha ) ).add( ProjectedOrtho.mul_( Math.sin( Alpha ) ) );
+
+var	Half_Check = vec3.unitZ().mul_( Math.cos( ThetaH ) ).add( HalfVectorDir.mul_( Math.sin( ThetaH ) ) );	// Should already be equal to Half!
+
+CheckHalfMaxDiscrepancy.x = Math.max( CheckHalfMaxDiscrepancy.x, Math.abs( Half_Check.x - Half.x ) );
+CheckHalfMaxDiscrepancy.y = Math.max( CheckHalfMaxDiscrepancy.x, Math.abs( Half_Check.y - Half.y ) );
+CheckHalfMaxDiscrepancy.z = Math.max( CheckHalfMaxDiscrepancy.x, Math.abs( Half_Check.z - Half.z ) );
+
+var	ViewTS_Check = LightTS.mirror( Half_Check );
+
+CheckViewMaxDiscrepancy.x = Math.max( CheckViewMaxDiscrepancy.x, Math.abs( ViewTS_Check.x - ViewTS.x ) );
+CheckViewMaxDiscrepancy.y = Math.max( CheckViewMaxDiscrepancy.x, Math.abs( ViewTS_Check.y - ViewTS.y ) );
+CheckViewMaxDiscrepancy.z = Math.max( CheckViewMaxDiscrepancy.x, Math.abs( ViewTS_Check.z - ViewTS.z ) );
+
+
+var	ProjectedView = new vec3( ViewTS.xy(), 1e-12 ).normalized();
+var	CheckAlpha = Math.acos( ProjectedView.dot( HalfVectorDir ) );
 
 
 				var	PixelX = Math.min( 89, Math.floor( 90 * Math.sqrt( ThetaH / Math.HALFPI ) ) ) | 0;
 				var	PixelY = Math.min( 89, Math.floor( 90 * ThetaD / Math.HALFPI ) ) | 0;
-//				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;		// Only paint alpha...
+				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;		// Only paint alpha...
 
-				Pixels[4 * (90*PixelY + PixelX) + 3] = ViewTS.z;	// Paint cos(N.V) importance
+//				Pixels[4 * (90*PixelY + PixelX) + 3] = ViewTS.z;	// Paint cos(N.V) importance
 //				Pixels[4 * (90*PixelY + PixelX) + 3] = 10.0 * Math.abs( ViewTS.z - Math.cos( ThetaH ) * Math.cos( ThetaD ) );	// Paint cos(N.V) importance
 //				Pixels[4 * (90*PixelY + PixelX) + 3] = Math.max( ViewTS.z );	// Paint cos(N.V) importance
 // 				Pixels[4 * (90*PixelY + PixelX) + 3] = Pixels[4 * (90*PixelY + PixelX) + 3] > 0.0 ? Math.min( Pixels[4 * (90*PixelY + PixelX) + 3], ViewTS.z ) : ViewTS.z;	// Paint cos(N.V) importance
- 				Pixels[4 * (90*PixelY + PixelX) + 3] = PhiD / Math.PI;
 			}
 		}
+
+		return;
 	}
 
 	// Computes the current light direction based on ThetaH/ThetaD
