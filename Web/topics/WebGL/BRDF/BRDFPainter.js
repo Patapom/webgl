@@ -165,7 +165,7 @@ BRDFPainter.prototype =
 				tmp_x = X - x;
 				tmp_y = Y - y;
 			    
-				if( Math.sqrt(tmp_x*tmp_x - tmp_y*tmp_y) < 10. )
+				if( Math.sqrt(tmp_x*tmp_x + tmp_y*tmp_y) < 10. )
 				{
 				    this.layer[4*(Y*90+X)]   = 0;
 				    this.layer[4*(Y*90+X)+1] = 0;
