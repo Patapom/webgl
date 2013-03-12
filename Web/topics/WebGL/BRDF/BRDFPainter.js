@@ -23,13 +23,42 @@ BRDFPainter = function()
 	this.brushChroma = vec3.one();
 	this.brushSize = 1.;
 	
-	// 
+	this.layer = new Float32Array( 90*90 * 4 );
+	var Offset = 0;
+	for ( var Y=0; Y < 90; Y++ )
+	{
+		for ( var X=0; X < 90; X++ )
+		{
+			this.layer[Offset++] = 1e6;
+			this.layer[Offset++] = 1e6;
+			this.layer[Offset++] = 0.0;
+			this.layer[Offset++] = 0.0;
+		}
+	}
+	
+
 }
 
 BRDFPainter.uniqueID = 0;
 BRDFPainter.prototype =
 {
-	Destroy : function ()
+	// Set the layer to yellow
+	ClearMyLayer : function ()
+	{
+		var Offset = 0;
+		for ( var Y=0; Y < 90; Y++ )
+		{
+			for ( var X=0; X < 90; X++ )
+			{
+				this.layer[Offset++] = 1e6;
+				this.layer[Offset++] = 1e6;
+				this.layer[Offset++] = 0.0;
+				this.layer[Offset++] = 0.0;
+			}
+		}
+	}
+  
+	, Destroy : function ()
 	{
 		this.DestroyTextures();
 	}
@@ -45,6 +74,9 @@ BRDFPainter.prototype =
 
 		if( opt_LoadedCallback )
 			opt_LoadedCallback( this );
+		
+		// Create layer
+		// this.ClearMyLayer();
 	} 
 	
 	, UpdateTexture : function()
@@ -64,13 +96,13 @@ BRDFPainter.prototype =
 		{
 			for ( var X=0; X < 90; X++ )
 			{
-				R = 1e6;
-				G = 0;
-				B = 0;
+				
 				//R = G = B = Fresnel;
-
-				Pixels[Offset++] = R;
+				R = this.layer[Offset];
+				Pixels[Offset++] = R ;
+				G = this.layer[Offset];
 				Pixels[Offset++] = G;
+				B = this.layer[Offset];
 				Pixels[Offset++] = B;
 				Pixels[Offset++] = 0.0;
 
@@ -125,13 +157,25 @@ BRDFPainter.prototype =
 	// y : mouse.y
 	, draw : function(x, y)
 	{ 
-	      var Pixels = this.sliceTexturePixels;
 	  
-	      Pixels[4*(y*90+x)] = 0;
-	      Pixels[4*(y*90+x)+1] = 0;
-	      Pixels[4*(y*90+x)+2] = 1e6;
-	      Pixels[4*(y*90+x)+3] = 0;
+		for ( var Y=0; Y < 90; Y++ )
+		{
+			for ( var X=0; X < 90; X++ )
+			{
+				tmp_x = X - x;
+				tmp_y = Y - y;
+			    
+				if( Math.sqrt(tmp_x*tmp_x - tmp_y*tmp_y) < 10. )
+				{
+				    this.layer[4*(Y*90+X)]   = 0;
+				    this.layer[4*(Y*90+X)+1] = 0;
+				    this.layer[4*(Y*90+X)+2] = 1e6;
+				    this.layer[4*(Y*90+X)+3] = 0;
+				}
+			}
+		}
 		
+		this.NotifyChange();
 	}
 	
 

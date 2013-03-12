@@ -222,8 +222,8 @@ BRDFPropertiesBase.prototype =
 
 		this.markerVisible = value;
 
-		// Update UI
-		this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
+		  // Update UI
+		  this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
 
 		this.setMarkerPosition( this.hoveredThetaH, this.hoveredThetaD );
 	}

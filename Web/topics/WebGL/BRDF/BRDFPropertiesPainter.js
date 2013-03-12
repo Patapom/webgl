@@ -101,15 +101,13 @@ BRDFPropertiesPainter = function()
 		$('#PropPainterUI_Button_Brush').button().click( function() {
 			that.pickingColor = true;
 			that.pickColorType = 0;
-		} );
-		
-		
+		} );	
 	}
 	
 	// Create events to manage dropping & dragging of the marker
 	this.canvas.mousedown( function( e ) {
+		that.draw();
 		that.setShowMarker( true );
-		that.BRDF.draw( this.hoveredThetaH, this.hoveredThetaD );
 	} );
 	this.canvas.mouseup( function( e ) {
 		that.setShowMarker( false );
@@ -152,7 +150,13 @@ BRDFPropertiesPainter.prototype =
 	{
 		BRDFPropertiesBase.prototype.OnBRDFListEvent.call( this, _List, _Event );
 	}
-
+	
+	, draw : function()
+	{
+		
+		this.BRDF.draw( this.hoveredSliceX, this.hoveredSliceY );
+		this.OnResize();
+	}
 
 };
 
