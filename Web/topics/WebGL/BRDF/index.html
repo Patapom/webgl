@@ -99,6 +99,24 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 }
 
 
+
+	//////////////////////////////////////////////////////////////////////////
+	// Ensure we support the required extensions!
+	var	GLSupport = patapi.webgl.CreateDummyContext( { floatTextures : true, vertexTextureFetch : true } );
+	if ( !GLSupport.WebGLAvailable || GLSupport.MissingExtensions )
+	{	// ARGH!!
+
+		if ( !GLSupport.WebGLAvailable )
+			window.alert( "WebGL is not available in your browser!\n\nAdditional Reason:" + GLSupport.WebGLException );
+		else
+		{	// We're missing extensions!
+			window.alert( "WebGL is available but does not support required extensions like floating-point textures or vertex texture fetch!\nDo you have an ATI card??" );
+		}
+
+		return;
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// Prepare UI layouts
 	$('#ContainerViewers').tabs( {

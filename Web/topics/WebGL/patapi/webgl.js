@@ -233,6 +233,99 @@ patapi.webgl.EnsureFrameUpdated = function()
 
 
 //////////////////////////////////////////////////////////////////////////
+// Creates and destroys a temporary dummy GL context to ensure required extensions are availables
+//	_RequiredExtensions, an object looking like this:
+//
+//	{
+//		floatTextures : true,		// Means you require floating point textures
+//		vertexTextureFetch : true,	// Means you require vertex shader texture fetch
+//	or	vertexTextureFetch : 4,		// Means you require at least 4 slots of vertex shader textures
+//	}
+//
+// Returns an object with infos about the context of the type:
+//
+//	{
+//		WebGLAvailable : true or false,	// If false, no need to bother displaying anything!
+//		(optional) WebGLException : Exists only if WebGLAvailable is false. Contains the text of the exception that occurred when attempted to create the context)
+//		(optional) MissingExtensions : {
+//			the list of extensions that are unavailable...
+//		}
+//	}
+//
+patapi.webgl.CreateDummyContext = function( _RequiredExtensions, opt_ContextAttributes )
+{
+	var	body = document.getElementsByTagName( 'body' )[0];
+	if ( !body )
+		throw "Couldn't find <body> element!";
+
+	// Create the dummy canvas and attach it to the body
+	var	canvas = document.createElement( 'canvas' );
+	body.appendChild( canvas );
+
+	// Ask for the WebGL context
+	var	Result = {
+		WebGLAvailable : false
+	};
+
+	var	gl = null;
+	try
+	{
+		gl = patapi.webgl.GetContext( canvas, opt_ContextAttributes );
+		Result.WebGLAvailable = true;
+	}
+	catch ( _e )
+	{
+		Result.WebGLException = _e;
+	}
+
+	// Ensure the required extensions are available...
+	if ( gl && _RequiredExtensions )
+	{
+		var	MissingExtensionsCount = 0;
+		var	MissingExtensions = {};
+
+		if ( _RequiredExtensions.floatTextures )
+		{	// Ensure we support floating-point textures!
+			if ( !patapi.webgl.extensions.floatTextures )
+			{	// Missing!
+				MissingExtensions.floatTextures = false;
+				MissingExtensionsCount++;
+			}
+		}
+
+		if ( _RequiredExtensions.vertexTextureFetch )
+		{	// Ensure we support vertex-fectch textures!
+			if ( !patapi.webgl.extensions.vertexTextureFetch )
+			{	// Don't have vertex texture fetch anyway!
+				MissingExtensions.vertexTextureFetch = patapi.webgl.extensions.vertexTextureFetch;
+				MissingExtensionsCount++;
+			}
+			else
+			{
+				if ( !isNaN(parseFloat(_RequiredExtensions.vertexTextureFetch)) && isFinite(_RequiredExtensions.vertexTextureFetch) )
+				{	// It's a number! Ensure we have enough texture slots!
+					if ( patapi.webgl.extensions.vertexTextureFetch < _RequiredExtensions.vertexTextureFetch )
+					{	// Don't have enough slots!
+						MissingExtensions.vertexTextureFetch = patapi.webgl.extensions.vertexTextureFetch;
+						MissingExtensionsCount++;
+					}
+				}
+			}
+		}
+
+		// Finally, if we have missing extensions then store them in our returned object for information
+		if ( MissingExtensionsCount > 0 )
+			Result.MissingExtensions = Result;
+	}
+
+	// Remove the canvas element, we should lose the GL context
+	body.removeChild( canvas );
+
+	return Result;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
 // The very useful fullscreen quad!
 // You must specify a fullscreen shader whose attribute vertices must be "attribute vec4 _vPosition;"
 //

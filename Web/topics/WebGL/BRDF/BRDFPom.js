@@ -364,6 +364,19 @@ var	ProjectedView = new vec3( ViewTS.xy(), 1e-12 ).normalized();
 var	CheckAlpha = Math.acos( ProjectedView.dot( HalfVectorDir ) );
 
 
+
+// After a mega computation with angles everywhere, I finally got a "tractable" formula for the view theta!
+// var	Theta0 = ThetaH - ThetaD;	// Should be in [-ThetaV,+ThetaV]
+// var	Theta = ThetaD;
+// var	CosThetaV2 = CosThetaL * (Math.cos(Theta)*Math.cos(Theta) - 1) + (Math.cos(2*Theta+Theta0) - Math.cos(Theta0)) / 2;
+// var	CosThetaVSum = CosThetaV + CosThetaV2;
+var	ThetaL = this.renderer3DLightTheta;
+var	CosGamma = (Math.cos(ThetaH) - CosThetaL*Math.cos(ThetaD)) / (SinThetaL*Math.sin(ThetaD));
+var	CosThetaV2 = CosThetaL*Math.cos(2*ThetaD) + SinThetaL*Math.sin(2*ThetaD)*CosGamma;
+var	CosThetaVDiff = CosThetaV - CosThetaV2;
+
+
+
 				var	PixelX = Math.min( 89, Math.floor( 90 * Math.sqrt( ThetaH / Math.HALFPI ) ) ) | 0;
 				var	PixelY = Math.min( 89, Math.floor( 90 * ThetaD / Math.HALFPI ) ) | 0;
 				Pixels[4 * (90*PixelY + PixelX) + 3] += 0.0125;		// Only paint alpha...
