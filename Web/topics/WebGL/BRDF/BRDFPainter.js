@@ -29,13 +29,12 @@ BRDFPainter = function()
 	{
 		for ( var X=0; X < 90; X++ )
 		{
-			this.layer[Offset++] = 1e6;
-			this.layer[Offset++] = 1e6;
+			this.layer[Offset++] = 0.0;
+			this.layer[Offset++] = 0.0;
 			this.layer[Offset++] = 0.0;
 			this.layer[Offset++] = 0.0;
 		}
 	}
-	
 
 }
 
@@ -50,8 +49,8 @@ BRDFPainter.prototype =
 		{
 			for ( var X=0; X < 90; X++ )
 			{
-				this.layer[Offset++] = 1e6;
-				this.layer[Offset++] = 1e6;
+				this.layer[Offset++] = 0.0;
+				this.layer[Offset++] = 0.0;
 				this.layer[Offset++] = 0.0;
 				this.layer[Offset++] = 0.0;
 			}
@@ -165,11 +164,11 @@ BRDFPainter.prototype =
 				tmp_x = X - x;
 				tmp_y = Y - y;
 			    
-				if( Math.sqrt(tmp_x*tmp_x + tmp_y*tmp_y) < 10. )
+				if( Math.sqrt(tmp_x*tmp_x + tmp_y*tmp_y) < this.brushSize  )
 				{
-				    this.layer[4*(Y*90+X)]   = 0;
-				    this.layer[4*(Y*90+X)+1] = 0;
-				    this.layer[4*(Y*90+X)+2] = 1e6;
+				    this.layer[4*(Y*90+X)]   = this.brushChroma.x * this.brushExponent;
+				    this.layer[4*(Y*90+X)+1] = this.brushChroma.y * this.brushExponent;
+				    this.layer[4*(Y*90+X)+2] = this.brushChroma.z * this.brushExponent;
 				    this.layer[4*(Y*90+X)+3] = 0;
 				}
 			}

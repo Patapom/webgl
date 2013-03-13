@@ -104,14 +104,19 @@ BRDFPropertiesPainter = function()
 		} );	
 	}
 	
+	this.b_draw = false;
+	
 	// Create events to manage dropping & dragging of the marker
 	this.canvas.mousedown( function( e ) {
-		that.draw();
-		that.setShowMarker( true );
+		that.b_draw = true;
 	} );
 	this.canvas.mouseup( function( e ) {
-		that.setShowMarker( false );
+		that.b_draw = false;
 	} );
+	this.canvas.mousemove( function( e ) {
+		that.draw();
+	} );
+	
 	
 	// Simulate resize, which should also trigger a render
 	this.OnResize();
@@ -153,9 +158,11 @@ BRDFPropertiesPainter.prototype =
 	
 	, draw : function()
 	{
-		
-		this.BRDF.draw( this.hoveredSliceX, this.hoveredSliceY );
-		this.OnResize();
+		if(this.b_draw)
+		{
+		  this.BRDF.draw( this.hoveredSliceX, this.hoveredSliceY );
+		  this.OnResize();
+		}
 	}
 
 };
