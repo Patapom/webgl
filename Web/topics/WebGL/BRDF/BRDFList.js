@@ -290,6 +290,7 @@ BRDFList.prototype =
 	//////////////////////////////////////////////////////////////////////////
 	// The list of the 100 MERL slices
 	, MERLBRDFNames : [
+"a-meanbrdf",	
 "alum-bronze",
 "alumina-oxide",
 "aluminium",
