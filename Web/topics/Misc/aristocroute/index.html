@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<!-- 
+  Générateur de noms aristocratiques
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Aristocroute</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui-themes-1.9.2/themes/base/jquery.ui.all.css"/>
+<link rel="stylesheet" type="text/css" href="/css/layout-default-1.3.0.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<!-- jQuery + plugs -->
+<script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.js"></script>
+<script type="text/javascript" src="/js/jquery.layout-1.3.0.js"></script>
+
+<!-- patapi -->
+<script type="text/javascript" src="../../Webgl/o3djs/base.js"></script>				<!-- Include a small part of the O3D library to help us with includes-->
+<script type="text/javascript" src="../../Webgl/patapi/base.js"></script>				<!-- Include PatAPI-->
+
+<script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.ui' );
+
+$(document).ready(
+function()
+{
+	function	OnChange( event, ui )
+	{
+// 		// Notify of value change
+// 		var	NewText = _Parameters.change( ui.value, that.defaultText );
+// 		if ( _Parameters.labelSelector && NewText )
+// 			that.label.text( NewText );	// Update the label's text as well...
+	}
+
+	// Titre de noblesse
+	initComboBox( $ );
+	$('#ListTitreDeNoblesse').combobox();
+
+	// Prénom
+
+	$('#PrenomSlider').slider( {
+			range: false,
+			min: 1,
+			max : 10,
+			step: 1,
+			value: 3,
+			change: OnChange,
+			slide : OnChange,
+		} );
+
+	// Particules
+	$('#ParticulesSlider').slider( {
+			range: false,
+			min: 1,
+			max : 10,
+			step: 1,
+			value: 3,
+			change: OnChange,
+			slide : OnChange,
+		} );
+//	this.slider.slider( "value", _Parameters.sliderParams.value );
+
+} );
+
+$(window).unload( function()
+{
+
+} );
+</script>
+</head>
+
+<body oncontextmenu="return false;" style="text-align: center; font-family:Trebuchet MS;">
+
+	<div id="TitleTop" class="title">
+		<h1>Générateur de noms aristocratiques</h1>
+	</div>
+
+	<div id="Options" class="options-container">
+
+		<!-- Homme/Femme -->
+		<div class='gender-container'>
+			<div class='gender'><input id="Gender_Male" value="0" name="radioGender" type="radio" class='t0' checked="checked"><label for="Gender_Male" class='t1'>Homme</label></input></div>
+			<div class='gender'><input id="Gender_Female" value="1" name="radioGender" type="radio" class='t0'><label for="Gender_Female" class='t1'>Femme</label></input></div>
+		</div>
+
+		<!-- Titre de noblesse -->
+		<div id="Titre" class="nobility-container">
+			<div class="t0">Titre de noblesse</div>
+			<div class="t1">
+				<li id="ListTitreDeNoblesse" class="ui-state-default ui-corner-all drop-down"><span></span>
+					<ul id="Ul2" class="drop-down-list auto-height">
+						<li title="">Aléatoire</li>
+						<li title="">Aucun</li>
+						<li title="">Vicomte</li>
+						<li title="">Comte</li>
+						<li title="">Baron</li>
+						<li title="">Duc></li>
+						<li title="">Archiduc</li>
+					</ul>
+				</li>
+			</div>
+		</div>
+
+		<!-- Prénom -->
+		<div id="Prenom" class='first-name-container'>
+			<div class='first-name-label'>Prénom</div>
+			<div class='first-name-options'>
+				<!-- Aléatoire -->
+				<div class='first-name-option'>
+					<div class='first-name-option-line'><input id="FirstName_Random" value="0" name="radioFirstName" type="radio" class='checkbox' checked="checked"><label for="FirstName_Random" class='t1'>Aléatoire</label></div>
+					<div class='first-name-option-line'><label class='t0' style='margin-left:40px;'>Nombre de prénoms</label><div id="PrenomSlider" class='t1'></div></div>
+				</div>
+
+				<!-- Manuel -->
+				<div class='first-name-option'>
+					<div class='first-name-option-line'>
+						<input id="FirstName_Manual" value="1" name="radioFirstName" type="radio" class='checkbox'"><label for="FirstName_Manual" class='t0'>Manuel</label>
+						<input type="text" value="Guy Gontran" for="FirstName_Input" class='t1' style='margin-left:10px;'>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<!-- Nombre de particules -->
+		<div id="Particules" class="particles-container">
+			<div class="particles-label">Nombre de particules</div><div id="ParticulesSlider" class="particles-slider"></div>
+		</div>
+
+	</div>
+
+	<div id="ResultContainer" class="resultbox-container">
+		<div class="resultbox-top">
+			<div class="resultbox-nw"></div>
+			<div class="resultbox-n"></div>
+			<div class="resultbox-ne"></div>
+		</div>
+		<div class="resultbox-middle">
+			<div class="resultbox-w"></div>
+			<div class="resultbox" id="ResultBox">			Guy Gontran du Tertre de la Tour de Pron			</div>
+			<div class="resultbox-e"></div>
+		</div>
+		<div class="resultbox-bottom">
+			<div class="resultbox-sw"></div>
+			<div class="resultbox-s"></div>
+			<div class="resultbox-se"></div>
+		</div>
+	</div>
+</body>
+</html>

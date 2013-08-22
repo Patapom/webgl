@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CameraHellHazer", "Projects
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BRDF", "Projects\BRDF\BRDF.vcxproj", "{474D5F3D-49B4-4262-8C3B-2E3E26F86C89}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aristocroute", "Projects\Aristocroute\Aristocroute.vcxproj", "{FAE94208-CA0D-4FBB-A71B-75962A2F8340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -95,6 +97,16 @@ Global
 		{474D5F3D-49B4-4262-8C3B-2E3E26F86C89}.Release|Win32.ActiveCfg = Release|Win32
 		{474D5F3D-49B4-4262-8C3B-2E3E26F86C89}.Release|Win32.Build.0 = Release|Win32
 		{474D5F3D-49B4-4262-8C3B-2E3E26F86C89}.Release|x86.ActiveCfg = Release|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Debug|Win32.Build.0 = Debug|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Debug|x86.ActiveCfg = Debug|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Win32.ActiveCfg = Release|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Win32.Build.0 = Release|Win32
+		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
