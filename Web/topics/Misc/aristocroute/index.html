@@ -24,51 +24,209 @@
 o3djs.require( 'patapi' );
 o3djs.require( 'patapi.ui' );
 
+var	gender = -1;						// Invalid so it gets rebuilt at once when we call SetGender()
+var	comboSelectedTitleIndex = 0;		// Random
+var	randomTitleIndex = 0;
+var	firstNamesCount = 0;
+var	particlesCount = 3;
+
+
+var	database;	// JSON database loaded there
+
+// Nobility title
+function	OnComboChange( _select )
+{
+	comboSelectedTitleIndex = parseInt( _select.options[_select.selectedIndex].value );
+
+	if ( database && comboSelectedTitleIndex == 1 )
+		randomTitleIndex = RNG( database.Male.Titles.length );	// Draw another random title...
+
+	Rebuild();
+}
+
 $(document).ready(
 function()
 {
-	function	OnChange( event, ui )
+	// Load JSON database
+	try
 	{
-// 		// Notify of value change
-// 		var	NewText = _Parameters.change( ui.value, that.defaultText );
-// 		if ( _Parameters.labelSelector && NewText )
-// 			that.label.text( NewText );	// Update the label's text as well...
+		var	FileContent = patapi.helpers.LoadFileSynchronous( "database.json" );
+		database = eval( '(' + FileContent + ')' );
+	}
+	catch ( _e )
+	{
+		alert( "Erreur pendant le parsing de la database : " + _e );
+		return;
 	}
 
-	// Titre de noblesse
-	initComboBox( $ );
-	$('#ListTitreDeNoblesse').combobox();
+	// Gender selection
+	$( '#Gender_Male' ).click( function( e ) { SetGender( 0 ); } );
+	$( '#Gender_Female' ).click( function( e ) { SetGender( 1 ); } );
 
-	// Prénom
+	// First names
+	$( '#PrenomTextBox' ).change( Rebuild() );
 
+	function	OnChange0( event, ui )
+	{
+		firstNamesCount = ui.value;
+		Rebuild();
+	}
 	$('#PrenomSlider').slider( {
 			range: false,
-			min: 1,
+			min: 0,
 			max : 10,
 			step: 1,
-			value: 3,
-			change: OnChange,
-			slide : OnChange,
+			value: firstNamesCount,
+			change: OnChange0,
+			slide : OnChange0,
 		} );
 
 	// Particules
+	function	OnChange1( event, ui )
+	{
+		particlesCount = ui.value;
+		Rebuild();
+	}
 	$('#ParticulesSlider').slider( {
 			range: false,
 			min: 1,
 			max : 10,
 			step: 1,
-			value: 3,
-			change: OnChange,
-			slide : OnChange,
+			value: particlesCount,
+			change: OnChange1,
+			slide : OnChange1,
 		} );
 //	this.slider.slider( "value", _Parameters.sliderParams.value );
 
+
+	// Call SetGender() that will build the intial name
+	SetGender( 0 );
 } );
 
 $(window).unload( function()
 {
 
 } );
+
+
+function	SetGender( _gender )
+{
+	if ( _gender == gender )
+		return;	// No change
+
+	gender = _gender;
+
+	// Rebuild combo box
+	var	combobox = $('#ListTitreDeNoblesse');
+		combobox[0].innerHTML = '';	// Clear content
+
+	// Append "Random" and "None" choices
+	combobox.append( '<option value="0">Aléatoire</option>' );
+	combobox.append( '<option value="1">Aucun</option>' );
+
+	// Append standard titles
+	var	SourceArray = _gender == 0 ? database.Male.Titles : database.Female.Titles;
+	for ( var TitleIndex=0; TitleIndex < SourceArray.length; TitleIndex++ )
+	{
+		combobox.append( '<option value="' + (2+TitleIndex) + '">' + SourceArray[TitleIndex] + '</option>' );
+	}
+
+	// Select the last index
+	combobox[0].value = comboSelectedTitleIndex.toString();
+
+	// Rebuild name
+	Rebuild();
+}
+
+function	Rebuild()
+{
+	var	Result = "";
+
+	// First, update sliders' labels
+	$( '#PrenomsLabel' ).text( "Autres Prénoms (" + firstNamesCount.toFixed() + ")" );
+	$( '#ParticulesLabel' ).text( "Nombre de particules (" + particlesCount.toFixed() + ")" );
+
+	// Build title
+	if ( comboSelectedTitleIndex != 1 )
+	{
+		var	SourceArray = gender == 0 ? database.Male.Titles : database.Female.Titles;
+		var	TitleIndex = comboSelectedTitleIndex == 0 ? randomTitleIndex : comboSelectedTitleIndex-2;
+
+		Result = SourceArray[TitleIndex] + " ";
+	}
+
+	// Retrieve first name from the textbox and strip it of any spaces
+	var	FirstName = $( '#PrenomTextBox' )[0].value;
+		FirstName = FirstName.trim();
+
+	Result += FirstName + " ";
+
+	// Generate additional first names
+	if ( firstNamesCount > 0 )
+	{
+		var	SourceArray = gender == 0 ? database.Male.FirstNames : database.Female.FirstNames;
+			SourceArray = SourceArray.slice(0);	// Copy the array
+		for ( var i=0; i < firstNamesCount; i++ )
+		{
+			// Append random name
+			var	RandomNameIndex = RNG( SourceArray.length );
+			var	Name = SourceArray[RandomNameIndex];
+			Result += Name + " ";
+
+			// Remove that name so it doesn't get drawn again...
+			SourceArray.splice( RandomNameIndex, 1 );
+		}
+	}
+
+	// Generate particles
+	if ( particlesCount > 0 )
+	{
+		var	SourceArray0 = database.Male.Particles;
+		var	SourceArray1 = database.Female.Particles;
+			SourceArray0 = SourceArray0.slice(0);	// Copy the array
+			SourceArray1 = SourceArray1.slice(0);	// Copy the array
+
+		for ( var i=0; i < particlesCount; i++ )
+		{
+			// Append random name
+			var	RandomNameIndex = RNG( SourceArray0.length );
+			var	Name = SourceArray0[RandomNameIndex];
+			Result += Name + " ";
+
+			// Remove that name so it doesn't get drawn again...
+			SourceArray0.splice( RandomNameIndex, 1 );
+
+			// Swap arrays to alternate between male and female particles
+			var	Temp = SourceArray0;
+			SourceArray0 = SourceArray1;
+			SourceArray1 = Temp;
+		}
+	}
+
+	// Display result
+	$( '#ResultBox' )[0].innerText = Result;
+}
+
+function	RNG( a, b )
+{
+	if ( a === undefined )
+	{	// No bound specified
+		a = 0;
+		b = 1;
+	}
+	else if ( b === undefined )
+	{	// Assuming a count is specified
+		b = a-1;
+		a = 0;
+	}
+
+	var	r = Math.random();
+		r = Math.floor( a + (b-a) * r );
+		r = Math.min( b, r );	// Make sure we're never over max bound (occurs if random is exactly 1)
+
+	return r;
+}
+
 </script>
 </head>
 
@@ -90,44 +248,39 @@ $(window).unload( function()
 		<div id="Titre" class="nobility-container">
 			<div class="t0">Titre de noblesse</div>
 			<div class="t1">
-				<li id="ListTitreDeNoblesse" class="ui-state-default ui-corner-all drop-down"><span></span>
-					<ul id="Ul2" class="drop-down-list auto-height">
-						<li title="">Aléatoire</li>
-						<li title="">Aucun</li>
-						<li title="">Vicomte</li>
-						<li title="">Comte</li>
-						<li title="">Baron</li>
-						<li title="">Duc></li>
-						<li title="">Archiduc</li>
-					</ul>
-				</li>
+				<select id="ListTitreDeNoblesse" onchange='OnComboChange( this )'>
+				</select>
 			</div>
 		</div>
 
 		<!-- Prénom -->
 		<div id="Prenom" class='first-name-container'>
-			<div class='first-name-label'>Prénom</div>
-			<div class='first-name-options'>
-				<!-- Aléatoire -->
+			<div class='first-name-option'>
+				<div class='t0'>Prénom</div>							<div class='t1'><input id='PrenomTextBox' type="text" value="Guy Gontran" for="FirstName_Input" style='margin-left:10px;'></div>
+			</div>
+			<div class='first-name-option'>
+				<div class='t0' id="PrenomsLabel">Autres Prénoms</div>	<div id="PrenomSlider" class='t1'></div>
+			</div>
+
+				<!-- Aléatoire
 				<div class='first-name-option'>
 					<div class='first-name-option-line'><input id="FirstName_Random" value="0" name="radioFirstName" type="radio" class='checkbox' checked="checked"><label for="FirstName_Random" class='t1'>Aléatoire</label></div>
 					<div class='first-name-option-line'><label class='t0' style='margin-left:40px;'>Nombre de prénoms</label><div id="PrenomSlider" class='t1'></div></div>
 				</div>
 
-				<!-- Manuel -->
+				<!-- Manuel
 				<div class='first-name-option'>
 					<div class='first-name-option-line'>
 						<input id="FirstName_Manual" value="1" name="radioFirstName" type="radio" class='checkbox'"><label for="FirstName_Manual" class='t0'>Manuel</label>
-						<input type="text" value="Guy Gontran" for="FirstName_Input" class='t1' style='margin-left:10px;'>
 					</div>
 				</div>
-				
 			</div>
+				 -->
 		</div>
 
 		<!-- Nombre de particules -->
 		<div id="Particules" class="particles-container">
-			<div class="particles-label">Nombre de particules</div><div id="ParticulesSlider" class="particles-slider"></div>
+			<div class="particles-label"id="ParticulesLabel">Nombre de particules</div>		<div id="ParticulesSlider" class="particles-slider"></div>
 		</div>
 
 	</div>

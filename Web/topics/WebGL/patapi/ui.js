@@ -284,7 +284,7 @@ patapi.ui.LabelComboBox = function( _Parameters )
 
 	var	DefaultParameters =
 	{
-		selector : null,						// The jQuery selector identifying the checkbox
+		selector : null,						// The jQuery selector identifying the combobox
 		labelSelector : null,
 		value : null,							// Default value
 		change : null,							// The callback for when the value changes. Prototype is simply function( value, _OriginalText ) and returns the new text for the label or nothing if not to be changed

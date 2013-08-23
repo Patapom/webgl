@@ -1,0 +1,49 @@
+{
+	Male : 
+	{
+		Titles : [
+			"Baron",
+			"Vicomte",
+			"Comte",
+			"Duc",
+			"Archiduc",
+			"Prince",
+			"Roi",
+		],
+
+		FirstNames : [
+			"Guy",
+			"Gontran",
+		],
+
+		Particles : [
+			"du Tertre",
+			"d'Octroi",
+		]
+
+	},
+
+	Female : 
+	{
+		Titles : [
+			"Baronnesse",
+			"Vicomtesse",
+			"Comtesse",
+			"Duchesse",
+			"Archiduchesse",
+			"Princesse",
+			"Reine",
+		],
+
+		FirstNames : [
+			"Guyte",
+			"Gontrine",
+		],
+
+
+		Particles : [
+			"de la Tour",
+			"de la Roche",
+		]
+	},
+}
