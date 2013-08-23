@@ -26,7 +26,6 @@ o3djs.require( 'patapi.ui' );
 
 var	gender = -1;						// Invalid so it gets rebuilt at once when we call SetGender()
 var	comboSelectedTitleIndex = 0;		// Random
-var	randomTitleIndex = 0;
 var	firstNamesCount = 0;
 var	particlesCount = 3;
 
@@ -37,10 +36,6 @@ var	database;	// JSON database loaded there
 function	OnComboChange( _select )
 {
 	comboSelectedTitleIndex = parseInt( _select.options[_select.selectedIndex].value );
-
-	if ( database && comboSelectedTitleIndex == 1 )
-		randomTitleIndex = RNG( database.Male.Titles.length );	// Draw another random title...
-
 	Rebuild();
 }
 
@@ -62,6 +57,7 @@ function()
 	// Gender selection
 	$( '#Gender_Male' ).click( function( e ) { SetGender( 0 ); } );
 	$( '#Gender_Female' ).click( function( e ) { SetGender( 1 ); } );
+	SetGender( 0 );		// Call SetGender() to build the combo box at least once
 
 	// First names
 	$( '#PrenomTextBox' ).change( Rebuild() );
@@ -96,18 +92,16 @@ function()
 			change: OnChange1,
 			slide : OnChange1,
 		} );
-//	this.slider.slider( "value", _Parameters.sliderParams.value );
 
-
-	// Call SetGender() that will build the intial name
-	SetGender( 0 );
+	// Regen button
+	$( '#Regen' ).button().click( Regen );
+	Regen();
 } );
 
 $(window).unload( function()
 {
 
 } );
-
 
 function	SetGender( _gender )
 {
@@ -134,64 +128,54 @@ function	SetGender( _gender )
 	// Select the last index
 	combobox[0].value = comboSelectedTitleIndex.toString();
 
-	// Rebuild name
-	Rebuild();
+	// Regenerate random values
+	Regen();
 }
 
-function	Rebuild()
+// Regenerate random values
+var	randomTitleIndex = 0;
+var	randomFirstNames = [];
+var	randomNames = [];
+
+function	Regen()
 {
-	var	Result = "";
+	if ( !database )
+		return;
 
-	// First, update sliders' labels
-	$( '#PrenomsLabel' ).text( "Autres Prénoms (" + firstNamesCount.toFixed() + ")" );
-	$( '#ParticulesLabel' ).text( "Nombre de particules (" + particlesCount.toFixed() + ")" );
+	// Draw another random title...
+	randomTitleIndex = RNG( database.Male.Titles.length );
 
-	// Build title
-	if ( comboSelectedTitleIndex != 1 )
-	{
-		var	SourceArray = gender == 0 ? database.Male.Titles : database.Female.Titles;
-		var	TitleIndex = comboSelectedTitleIndex == 0 ? randomTitleIndex : comboSelectedTitleIndex-2;
-
-		Result = SourceArray[TitleIndex] + " ";
-	}
-
-	// Retrieve first name from the textbox and strip it of any spaces
-	var	FirstName = $( '#PrenomTextBox' )[0].value;
-		FirstName = FirstName.trim();
-
-	Result += FirstName + " ";
-
-	// Generate additional first names
-	if ( firstNamesCount > 0 )
+	// Draw 10 possible first names
+	randomFirstNames = [];
 	{
 		var	SourceArray = gender == 0 ? database.Male.FirstNames : database.Female.FirstNames;
 			SourceArray = SourceArray.slice(0);	// Copy the array
-		for ( var i=0; i < firstNamesCount; i++ )
+		for ( var i=0; i < 10; i++ )
 		{
 			// Append random name
 			var	RandomNameIndex = RNG( SourceArray.length );
 			var	Name = SourceArray[RandomNameIndex];
-			Result += Name + " ";
+			randomFirstNames.push( Name );
 
 			// Remove that name so it doesn't get drawn again...
 			SourceArray.splice( RandomNameIndex, 1 );
 		}
 	}
 
-	// Generate particles
-	if ( particlesCount > 0 )
+	// Draw 10 possible particles
+	randomNames = [];
 	{
 		var	SourceArray0 = database.Male.Particles;
 		var	SourceArray1 = database.Female.Particles;
 			SourceArray0 = SourceArray0.slice(0);	// Copy the array
 			SourceArray1 = SourceArray1.slice(0);	// Copy the array
 
-		for ( var i=0; i < particlesCount; i++ )
+		for ( var i=0; i < 10; i++ )
 		{
 			// Append random name
 			var	RandomNameIndex = RNG( SourceArray0.length );
 			var	Name = SourceArray0[RandomNameIndex];
-			Result += Name + " ";
+			randomNames.push( Name );
 
 			// Remove that name so it doesn't get drawn again...
 			SourceArray0.splice( RandomNameIndex, 1 );
@@ -203,10 +187,9 @@ function	Rebuild()
 		}
 	}
 
-	// Display result
-	$( '#ResultBox' )[0].innerText = Result;
+	// Refresh
+	Rebuild();
 }
-
 function	RNG( a, b )
 {
 	if ( a === undefined )
@@ -225,6 +208,56 @@ function	RNG( a, b )
 		r = Math.min( b, r );	// Make sure we're never over max bound (occurs if random is exactly 1)
 
 	return r;
+}
+
+function	Rebuild()
+{
+	var	Result = "<em>";
+
+	// First, update sliders' labels
+	$( '#PrenomsLabel' ).text( "Autres Prénoms (" + firstNamesCount.toFixed() + ")" );
+	$( '#ParticulesLabel' ).text( "Nombre de particules (" + particlesCount.toFixed() + ")" );
+
+	// Build title
+	if ( comboSelectedTitleIndex != 1 )
+	{
+		var	SourceArray = gender == 0 ? database.Male.Titles : database.Female.Titles;
+		var	TitleIndex = comboSelectedTitleIndex == 0 ? randomTitleIndex : comboSelectedTitleIndex-2;
+
+		Result += SourceArray[TitleIndex] + " ";
+	}
+
+	// Retrieve first name from the textbox and strip it of any spaces
+//	Result += "<em>";
+
+	var	FirstName = $( '#PrenomTextBox' )[0].value;
+		FirstName = FirstName.trim();
+
+	Result += FirstName + " ";
+
+	// Append additional first names
+	for ( var i=0; i < firstNamesCount; i++ )
+	{
+		Result += randomFirstNames[i] + " ";
+	}
+
+	Result += "</em>";
+
+	// Generate particles
+	if ( particlesCount > 0 )
+	{
+		Result += '<strong>';
+
+		for ( var i=0; i < particlesCount; i++ )
+		{
+			Result += randomNames[i] + " ";
+		}
+
+		Result += '</strong>';
+	}
+
+	// Display result
+	$( '#ResultBox' )[0].innerHTML = Result;
 }
 
 </script>
@@ -283,6 +316,9 @@ function	RNG( a, b )
 			<div class="particles-label"id="ParticulesLabel">Nombre de particules</div>		<div id="ParticulesSlider" class="particles-slider"></div>
 		</div>
 
+		<div class='regen-container'>
+			<button id="Regen">Regénérer</button>
+		</div>
 	</div>
 
 	<div id="ResultContainer" class="resultbox-container">
