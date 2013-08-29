@@ -1,0 +1,12 @@
+
+----------------------------------------------------------------------
+Infos tirées de (http://developer.chrome.com/extensions/overview.html)
+----------------------------------------------------------------------
+
+Script qui agit pour tout le browser => Browser action (http://developer.chrome.com/extensions/browserAction.html)
+
+Script qui s'exécute selon la page => Page action (http://developer.chrome.com/extensions/pageAction.html)
+
+Script qui modifie le contenu de la page => Content Script (http://developer.chrome.com/extensions/content_scripts.html)
+
+Script qui ajoute une entrée au context menu => options page 

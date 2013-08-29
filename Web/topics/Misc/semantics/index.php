@@ -39,8 +39,6 @@ function	OnComboChange( _select )
 	Rebuild();
 }
 
-
-
 $(document).ready(
 function()
 {
