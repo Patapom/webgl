@@ -10,6 +10,7 @@ o3djs.require( 'BRDF.BRDFSlice' );
 o3djs.require( 'BRDF.BRDFAnalytical' );
 o3djs.require( 'BRDF.BRDFPom' );
 o3djs.require( 'BRDF.BRDFPainter' );
+o3djs.require( 'BRDF.BRDFEigen' );
 
 BRDFList = function()
 {
@@ -64,9 +65,16 @@ BRDFList = function()
 
 	//////////////////////////////////////////////////////////////////////////
 	// Build the toolbar button for Hand-Painted BRDFs
-	this.toolbarButton_AddBRDPaint = $("#BRDFListUI_AddBRDFPaint");
-	this.toolbarButton_AddBRDPaint.click( function() {
+	this.toolbarButton_AddBRDFPaint = $("#BRDFListUI_AddBRDFPaint");
+	this.toolbarButton_AddBRDFPaint.click( function() {
 		 that.AddBRDF_Painter();
+	} );
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Build the toolbar button for Hand-Painted BRDFs
+	this.toolbarButton_AddBRDFEigen = $("#BRDFListUI_AddBRDFEigen");
+	this.toolbarButton_AddBRDFEigen.click( function() {
+		 that.AddBRDF_Eigen();
 	} );
 	// TODO!
 }
@@ -133,6 +141,15 @@ BRDFList.prototype =
 		return this.AddBRDFListElement( BRDF, ListElementName );
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Adds a new "Painter BRDF"
+	, AddBRDF_Eigen : function()
+	{
+		var	BRDF = new BRDFEigen("eigen-0095")
+		var	ListElementName = BRDF.name + " (eigen)";
+
+		return this.AddBRDFListElement( BRDF, ListElementName );
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Adds a BRDF instance to the list
@@ -289,7 +306,7 @@ BRDFList.prototype =
 
 	//////////////////////////////////////////////////////////////////////////
 	// The list of the 100 MERL slices
-	, MERLBRDFNames : [
+	, MERLBRDFNames : [	
 "alum-bronze",
 "alumina-oxide",
 "aluminium",
