@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BRDF", "Projects\BRDF\BRDF.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aristocroute", "Projects\Aristocroute\Aristocroute.vcxproj", "{FAE94208-CA0D-4FBB-A71B-75962A2F8340}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semantics", "Projects\Semantics\Semantics.vcxproj", "{81E5CFD4-90AC-473D-9657-F65044433BAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -107,6 +109,16 @@ Global
 		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Win32.ActiveCfg = Release|Win32
 		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|Win32.Build.0 = Release|Win32
 		{FAE94208-CA0D-4FBB-A71B-75962A2F8340}.Release|x86.ActiveCfg = Release|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Debug|Win32.Build.0 = Debug|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Debug|x86.ActiveCfg = Debug|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Release|Win32.ActiveCfg = Release|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Release|Win32.Build.0 = Release|Win32
+		{81E5CFD4-90AC-473D-9657-F65044433BAE}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
