@@ -60,6 +60,7 @@ o3djs.require( 'BRDF.BRDFPropertiesSlice' );
 o3djs.require( 'BRDF.BRDFPropertiesAnalytical' );
 o3djs.require( 'BRDF.BRDFPropertiesPom' );
 o3djs.require( 'BRDF.BRDFPropertiesPainter' );
+o3djs.require( 'BRDF.BRDFPropertiesEigen' );
 
 
 var	pageLayout;
@@ -73,6 +74,7 @@ var	g_BRDFPropertiesSlice;
 var	g_BRDFPropertiesAnalytical;
 var	g_BRDFPropertiesPom;
 var	g_BRDFPropertiesPainter;
+var	g_BRDFPropertiesEigen;
 
 
 $(document).ready(
@@ -180,6 +182,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 									g_BRDFPropertiesAnalytical.OnResize();
 									g_BRDFPropertiesPom.OnResize();
 									g_BRDFPropertiesPainter.OnResize();
+									g_BRDFPropertiesEigen.OnResize();
 								}
 							}
 						}
@@ -232,6 +235,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
  		g_BRDFPropertiesAnalytical = new BRDFPropertiesAnalytical();
 		g_BRDFPropertiesPom = new BRDFPropertiesPom();
 		g_BRDFPropertiesPainter = new BRDFPropertiesPainter();
+		g_BRDFPropertiesEigen = new BRDFPropertiesEigen();
 		// TODO: other BRDF properties types...
 
 		g_GLRenderBRDF = new RendererBRDF( $('#CanvasGLRenderBRDF'), Math.deg2rad( 40.0 ) );
@@ -244,6 +248,7 @@ if (/*@cc_on!@*/false) { // check for Internet Explorer
 		g_BRDFList.Subscribe( g_BRDFPropertiesAnalytical, g_BRDFPropertiesAnalytical.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_BRDFPropertiesPom, g_BRDFPropertiesPom.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_BRDFPropertiesPainter, g_BRDFPropertiesPainter.OnBRDFListEvent );
+		g_BRDFList.Subscribe( g_BRDFPropertiesEigen, g_BRDFPropertiesEigen.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRenderBRDF, g_GLRenderBRDF.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRenderGraph, g_GLRenderGraph.OnBRDFListEvent );
 		g_BRDFList.Subscribe( g_GLRender3D, g_GLRender3D.OnBRDFListEvent );
@@ -266,6 +271,7 @@ $(window).unload( function()
 	if ( g_BRDFPropertiesAnalytical )	g_BRDFPropertiesAnalytical.Destroy();
 	if ( g_BRDFPropertiesPom )			g_BRDFPropertiesPom.Destroy();
 	if ( g_BRDFPropertiesPainter )		g_BRDFPropertiesPainter.Destroy();
+	if ( g_BRDFPropertiesEigen )		g_BRDFPropertiesEigen.Destroy();
 	if ( g_GLRenderBRDF )				g_GLRenderBRDF.Destroy();
 	if ( g_GLRenderGraph )				g_GLRenderGraph.Destroy();
 	if ( g_GLRender3D )					g_GLRender3D.Destroy();
@@ -340,6 +346,7 @@ function GetCookie( _Name )
 					<li id="BRDFListUI_AddBRDFAnalytical" class="ui-state-default ui-corner-all drop-down" title="Create Analytical BRDF"><span class="ui-icon ui-icon-bookmark"/></li>
 					<li id="BRDFListUI_AddBRDFPom" class="ui-state-default ui-corner-all drop-down" title="Create a Pom BRDF"><span class="ui-icon ui-icon-star"/></li>
 					<li id="BRDFListUI_AddBRDFPaint" class="ui-state-default ui-corner-all drop-down" title="Create Hand-Painted BRDF"><span class="ui-icon ui-icon-pencil"/></li>
+					<li id="BRDFListUI_AddBRDFEigen" class="ui-state-default ui-corner-all drop-down" title="Compose with EigenBRDFs"><span class="ui-icon ui-icon-heart"/></li>
 				</ul>
 				<div id="ContainerBRDFExplorerListBRDFs" class="list ui-corner-all"></div>
 			</div>
@@ -626,6 +633,14 @@ function GetCookie( _Name )
 					    </div>
 					</div>
 				</div>	
+
+				<!-- The properties layout for the Eigen BRDF that is represented as an image -->
+				<div id="BRDFProperties_Eigens" class="BRDF-properties" style="display:none">
+					<canvas id="PropEigen_Viewport" class="BRDF-properties-UI-viewport"></canvas>
+					<div id="PropEigen_UIWidgets" class="BRDF-properties-slice-UI-widgets">
+						<div id="PropEigenUI_StandardWidgets"></div>
+					</div>
+				</div>
 
 				<!-- Add properties elements for other BRDF types -->	
 
