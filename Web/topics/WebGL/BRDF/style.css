@@ -16,6 +16,12 @@ html, body
 	overflow:	hidden;
 }
 
+canvas
+{
+	min-height:	16px;
+	min-width:	16px;
+}
+
 .ui-layout-pane
 { /* all 'panes' */
 	padding:	0px;	/* Override padding to avoid losing too much space */
@@ -52,6 +58,12 @@ html, body
 	background: none;
 */
 	padding: 2px;
+}
+
+.ui-tabs-panel
+{
+	width:	100%;
+	height:	100%;
 }
 
 .canvas-render

@@ -4,6 +4,7 @@
 #define _GLOBAL_INCLUDED_
 
 precision highp float;
+precision highp int;
 
 #define saturate( a )	clamp( a, 0.0, 1.0 )
 #define lerp( a, b, t )	mix( a, b, t )

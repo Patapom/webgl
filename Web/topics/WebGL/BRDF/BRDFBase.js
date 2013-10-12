@@ -20,6 +20,11 @@ BRDFBase = function()
 
 	this.exposure = 0.0;
 	this.gamma = 2.2;
+
+	// Special display of diffuse reflectance sampling area
+	this.showDiffuseSamplingArea = true;
+	this.diffuseSamplingStart = 35;		// Start from 35°
+	this.measuredDiffuseReflectance = vec4.zero();
 }
 
 BRDFBase.prototype =
@@ -66,6 +71,17 @@ BRDFBase.prototype =
 		return Texture;
 	}
 
+	// Destroys the cached textures
+	, DestroyTextures : function()
+	{
+		for ( var TextureName in this.sliceTextures )
+		{
+			var	Texture = this.sliceTextures[TextureName];
+			Texture.gl.deleteTexture( Texture );
+		}
+		this.sliceTextures = {};
+	}
+
 	// Bilinearly samples the BRDF
 	//	_ThetaH/D € [0,89]
 	// Returns a vec4 (because we sometimes need the alpha value for additional infos)
@@ -93,6 +109,33 @@ BRDFBase.prototype =
 		return V;
 	}
 
+	// Computes the diffuse reflectance
+	// This is computed by integrating along the diagonal for ThetaH = ThetaD < PI/4 and clamping sampling to values that are close to the center to avoid including specular terms
+	, MeasureDiffuseReflectance : function()
+	{
+		this.measuredDiffuseReflectance = vec4.zero();
+		for ( var i=0; i < 45; i++ )
+		{
+			var	theta = Math.HALFPI * (i + 0.5) / 45.0;
+			var	ClippedAngle = Math.max( this.diffuseSamplingStart, i );
+			var	value = this.sample( ClippedAngle, ClippedAngle );
+
+			var	dTheta = Math.cos( theta ) * Math.sin( theta );
+			value.mul( dTheta );
+
+			this.measuredDiffuseReflectance.add( value );
+
+			// Set the W component of the texture to visualize the sampling area
+			var	PixelX = i;
+			var	PixelY = i;
+			this.sliceTexturePixels[4 * (90*PixelY + PixelX) + 3] = this.showDiffuseSamplingArea && i > this.diffuseSamplingStart ? 1.0 : 0.0;
+		}
+
+		// Finalize
+		this.measuredDiffuseReflectance.mul( (Math.HALFPI / 45.0) * 2.0 * Math.PI );
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// Change parameters
 	, setExposure : function( value )
@@ -105,6 +148,27 @@ BRDFBase.prototype =
 		this.gamma = value;
 		this.NotifyChange();
 	}
+
+	// ========== Special Informative Parameter ==========
+	, setShowDiffuseSamplingArea : function( value )
+	{
+		if ( value == this.showDiffuseSamplingArea )
+			return;
+
+		this.showDiffuseSamplingArea = value;
+		this.NotifyChange();
+	}
+
+	, setDiffuseSamplingStartTheta : function( value )
+	{
+		value = value | 0;	// Integer!
+		if ( value == this.diffuseSamplingStart )
+			return;
+
+		this.diffuseSamplingStart = value;
+		this.NotifyChange();
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Notification system

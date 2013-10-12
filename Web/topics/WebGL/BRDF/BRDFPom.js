@@ -265,6 +265,26 @@ BRDFPom.prototype =
 
 		this.avgReflectance.mul( 1.0 / (90*90) );
 
+		// Compute diffuse reflectance
+// 		// This is computed by integrating along the diagonal for ThetaH = ThetaD < PI/4
+// 		{
+// 			this.measuredDiffuseReflectance = vec4.zero();
+// 			for ( var i=0; i < 45; i++ )
+// 			{
+// 				var	theta = Math.HALFPI * (i + 0.5) / 45.0;
+// 				var	value = this.sample( i, i );
+// 
+// 				var	dTheta = Math.cos( theta ) * Math.sin( theta );
+// 				value.mul( dTheta );
+// 
+// 				this.measuredDiffuseReflectance.add( value );
+// 			}
+// 
+// 			// Finalize
+// 			this.measuredDiffuseReflectance.mul( (Math.HALFPI / 45.0) * 2.0 * Math.PI );
+// 		}
+		this.MeasureDiffuseReflectance();
+
 
 		// Post-process by adding smudges where the view angles are sampling for a given light orientation
 		if ( !this.showRenderer3DSamplingArea )
@@ -387,8 +407,6 @@ var	CosThetaVDiff = CosThetaV - CosThetaV2;
 // 				Pixels[4 * (90*PixelY + PixelX) + 3] = Pixels[4 * (90*PixelY + PixelX) + 3] > 0.0 ? Math.min( Pixels[4 * (90*PixelY + PixelX) + 3], ViewTS.z ) : ViewTS.z;	// Paint cos(N.V) importance
 			}
 		}
-
-		return;
 	}
 
 	// Computes the current light direction based on ThetaH/ThetaD
@@ -416,17 +434,6 @@ var	CosThetaVDiff = CosThetaV - CosThetaV2;
 		this.__toLight.x = z * Sin;
 		this.__toLight.y = y;
 		this.__toLight.z = z * Cos;
-	}
-
-	// Destroys the cached textures
-	, DestroyTextures : function()
-	{
-		for ( var TextureName in this.sliceTextures )
-		{
-			var	Texture = this.sliceTextures[TextureName];
-			Texture.gl.deleteTexture( Texture );
-		}
-		this.sliceTextures = {};
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -531,6 +538,9 @@ var	CosThetaVDiff = CosThetaV - CosThetaV2;
 		_Reflectance.x = Fact * (Diffuse * this.chromaDiffuse.x + RetroDiffuse * this.chromaRetroDiffuse.x);
 		_Reflectance.y = Fact * (Diffuse * this.chromaDiffuse.y + RetroDiffuse * this.chromaRetroDiffuse.y);
 		_Reflectance.z = Fact * (Diffuse * this.chromaDiffuse.z + RetroDiffuse * this.chromaRetroDiffuse.z);
+// 		_Reflectance.x = Fact * this.chromaDiffuse.x;
+// 		_Reflectance.y = Fact * this.chromaDiffuse.y;
+// 		_Reflectance.z = Fact * this.chromaDiffuse.z;
 	}
 
 	, ComputeSpecular : function( _Reflectance )
