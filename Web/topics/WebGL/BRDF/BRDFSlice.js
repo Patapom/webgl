@@ -82,10 +82,35 @@ BRDFSlice.prototype =
 
 			that.avgReflectance.mul( 1.0 / (90*90) );
 
+			// Call update so the diffuse reflectance gets sampled
+			that.UpdateTexture();
+
 			// Notify!
 			if ( opt_LoadedCallback )
 				opt_LoadedCallback( that );
 		} );
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Destroy cached textures and update the W component of the vec4 to optionally display diffuse reflectance sampling zone
+	, UpdateTexture : function()
+	{
+		this.DestroyTextures();
+		this.MeasureDiffuseReflectance();
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////
+	// Notification system
+	, NotifyChange : function( opt_UpdateTexture )
+	{
+		if ( opt_UpdateTexture === undefined )
+			opt_UpdateTexture = true;
+		if ( opt_UpdateTexture )
+			this.UpdateTexture();
+
+		// Notify subscribers
+		BRDFBase.prototype.NotifyChange.call( this );
 	}
 };
 

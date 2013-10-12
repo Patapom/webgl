@@ -229,6 +229,9 @@ BRDFAnalytical.prototype =
 		this.albedo.z *= dThetaD;
 
 		this.avgReflectance.mul( 1.0 / (90*90) );
+
+		// Compute diffuse reflectance
+		this.MeasureDiffuseReflectance();
 	}
 
 	// Computes the current light direction based on ThetaH/ThetaD
@@ -250,17 +253,6 @@ BRDFAnalytical.prototype =
 		this.__toLight.x = x * Cos + z * Sin;
 		this.__toLight.y = y;
 		this.__toLight.z = z * Cos - x * Sin;
-	}
-
-	// Destroys the cached textures
-	, DestroyTextures : function()
-	{
-		for ( var TextureName in this.sliceTextures )
-		{
-			var	Texture = this.sliceTextures[TextureName];
-			Texture.gl.deleteTexture( Texture );
-		}
-		this.sliceTextures = {};
 	}
 
 	//////////////////////////////////////////////////////////////////////////

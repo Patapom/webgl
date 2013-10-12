@@ -485,6 +485,8 @@ RendererGraph.prototype =
 		// Update projection matrix on resize
 		function( _Width, _Height )
 		{
+			_Height = Math.max( 1, _Height );
+
 			that.camera.SetPerspective( that.FOV, _Width / _Height, 0.1, 100.0 );
 			that.cameraManipulator.UpdateOrbitSpeed( 0.6 * _Width, 0.8 * _Height )
 			that.cameraManipulator.UpdatePanSpeed( 0.8 * _Width, 1.2 * _Height )

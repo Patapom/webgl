@@ -28,6 +28,8 @@ BRDFPropertiesSlice.prototype =
 	{
 		this.UISliderExposure.set( this.BRDF.exposure );
 		this.UISliderGamma.set( this.BRDF.gamma );
+		this.UICheckBoxShowDiffuseSamplingArea.set( this.BRDF.showDiffuseSamplingArea );
+		this.UISliderSamplingStart.set( this.BRDF.diffuseSamplingStart );
 	}
 };
 

@@ -222,8 +222,8 @@ BRDFPropertiesBase.prototype =
 
 		this.markerVisible = value;
 
-		  // Update UI
-		  this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
+		// Update UI
+		this.UIViewportMarker.css( 'display', value ? 'block' : 'none' );
 
 		this.setMarkerPosition( this.hoveredThetaH, this.hoveredThetaD );
 	}
@@ -306,6 +306,17 @@ BRDFPropertiesBase.prototype =
 		{
 			UpdateStatusError( "An error occurred while rendering the BRDF slice:\n\n" + _e );
 		}
+
+		if ( !this.BRDF )
+			return;
+
+		// Also update the measured albedo result text box
+		var	Albedo = this.BRDF.measuredDiffuseReflectance;
+		var	AlbedoText = "Diffuse Rho = (" + Albedo.x.toFixed( 4 ) + ", " + Albedo.y.toFixed( 4 ) + ", " + Albedo.z.toFixed( 4 ) + ") Y=" + (Albedo.x * 0.2126 + Albedo.y * 0.7152 + Albedo.z * 0.0722).toFixed( 4 );
+		if ( Albedo.x > 1.0 || Albedo.y > 1.0 || Albedo.z > 1.0 )
+			AlbedoText = '<font color=\"#FF5040\">' + AlbedoText + '</font>';
+
+		this.UIReflectanceResult.html( AlbedoText );
 	}
 
 
@@ -409,6 +420,15 @@ BRDFPropertiesBase.prototype =
 				AlbedoText = '<font color=\"#FF5040\">' + AlbedoText + '</font>';
 			Text += AlbedoText + "<br/>";
 
+			if ( this.BRDF.measuredDiffuseReflectance )
+			{
+				var	Albedo = this.BRDF.measuredDiffuseReflectance;
+				var	AlbedoText = "Diffuse Rho = (" + Albedo.x.toFixed( Precision+1 ) + ", " + Albedo.y.toFixed( Precision+1 ) + ", " + Albedo.z.toFixed( Precision+1 ) + ") Y=" + (Albedo.x * 0.2126 + Albedo.y * 0.7152 + Albedo.z * 0.0722).toFixed( Precision+1 );
+				if ( Albedo.x > 1.0 || Albedo.y > 1.0 || Albedo.z > 1.0 )
+					AlbedoText = '<font color=\"#FF5040\">' + AlbedoText + '</font>';
+				Text += AlbedoText + "<br/>";
+			}
+
 			Text += "<br/>";
 			Text += "f_min = (" + this.BRDF.minReflectance.x.toFixed( Precision ) + ", " + this.BRDF.minReflectance.y.toFixed( Precision ) + ", " + this.BRDF.minReflectance.z.toFixed( Precision ) + ")<br/>";
 			Text += "f_max = (" + this.BRDF.maxReflectance.x.toFixed( Precision ) + ", " + this.BRDF.maxReflectance.y.toFixed( Precision ) + ", " + this.BRDF.maxReflectance.z.toFixed( Precision ) + ")<br/>";
@@ -449,6 +469,10 @@ BRDFPropertiesBase.prototype =
 		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Exposure</span></div><div class="t1"></div></div>' );
 		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Gamma</span></div><div class="t1"></div></div>' );
 
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Show Diffuse Sampling Area</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-icon ui-icon-radio-off"/></div></div>' );
+		Container.append( '<div class="UI-widget-label"><div class="t0"><span>Sampling Start Angle</span></div><div class="t1"></div></div>' );
+		Container.append( '<div><div class="t0"></div><div class="t1"><span>Copy to Clipboard</span></div></div>' );
+
 
 		var	Selectors = [
 			ContainerSelector + " > div:nth-child(1)",		// Radio ThetaH
@@ -459,6 +483,10 @@ BRDFPropertiesBase.prototype =
 			ContainerSelector + " > div:nth-child(6)",		// Isolines
 			ContainerSelector + " > div:nth-child(7)",		// Exposure
 			ContainerSelector + " > div:nth-child(8)",		// Gamma
+
+			ContainerSelector + " > div:nth-child(9)",		// Show diffuse sampling area
+			ContainerSelector + " > div:nth-child(10)",		// Sampling start angle
+			ContainerSelector + " > div:nth-child(11)",		// Copy to clipboard
 		];
 
 		//////////////////////////////////////////////////////////////////////////
@@ -472,7 +500,7 @@ BRDFPropertiesBase.prototype =
 				change : function( value )
 				{
 					that.showStandardWidgets = value;
-					$(_ContainerSelector).css( 'display', value ? 'inherit' : 'none' );	// Toggle visibility
+					$(_ContainerParentSelector).css( 'display', value ? 'inherit' : 'none' );	// Toggle visibility
 				}
 			} );
 		}
@@ -561,5 +589,48 @@ BRDFPropertiesBase.prototype =
 				return _OriginalText + " (" + value + ")";	// Update text
 			}
 		 } );
+
+		// Create informating diffuse reflectance sampling
+		// Check box
+		this.UICheckBoxShowDiffuseSamplingArea = new patapi.ui.LabelCheckBox( {
+			selector : Selectors[8] + " .t1 span",
+			value : true,
+			change : function( value )
+			{
+				if ( that.BRDF )
+					that.BRDF.setShowDiffuseSamplingArea( value );
+			}
+		} );
+
+		// Start angle slide
+		this.UISliderSamplingStart = new patapi.ui.LabelSlider( {
+			labelSelector : Selectors[9] + " .t0 span",
+			selector : Selectors[9] + " .t1",
+			sliderParams : { min: 0.0, max : 44.0, value: 20.0 },
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+					that.BRDF.setDiffuseSamplingStartTheta( value );
+
+				return _OriginalText + " (" + value + ")";	// Update text
+			}
+			} );
+
+		// Result text + Copy to cliboard
+		this.UIReflectanceResult = $(Selectors[10] + " .t0");
+
+		$(Selectors[10] + " .t1").button().click( function() {
+
+			if ( !that.BRDF || !that.BRDF.measuredDiffuseReflectance )
+				return;
+
+			var	Albedo = that.BRDF.measuredDiffuseReflectance;
+			var	Text = "(" + Albedo.x.toFixed( 4 ) + ", " + Albedo.y.toFixed( 4 ) + ", " + Albedo.z.toFixed( 4 ) + ") Y=" + (Albedo.x * 0.2126 + Albedo.y * 0.7152 + Albedo.z * 0.0722).toFixed( 4 );
+
+			window.prompt ("Copy to clipboard: Ctrl+C, Enter", Text );
+		} );
+
+
+		return Container;
 	}
 };

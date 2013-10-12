@@ -116,8 +116,10 @@ patapi.webgl.__ProcessGLContext = function()
 		switch ( Extension )
 		{
 		case "OES_texture_float":
-			var	EnabledObject = gl.getExtension( "OES_texture_float" );
-			this.extensions.floatTextures = EnabledObject;
+			var	EnabledObject0 = gl.getExtension( "OES_texture_float" );
+			var	EnabledObject1 = gl.getExtension( "OES_texture_float_linear" );	// UPDATE: We MUST also query this other compulsory extension!
+
+			this.extensions.floatTextures = EnabledObject0 !== undefined && EnabledObject1 !== undefined;
 
 			// Add the RGBA_FLOAT format
 			gl.RGBA_FLOAT = gl.RGBA + 0x100000;	// 0x1908 + 0x100000 = 0x101908

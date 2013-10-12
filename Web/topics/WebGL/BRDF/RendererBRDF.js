@@ -558,6 +558,9 @@ RendererBRDF.prototype =
 				{	// Enable HDR envmap as background
 					M.uniforms.SafeSet( "_ShowEnvMap", true );
 					M.uniforms.SafeSet( "_Camera2World", that.camera.Camera2World );
+
+//that.IBLImages[that.IBLImageIndex].samplerIndex = 0;
+
 					M.uniforms.SafeSet( "_TexHDREnvMap", that.IBLImages[that.IBLImageIndex] );
 					M.uniforms.SafeSet( "_EnvMapPhi", that.lightPhi );
 					M.uniforms.SafeSet( "_LightIntensity", that.lightIntensity );

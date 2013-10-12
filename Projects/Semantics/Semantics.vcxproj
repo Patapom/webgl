@@ -10,6 +10,12 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Web\topics\Misc\semantics\index.php" />
+    <None Include="..\..\Web\topics\Misc\semantics\test\Index.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{81E5CFD4-90AC-473D-9657-F65044433BAE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

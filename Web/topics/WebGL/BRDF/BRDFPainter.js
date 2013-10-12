@@ -139,16 +139,6 @@ BRDFPainter.prototype =
 
 		this.avgReflectance.mul( 1.0 / (90*90) );
 	}
-
-	, DestroyTextures : function()
-	{
-		for ( var TextureName in this.sliceTextures )
-		{
-			var	Texture = this.sliceTextures[TextureName];
-			Texture.gl.deleteTexture( Texture );
-		}
-		this.sliceTextures = {};
-	}
 	
 	/////////////////////////////////////////////////////////////////////////
 	// Model's Methods

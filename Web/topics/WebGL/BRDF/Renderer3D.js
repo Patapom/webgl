@@ -30,6 +30,9 @@ Renderer3D = function( _canvas, _FOV )
 	this.markerVisible = false;
 	this.markerPosition = vec2.zero();
 
+	// No picking FBO at the moment (created in Resize callback)
+	this.FBOPicker = null;
+
 	// Create the GL viewport
 	this.viewport = new GLViewport( "3DViewport", _canvas );
 	this.FOV = _FOV;
@@ -87,11 +90,6 @@ Renderer3D = function( _canvas, _FOV )
 		this.materialBackground = patapi.webgl.CreateShaderFromFile( "Render3DBackground", "Shaders/Render3DBackground.shader" );
 		this.materialHelpers = patapi.webgl.CreateShaderFromFile( "Render3DBackground", "Shaders/Render3DHelpers.shader" );
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Create our small FBO where we'll render a tiny BRDF containing the Theta angles
-	// This is so we can pick them up from the screen
-	this.FBOPicker = patapi.webgl.CreateFBO( "FBOPicker", 256, 256 * patapi.webgl.height / patapi.webgl.width, gl.RGBA, gl.CLAMP_TO_EDGE, gl.NEAREST, true );
 
 	//////////////////////////////////////////////////////////////////////////
 	// Create our fullscreen quad
@@ -688,18 +686,21 @@ Renderer3D.prototype =
 
 			//////////////////////////////////////////////////////////////////////////
 			// Render in the tiny FBO for screen picking
-			that.FBOPicker.Bind();
-//			gl.viewport( 0, 0, that.FBOPicker.width, that.FBOPicker.height );
-			that.FBOPicker.Clear( 0, 0, 0, 1, 1 );
-			that.material.Use( function( M )
+			if ( that.FBOPicker )
 			{
- 				M.uniforms.SafeSet( "_RenderPickable", true );
+				that.FBOPicker.Bind();
+//				gl.viewport( 0, 0, that.FBOPicker.width, that.FBOPicker.height );
+				that.FBOPicker.Clear( 0, 0, 0, 1, 1 );
+				that.material.Use( function( M )
+				{
+ 					M.uniforms.SafeSet( "_RenderPickable", true );
 
-				that.primitive.Use().Draw();
-			} );
+					that.primitive.Use().Draw();
+				} );
 
 
-			that.FBOPicker.UnBind();
+				that.FBOPicker.UnBind();
+			}
 		},
 
 		// Update projection matrix on resize
@@ -708,6 +709,14 @@ Renderer3D.prototype =
 			that.camera.SetPerspective( that.FOV, _Width / _Height, 0.1, 100.0 );
 			that.cameraManipulator.UpdateOrbitSpeed( 0.6 * _Width, 0.8 * _Height )
 			that.cameraManipulator.UpdatePanSpeed( 0.8 * _Width, 1.2 * _Height )
+
+			//////////////////////////////////////////////////////////////////////////
+			// Create our small FBO where we'll render a tiny BRDF containing the Theta angles
+			// This is so we can pick them up from the screen
+			if ( this.FBOPicker )
+				this.FBOPicker.Destroy();
+			this.FBOPicker = patapi.webgl.CreateFBO( "FBOPicker", 256, 256 * patapi.webgl.height / patapi.webgl.width, patapi.webgl.RGBA, patapi.webgl.CLAMP_TO_EDGE, patapi.webgl.NEAREST, true );
+
 		} );
 	}
 
