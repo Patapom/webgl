@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<!-- 
+  Least Squares Fitter
+ -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Least Squares Fitter</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui-themes-1.9.2/themes/base/jquery.ui.all.css"/>
+<link rel="stylesheet" type="text/css" href="/css/layout-default-1.3.0.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<!-- jQuery + plugs -->
+<script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.js"></script>
+<script type="text/javascript" src="/js/jquery.layout-1.3.0.js"></script>
+
+<!-- Fitter -->
+<script type="text/javascript" src="LeastSquares.js"></script>
+
+<script type="text/javascript">
+
+var	inputOrder = 2;
+var	polyDegree = 1;
+
+$(document).ready( function() {
+
+	$( '#InputORder_XY' ).click( function( e ) { inputOrder = 0; } );
+	$( '#InputORder_YX' ).click( function( e ) { inputOrder = 1; } );
+	$( '#InputORder_XXYY' ).click( function( e ) { inputOrder = 2; } );
+	$( '#InputORder_YYXX' ).click( function( e ) { inputOrder = 3; } );
+
+	$( '#PolyDegree1' ).click( function( e ) { polyDegree = 1; } );
+	$( '#PolyDegree2' ).click( function( e ) { polyDegree = 2; } );
+	$( '#PolyDegree3' ).click( function( e ) { polyDegree = 3; } );
+	$( '#PolyDegree4' ).click( function( e ) { polyDegree = 4; } );
+
+	$('#Button_Solve').button().click( function() {
+
+		// Isolate and clean input fields
+		var	input = $('#input_text').text();
+		var	cleanInput = input.replace( /\s/gi, "," );
+		
+		var	rawData = cleanInput.split( "," );
+		var	errors = "";
+		var	data = [];
+		for ( var i=0; i < rawData.length; i++ )
+		{
+			var	v = rawData[i];
+			if ( v == "" )
+				continue;	// Invalid...
+
+			try
+			{
+				var	value = parseFloat( v );
+				if ( !isNaN( value ) )
+					data.push( value );
+				else
+					throw "fuck!";
+			}
+			catch ( e )
+			{
+				errors += (errors != "" ? ", " : "") + v;
+			}
+		}
+
+		// Re-order data based on user's choice
+		var		Xmin = 1e18, Xmax = -1e18;
+		var		Ymin = 1e18, Ymax = -1e18;
+		var		couplesCount = Math.floor( data.length / 2 ) | 0;
+		var		couples = [];
+		for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
+		{
+			var	couple;
+			switch ( inputOrder ) {
+			case 0: couple = { x: data[2*coupleIndex+0], y: data[2*coupleIndex+1] }; break;
+			case 1: couple = { y: data[2*coupleIndex+0], x: data[2*coupleIndex+1] }; break;
+			case 2: couple = { x: data[coupleIndex], y: data[couplesCount+coupleIndex] }; break;
+			case 3: couple = { y: data[coupleIndex], x: data[couplesCount+coupleIndex] }; break;
+			}
+			couples.push( couple );
+
+			// Keep track of the maxima
+			Xmin = Math.min( Xmin, couple.x );
+			Xmax = Math.max( Xmax, couple.x );
+			Ymin = Math.min( Ymin, couple.y );
+			Ymax = Math.max( Ymax, couple.y );
+		}
+
+		// Write infos about the data
+		{
+			var	infos = "";
+			if ( errors != "" )
+				infos += "<strong>Warning: Failed to parse the following values: " + errors + "</strong><br />";
+			else if ( 2*couplesCount != data.length )
+				infos += "<strong>Warning: " + data.length + " values were provided, which is an odd number. Only " + couplesCount + " couples of data could be formed.</strong><br />";
+
+			infos += couplesCount + " couples of values found:<br />";
+			for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
+				infos += (coupleIndex > 0 ? ", " : "") + "(" + couples[coupleIndex].x.toFixed( 3 ) + ", " + couples[coupleIndex].y.toFixed( 3 ) + ")";
+			infos += "<br />";
+
+			$('#input_infos').html( infos );
+		}
+
+		// Solve
+		var	result = llsqpy4Solve( couples, polyDegree );
+
+		// Show the result
+		{
+			function Format( num ) { return (num > 0.0 ? "+ " : "- ") + Math.abs( num ); }
+
+			var	infos = "";
+			switch ( polyDegree )
+			{
+			case 1: infos += "y = " + result.coeffs[1] + " * x " + Format( result.coeffs[0] ); break;
+			case 2: infos += "y = " + result.coeffs[2] + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
+			case 3: infos += "y = " + result.coeffs[3] + " * x^3 " + Format( result.coeffs[2] ) + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
+			case 4: infos += "y = " + result.coeffs[4] + " * x^4 " + Format( result.coeffs[3] ) + " * x^3 " + Format( result.coeffs[2] ) + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
+			}
+			$('#result').html( infos );
+		}
+
+		// Write infos about the result
+		{
+			var	infos = "<br/>Residuals for each point:<br/>";
+			var	errorMin = 1e6, errorMax = 0.0, errorAvg = 0.0;
+			for ( var residualIndex=0; residualIndex < result.residuals.length; residualIndex++ )
+			{
+				var	residual = result.residuals[residualIndex];
+				infos += (residualIndex > 0 ? ", " : "") + residual;
+
+				// Analyze error
+				residual = Math.abs( residual );
+				errorMin = Math.min( errorMin, residual );
+				errorMax = Math.max( errorMax, residual );
+				errorAvg += residual;
+			}
+			errorAvg /= result.residuals.length;
+			infos += "<br/>Error Min=" + errorMin + " Max=" + errorMax + " Average=" + errorAvg;
+			$('#result_infos').html( infos );
+		}
+
+		// Draw result
+		{
+			var	W = 600;
+			var	H = 400;
+
+			// Create our canvas
+			var	graphContainer = $('#graph');
+			graphContainer[0].innerHTML = '<canvas id="canvas" width="' + W + 'px" height="' + H + '"px"></canvas>';
+
+			var	canvas = $('#canvas');
+  
+			var g = canvas[0].getContext( "2d" );
+			g.scale( 1.0, 1.0 );
+
+			// Draw background
+			g.fillStyle = "#FFF";
+			g.fillRect( 0, 0, W, H );
+
+			// Find cute boundaries
+			var	Xcenter = 0.5 * (Xmin + Xmax);
+			var	Ycenter = 0.5 * (Ymin + Ymax);
+			var	sizeX = Xmax - Xmin;
+			var	sizeY = Ymax - Ymin;
+				sizeX *= 1.1;
+				sizeY *= 1.1;
+			Xmin = Xcenter - 0.5 * sizeX;
+			Ymin = Ycenter - 0.5 * sizeY;
+
+			function	Data2ClientX( x )	// Transforms a data-space X into a client-space X
+			{
+				var	r = W * (x - Xmin) / sizeX;
+				return r;
+			}
+			function	Client2DataX( x )	// Transforms a client-space X into a data-space X
+			{
+				var r = x * sizeX / W + Xmin;
+				return r;
+			}
+			function	Data2ClientY( y )	// Transforms a data-space Y into a client-space Y
+			{
+				var r = H * (1.0 - (y - Ymin) / sizeY);
+				return r;
+			}
+
+			// Draw axes
+			g.beginPath();
+			g.strokeStyle = "#000";
+			g.lineWidth = 1.5;
+			g.moveTo( 0, Data2ClientY( 0.0 ) );
+			g.lineTo( W, Data2ClientY( 0.0 ) );
+			g.stroke();
+			g.moveTo( Data2ClientX( 0.0 ), 0 );
+			g.lineTo( Data2ClientX( 0.0 ), H );
+			g.stroke();
+
+			// Draw fit curve
+			{
+				g.beginPath();
+				g.lineWidth = 2.0;
+				g.strokeStyle = "#888";
+
+				var	coeffs = [result.coeffs[0], result.coeffs[1]];
+					coeffs[2] = polyDegree > 1 ? result.coeffs[2] : 0.0;
+					coeffs[3] = polyDegree > 2 ? result.coeffs[3] : 0.0;
+					coeffs[4] = polyDegree > 3 ? result.coeffs[4] : 0.0;
+				function eval( _x )
+				{
+					_x = Client2DataX( _x );
+
+					var	result = coeffs[4];
+						result = result * _x + coeffs[3];
+						result = result * _x + coeffs[2];
+						result = result * _x + coeffs[1];
+						result = result * _x + coeffs[0];
+					return Data2ClientY( result );
+				}
+
+				g.fillStyle = "#000";
+				g.moveTo( 0, eval( 0 ) );
+				for ( var x=1; x < W; x++ )
+					g.lineTo( x, eval( x ) );
+				g.stroke();
+			}
+
+			// Draw original data
+			{
+				g.beginPath();
+				g.fillStyle = "#000";
+
+				for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
+				{
+					g.arc( Data2ClientX( couples[coupleIndex].x ), Data2ClientY( couples[coupleIndex].y ), 2, 0, 2*Math.PI );
+					g.fill();
+				}
+			}
+		}
+	} );
+
+} );
+</script>
+</head>
+
+<body oncontextmenu="return false;">
+
+	<div id="TitleTop" class="title">
+		<h1>Linear Least-Squares Data-Fitting Utility</h1>
+	</div>
+
+	<p id="disclaimer">
+	<strong>Disclaimer:</strong> This is a copy from the original page found there: <a href="http://www.akiti.ca/LinLeastSqPoly4.html">http://www.akiti.ca/LinLeastSqPoly4.html</a><br />
+	Super useful but a real pain to use so I rewrote the UI part! <strong>^^</strong>
+	</p>
+
+	<p>
+	This page contains a linear least-squares data-fitting utility.<br />The function to be fit to the data is a polynomial expression of degree four or less.
+	</p>
+
+	<div id="form_input">
+		Enter your input points below. You can use any standard separator character (space, comma, carriage return, tabs, etc.).
+		<div id="input_text_container" style='display:block'>
+			<textarea id='input_text' style='display:inline-block'>
+0.0100	0.10	0.20	0.30	0.40	0.50	0.60	0.70	0.80	0.90	1.00	1.10	1.20	1.30	1.40	1.50
+0.0127	0.13	0.25	0.37	0.48	0.59	0.69	0.77	0.85	0.92	0.97	1.03	1.07	1.11	1.15	1.18
+			</textarea>
+		<div id="input_type" style='display:inline-block'>
+			<div class='input_type'><input id="InputORder_XY" value="0" name="radioInputORder" type="radio" class='t0'><label for="InputORder_XY" class='t1'>X,Y,X,Y,X,(...)</label></input></div>
+			<div class='input_type'><input id="InputORder_YX" value="1" name="radioInputORder" type="radio" class='t0'><label for="InputORder_YX" class='t1'>Y,X,Y,X,Y,(...)</label></input></div>
+			<div class='input_type'><input id="InputORder_XXYY" value="2" name="radioInputORder" type="radio" class='t0' checked="checked"><label for="InputORder_XXYY" class='t1'>X,X,X,(...),Y,Y,Y,(...)</label></input></div>
+			<div class='input_type'><input id="InputORder_YYXX" value="3" name="radioInputORder" type="radio" class='t0'><label for="InputORder_YYXX" class='t1'>Y,Y,Y,(...),X,X,X,(...)</label></input></div>
+		</div>
+		</div>
+	</div>
+
+
+	<div id="form_options">
+		<p>
+		Specify the degree of the polynomial to be fit to the data.
+		</p>
+		<div id="poly_degree">
+			<div class='poly_degree'><input id="PolyDegree1" value="1" name="poly_degree" type="radio" class='t0' checked="checked"><label for="PolyDegree1" class='t1'>y = a.x + b (line)</label></input></div>
+			<div class='poly_degree'><input id="PolyDegree2" value="2" name="poly_degree" type="radio" class='t0'><label for="PolyDegree2" class='t1'>y = a.x^2 + b.x + c (parabola)</label></input></div>
+			<div class='poly_degree'><input id="PolyDegree3" value="3" name="poly_degree" type="radio" class='t0'><label for="PolyDegree3" class='t1'>y = a.x^3 + b.x^2 + c.x + d (cubic)</label></input></div>
+			<div class='poly_degree'><input id="PolyDegree4" value="4" name="poly_degree" type="radio" class='t0'><label for="PolyDegree4" class='t1'>y = a.x^4 + b.x^3 + c.x^2 + d.x + e (quartic)</label></input></div>
+		</div>
+	</div>
+
+	<div class='form_solve'>
+		<br />
+		<button id="Button_Solve">&nbsp;&nbsp;Solve&nbsp;&nbsp;</button>
+	</div>
+
+	<div class='form_result'>
+		<br />
+		<div id="input_infos"></div>
+		<br />
+		<div id="result"></div>
+		<div id="result_infos"></div>
+
+		<div id="graph">
+<!-- 
+			<canvas id="canvas" width='600' height='400'></canvas>
+ -->
+		</div>
+
+	</div>
+
+	<div id="references">
+		<p>
+		<b>References:</b>
+		</p>
+
+		<p>
+		Author: &nbsp; Stephen Nash, &nbsp; George Mason University<br />
+		From the book <a href="http://www.amazon.ca/gp/product/0136272584?ie=UTF8&tag=rocketscica-20&linkCode=as2&camp=15121&creative=330641&creativeASIN=0136272584">"Numerical Methods and Software"</a> by<br />
+		D. Kahaner, C. Moler, and S. Nash<br />
+		Prentice Hall, 1988
+		</p>
+
+		<p>
+		Dongarra, J. J.; &nbsp; J.R. Bunch; &nbsp; C.B. Moler; &nbsp; and G.W. Stewart.<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "LINPACK User's Guide"<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SIAM, Philadelphia<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1979
+		</p>
+
+		<p>
+		The utility posted on this page is based on the program SQRLS written by Stephen Nash. SQRLS is a top-level program that controls several sub-routines from the LINPACK collection. The original programs were written in FORTRAN and have been translated to Javascript here. Although all care has been taken to ensure that the sub-routines were translated accurately, some errors may have crept into the translation. These errors are mine; the original FORTRAN routines have been thoroughly tested and work properly. Please report any errors to the webmaster.
+		</p>
+
+	</div>
+
+</body>
+</html>
