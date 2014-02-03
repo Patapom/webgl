@@ -22,7 +22,7 @@
 <script type="text/javascript">
 
 var	inputOrder = 2;
-var	polyDegree = 1;
+var	polyDegree = 2;
 
 $(document).ready( function() {
 
@@ -39,7 +39,7 @@ $(document).ready( function() {
 	$('#Button_Solve').button().click( function() {
 
 		// Isolate and clean input fields
-		var	input = $('#input_text').text();
+		var	input = $('#input_text')[0].value;
 		var	cleanInput = input.replace( /\s/gi, "," );
 		
 		var	rawData = cleanInput.split( "," );
@@ -228,11 +228,11 @@ $(document).ready( function() {
 
 			// Draw original data
 			{
-				g.beginPath();
 				g.fillStyle = "#000";
 
 				for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
 				{
+					g.beginPath();
 					g.arc( Data2ClientX( couples[coupleIndex].x ), Data2ClientY( couples[coupleIndex].y ), 2, 0, 2*Math.PI );
 					g.fill();
 				}
@@ -281,8 +281,8 @@ $(document).ready( function() {
 		Specify the degree of the polynomial to be fit to the data.
 		</p>
 		<div id="poly_degree">
-			<div class='poly_degree'><input id="PolyDegree1" value="1" name="poly_degree" type="radio" class='t0' checked="checked"><label for="PolyDegree1" class='t1'>y = a.x + b (line)</label></input></div>
-			<div class='poly_degree'><input id="PolyDegree2" value="2" name="poly_degree" type="radio" class='t0'><label for="PolyDegree2" class='t1'>y = a.x^2 + b.x + c (parabola)</label></input></div>
+			<div class='poly_degree'><input id="PolyDegree1" value="1" name="poly_degree" type="radio" class='t0'><label for="PolyDegree1" class='t1'>y = a.x + b (line)</label></input></div>
+			<div class='poly_degree'><input id="PolyDegree2" value="2" name="poly_degree" type="radio" class='t0' checked="checked"><label for="PolyDegree2" class='t1'>y = a.x^2 + b.x + c (parabola)</label></input></div>
 			<div class='poly_degree'><input id="PolyDegree3" value="3" name="poly_degree" type="radio" class='t0'><label for="PolyDegree3" class='t1'>y = a.x^3 + b.x^2 + c.x + d (cubic)</label></input></div>
 			<div class='poly_degree'><input id="PolyDegree4" value="4" name="poly_degree" type="radio" class='t0'><label for="PolyDegree4" class='t1'>y = a.x^4 + b.x^3 + c.x^2 + d.x + e (quartic)</label></input></div>
 		</div>
