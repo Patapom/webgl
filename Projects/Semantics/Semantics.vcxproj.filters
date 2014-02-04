@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Web\topics\Misc\semantics\index.php" />
+    <None Include="..\..\Web\topics\Misc\semantics\test\Index.htm">
+      <Filter>MediapartTest</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MediapartTest">
+      <UniqueIdentifier>{484c5fa0-b907-4165-8ea9-19380fa210c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

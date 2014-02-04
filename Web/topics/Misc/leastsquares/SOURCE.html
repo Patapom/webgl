@@ -1,0 +1,424 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+
+<title>Linear Least-Squares Data-Fitting Utility</title>
+
+<meta name="description" contents="A linear least-squares data-fitting utility. Calculates the best fit for a polynomial of degree four or lower.">
+
+<meta name="keywords" contents="data fitting, least squares, linear least squares, linear least squares data fitting">
+
+<link rel="stylesheet" href="mfxns_style.css" type="text/css" />
+
+<script language="javascript" type="text/javascript" src = "sqrlssjscript.js">
+</script>
+
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="sidebar">
+
+<p>
+&nbsp;
+</p>
+
+<script type="text/javascript">
+  <!--
+  google_ad_client = "pub-7832540389298677";
+  /* 160x600, created 4/8/08 */
+  google_ad_slot = "4037879792";
+  google_ad_width = 160;
+  google_ad_height = 600;
+  //-->
+ </script>
+
+ <script type="text/javascript"
+   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+ </script>
+
+</div>
+
+<div id="content">
+
+<p>
+&nbsp;
+</p>
+
+<table align="center" border="0" width="600">
+<tr>
+<td bgcolor=#e5ecf9 valign="center"><h2>Linear Least-Squares Data-Fitting Utility</h2></td>
+</tr>
+</table>
+
+<p>
+&nbsp;
+</p>
+
+<p>
+This page contains a linear least-squares data-fitting utility. The function to be fit to the data is a polynomial expression of degree four or less.
+</p>
+
+<p>
+<noscript>
+<br /><b>The routine is written in Javascript; however, your browser appears to have Javascript disabled. <br />
+To use the utility posted on this page, please enable Javascript.</b>
+</noscript>
+</p>
+
+<p>
+<b>References:</b>
+</p>
+
+<p>
+Author: &nbsp; Stephen Nash, &nbsp; George Mason University<br />
+From the book <a href="http://www.amazon.ca/gp/product/0136272584?ie=UTF8&tag=rocketscica-20&linkCode=as2&camp=15121&creative=330641&creativeASIN=0136272584">"Numerical Methods and Software"</a> by<br />
+D. Kahaner, C. Moler, and S. Nash<br />
+Prentice Hall, 1988
+</p>
+
+<p>
+Dongarra, J. J.; &nbsp; J.R. Bunch; &nbsp; C.B. Moler; &nbsp; and G.W. Stewart.<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "LINPACK User's Guide"<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SIAM, Philadelphia<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 1979
+</p>
+
+<p>
+The utility posted on this page is based on the program SQRLS written by Stephen Nash. SQRLS is a top-level program that controls several sub-routines from the LINPACK collection. The original programs were written in FORTRAN and have been translated to Javascript here. Although all care has been taken to ensure that the sub-routines were translated accurately, some errors may have crept into the translation. These errors are mine; the original FORTRAN routines have been thoroughly tested and work properly. Please report any errors to the webmaster.
+</p>
+
+<p align="center">
+<hr width=75% height=5>
+</p>
+
+<p>
+<br />
+For background on linear, least-squares data fitting, please visit the <a href="javascript:newWindow('LstSqrBackSam.html')">Background and Worked Example page</a> (opens in a new window).
+</p>
+
+<p>
+<br />
+<b>HOW TO USE THIS UTILITY</b><br />
+Enter the data pairs below, and specify the degree of the polynomial to be fit to the data.<br />
+Then click the "Solve" button.<br />
+The results are output below.
+</p>
+
+<p>
+<b>Always check the value of the rank of the coefficient matrix after running this utility.</b> The rank should be 1 &nbsp; + &nbsp; the degree of polynomial selected. For example, if a polynomial of degree 2 was selected, the rank should be 3; if a polynomial of degree 3 was selected, the rank should be 4; etc. If the rank is less than this value, the solution is most likely meaningless.
+</p>
+
+<p>
+This utility accepts <b>up to</b> twenty data pairs, (x <sub>i</sub> &nbsp;, y <sub>i</sub> &nbsp;). Enter the data pairs below. Ensure that the checkbox <b>to the left</b> of each data pair is checked; otherwise, this utility will not include the values for that data pair in its calculations.
+</p>
+
+<form name = "form1">
+
+<table align="center" border="0" width="600" bgcolor=#e5ecf9>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p1"></td>
+<td>x<sub>1</sub></td>
+<td><input type = "text" name = "x1"></td>
+<td>y<sub>1</sub></td>
+<td><input type = "text" name = "y1"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  &nbsp; &nbsp; </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p2"></td>
+<td>x<sub>2</sub></td>
+<td><input type = "text" name = "x2"></td>
+<td>y<sub>2</sub></td>
+<td><input type = "text" name = "y2"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p3"></td>
+<td>x<sub>3</sub></td>
+<td><input type = "text" name = "x3"></td>
+<td>y<sub>3</sub></td>
+<td><input type = "text" name = "y3"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p4"></td>
+<td>x<sub>4</sub></td>
+<td><input type = "text" name = "x4"></td>
+<td>y<sub>4</sub></td>
+<td><input type = "text" name = "y4"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p5"></td>
+<td>x<sub>5</sub></td>
+<td><input type = "text" name = "x5"></td>
+<td>y<sub>5</sub></td>
+<td><input type = "text" name = "y5"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p6"></td>
+<td>x<sub>6</sub></td>
+<td><input type = "text" name = "x6"></td>
+<td>y<sub>6</sub></td>
+<td><input type = "text" name = "y6"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p7"></td>
+<td>x<sub>7</sub></td>
+<td><input type = "text" name = "x7"></td>
+<td>y<sub>7</sub></td>
+<td><input type = "text" name = "y7"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p8"></td>
+<td>x<sub>8</sub></td>
+<td><input type = "text" name = "x8"></td>
+<td>y<sub>8</sub></td>
+<td><input type = "text" name = "y8"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p9"></td>
+<td>x<sub>9</sub></td>
+<td><input type = "text" name = "x9"></td>
+<td>y<sub>9</sub></td>
+<td><input type = "text" name = "y9"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p10"></td>
+<td>x<sub>10</sub></td>
+<td><input type = "text" name = "x10"></td>
+<td>y<sub>10</sub></td>
+<td><input type = "text" name = "y10"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p11"></td>
+<td>x<sub>11</sub></td>
+<td><input type = "text" name = "x11"></td>
+<td>y<sub>11</sub></td>
+<td><input type = "text" name = "y11"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p12"></td>
+<td>x<sub>12</sub></td>
+<td><input type = "text" name = "x12"></td>
+<td>y<sub>12</sub></td>
+<td><input type = "text" name = "y12"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p13"></td>
+<td>x<sub>13</sub></td>
+<td><input type = "text" name = "x13"></td>
+<td>y<sub>13</sub></td>
+<td><input type = "text" name = "y13"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p14"></td>
+<td>x<sub>14</sub></td>
+<td><input type = "text" name = "x14"></td>
+<td>y<sub>14</sub></td>
+<td><input type = "text" name = "y14"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p15"></td>
+<td>x<sub>15</sub></td>
+<td><input type = "text" name = "x15"></td>
+<td>y<sub>15</sub></td>
+<td><input type = "text" name = "y15"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p16"></td>
+<td>x<sub>16</sub></td>
+<td><input type = "text" name = "x16"></td>
+<td>y<sub>16</sub></td>
+<td><input type = "text" name = "y16"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p17"></td>
+<td>x<sub>17</sub></td>
+<td><input type = "text" name = "x17"></td>
+<td>y<sub>17</sub></td>
+<td><input type = "text" name = "y17"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p18"></td>
+<td>x<sub>18</sub></td>
+<td><input type = "text" name = "x18"></td>
+<td>y<sub>18</sub></td>
+<td><input type = "text" name = "y18"></td>
+</tr>
+
+<tr align="center">
+<td><input type = "checkbox" name = "p19"></td>
+<td>x<sub>19</sub></td>
+<td><input type = "text" name = "x19"></td>
+<td>y<sub>19</sub></td>
+<td><input type = "text" name = "y19"></td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td>  &nbsp;  </td>
+<td><input type = "checkbox" name = "p20"></td>
+<td>x<sub>20</sub></td>
+<td><input type = "text" name = "x20"></td>
+<td>y<sub>20</sub></td>
+<td><input type = "text" name = "y20"></td>
+</tr>
+
+</table>
+
+<p>
+<br />
+Specify the degree of the polynomial to be fit to the data by checking the radio button under the appropriate term. For example, if you are fitting a straight line to the data, select the radio button under the "<b>d</b> x" term. Once you have selected the appropriate button, click the "Solve" button, and the values for the constants will be displayed below.
+</p>
+
+<table align="center" border="0" width="600" bgcolor=#e5ecf9>
+
+<tr align="center">
+<td><b>a</b> x <sup>4</sup></td>
+<td>&nbsp; + &nbsp; </td>
+<td><b>b</b> x <sup>3</sup></td>
+<td>&nbsp; + &nbsp; </td>
+<td><b>c</b> x <sup>2</sup></td>
+<td>&nbsp; + &nbsp; </td>
+<td><b>d</b> x</td>
+<td>&nbsp; + &nbsp; </td>
+<td><b>e</b></td>
+</tr>
+
+<tr align="center">
+<td><input type = "radio" name = "ac" value="four"></td>
+<td>&nbsp; </td>
+<td><input type = "radio" name = "ac" value="three"></td>
+<td>&nbsp; </td>
+<td><input type = "radio" name = "ac" value="two"></td>
+<td>&nbsp; </td>
+<td><input type = "radio" name = "ac" value="one"></td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+</tr>
+
+</table>
+
+<p>
+<br />
+<input type = "button" name = "button1" value = "Solve" onClick = "llsqpy4Solve(this.form)">
+</p>
+
+<p>
+The results are:
+</p>
+
+<table align="center" border="0" width="600" bgcolor=#e5ecf9>
+
+<tr align="center">
+<td><b>a</b></td>
+<td>&nbsp; </td>
+<td><b>b</b></td>
+<td>&nbsp; </td>
+<td><b>c</b></td>
+<td>&nbsp; </td>
+<td><b>d</b></td>
+<td>&nbsp; </td>
+<td><b>e</b></td>
+</tr>
+
+<tr align="center">
+<td><input type = "text" name = "a"></td>
+<td>&nbsp; </td>
+<td><input type = "text" name = "b"></td>
+<td>&nbsp; </td>
+<td><input type = "text" name = "c"></td>
+<td>&nbsp; </td>
+<td><input type = "text" name = "d"></td>
+<td>&nbsp; </td>
+<td><input type = "text" name = "e"></td>
+</tr>
+
+</table>
+
+<p>
+<br />
+Number of Recognized Data Pairs: <input type = "text" name = "numDatPairs">
+</p>
+
+<p>
+Rank of Coefficient Matrix: <input type = "text" name = "kr">
+</p>
+
+<p>
+The residuals are:
+</p>
+
+<p>
+<b>r <sub>1</sub></b> <input type = "text" name = "res1"></td><br>
+<b>r <sub>2</sub></b> <input type = "text" name = "res2"></td><br>
+<b>r <sub>3</sub></b> <input type = "text" name = "res3"></td><br>
+<b>r <sub>4</sub></b> <input type = "text" name = "res4"></td><br>
+<b>r <sub>5</sub></b> <input type = "text" name = "res5"></td><br>
+<b>r <sub>6</sub></b> <input type = "text" name = "res6"></td><br>
+<b>r <sub>7</sub></b> <input type = "text" name = "res7"></td><br>
+<b>r <sub>8</sub></b> <input type = "text" name = "res8"></td><br>
+<b>r <sub>9</sub></b> <input type = "text" name = "res9"></td><br>
+<b>r <sub>10</sub></b> <input type = "text" name = "res10"></td><br>
+<b>r <sub>11</sub></b> <input type = "text" name = "res11"></td><br>
+<b>r <sub>12</sub></b> <input type = "text" name = "res12"></td><br>
+<b>r <sub>13</sub></b> <input type = "text" name = "res13"></td><br>
+<b>r <sub>14</sub></b> <input type = "text" name = "res14"></td><br>
+<b>r <sub>15</sub></b> <input type = "text" name = "res15"></td><br>
+<b>r <sub>16</sub></b> <input type = "text" name = "res16"></td><br>
+<b>r <sub>17</sub></b> <input type = "text" name = "res17"></td><br>
+<b>r <sub>18</sub></b> <input type = "text" name = "res18"></td><br>
+<b>r <sub>19</sub></b> <input type = "text" name = "res19"></td><br>
+<b>r <sub>20</sub></b> <input type = "text" name = "res20"></td>
+</p>
+
+</form>
+
+<p>
+&nbsp;
+</p>
+
+<p>
+<a href="Mathfxns.html">Return to Math Functions Page</a>
+</p>
+
+<p>
+<a href="http://www.akiti.ca">AKiTi.ca Home</a>
+</p>
+
+</div>
+
+</div>
+  <!-- End of container div -->
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-314448-1";
+urchinTracker();
+</script>
+
+</body>
+
+<!--
+Date this page was last edited: 2 February 2011
+-->
+
+</html>
