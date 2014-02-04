@@ -185,6 +185,7 @@ BRDFPropertiesAnalytical = function()
 			}
 		 } );
 
+
 		// =================== BLINN-PHONG ===================
 		this.UIBlinnPhong = $("#PropAnalyticalUI_BlinnPhong");
 
@@ -201,6 +202,7 @@ BRDFPropertiesAnalytical = function()
 			}
 		 } );
 
+
 		// =================== ASHIKMIN-SHIRLEY ===================
 		this.UIAshikminShirley = $("#PropAnalyticalUI_Ashikmin_Shirley");
 
@@ -216,6 +218,7 @@ BRDFPropertiesAnalytical = function()
 				return _OriginalText + " (" + Math.pow( 10.0, value ).toFixed( 2 ) + ")";	// Update text
 			}
 		 } );
+
 
 		// =================== COOK-TORRANCE ===================
 		this.UICookTorrance = $("#PropAnalyticalUI_Cook_Torrance");
@@ -262,6 +265,7 @@ BRDFPropertiesAnalytical = function()
 			}
 		} );
 
+
 		// =================== WALTER ===================
 		this.UIWalter = $("#PropAnalyticalUI_Walter");
 
@@ -286,6 +290,23 @@ BRDFPropertiesAnalytical = function()
 			{
 				if ( that.BRDF )
 					that.BRDF.setGeneralizedTrowbridgeReitzExponent( value );
+
+				return _OriginalText + " (" + value + ")";	// Update text
+			}
+		 } );
+
+
+		// =================== WARD ===================
+		this.UIWard = $("#PropAnalyticalUI_Ward");
+
+		this.UISliderWard_SpecularRoughness = new patapi.ui.LabelSlider( {
+			labelSelector : "#PropAnalyticalUI_Slider_SpecularRoughness3 .t0 span",
+			selector : "#PropAnalyticalUI_Slider_SpecularRoughness3 .t1",
+			sliderParams : { min: 0.0, max : 1.0, value: 0.5, step: 0.001 },
+			change : function( value, _OriginalText )
+			{
+				if ( that.BRDF )
+					that.BRDF.setSpecularRoughness( value );
 
 				return _OriginalText + " (" + value + ")";	// Update text
 			}
@@ -324,6 +345,7 @@ BRDFPropertiesAnalytical.prototype =
 		this.UIAshikminShirley.css( 'display', this.BRDF.type == 1 ? 'block' : 'none' );
 		this.UICookTorrance.css( 'display', this.BRDF.type == 2 ? 'block' : 'none' );
 		this.UIWalter.css( 'display', this.BRDF.type == 3 ? 'block' : 'none' );
+		this.UIWard.css( 'display', this.BRDF.type == 4 ? 'block' : 'none' );
 
 		switch ( this.BRDF.type )
 		{
@@ -345,6 +367,10 @@ BRDFPropertiesAnalytical.prototype =
 		case 3:	// Walter
 			this.UISliderW_SpecularRoughness.set( this.BRDF.specularRoughness );
 			this.UISliderW_GeneralizedTrowbridgeReitz.set( this.BRDF.generalizedTrowbridgeReitzExponent );
+			break;
+
+		case 4:	// Ward
+			this.UISliderWard_SpecularRoughness.set( this.BRDF.specularRoughness );
 			break;
 		}
 	}

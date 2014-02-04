@@ -381,7 +381,7 @@ CheckViewMaxDiscrepancy.z = Math.max( CheckViewMaxDiscrepancy.x, Math.abs( ViewT
 
 
 var	ProjectedView = new vec3( ViewTS.xy(), 1e-12 ).normalized();
-var	CheckAlpha = Math.acos( ProjectedView.dot( HalfVectorDir ) );
+var	CheckAlpha = Math.acos( ProjectedView.dot( HalfVectorDir ) );   // ThetaD?
 
 
 

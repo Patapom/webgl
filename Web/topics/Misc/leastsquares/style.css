@@ -1,0 +1,94 @@
+﻿/*!
+ * 
+ */
+
+html, body
+{
+	font-size:			1em;
+	color:				#202020;	/* Dark Gray */
+	background-color:	#F0F0F0;	/* Light Gray */
+	overflow:			hidden;
+
+	font-family:		Trebuchet MS;
+}
+
+
+#disclaimer
+{
+	display:			block;
+	text-align:			left;
+	border:				1px;
+	border-style:		solid;
+	border-color:		#000000;
+	width:				30%;
+	text-align:			center;
+	background-color:	#C0C0C0;	/* Light Gray */
+}
+
+#references
+{
+	text-align:			center;
+	font-size:			0.8em;
+}
+
+#input_type
+{
+	margin-left:		40px;
+}
+#input_text
+{
+	width:				30%;
+	height:				200px;
+}
+
+#poly_degree
+{
+	margin-left:		40px;
+}
+
+#Button_Solve
+{
+	font-size:			1.5em;
+}
+
+#input_infos
+{
+	font-size:			0.75em;
+}
+
+#result
+{
+	width:				40%;
+	min-height:			60px;
+	padding:			20px;
+	
+	background-color:	#FFFFFF;
+	border-style:		solid;
+	border-width:		thick;
+	border-color:		#000000;
+	color:				#000000;
+	text-align:			center;
+	font-size:			1.2em;
+}
+
+#result_infos
+{
+	font-size:			0.75em;
+}
+
+#canvas
+{
+	margin-left:		40px;
+	margin-top:			20px;
+	margin-bottom:		20px;
+	
+/*
+	width:				600px;
+	height:				400px;
+*/
+
+	border-style:		solid;
+	border-width:		thin;
+	border-color:		#000000;
+	background-color:	#FFFFFF;
+}

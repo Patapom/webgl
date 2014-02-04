@@ -713,10 +713,11 @@ Renderer3D.prototype =
 			//////////////////////////////////////////////////////////////////////////
 			// Create our small FBO where we'll render a tiny BRDF containing the Theta angles
 			// This is so we can pick them up from the screen
-			if ( this.FBOPicker )
-				this.FBOPicker.Destroy();
-			this.FBOPicker = patapi.webgl.CreateFBO( "FBOPicker", 256, 256 * patapi.webgl.height / patapi.webgl.width, patapi.webgl.RGBA, patapi.webgl.CLAMP_TO_EDGE, patapi.webgl.NEAREST, true );
-
+			if ( that.FBOPicker )
+			{
+				that.FBOPicker.Destroy();
+				that.FBOPicker = null;
+			}
 		} );
 	}
 
@@ -726,6 +727,13 @@ Renderer3D.prototype =
 	, SampleBRDFAnglesFromViewport : function( U, V )
 	{
 		var	gl = this.viewport.GetGL();
+
+		if ( !this.FBOPicker )
+		{
+			this.FBOPicker = patapi.webgl.CreateFBO( "FBOPicker", 256, 256 * patapi.webgl.height / patapi.webgl.width, gl.RGBA, gl.CLAMP_TO_EDGE, gl.NEAREST, true );
+			if ( !this.FBOPicker )
+				return;
+		}
 
 		// Read back pixels
 		var	X = U * this.FBOPicker.width;

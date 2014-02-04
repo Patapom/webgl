@@ -55,6 +55,7 @@ BRDFList = function()
 	UL.append( '<li title=" ">Ashikhmin-Shirley</li>' );	$( "li:nth-child(2)", UL ).click( function() { that.AddBRDF_Analytical( 1 ); } );
 	UL.append( '<li title=" ">Cook-Torrance</li>' );		$( "li:nth-child(3)", UL ).click( function() { that.AddBRDF_Analytical( 2 ); } );
 	UL.append( '<li title=" ">Walter</li>' );				$( "li:nth-child(4)", UL ).click( function() { that.AddBRDF_Analytical( 3 ); } );
+	UL.append( '<li title=" ">Ward</li>' );					$( "li:nth-child(5)", UL ).click( function() { that.AddBRDF_Analytical( 4 ); } );
 
 	//////////////////////////////////////////////////////////////////////////
 	// Build the toolbar button for Pom BRDFs
