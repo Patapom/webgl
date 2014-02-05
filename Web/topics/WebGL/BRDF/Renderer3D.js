@@ -369,7 +369,8 @@ Renderer3D.prototype =
 		this.Render();
 
 		// Notify of the change
-		this.Notify( { type : "lightTheta", value : value } );
+		var	event = { type : "lightTheta", value : value }
+		this.Notify( event );
 	}
 
 	, setLightPhi : function( value )
