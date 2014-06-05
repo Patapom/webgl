@@ -30,6 +30,10 @@ BRDFAnalytical = function( _Type )
 		this.name = "Walter";
 		break;
 
+	case 4:	// Ward
+		this.name = "Ward";
+		break;
+
 	default:
 		throw "Unsupported Analytical BRDF Type " + _Type;
 	}
@@ -49,12 +53,13 @@ BRDFAnalytical = function( _Type )
 	this.useComplexFresnel = true;
 	this.lerpDiffuseWithFresnel = true;
 	this.fresnelF0 = 0.6;	// Metal
-	this.specularColor = new vec3( 1.0, 0.72, 0.32 ).mul( 0.2 );
+//	this.specularColor = new vec3( 1.0, 0.72, 0.32 ).mul( 0.2 );
+	this.specularColor = new vec3( 1.0, 1.0, 1.0 );
 
 	// == Blinn-Phong + Ashikmin-Shirley ==
 	this.specularExponent = Math.log( 50.0 ) * Math.LOG10E;
 
-	// == Cook-Torrance ==
+	// == Cook-Torrance & Ward ==
 	this.specularRoughness = 0.5;	// Could be the same as diffuse roughness
 	this.includeG = true;
 	this.useBeckmann = true;
@@ -114,6 +119,7 @@ BRDFAnalytical.prototype =
 			case 1: ComputeSpecularFunction = this.ComputeSpecular_AshikminShirley; this.PrepareAshikminShirley(); break;
 			case 2: ComputeSpecularFunction = this.useBeckmann ? this.ComputeSpecular_CookTorrance_Beckmann : this.ComputeSpecular_CookTorrance_Ward; this.PrepareCookTorrance(); break;
 			case 3: ComputeSpecularFunction = this.ComputeSpecular_Walter; this.PrepareWalter(); break;
+			case 4: ComputeSpecularFunction = this.ComputeSpecular_Ward; this.PrepareWard(); break;
 			}
 		}
 		else
@@ -213,7 +219,7 @@ BRDFAnalytical.prototype =
 				dThetaH *= Math.sin( Temp * Temp * Math.HALFPI );	// Smaller at the top of the hemisphere
 				dThetaH *= Math.cos( Temp * Temp * Math.HALFPI );	// Not part of the dThetaH element but helpful factorization
 
-//R = G = B = 1;	// DEBUG => Albedo should equal PI
+//R = G = B = 1;	// DEBUG => Albedo should equal to PI
 
 				this.albedo.x += dThetaH * R;
 				this.albedo.y += dThetaH * G;
@@ -224,7 +230,7 @@ BRDFAnalytical.prototype =
 		// Finalize values
 		var	dThetaD = Math.HALFPI / 90;	// Uniform pieces
 			dThetaD *= 4.0;				// Not part of the dThetaD element but helpful factorization (remember we integrated only on a quarter of a sphere)
-		this.albedo.x *= dThetaD;		// Should yield PI if reflectances were all 1
+		this.albedo.x *= dThetaD;		// Should yield 1 if reflectances were all 1
 		this.albedo.y *= dThetaD;
 		this.albedo.z *= dThetaD;
 
@@ -410,9 +416,9 @@ BRDFAnalytical.prototype =
 
 	//////////////////////////////////////////////////////////////////////////
 	// Specular models rendering
-	, __tempSF0 : 0.0
+	, __tempSF0 : 0.0      // Temp specular floats
 	, __tempSF1	: 0.0
-	, __tempSV0 : new vec3()
+	, __tempSV0 : new vec3()  // Temp specular vectors
 	, __tempSV1 : new vec3()
 	, ComputeSpecular_None : function()	{}
 
@@ -444,22 +450,22 @@ BRDFAnalytical.prototype =
 // From Disney BRDF Explorer
 // We can't support anisotropy with our model so it simplifies a lot
 //
-//     float HdotV = dot(H,V);
-//     float HdotT = dot(H,T);
-//     float HdotB = dot(H,B);
-//     float NdotH = dot(N,H);
-//     float NdotV = dot(N,V);
-//     float NdotL = dot(N,L);
-//     
-//     float norm_s = sqrt((nu+1)*((isotropic?nu:nv)+1))/(8*PI);
-//     float n = isotropic ? nu : (nu*sqr(HdotT) + nv*sqr(HdotB))/(1-sqr(NdotH));
-//     float rho_s = norm_s * F * pow(max(NdotH,0), n) / (HdotV * max(NdotV, NdotL));
+//  float HdotV = dot(H,V);
+//  float HdotT = dot(H,T);
+//  float HdotB = dot(H,B);
+//  float NdotH = dot(N,H);
+//  float NdotV = dot(N,V);
+//  float NdotL = dot(N,L);
+//  
+//  float norm_s = sqrt((nu+1)*((isotropic?nu:nv)+1))/(8*PI);
+//  float n = isotropic ? nu : (nu*sqr(HdotT) + nv*sqr(HdotB))/(1-sqr(NdotH));
+//  float rho_s = norm_s * F * pow(max(NdotH,0), n) / (HdotV * max(NdotV, NdotL));
 // 
 // Diffuse part that we can ignore
-//     float rho_d = 28/(23*PI) * Rd * (1-pow(1-NdotV/2, 5)) * (1-pow(1-NdotL/2, 5));
-//     if (coupled_diffuse) rho_d *= (1-Rs);   // No 1-Fresnel involved??
+//  float rho_d = 28/(23*PI) * Rd * (1-pow(1-NdotV/2, 5)) * (1-pow(1-NdotL/2, 5));
+//  if (coupled_diffuse) rho_d *= (1-Rs);   // No 1-Fresnel involved??
 // 
-//     return vec3(rho_s + rho_d);
+//  return vec3(rho_s + rho_d);
 
 		var	NdotH = this.__cosThetaH;
 		var	NdotL = this.__toLight.z;	// = NdotV
@@ -483,33 +489,33 @@ BRDFAnalytical.prototype =
 		this.__tempSF0 = m*m;
 
 // 		if ( this.useBeckmann )
-// 			this.__tempSF1 = 1.0 / (m*m);			// Beckmann distribution
+// 			this.__tempSF1 = 1.0 / (m*m);	// Beckmann distribution
 // 		else
-			this.__tempSF1 = 1.0 / (m*m * Math.PI);	// Ward distribution
+			this.__tempSF1 = 1.0 / (m*m);	// Ward distribution
 	}
 	, ComputeSpecular_CookTorrance_Beckmann : function( _Color )
 	{
 // From Disney BRDF Explorer
 // The computation simplifies a lot in half-vector space...
 //
-//     float NdotH = dot(N, H);
-//     float VdotH = dot(V, H);
-//     float NdotL = dot(N, L);
-//     float NdotV = dot(N, V);
-//     float oneOverNdotV = 1.0 / NdotV;
+//  float NdotH = dot(N, H);
+//  float VdotH = dot(V, H);
+//  float NdotL = dot(N, L);
+//  float NdotV = dot(N, V);
+//  float oneOverNdotV = 1.0 / NdotV;
 // 
-//     float D = Beckmann(m, NdotH);
-//     float F = Fresnel(f0, VdotH);
+//  float D = Beckmann(m, NdotH);
+//  float F = Fresnel(f0, VdotH);
 // 
-//     NdotH = NdotH + NdotH;
-//     float G = (NdotV < NdotL) ? 
+//  NdotH = NdotH + NdotH;
+//  float G = (NdotV < NdotL) ? 
 //			((NdotV*NdotH < VdotH) ? NdotH / VdotH : oneOverNdotV)
 //			:
 //			((NdotL*NdotH < VdotH) ? NdotH*NdotL / (VdotH*NdotV) : oneOverNdotV);
 // 
-//     if (include_G) G = oneOverNdotV;
-//     float val = D * G ;
-//     if (include_F) val *= F;
+//  if (include_G) G = oneOverNdotV;
+//  float val = D * G ;
+//  if (include_F) val *= F;
 
 		var	NdotH = this.__cosThetaH;
 		var	NdotL = this.__toLight.z;	// = NdotV
@@ -559,6 +565,7 @@ BRDFAnalytical.prototype =
 //		var	m = 1.0 / this.specularRoughness;
 		var	m = Math.lerp( 1e-3, 1.0, this.specularRoughness );
 		this.__tempSF0 = m*m;	// Alpha is advised to be m² by Disney (from http://blog.selfshadow.com/publications/s2012-shading-course/burley/s2012_pbs_disney_brdf_notes_v2.pdf)
+								// §5.4: "For roughness, we found that mapping alpha = roughness2 results in a more perceptually linear change in the roughness"
 	}
 	, ComputeSpecular_Walter : function( _Color )
 	{
@@ -566,34 +573,34 @@ BRDFAnalytical.prototype =
 // 
 // float GGX(float NdotH, float alphaG)
 // {
-//     return alphaG*alphaG / (PI * sqr(NdotH*NdotH*(alphaG*alphaG-1) + 1));
+//		return alphaG*alphaG / (PI * sqr(NdotH*NdotH*(alphaG*alphaG-1) + 1));
 // }
 // 
 // float smithG_GGX(float Ndotv, float alphaG)
 // {
-//     return 2/(1 + sqrt(1 + alphaG*alphaG * (1-Ndotv*Ndotv)/(Ndotv*Ndotv)));
+//		return 2/(1 + sqrt(1 + alphaG*alphaG * (1-Ndotv*Ndotv)/(Ndotv*Ndotv)));
 // }
 // 
 // vec3 BRDF( vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y )
 // {
-//     float NdotL = dot(N, L);
-//     float NdotV = dot(N, V);
-//     if (NdotL < 0 || NdotV < 0) return vec3(0);
-// 
-//     vec3 H = normalize(L+V);
-//     float NdotH = dot(N, H);
-//     float VdotH = dot(V, H);
-// 
-//     float D = GGX(NdotH, alphaG);
-//     float G = smithG_GGX(NdotL, alphaG) * smithG_GGX(NdotV, alphaG);
-// 
-//     // fresnel
-//     float c = VdotH;
-//     float g = sqrt(ior*ior + c*c - 1);
-//     float F = useFresnel ? 0.5 * pow(g-c,2) / pow(g+c,2) * (1 + pow(c*(g+c)-1,2) / pow(c*(g-c)+1,2)) : 1.0;
-// 
-//     float val = Kd/PI + Ks * D * G * F / (4 * NdotL * NdotV);
-//     return vec3(val);
+//	float NdotL = dot(N, L);
+//	float NdotV = dot(N, V);
+//	if (NdotL < 0 || NdotV < 0) return vec3(0);
+//	
+//	vec3 H = normalize(L+V);
+//	float NdotH = dot(N, H);
+//	float VdotH = dot(V, H);
+//	
+//	float D = GGX(NdotH, alphaG);
+//	float G = smithG_GGX(NdotL, alphaG) * smithG_GGX(NdotV, alphaG);
+//	
+//	// fresnel
+//	float c = VdotH;
+//	float g = sqrt(ior*ior + c*c - 1);
+//	float F = useFresnel ? 0.5 * pow(g-c,2) / pow(g+c,2) * (1 + pow(c*(g+c)-1,2) / pow(c*(g-c)+1,2)) : 1.0;
+//	
+//	float val = Kd/PI + Ks * D * G * F / (4 * NdotL * NdotV);
+//	return vec3(val);
 // }
 
 		var	NdotH = this.__cosThetaH;
@@ -613,6 +620,43 @@ BRDFAnalytical.prototype =
 
 		// Here, the actual Fresnel term used by the model is much more complex than the Schlick model but let's assume we're not using it...
 		var	Specular = D * G / (4.0 * HdotL*NdotL);
+		_Color.x = Specular * this.specularColor.x;
+		_Color.y = Specular * this.specularColor.y;
+		_Color.z = Specular * this.specularColor.z;
+	}
+
+	// Ward
+ // I'm using the new bounded albedo reflectance model from http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.169.9908&rep=rep1&type=pdf
+ //
+	, PrepareWard : function()
+	{
+//		var	m = Math.lerp( 1e-3, 1.0, this.specularRoughness );
+		var	m = this.specularRoughness;
+		this.__tempSF0 = m*m;	// Alpha is advised to be m² by Disney (from http://blog.selfshadow.com/publications/s2012-shading-course/burley/s2012_pbs_disney_brdf_notes_v2.pdf)
+								// §5.4: "For roughness, we found that mapping alpha = roughness2 results in a more perceptually linear change in the roughness"
+		this.__tempSF0 = Math.max( 1e-3, this.__tempSF0 );
+
+		this.__tempSF1 = 1.0 / this.__tempSF0;
+		this.__tempSF1 *= this.__tempSF1;	// 1/m²
+	}
+	, ComputeSpecular_Ward : function( _Color )
+	{
+		// Compute H = Light + View
+		this.__tempDV0.set( this.__sinThetaH, 0.0, this.__cosThetaH );  // Normalized H
+		var LdotH = this.__tempDV0.dot( this.__toLight );				// Denormalization factor
+		this.__tempDV0.mul( LdotH );
+
+		var	HdotH = this.__tempDV0.dot( this.__tempDV0 );
+		var	HdotT = this.__sinThetaH;
+		var	HdotN = this.__cosThetaH;
+
+		var	SquareTanThetaH = HdotT / HdotN;
+			SquareTanThetaH *= SquareTanThetaH;
+		var	Exponent = -SquareTanThetaH * this.__tempSF1;
+		var Specular = this.__tempSF1 * Math.exp( Exponent ) * HdotH / (HdotN*HdotN*HdotN*HdotN);
+
+		Specular *= Math.INVPI;	// So albedo is never > 1
+
 		_Color.x = Specular * this.specularColor.x;
 		_Color.y = Specular * this.specularColor.y;
 		_Color.z = Specular * this.specularColor.z;
