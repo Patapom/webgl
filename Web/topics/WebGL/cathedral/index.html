@@ -38,6 +38,7 @@ o3djs.require( 'patapi.scenefile' );
 o3djs.require( 'patapi.camera_firstperson_walk' );
 o3djs.require( 'patapi.skydome' );
 o3djs.require( 'patapi.glow_light_shafts' );
+o3djs.require( 'patapi.pointer_lock' );
 
 var	g_Visible = true;
 var gl = null;
@@ -45,6 +46,7 @@ var	g_StartTime, g_Time = 0.0;
 
 var	g_Camera;
 var	g_CameraManipulator;
+var	g_PointerLock;
 
 var	g_SkyDome;
 var	g_LightR;
@@ -96,6 +98,8 @@ function	Init()
 		if ( gl == null )
 			throw "Your web-browser does not support webgl !";
 
+		g_PointerLock = patapi.pointer_lock.RequestPointerLock();
+
 
 		////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////
@@ -144,6 +148,12 @@ function	Init()
 
 			g_CameraManipulator.m_bAllowFreezeView = false;			// Default is false
 
+			// Request a pointer lock on a canvas click
+			canvas.addEventListener( 'click', function(e) {
+				g_PointerLock.Capture( canvas, function( _locked ) {
+					g_CameraManipulator.setPointerLocked( _locked );
+				} );
+			  }, false );
 		}
 		catch ( _e )
 		{
@@ -186,7 +196,7 @@ function	Init()
 		try
 		{
 			g_PostProcessGlow = patapi.postprocess.CreateGlow( gl, patapi.webgl.width, patapi.webgl.height, "../patapi/Shaders/" );
- // This is a complete disaster because of some moronic precision problems of sort ! Never seen anything quite like that shit...			g_PostProcessGlow.SetColorCube( g_TexColorCube );
+ // This is a complete disaster because of some moronic precision problems of sort! Never seen anything quite like that shit...			g_PostProcessGlow.SetColorCube( g_TexColorCube );
 		}
 		catch ( _e )
 		{
@@ -207,7 +217,7 @@ function	Init()
 		}
 
 		////////////////////////////////////////////////////////////////////////////
-		// Load the walk zone buffer first to prevent the user to escape from the cathedral !
+		// Load the walk zone buffer first to prevent the user from escaping from the cathedral!
 		//
 		patapi.helpers.LoadTypedArray( "WalkZone.bin",
 			function( _URL, _ArrayBuffer )
@@ -338,7 +348,6 @@ function Render()
 		gl.cullFace( gl.BACK );
 
 		// Clear frame buffer
-//		patapi.webgl.Clear( 0.3, 0.5, 0.7, 1.0 );
 		patapi.webgl.Clear( 0.0, 0.0, 0.0, 1.0 );
 
 		var	FrameIndex = patapi.webgl.frameIndex;

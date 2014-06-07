@@ -33,9 +33,11 @@ patapi.cameraFirstPersonWalk = function( _CharacterHeight, _CharacterPosition, _
 	this.m_ButtonsDown = 0;
 	this.m_bFrozen = false;
 	this.m_bAllowFreezeView = false;
+	this.m_bPointerLocked = false;		// Set to true by using the patapi.PointerLock helper
 	
 	// Camera manipulation parameters
 	this.m_QWERTY = false;
+	this.m_FPSMode = true;	// 2014-06-07 -> at last!
 	this.m_ManipulationZoomSpeed = 1.0;
 	this.m_MaxHeadTurnX = 0.5 * Math.PI;
 	this.m_MaxHeadTurnY = 0.45 * Math.PI;
@@ -43,7 +45,7 @@ patapi.cameraFirstPersonWalk = function( _CharacterHeight, _CharacterPosition, _
 	// Keys controlling direction
 	this.m_KeysDown = {};
 	this.m_Walk = 0;
-	this.m_Turn = 0;
+	this.m_TurnOrStrafe = 0;
 
 	// Browser-specific offsets
 	this.m_IE = o3djs.base.IsMSIE();
@@ -63,6 +65,14 @@ patapi.cameraFirstPersonWalk.prototype =
 	// Gets or sets QWERTY mode
 	getQWERTY : function()			{ return this.m_QWERTY; },
 	setQWERTY : function( _Value )	{ this.m_QWERTY = _Value; },
+
+	// Gets or sets FPS mode
+	getFPSMode : function()			{ return this.m_FPSMode; },
+	setFPSMode : function( _Value )	{ this.m_FPSMode = _Value; },
+
+	// Gets or sets the PointeLock mode
+	getPointerLocked : function()			{ return this.m_bPointerLocked; },
+	setPointerLocked : function( _Value )	{ this.m_bPointerLocked = _Value; },
 
 	// Gets the currently pressed buttons
 	getButtonsDown : function()		{ return this.m_ButtonsDown; },
@@ -192,8 +202,16 @@ patapi.cameraFirstPersonWalk.prototype =
 			this.m_CharacterJumpHeight = this.m_CharacterJumpMaxHeight * t;
 		}
 
+		// Perform walking
 		var	ForwardAxis = new vec3( Math.sin( fAngleX ), 0, Math.cos( fAngleX ) ).mul( -this.m_Walk );
-		var	PreviewedCharacterPosition = null;
+		var	PreviewedCharacterPosition = this.m_CharacterPosition.add_( ForwardAxis.mul_( this.m_CharacterWalkSpeed * _DeltaTime ) );			
+
+		// Perform strafing
+		if ( this.m_FPSMode )
+		{
+			var	RightAxis = new vec3( -Math.cos( fAngleX ), 0, Math.sin( fAngleX ) ).mul( -this.m_TurnOrStrafe );
+ 			PreviewedCharacterPosition = PreviewedCharacterPosition.add_( RightAxis.mul_( this.m_CharacterWalkSpeed * _DeltaTime ) );
+		}
 
 		// Check for collisions & height based on walk-zone buffer (if available)
 		if ( this.m_WalkBuffer && this.m_Walk != 0 )
@@ -206,7 +224,6 @@ patapi.cameraFirstPersonWalk.prototype =
 			this.m_CharacterPosition.y = this.m_CharacterPosition.y * this.m_HeightColorScale + this.m_HeightColorOffset;
 
 			// Check for collision
- 			PreviewedCharacterPosition = this.m_CharacterPosition.add_( ForwardAxis.mul_( this.m_CharacterWalkSpeed * _DeltaTime ) );
 			var	NextPx = PreviewedCharacterPosition.x * this.m_XZScale.x + this.m_XZOffset.x;
 			var	NextPz = PreviewedCharacterPosition.z * this.m_XZScale.y + this.m_XZOffset.y;
 
@@ -239,14 +256,13 @@ patapi.cameraFirstPersonWalk.prototype =
 // 				PreviewedCharacterPosition = vec3add( this.m_CharacterPosition, vec3mul( this.m_CharacterWalkSpeed * _DeltaTime, OutVector ) );	// Simply block !
  			}
 		}
-		else
-			PreviewedCharacterPosition = this.m_CharacterPosition.add_( ForwardAxis.mul_( this.m_CharacterWalkSpeed * _DeltaTime ) );			
 		
 		// Perform walking
 		this.m_CharacterPosition = PreviewedCharacterPosition;
 
 		// Perform turning
-		this.m_CharacterAngle -= this.m_Turn * this.m_CharacterTurnSpeed * _DeltaTime;
+		if ( !this.m_FPSMode )
+			this.m_CharacterAngle -= this.m_TurnOrStrafe * this.m_CharacterTurnSpeed * _DeltaTime;
 
 		// Rebuild camera matrix
 		this.m_CameraMatrix = mat4.rotationZYX( fAngleY, fAngleX, 0 );
@@ -328,43 +344,43 @@ if ( this.m_bFrozen )
 	return;	// FROZEN !
 // DEBUG
 
-//		var	MousePos = this.ComputeNormalizedScreenPosition_( _Event.x, _Event.y );	// Only works on Chrome !
-		var	MousePos = this.ComputeNormalizedScreenPosition_( _Event.clientX, _Event.clientY );
+		if ( this.m_bPointerLocked )
+		{	// Handle locked pointer mode
+			// From http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+			//
+			var movementX = _Event.movementX		||
+							_Event.mozMovementX		||
+							_Event.webkitMovementX	||
+							0;
+			var	movementY = _Event.movementY		||
+							_Event.mozMovementY		||
+							_Event.webkitMovementY	||
+							0;
 
+			this.m_ViewAngleX += movementX * Math.PI / this.canvas.width;
+			this.m_ViewAngleY -= movementY * Math.PI / this.canvas.height;
+			if ( !this.m_FPSMode )
+				this.m_ViewAngleX = Math.max( -this.m_MaxHeadTurnX, Math.min( this.m_MaxHeadTurnX, this.m_ViewAngleX ) );
+			this.m_ViewAngleY = Math.max( -this.m_MaxHeadTurnY, Math.min( this.m_MaxHeadTurnY, this.m_ViewAngleY ) );
+		}
+		else
+		{	// Normal unlocked pointer mode
+//			var	MousePos = this.ComputeNormalizedScreenPosition_( _Event.x, _Event.y );	// Only works on Chrome !
+			var	MousePos = this.ComputeNormalizedScreenPosition_( _Event.clientX, _Event.clientY );
 			MousePos[0] = Math.max( -1, Math.min( 1, MousePos[0] ) );
 			MousePos[1] = Math.max( -1, Math.min( 1, MousePos[1] ) );
 
-		this.m_ViewAngleX = MousePos[0] * this.m_MaxHeadTurnX;
-		this.m_ViewAngleY = MousePos[1] * this.m_MaxHeadTurnY;
+			if ( this.m_FPSMode )
+				this.m_ViewAngleX = MousePos[0] * Math.PI;
+			else
+				this.m_ViewAngleX = MousePos[0] * this.m_MaxHeadTurnX;
+			this.m_ViewAngleY = MousePos[1] * this.m_MaxHeadTurnY;
+		}
 	},
 
 	// Handles the mouse wheel event
 	MouseWheel : function( _Event )
 	{
-// 		var	deltaY = Math.sign( _Event.deltaY ) * 120;	// Use the Windows default value
-// 
-// 		this.m_NormalizedTargetDistance -= 0.004 * this.m_ManipulationZoomSpeed * deltaY;
-// 
-// 		var fTargetDistance = this.DeNormalizeTargetDistance_( this.m_NormalizedTargetDistance );
-// 		if ( fTargetDistance > 0.1 )
-// 		{	// Okay! We're far enough so we can reduce the distance anyway
-// 			this.setCameraTargetDistance( fTargetDistance );
-// 		}
-// 		else
-// 		{	// Too close!
-// 			// Clamp distance
-// 			this.m_CameraTargetDistance = 0.1;
-// 			this.m_NormalizedTargetDistance = this.NormalizeTargetDistance_( this.m_CameraTargetDistance );
-// 
-// 			// Let's move the camera forward without changing the target distance...
-// 			var DollyCam = this.getCameraTransform();
-// 				DollyCam[3] = Math3D.addVector( DollyCam[3].splice( 0, 3 ), Math3D.mulScalarVector( 0.004 * this.m_ManipulationZoomSpeed * deltaY, DollyCam[2].splice( 0, 3 ) ) ).concat( 1 );
-// 
-// 			this.setCameraTransform( DollyCam );
-// 		}
-// 
-// 		// Update "cached" data
-// 		this.MouseDown( _Event );
 	},
 
 	KeyDown : function( _Event )
@@ -393,19 +409,19 @@ if ( this.m_bFrozen )
 	UpdateDirections_ : function()
 	{
 		this.m_Walk = 0;
-		this.m_Turn = 0;
+		this.m_TurnOrStrafe = 0;
 
 		if ( this.m_QWERTY )
 		{
-			if ( this.m_KeysDown[37] || this.m_KeysDown[65] ) { this.m_Turn--; }	// A
-			if ( this.m_KeysDown[39] || this.m_KeysDown[68] ) { this.m_Turn++; }	// D
+			if ( this.m_KeysDown[37] || this.m_KeysDown[65] ) { this.m_TurnOrStrafe--; }	// A
+			if ( this.m_KeysDown[39] || this.m_KeysDown[68] ) { this.m_TurnOrStrafe++; }	// D
 			if ( this.m_KeysDown[38] || this.m_KeysDown[87] ) { this.m_Walk++; }	// W
 			if ( this.m_KeysDown[40] || this.m_KeysDown[83] ) { this.m_Walk--; }	// S
 		}
 		else	// AZERTY
 		{
-			if ( this.m_KeysDown[37] || this.m_KeysDown[81] ) { this.m_Turn--; }	// Q
-			if ( this.m_KeysDown[39] || this.m_KeysDown[68] ) { this.m_Turn++; }	// D
+			if ( this.m_KeysDown[37] || this.m_KeysDown[81] ) { this.m_TurnOrStrafe--; }	// Q
+			if ( this.m_KeysDown[39] || this.m_KeysDown[68] ) { this.m_TurnOrStrafe++; }	// D
 			if ( this.m_KeysDown[38] || this.m_KeysDown[90] ) { this.m_Walk++; }	// Z
 			if ( this.m_KeysDown[40] || this.m_KeysDown[83] ) { this.m_Walk--; }	// S
 		}

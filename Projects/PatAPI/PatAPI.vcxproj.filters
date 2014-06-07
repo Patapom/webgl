@@ -168,6 +168,7 @@
     <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\utils.js">
       <Filter>ColorPicker\js</Filter>
     </None>
+    <None Include="..\..\Web\topics\WebGL\patapi\pointer_lock.js" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="O3D">

@@ -79,6 +79,8 @@
     <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.vs" />
     <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.ps" />
     <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.vs" />
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader" />
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\StainedGlass.shader" />
     <None Include="..\..\Web\topics\WebGL\cathedral\webgl.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

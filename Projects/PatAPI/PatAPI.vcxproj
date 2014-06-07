@@ -99,6 +99,7 @@
     <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\jquery.js" />
     <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\layout.js" />
     <None Include="..\..\Web\topics\WebGL\patapi\ColorPicker\js\utils.js" />
+    <None Include="..\..\Web\topics\WebGL\patapi\pointer_lock.js" />
     <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.ps" />
     <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoGaussianFilter.vs" />
     <None Include="..\..\Web\topics\WebGL\patapi\Shaders\PPVideoNormalize.ps" />
