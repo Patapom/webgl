@@ -289,7 +289,7 @@ patapi.PostProcessGlow.prototype =
 
 
 		//////////////////////////////////////////////////////////////////////////
-		// Upsample using gaussian blur (the upsampling is the most important part for a clean glow !)
+		// Upsample using gaussian blur (the upsampling is the most important part for a clean glow!)
 		var	WidthFactor = gl.drawingBufferWidth / gl.drawingBufferHeight;
 
 			// 64X => 32X
@@ -397,7 +397,7 @@ patapi.PostProcessGlow.prototype =
 		var	ShaftsLuminance = this.lightShaftsStrength * 0.05 * SunLuminance;
 
 		var	CameraView = _Camera.Camera2World.r2;
-		var	LightPhase = CameraView.dot( _SunDirection );
+		var	LightPhase = _SunDirection.dot( CameraView );
 			LightPhase = Math.max( 0.0, LightPhase );
 			LightPhase *= LightPhase;
 		ShaftsLuminance *= LightPhase;
@@ -423,7 +423,7 @@ patapi.PostProcessGlow.prototype =
 					that.screenQuad.Draw();
 				} );
 
-			// Scroll buffers
+			// SWap buffers
 			var	Temp = this.FBODownsample4X_LightShaft[0];
 			this.FBODownsample4X_LightShaft[0] = this.FBODownsample4X_LightShaft[1];
 			this.FBODownsample4X_LightShaft[1] = Temp;
@@ -441,8 +441,11 @@ patapi.PostProcessGlow.prototype =
 			function( _Shader )
 			{
 				_Shader.uniforms._TexSourceBuffer.Set( _SourceFBO );
-//				_Shader.uniforms._TexSourceBuffer.Set( that.FBODownsample64X );
-//				_Shader.uniforms._TexSourceBuffer.Set( _TexEmissiveMask );
+//_Shader.uniforms._TexSourceBuffer.Set( that.FBODownsample64X );
+//_Shader.uniforms._TexSourceBuffer.Set( _TexEmissiveMask );
+//_Shader.uniforms._TexSourceBuffer.Set( that.FBODownsample4X );
+//_Shader.uniforms._TexSourceBuffer.Set( that.FBODownsample4X_Masked );
+//_Shader.uniforms._TexSourceBuffer.Set( that.FBODownsample4X_LightShaft[1] );
  				_Shader.uniforms._TexGlowVeiling.Set( that.FBOUpsample16X[1] );
  				_Shader.uniforms._TexLightShafts.Set( that.FBODownsample4X_LightShaft[0] );
 // 				_Shader.uniforms._TexLightShafts.Set( _TexEmissiveMask );

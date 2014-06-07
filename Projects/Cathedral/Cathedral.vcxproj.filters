@@ -28,37 +28,16 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Web\topics\WebGL\cathedral\index.html" />
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\StainedGlass.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="...\..\Web\topics\WebGL\cathedral\scene.json">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\..\Web\topics\WebGL\cathedral\scene.json">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Web\topics\WebGL\cathedral\intro.html" />
     <None Include="..\..\Web\topics\WebGL\cathedral\webgl.js" />
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\StainedGlass.shader">
+      <Filter>Shaders\_SOURCE_</Filter>
+    </None>
+    <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader">
+      <Filter>Shaders\_SOURCE_</Filter>
+    </None>
   </ItemGroup>
 </Project>

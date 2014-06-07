@@ -88,7 +88,7 @@ void	main()
 
 	// Compute a little in-scattering
 	_pView.xyz = WorldPosition.xyz - _Camera2World[3].xyz;
-	_pView.w = length( _pView );
+	_pView.w = length( _pView.xyz );
 	_pView.xyz /= _pView.w;
 
 	float	LightPhase = dot( _pView.xyz, _SunDirection );
