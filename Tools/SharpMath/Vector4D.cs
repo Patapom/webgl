@@ -13,8 +13,6 @@ namespace WMath
 
 		public float			x, y, z, w;
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
-
 		#endregion
 
 		#region PROPERTIES
@@ -43,6 +41,13 @@ namespace WMath
 			set { w = value; }
 		}
 
+		public static Vector4D		Zero	{ get { return new Vector4D( 0, 0, 0, 0 ); } }
+		public static Vector4D		One		{ get { return new Vector4D( 1, 1, 1, 1 ); } }
+		public static Vector4D		UnitX	{ get { return new Vector4D( 1, 0, 0, 0 ); } }
+		public static Vector4D		UnitY	{ get { return new Vector4D( 0, 1, 0, 0 ); } }
+		public static Vector4D		UnitZ	{ get { return new Vector4D( 0, 0, 1, 0 ); } }
+		public static Vector4D		UnitW	{ get { return new Vector4D( 0, 0, 0, 1 ); } }
+
 		#endregion
 
 		#region METHODS
@@ -51,15 +56,17 @@ namespace WMath
 		public						Vector4D()											{}
 		public						Vector4D( Vector2D _Source )						{ Set( _Source ); }
 		public						Vector4D( Vector _Source )							{ Set( _Source ); }
+		public						Vector4D( Vector _Source, float _w )				{ Set( _Source, _w ); }
 		public						Vector4D( Vector4D _Source )						{ Set( _Source ); }
 		public						Vector4D( Point4D _Source )							{ Set( _Source ); }
 		public						Vector4D( float _x, float _y, float _z, float _w )	{ Set( _x, _y, _z, _w ); }
 		public						Vector4D( float[] _f )								{ Set( _f ); }
 
 		// Access methods
-		public void					Zero()											{ x = y = z = w = 0.0f; }
+		public void					MakeZero()										{ x = y = z = w = 0.0f; }
 		public void					Set( Vector2D _Source )							{ x = _Source.x; y = _Source.y; z = w = 0.0f; }
 		public void					Set( Vector _Source )							{ x = _Source.x; y = _Source.y; z = _Source.z; w = 0.0f; }
+		public void					Set( Vector _Source, float _w )					{ x = _Source.x; y = _Source.y; z = _Source.z; w = _w; }
 		public void					Set( Vector4D _Source )							{ x = _Source.x; y = _Source.y; z = _Source.z; w = _Source.w; }
 		public void					Set( Point4D _Source )							{ x = _Source.x; y = _Source.y; z = _Source.z; w = _Source.w; }
 		public void					Set( float _x, float _y, float _z, float _w )	{ x = _x; y = _y; z = _z; w = _w; }
@@ -71,11 +78,13 @@ namespace WMath
 		public void					Max( Vector4D _Op )								{ x = System.Math.Max( x, _Op.x ); y = System.Math.Max( y, _Op.y ); z = System.Math.Max( z, _Op.z ); w = System.Math.Max( w, _Op.w ); }
 		public float				Sum()											{ return x + y + z + w; }
 		public float				Product()										{ return x * y * z * w; }
-		public float				SquareMagnitude()								{ return x * x + y * y + z * z + w * w; }
-		public float				Magnitude()										{ return (float) System.Math.Sqrt( x * x + y * y + z * z + w * w ); }
-		public Vector4D				Normalize()										{ if ( Magnitude() < 1e-12 ) return this; float fINorm = 1.0f / Magnitude(); x *= fINorm; y *= fINorm; z *= fINorm; w *= fINorm; return this; }
-		public bool					IsNormalized()									{ return System.Math.Abs( SquareMagnitude() - 1.0f ) < EPSILON*EPSILON; }
-		public bool					IsTooSmall()									{ return SquareMagnitude() < EPSILON*EPSILON; }
+		public float				LengthSquare									{ get { return x * x + y * y + z * z + w * w; } }
+		public float				Length											{ get { return (float) System.Math.Sqrt( x * x + y * y + z * z + w * w ); } }
+		public float				SquareMagnitude()								{ return LengthSquare; }
+		public float				Magnitude()										{ return Length; }
+		public Vector4D				Normalize()										{ if ( Length < 1e-12 ) return this; float fINorm = 1.0f / Length; x *= fINorm; y *= fINorm; z *= fINorm; w *= fINorm; return this; }
+		public bool					IsNormalized()									{ return System.Math.Abs( LengthSquare - 1.0f ) < float.Epsilon*float.Epsilon; }
+		public bool					IsTooSmall()									{ return LengthSquare < float.Epsilon*float.Epsilon; }
 
 		public void					Clamp( float _fMin, float _fMax )				{ x = System.Math.Max( _fMin, System.Math.Min( _fMax, x ) ); y = System.Math.Max( _fMin, System.Math.Min( _fMax, y ) ); z = System.Math.Max( _fMin, System.Math.Min( _fMax, z ) ); w = System.Math.Max( _fMin, System.Math.Min( _fMax, w ) ); }
 
@@ -158,7 +167,7 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	false;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) <= EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) <= float.Epsilon;
 		}
 		public static bool			operator!=( Vector4D _Op0, Vector4D _Op1 )
 		{
@@ -169,12 +178,12 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	true;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) > EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) > float.Epsilon;
 		}
 		public static bool			operator<( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x < _Op1.x && _Op0.y < _Op1.y && _Op0.z < _Op1.z && _Op0.w < _Op1.w; }
-		public static bool			operator<=( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x < _Op1.x + EPSILON && _Op0.y < _Op1.y + EPSILON && _Op0.z < _Op1.z + EPSILON && _Op0.w < _Op1.w + EPSILON; }
+		public static bool			operator<=( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x < _Op1.x + float.Epsilon && _Op0.y < _Op1.y + float.Epsilon && _Op0.z < _Op1.z + float.Epsilon && _Op0.w < _Op1.w + float.Epsilon; }
 		public static bool			operator>( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x > _Op1.x && _Op0.y > _Op1.y && _Op0.z > _Op1.z && _Op0.w > _Op1.w; }
-		public static bool			operator>=( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x > _Op1.x - EPSILON && _Op0.y > _Op1.y - EPSILON && _Op0.z > _Op1.z - EPSILON && _Op0.w > _Op1.w - EPSILON; }
+		public static bool			operator>=( Vector4D _Op0, Vector4D _Op1 )			{ return _Op0.x > _Op1.x - float.Epsilon && _Op0.y > _Op1.y - float.Epsilon && _Op0.z > _Op1.z - float.Epsilon && _Op0.w > _Op1.w - float.Epsilon; }
 
 		#endregion
 	}

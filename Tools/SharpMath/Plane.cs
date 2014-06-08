@@ -13,8 +13,6 @@ namespace WMath
 		public Vector		n;
 		public float		d;
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
-
 		#endregion
 
 		#region METHODS
@@ -27,7 +25,7 @@ namespace WMath
 		public						Plane( Vector _n, float _d )								{ n = _n; d = _d; }
 
 		// Access methods
-		public Plane				Zero()														{ n.Zero(); d = 0.0f; return this; }
+		public Plane				Zero()														{ n.MakeZero(); d = 0.0f; return this; }
 		public Plane				Set( float _nx, float _ny, float _nz, float _d )			{ n.Set( _nx, _ny, _nz ); d = _d; return this; }
 		public Plane				Set( Point _p, Vector _n )									{ n = _n; d = -((Vector) _p ) | n; return this; }
 		public Plane				Set( Point _p0, Point _p1, Point _p2 )		
@@ -43,14 +41,14 @@ namespace WMath
 
 
 		public float				Distance( Point _p )										{ return (((Vector) _p ) | n) + d; }
-		public bool					Belongs( Point _p )											{ return (float) System.Math.Abs( Distance( _p ) ) < EPSILON; }
+		public bool					Belongs( Point _p )											{ return (float) System.Math.Abs( Distance( _p ) ) < float.Epsilon; }
 
 		// Helpers
 			// Intersection between a plane and a ray
 		public Point				Intersect( Ray _Ray )
 		{
 			float	fGradient = n | _Ray.Aim;
-			if ( (float) System.Math.Abs( fGradient ) < EPSILON )
+			if ( (float) System.Math.Abs( fGradient ) < float.Epsilon )
 				return	null;					// It cannot hit! (or very far away at least!)
 
 			_Ray.Length = (-d - (((Vector) _Ray.Pos) | n)) / fGradient;
@@ -61,13 +59,13 @@ namespace WMath
 		public bool					Intersect( Plane _p, ref Ray _Ray )
 		{
 			// Check if both planes are coplanar
-			if ( (float) System.Math.Abs( 1.0f - (_p.n | n) ) < EPSILON )
+			if ( (float) System.Math.Abs( 1.0f - (_p.n | n) ) < float.Epsilon )
 				return	false;
 
 			// Let's have fun!
 			Point	I;
 
-			_Ray.Pos.Zero();
+			_Ray.Pos.MakeZero();
 			_Ray.Aim = n;
 			if ( (I = _p.Intersect( _Ray )) == null )
 				return	false;

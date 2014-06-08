@@ -13,8 +13,6 @@ namespace WMath
 
 		public float			x, y, z, w;
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
-
 		#endregion
 
 		#region PROPERTIES
@@ -162,7 +160,7 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	false;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) <= EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) <= float.Epsilon;
 		}
 		public static bool			operator!=( Point4D _Op0, Point4D _Op1 )
 		{
@@ -173,12 +171,12 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	true;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) > EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) + (_Op0.z - _Op1.z)*(_Op0.z - _Op1.z) + (_Op0.w - _Op1.w)*(_Op0.w - _Op1.w) > float.Epsilon;
 		}
 		public static bool			operator<( Point4D _Op0, Point4D _Op1 )				{ return _Op0.x < _Op1.x && _Op0.y < _Op1.y && _Op0.z < _Op1.z && _Op0.w < _Op1.w; }
-		public static bool			operator<=( Point4D _Op0, Point4D _Op1 )			{ return _Op0.x < _Op1.x + EPSILON && _Op0.y < _Op1.y + EPSILON && _Op0.z < _Op1.z + EPSILON && _Op0.w < _Op1.w + EPSILON; }
+		public static bool			operator<=( Point4D _Op0, Point4D _Op1 )			{ return _Op0.x < _Op1.x + float.Epsilon && _Op0.y < _Op1.y + float.Epsilon && _Op0.z < _Op1.z + float.Epsilon && _Op0.w < _Op1.w + float.Epsilon; }
 		public static bool			operator>( Point4D _Op0, Point4D _Op1 )				{ return _Op0.x > _Op1.x && _Op0.y > _Op1.y && _Op0.z > _Op1.z && _Op0.w > _Op1.w; }
-		public static bool			operator>=( Point4D _Op0, Point4D _Op1 )			{ return _Op0.x > _Op1.x - EPSILON && _Op0.y > _Op1.y - EPSILON && _Op0.z > _Op1.z - EPSILON && _Op0.w > _Op1.w - EPSILON; }
+		public static bool			operator>=( Point4D _Op0, Point4D _Op1 )			{ return _Op0.x > _Op1.x - float.Epsilon && _Op0.y > _Op1.y - float.Epsilon && _Op0.z > _Op1.z - float.Epsilon && _Op0.w > _Op1.w - float.Epsilon; }
 
 		#endregion
 	}

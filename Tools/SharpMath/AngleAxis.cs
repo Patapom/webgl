@@ -13,8 +13,6 @@ namespace WMath
 		public float			Angle = 0.0f;
 		public Vector			Axis = new Vector( 0.0f, 0.0f, 0.0f );
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
-
 		#endregion
 
 		#region METHODS
@@ -34,15 +32,15 @@ namespace WMath
 			Quat	Temp = new Quat( _q );
 			Temp.Normalize();
 
-			if ( System.Math.Abs( fSine ) > EPSILON )
+			if ( System.Math.Abs( fSine ) > float.Epsilon )
 				Axis = Temp.qv / fSine;
 			else 
-				Axis.Zero();
+				Axis.MakeZero();
 		}
 
 
 		// Access methods
-		public void					Zero()													{ Angle = 0.0f; Axis.Zero(); }
+		public void					Zero()													{ Angle = 0.0f; Axis.MakeZero(); }
 		public void					Set( float _fAngle, float _x, float _y, float _z )		{ Angle = _fAngle; Axis.Set( _x, _y, _z ); }
 		public void					Set( float _fAngle, Vector _Axis )						{ Angle = _fAngle; Axis.Set( _Axis ); }
 		public int					GetRevNum()												{ return (int) System.Math.Floor( 0.5f * Angle / System.Math.PI ); }
@@ -67,8 +65,8 @@ namespace WMath
 		public static AngleAxis		operator-( AngleAxis _Op0, AngleAxis _Op1 )				{ return new AngleAxis( _Op0.Angle - _Op1.Angle, _Op0.Axis - _Op1.Axis ); }
 
 		// Logic operators
-		public static bool			operator==( AngleAxis _Op0, AngleAxis _Op1 )			{ return _Op0.Axis == _Op1.Axis && (float) System.Math.Abs( _Op0.Angle - _Op1.Angle ) <= EPSILON; }
-		public static bool			operator!=( AngleAxis _Op0, AngleAxis _Op1 )			{ return _Op0.Axis != _Op1.Axis || (float) System.Math.Abs( _Op0.Angle - _Op1.Angle ) > EPSILON; }
+		public static bool			operator==( AngleAxis _Op0, AngleAxis _Op1 )			{ return _Op0.Axis == _Op1.Axis && (float) System.Math.Abs( _Op0.Angle - _Op1.Angle ) <= float.Epsilon; }
+		public static bool			operator!=( AngleAxis _Op0, AngleAxis _Op1 )			{ return _Op0.Axis != _Op1.Axis || (float) System.Math.Abs( _Op0.Angle - _Op1.Angle ) > float.Epsilon; }
 
 		#endregion
 	}

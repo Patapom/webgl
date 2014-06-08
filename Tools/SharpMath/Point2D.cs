@@ -12,8 +12,6 @@ namespace WMath
 
 		public float			x, y;
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
-
 		#endregion
 
 		#region PROPERTIES
@@ -94,7 +92,7 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	false;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) <= EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) <= float.Epsilon;
 		}
 		public static bool			operator!=( Point2D _Op0, Point2D _Op1 )
 		{
@@ -105,12 +103,12 @@ namespace WMath
 			if ( (_Op0 as object) != null && (_Op1 as object) == null )
 				return	true;
 
-			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) > EPSILON;
+			return (_Op0.x - _Op1.x)*(_Op0.x - _Op1.x) + (_Op0.y - _Op1.y)*(_Op0.y - _Op1.y) > float.Epsilon;
 		}
 		public static bool			operator<( Point2D _Op0, Point2D _Op1 )			{ return _Op0.x < _Op1.x && _Op0.y < _Op1.y; }
-		public static bool			operator<=( Point2D _Op0, Point2D _Op1 )		{ return _Op0.x < _Op1.x + EPSILON && _Op0.y < _Op1.y + EPSILON; }
+		public static bool			operator<=( Point2D _Op0, Point2D _Op1 )		{ return _Op0.x < _Op1.x + float.Epsilon && _Op0.y < _Op1.y + float.Epsilon; }
 		public static bool			operator>( Point2D _Op0, Point2D _Op1 )			{ return _Op0.x > _Op1.x && _Op0.y > _Op1.y; }
-		public static bool			operator>=( Point2D _Op0, Point2D _Op1 )		{ return _Op0.x > _Op1.x - EPSILON && _Op0.y > _Op1.y - EPSILON; }
+		public static bool			operator>=( Point2D _Op0, Point2D _Op1 )		{ return _Op0.x > _Op1.x - float.Epsilon && _Op0.y > _Op1.y - float.Epsilon; }
 
 		#endregion
 	}
