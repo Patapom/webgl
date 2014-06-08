@@ -10,16 +10,16 @@ namespace WMath
 	{
 		#region CONSTANTS
 
-/*		public static readonly Matrix4x4		ZERO = new Matrix4x4( new float[,] {	{ 0.0f, 0.0f, 0.0f, 0.0f },
+		public static Matrix4x4		Zero { get { return new Matrix4x4( new float[,] {	{ 0.0f, 0.0f, 0.0f, 0.0f },
 																						{ 0.0f, 0.0f, 0.0f, 0.0f },
 																						{ 0.0f, 0.0f, 0.0f, 0.0f },
-																						{ 0.0f, 0.0f, 0.0f, 0.0f } } );
+																						{ 0.0f, 0.0f, 0.0f, 0.0f } } ); } }
 
-		public static readonly Matrix4x4		IDENTITY = new Matrix4x4( new float[,] {{ 1.0f, 0.0f, 0.0f, 0.0f },
+		public static Matrix4x4		Identity { get { return new Matrix4x4( new float[,] {{ 1.0f, 0.0f, 0.0f, 0.0f },
 																						{ 0.0f, 1.0f, 0.0f, 0.0f },
 																						{ 0.0f, 0.0f, 1.0f, 0.0f },
-																						{ 0.0f, 0.0f, 0.0f, 1.0f } } );
-*/
+																						{ 0.0f, 0.0f, 0.0f, 1.0f } } ); } }
+
 		#endregion
 
 		#region NESTED TYPES
@@ -43,8 +43,6 @@ namespace WMath
 		public float[,]			m = new float[4,4];
 		public static int[]		ms_Index	= { 0, 1, 2, 3, 0, 1, 2 };				// This array gives the index of the current component
 		public static int[]		ms_RotIndex = { 0, 1, 2, 0, 1, 2, 0 };				// This array gives the index of the current component considering only the rotation part
-
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
 
 		#endregion
 
@@ -75,7 +73,10 @@ namespace WMath
 		public						Matrix4x4()
 		{
 		}
-
+		public						Matrix4x4( float[] _Source )
+		{
+			Set( _Source );
+		}
 		public						Matrix4x4( float[,] _Source )
 		{
 			Set( _Source );
@@ -94,13 +95,14 @@ namespace WMath
 		public Vector4D				GetRow0()										{ return new Vector4D( m[0, 0], m[0, 1], m[0, 2], m[0, 3] ); }
 		public Vector4D				GetRow1()										{ return new Vector4D( m[1, 0], m[1, 1], m[1, 2], m[1, 3] ); }
 		public Vector4D				GetRow2()										{ return new Vector4D( m[2, 0], m[2, 1], m[2, 2], m[2, 3] ); }
+		public Vector4D				GetRow3()										{ return new Vector4D( m[3, 0], m[3, 1], m[3, 2], m[3, 3] ); }
 		public Point4D				GetTrans()										{ return new Point4D ( m[3, 0], m[3, 1], m[3, 2], m[3, 3] ); }
 		public void					SetRow( int _dwRowIndex, Vector4D _Row )		{ m[_dwRowIndex, 0] = _Row.x; m[_dwRowIndex, 1] = _Row.y; m[_dwRowIndex, 2] = _Row.z; m[_dwRowIndex, 3] = _Row.w; }
 		public void					SetRow0( Vector4D _Row )						{ m[0, 0] = _Row.x; m[0, 1] = _Row.y; m[0, 2] = _Row.z; m[0, 3] = _Row.w; }
 		public void					SetRow1( Vector4D _Row )						{ m[1, 0] = _Row.x; m[1, 1] = _Row.y; m[1, 2] = _Row.z; m[1, 3] = _Row.w; }
 		public void					SetRow2( Vector4D _Row )						{ m[2, 0] = _Row.x; m[2, 1] = _Row.y; m[2, 2] = _Row.z; m[2, 3] = _Row.w; }
 		public void					SetTrans( Point4D _Trans )						{ m[3, 0] = _Trans.x; m[3, 1] = _Trans.y; m[3, 2] = _Trans.z; m[3, 3] = _Trans.w; }
-		public void					SetRow( int _dwRowIndex, Vector _Row )			{ m[_dwRowIndex, 0] = _Row.x; m[_dwRowIndex, 1] = _Row.y; m[_dwRowIndex, 2] = _Row.z; }
+		public void					SetRow( int _dwRowIndex, Vector _Row, float _W ){ m[_dwRowIndex, 0] = _Row.x; m[_dwRowIndex, 1] = _Row.y; m[_dwRowIndex, 2] = _Row.z; m[_dwRowIndex,3] = _W; }
 		public void					SetRow0( Vector _Row )							{ m[0, 0] = _Row.x; m[0, 1] = _Row.y; m[0, 2] = _Row.z; }
 		public void					SetRow1( Vector _Row )							{ m[1, 0] = _Row.x; m[1, 1] = _Row.y; m[1, 2] = _Row.z; }
 		public void					SetRow2( Vector _Row )							{ m[2, 0] = _Row.x; m[2, 1] = _Row.y; m[2, 2] = _Row.z; }
@@ -116,6 +118,17 @@ namespace WMath
 		public Vector				GetScale()										{ return new Vector( new Vector( m[0, 0], m[0, 1], m[0, 2] ).Magnitude(), new Vector( m[1, 0], m[1, 1], m[1, 2] ).Magnitude(), new Vector( m[2, 0], m[2, 1], m[2, 2] ).Magnitude() ); }
 		public void					SetScale( Vector _Scale )						{ m[0, 0] *= _Scale.x; m[1, 1] *= _Scale.y; m[2, 2] *= _Scale.z; }
 		public Matrix4x4			Scale( Vector _Scale )							{ m[0, 0] *= _Scale.x; m[0, 1] *= _Scale.x; m[0, 2] *= _Scale.x; m[1, 0] *= _Scale.y; m[1, 1] *= _Scale.y; m[1, 2] *= _Scale.y; m[2, 0] *= _Scale.z; m[2, 1] *= _Scale.z; m[2, 2] *= _Scale.z; return this; }
+		public void					Set( float[] _Source )
+		{
+			if ( _Source == null )
+				return;
+			if ( _Source.Length != 16 )
+				throw new Exception( "Unexpected array size!" );
+			m[0,0] = _Source[4*0+0];	m[0,1] = _Source[4*0+1];	m[0,2] = _Source[4*0+2];	m[0,3] = _Source[4*0+3];
+			m[1,0] = _Source[4*1+0];	m[1,1] = _Source[4*1+1];	m[1,2] = _Source[4*1+2];	m[1,3] = _Source[4*1+3];
+			m[2,0] = _Source[4*2+0];	m[2,1] = _Source[4*2+1];	m[2,2] = _Source[4*2+2];	m[2,3] = _Source[4*2+3];
+			m[3,0] = _Source[4*3+0];	m[3,1] = _Source[4*3+1];	m[3,2] = _Source[4*3+2];	m[3,3] = _Source[4*3+3];
+		}
 		public void					Set( float[,] _Source )
 		{
 			if ( _Source == null )
@@ -178,7 +191,7 @@ namespace WMath
 			if ( m[0, 0] < 0.0 && m[2, 2] < 0.0 )
 				fCosY = -fCosY;
 
-			if ( (float) System.Math.Abs( fCosY ) > EPSILON )
+			if ( (float) System.Math.Abs( fCosY ) > float.Epsilon )
 			{
 				Ret.x = (float)  System.Math.Atan2( m[1, 2] / fCosY, m[2, 2] / fCosY );
 				Ret.y = (float) -System.Math.Atan2( fSinY, fCosY );
@@ -210,7 +223,7 @@ namespace WMath
 		public Matrix4x4			Invert()
 		{
 			float	fDet = Determinant();
-			if ( (float) System.Math.Abs(fDet) < EPSILON )
+			if ( (float) System.Math.Abs(fDet) < float.Epsilon )
 				throw new MatrixException( "Matrix is not invertible!" );		// The matrix is not invertible! Singular case!
 
 			float	fIDet = 1.0f / fDet;
@@ -284,7 +297,7 @@ namespace WMath
 			}
 
 				// The complementary axis is the safest to be recomputed
-			SetRow( MinDivergenceRowIndex, ((Vector) GetRow( ms_RotIndex[MinDivergenceRowIndex+1] ) ^ (Vector) GetRow( ms_RotIndex[MinDivergenceRowIndex+2] )).Normalize() );
+			SetRow( MinDivergenceRowIndex, ((Vector) GetRow( ms_RotIndex[MinDivergenceRowIndex+1] ) ^ (Vector) GetRow( ms_RotIndex[MinDivergenceRowIndex+2] )).Normalize(), 0.0f );
 
 			// Find the minimal divergence in the remaining 2 axes
 			float	fDivergence0 = System.Math.Abs( GetRow( ms_RotIndex[MinDivergenceRowIndex+0] ) | GetRow( ms_RotIndex[MinDivergenceRowIndex+1] ) );
@@ -297,14 +310,14 @@ namespace WMath
 				MinSecondDivergenceRowIndex = ms_RotIndex[MinDivergenceRowIndex + 1];
 
 				// The complementary axis is the safest to be recomputed
-			SetRow( MinSecondDivergenceRowIndex, ((Vector) GetRow( ms_RotIndex[MinSecondDivergenceRowIndex+1] ) ^ (Vector) GetRow( ms_RotIndex[MinSecondDivergenceRowIndex+2] )).Normalize() );
+			SetRow( MinSecondDivergenceRowIndex, ((Vector) GetRow( ms_RotIndex[MinSecondDivergenceRowIndex+1] ) ^ (Vector) GetRow( ms_RotIndex[MinSecondDivergenceRowIndex+2] )).Normalize(), 0.0f );
 
 			// Compute the final, remaining axis
 			int	MinDivergenceIndex = System.Math.Min( MinDivergenceRowIndex, MinSecondDivergenceRowIndex );
 			int	MaxDivergenceIndex = System.Math.Max( MinDivergenceRowIndex, MinSecondDivergenceRowIndex );
 			int	RemainingAxisIndex = MinDivergenceIndex == 1 ? 0 : (MaxDivergenceIndex == 1 ? 2 : 1);
 
-			SetRow( RemainingAxisIndex, (Vector) GetRow( MinDivergenceRowIndex ) ^ (Vector) GetRow( MinSecondDivergenceRowIndex ) );
+			SetRow( RemainingAxisIndex, (Vector) GetRow( MinDivergenceRowIndex ) ^ (Vector) GetRow( MinSecondDivergenceRowIndex ), 0.0f );
 		}
 
 		/// <summary>
@@ -473,7 +486,7 @@ namespace WMath
 				s = (float) System.Math.Sqrt( (_Mat.m[mi, mi] - (_Mat.m[mj, mj] + _Mat.m[mk, mk])) + 1.0f );
 				q[i] = s * 0.5f;
 
-				if ( System.Math.Abs( s ) > EPSILON )
+				if ( System.Math.Abs( s ) > float.Epsilon )
 					s = 0.5f /s;
 
 				q.qs = (_Mat.m[mj, mk] - _Mat.m[mk, mj]) * s;

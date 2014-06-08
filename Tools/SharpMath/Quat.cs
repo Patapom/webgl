@@ -36,7 +36,7 @@ namespace WMath
 												COMPONENTS.I
 											  };							// This array gives the index of the next component of the complex part of the quaternion (borrowed from 3DS-MAX sources)
 
-		internal static float		EPSILON = float.Epsilon;	// Use the Global class to modify this epsilon
+		public static readonly Quat	Identity = new Quat( 0, 0, 0, 0 );
 
 		#endregion
 
@@ -55,7 +55,7 @@ namespace WMath
 		}
 
 		// Access methods
-		public void					Zero()													{ qs = 0.0f; qv.Zero(); }
+		public void					Zero()													{ qs = 0.0f; qv.MakeZero(); }
 		public void					Set( float _s, float _i, float _j, float _k )			{ qs = _s; qv.x = _i; qv.y = _j; qv.z = _k; }
 		public void					Set( float _s, Vector _v )								{ qs = _s; qv.Set( _v ); }
 		public void					Set( Quat _q )											{ qs = _q.qs; qv.Set( _q.qv ); }
@@ -68,7 +68,7 @@ namespace WMath
 			if ( (float) System.Math.Abs( qs ) < 1.0f )
 			{
 				float	fAngle = (float) System.Math.Acos( qs ), fSine = (float) System.Math.Sin( fAngle );
-				if ( System.Math.Abs( fSine ) >= EPSILON )
+				if ( System.Math.Abs( fSine ) >= float.Epsilon )
 				{
 					float	fCoeff = fAngle / fSine;
 					qv.x *= fCoeff;
@@ -97,7 +97,7 @@ namespace WMath
 
 			fTheta = (float) System.Math.Sqrt( qv.x*qv.x + qv.y*qv.y + qv.z*qv.z );
 			fScale = 1.0f;
-			if ( fTheta > EPSILON )
+			if ( fTheta > float.Epsilon )
 				fScale = (float) System.Math.Sin( fTheta ) / fTheta;
 			qv.x *= fScale;
 			qv.y *= fScale;
@@ -109,10 +109,16 @@ namespace WMath
 		public float				Magnitude()												{ return (float) System.Math.Sqrt( SquareMagnitude() ); }
 
 		// Helpers
+		public void					Conjugate()
+		{
+			qv.x = -qv.x;
+			qv.y = -qv.y;
+			qv.z = -qv.z;
+		}
 		public void					Normalize()
 		{
 			float	fNorm = Magnitude();
-			if ( fNorm < EPSILON || System.Math.Abs( fNorm - 1.0f ) < EPSILON )
+			if ( fNorm < float.Epsilon || System.Math.Abs( fNorm - 1.0f ) < float.Epsilon )
 				return;
 
 			float	fINorm = 1.0f / fNorm;
@@ -122,7 +128,7 @@ namespace WMath
 		public void					Invert()
 		{
 			float	fNorm = SquareMagnitude();
-			if ( fNorm < EPSILON )
+			if ( fNorm < float.Epsilon )
 				return;
 
 			float	fINorm = -1.0f / fNorm;
@@ -131,13 +137,13 @@ namespace WMath
 			qv.z *=  fINorm;
 			qs   *= -fINorm;
 		}
-		public void					MakeIdentity()											{ qs = 0.0f; qv.Zero(); }
+		public void					MakeIdentity()											{ qs = 0.0f; qv.MakeZero(); }
 		public void					MakeOrtho( Vector _Axis )								{ Set( this * new Quat( 0.0f, _Axis ) ); }
 		public void					MakeClosest( Quat _q )									{ if ( (this | _q) < 0.0f ) Set( -this ); }
 		public void					MakeSLERP( Quat _q0, Quat _q1, float _t )
 		{
 			float	fCosine = _q0 | _q1, fSine = (float) System.Math.Sqrt( 1.0f - fCosine*fCosine );
-			if ( fSine < EPSILON )
+			if ( fSine < float.Epsilon )
 			{	// Clamp to lowest bound
 				Set( _q0 );
 				return;
@@ -153,7 +159,7 @@ namespace WMath
 		public Quat					SLERP( Quat _q, float _t )
 		{
 			float	fCosine = this | _q, fSine = (float) System.Math.Sqrt( System.Math.Abs( 1.0f - fCosine*fCosine ) );
-			if ( System.Math.Abs( fSine ) < EPSILON )
+			if ( System.Math.Abs( fSine ) < float.Epsilon )
 				return	this;
 
 			float	fAngle = (float) System.Math.Atan2( fSine, fCosine ), fInvSine = 1.0f / fSine;
@@ -179,13 +185,13 @@ namespace WMath
 			float	fNbRevs = 0.0f;
 			Quat	pp, qq;
 
-			if ( fOmega < System.Math.PI - EPSILON )
+			if ( fOmega < System.Math.PI - float.Epsilon )
 			{
 				MakeSQUAD( _q0, _q1, _t0, _t1, _t );
 				return;
 			}
 
-			while ( fOmega > System.Math.PI - EPSILON )
+			while ( fOmega > System.Math.PI - float.Epsilon )
 			{
 				fOmega -= (float) System.Math.PI;
 				fNbRevs += 1.0f;
@@ -221,6 +227,35 @@ namespace WMath
 
 		// Cast operators
 		public static explicit		operator AngleAxis( Quat _Source )						{ return new AngleAxis( _Source ); }
+		public static explicit		operator Matrix3x3( Quat _Source )
+		{
+			Matrix3x3	Ret = new Matrix3x3();
+
+			float	xs, ys, zs, wx, wy, wz, xx, xy, xz, yy, yz, zz;
+
+			Quat	q = new Quat( _Source );
+			q.Normalize();		// A cast to a matrix only works with normalized quaternions!
+
+			xs = 2.0f * q.qv.x;	ys = 2.0f * q.qv.y;	zs = 2.0f * q.qv.z;
+
+			wx = q.qs * xs;		wy = q.qs * ys;		wz = q.qs * zs;
+			xx = q.qv.x * xs;	xy = q.qv.x * ys;	xz = q.qv.x * zs;
+			yy = q.qv.y * ys;	yz = q.qv.y * zs;	zz = q.qv.z * zs;
+
+			Ret[Matrix3x3.COEFFS.A] = 1.0f -	yy - zz;
+			Ret[Matrix3x3.COEFFS.D] =			xy - wz;
+			Ret[Matrix3x3.COEFFS.G] =			xz + wy;
+
+			Ret[Matrix3x3.COEFFS.B] =			xy + wz;
+			Ret[Matrix3x3.COEFFS.E] = 1.0f -	xx - zz;
+			Ret[Matrix3x3.COEFFS.H] =			yz - wx;
+
+			Ret[Matrix3x3.COEFFS.C] =			xz - wy;
+			Ret[Matrix3x3.COEFFS.F] =			yz + wx;
+			Ret[Matrix3x3.COEFFS.I] = 1.0f -	xx - yy;
+
+			return	Ret;
+		}
 		public static explicit		operator Matrix4x4( Quat _Source )
 		{
 			Matrix4x4	Ret = (new Matrix4x4()).MakeIdentity();
@@ -307,8 +342,8 @@ namespace WMath
 		public static float			operator|( Quat _Op0, Quat _Op1 )						{ return (_Op0.qs * _Op1.qs) + (_Op0.qv | _Op1.qv); }
 
 		// Logic operators
-		public static bool			operator==( Quat _Op0, Quat _Op1 )						{ return _Op0.qv == _Op1.qv && (float) System.Math.Abs( _Op0.qs - _Op1.qs ) <= EPSILON; }
-		public static bool			operator!=( Quat _Op0, Quat _Op1 )						{ return _Op0.qv != _Op1.qv || (float) System.Math.Abs( _Op0.qs - _Op1.qs ) > EPSILON; }
+		public static bool			operator==( Quat _Op0, Quat _Op1 )						{ return _Op0.qv == _Op1.qv && (float) System.Math.Abs( _Op0.qs - _Op1.qs ) <= float.Epsilon; }
+		public static bool			operator!=( Quat _Op0, Quat _Op1 )						{ return _Op0.qv != _Op1.qv || (float) System.Math.Abs( _Op0.qs - _Op1.qs ) > float.Epsilon; }
 
 		#endregion
 	}

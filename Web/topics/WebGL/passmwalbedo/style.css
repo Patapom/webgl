@@ -21,36 +21,73 @@ html, body
 /* Contains the search & results */
 #PanelLeft
 {
-	text-align:			left;
-	border:				1px;
-	border-style:		solid;
-	border-color:		#000000;
-	text-align:			center;
-	background-color:	#C0C0C0;	/* Light Gray */
-	
 	position:			fixed;
 	width:				30%;
 	height:				100%;
 	left:				0;
 	right:				auto;
+
+	text-align:			left;
+/*
+	border:				1px;
+	border-style:		solid;
+	border-color:		#000000;
+*/
+	text-align:			center;
+	background-color:	#C0C0C0;	/* Light Gray */
 }
 
 /* Contains the visualisations */
 #PanelRight
 {
-	text-align:			left;
-	border:				1px;
-	border-style:		solid;
-	border-color:		#000000;
-	text-align:			center;
-	background-color:	#C0C0C0;	/* Light Gray */
-
 	position:			fixed;
 	width:				70%;
 	height:				100%;
 	left:				30%;
 	right:				auto;
+
+	text-align:			left;
+	border-left:		2px;
+	border-left-style:	solid;
+	border-color:		#000000;
+	text-align:			center;
+	background-color:	#C0C0C0;	/* Light Gray */
 }
+
+/* Top-Left Contains Search Box */
+#PanelSearch
+{
+	background-color:	#C0C0C0;	/* Light Gray */
+
+	height:				15%;
+}
+
+/* Bottom-Left Contains Results */
+#PanelResult
+{
+	background-color:	#C0C0C0;	/* Light Gray */
+
+	height:				auto;
+}
+
+
+/* Top-Right Contains 3D visualization */
+#PanelVisuTop
+{
+	background-color:	#C0C0C0;	/* Light Gray */
+
+	height:				20%;
+}
+
+/* Bottom-Left Contains Results */
+#PanelVisuBottom
+{
+	background-color:	#C0C0C0;	/* Light Gray */
+
+	height:				auto;
+}
+
+
 
 #input_type
 {
