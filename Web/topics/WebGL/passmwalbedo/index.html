@@ -17,234 +17,328 @@
 <script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="/js/jquery.layout-1.3.0.js"></script>
 
+<!-- patapi -->
+<script type="text/javascript" src="../../WebGL/o3djs/base.js"></script>			<!-- Include a small part of the O3D library to help us with includes-->
+<script type="text/javascript" src="../../WebGL/patapi/base.js"></script>			<!-- Include PatAPI-->
+
 <!--  -->
 <script type="text/javascript">
+o3djs.require( 'patapi' );
+o3djs.require( 'patapi.ui' );
 
-var	inputOrder = 2;
-var	polyDegree = 2;
+
+// This is the list of enums declared in the C# database
+//	public enum		TAGS_TYPE
+// 	{
+//		NONE,
+// 		WOOD,
+// 		STONE,
+// 		SKIN,
+// 		FABRIC,
+// 		PAPER_CANVAS,
+// 		PAINT,
+// 		PLASTIC,
+// 	}
+// 
+// 	public enum		TAGS_COLOR
+// 	{
+// 		NONE,
+// 		BLACK,
+// 		WHITE,
+// 		GRAY,
+// 		RED,
+// 		GREEN,
+// 		BLUE,
+// 		YELLOW,
+// 		CYAN,
+// 		PURPLE,
+// 		ORANGE,
+// 	}
+// 
+// 	public enum		TAGS_SHADE
+// 	{
+// 		NONE,
+// 		DARK,
+// 		BRIGHT,
+// 		NEUTRAL,
+// 	}
+// 
+// 	[Flags]
+// 	public enum		TAGS_NATURE
+// 	{
+// 		NONE = 0,
+// 		NATURE = 256,
+// 		LEAF = 1 | NATURE,
+// 		SOIL = 2 | NATURE,
+// 		BARK = 3 | NATURE,
+// 	}
+// 
+// 	[Flags]
+// 	public enum		TAGS_FURNITURE
+// 	{
+// 		NONE = 0,
+// 		FURNITURE = 256,
+// 		TABLE = 1 | FURNITURE,
+// 		CHAIR = 2 | FURNITURE,
+// 		DESK = 3 | FURNITURE,
+// 		WARDROBE = 4 | FURNITURE,
+// 		CABINET = 5 | FURNITURE,
+// 	}
+// 
+// 	[Flags]
+// 	public enum		TAGS_CONSTRUCTION
+// 	{
+// 		NONE = 0,
+// 		CONSTRUCTION = 256,
+// 		WALL = 1 | CONSTRUCTION,
+// 		FLOOR = 2 | CONSTRUCTION,
+// 		DOOR_WINDOW = 3 | CONSTRUCTION,
+// 		ROAD_PAVEMENT = 4 | CONSTRUCTION,
+// 	}
+// 
+// 	[Flags]
+// 	public enum		TAGS_MODIFIERS
+// 	{
+// 		NONE = 0,
+// 		WET = 1,
+// 		DUSTY = 2,
+// 		FROSTY = 4,
+// 		VARNISHED = 8,
+// 		OLD = 16,
+// 		NEW = 32,
+//	}
+//
+// Create the dynamic tags that are provided with the couple ("friendly name", "C# enum name"
+var	Tags = [
+	// Type
+	{ N : "Wood", F : "WOOD" },
+	{ N : "Stone", F : "STONE" },
+	{ N : "Skin", F : "SKIN" },
+	{ N : "Fabric", F : "FABRIC" },
+	{ N : "Paper/Canvas", F : "PAPER_CANVAS" },
+	{ N : "Paint", F : "PAINT" },
+	{ N : "Plastic/Resin", F : "PLASTIC" },
+
+	// Color
+	{ N : "Black", F : "BLACK" },
+	{ N : "White", F : "WHITE" },
+	{ N : "Gray", F : "GRAY" },
+	{ N : "Red", F : "RED" },
+	{ N : "Green", F : "GREEN" },
+	{ N : "Blue", F : "BLUE" },
+	{ N : "Yellow", F : "YELLOW" },
+	{ N : "Cyan", F : "CYAN" },
+	{ N : "Purple", F : "PURPLE" },
+	{ N : "Orange", F : "ORANGE" },
+
+	// Shade
+	{ N : "Dark", F : "DARK" },
+	{ N : "Bright", F : "BRIGHT" },
+	{ N : "Neutral", F : "NEUTRAL" },
+
+	// Nature
+	{ N : "Nature", F : "NATURE" },
+	{ N : "Leaf", F : "LEAF" },
+	{ N : "Soil", F : "SOIL" },
+	{ N : "Bark", F : "BARK" },
+
+	// Furniture
+	{ N : "Furniture", F : "FURNITURE" },
+	{ N : "Table", F : "TABLE" },
+	{ N : "Chair", F : "CHAIR" },
+	{ N : "Desk", F : "DESK" },
+	{ N : "Wardrobe", F : "WARDROBE" },
+	{ N : "Cabinet", F : "CABINET" },
+
+	// Construction
+	{ N : "Construction", F : "CONSTRUCTION" },
+	{ N : "Wall", F : "WALL" },
+	{ N : "Floor", F : "FLOOR" },
+	{ N : "Door/Window", F : "DOOR_WINDOW" },
+	{ N : "Road/Pavement", F : "ROAD_PAVEMENT" },
+
+	// Modifiers
+	{ N : "Wet", F : "WET," },
+	{ N : "Dusty", F : "DUSTY," },
+	{ N : "Frosty", F : "FROSTY" },
+	{ N : "Varnished", F : "VARNISHED" },
+	{ N : "Old", F : "OLD" },
+	{ N : "New", F : "NEW" },
+];
+
+var	databasePath = "database/";
+var	database;	// JSON database loads there
+
+var	selectedEntry = null;
 
 $(document).ready( function() {
 
-	$( '#InputORder_XY' ).click( function( e ) { inputOrder = 0; } );
-	$( '#InputORder_YX' ).click( function( e ) { inputOrder = 1; } );
-	$( '#InputORder_XXYY' ).click( function( e ) { inputOrder = 2; } );
-	$( '#InputORder_YYXX' ).click( function( e ) { inputOrder = 3; } );
+	// Load JSON database
+	try
+	{
+		var	FileContent = patapi.helpers.LoadFileSynchronous( databasePath + "database.json" );
+		database = eval( '(' + FileContent + ')' );
 
-	$( '#PolyDegree1' ).click( function( e ) { polyDegree = 1; } );
-	$( '#PolyDegree2' ).click( function( e ) { polyDegree = 2; } );
-	$( '#PolyDegree3' ).click( function( e ) { polyDegree = 3; } );
-	$( '#PolyDegree4' ).click( function( e ) { polyDegree = 4; } );
+		// Setup database
+		database.Entries.forEach( function( _Entry ) {
+			_Entry.FriendlyName_Lower = _Entry.FriendlyName.toLowerCase();
+			_Entry.Description_Lower = _Entry.Description.toLowerCase();
+			_Entry.Tags_Split = _Entry.Tags.split( ',' );
+		} );
+	}
+	catch ( _e )
+	{
+		alert( "Error during database parsing: " + _e );
+		return;
+	}
 
-	$('#Button_Solve').button().click( function() {
+	// Main database query function
+	var	that = this;
 
-		// Isolate and clean input fields
-		var	input = $('#input_text')[0].value;
-		var	cleanInput = input.replace( /\s/gi, "," );
-		
-		var	rawData = cleanInput.split( "," );
-		var	errors = "";
-		var	data = [];
-		for ( var i=0; i < rawData.length; i++ )
-		{
-			var	v = rawData[i];
-			if ( v == "" )
-				continue;	// Invalid...
+	var	allowDatabaseQuery = false;
+	function QueryDatabase() {
+		if ( !database || !allowDatabaseQuery )
+			return;
 
-			try
+		// Clear selection when we rebuild
+		selectedEntry = null;
+
+		// Prepare text search
+		var	SearchForText = $( '#SearchTextBox' )[0].value;
+			SearchForText = SearchForText.toLowerCase();
+		var	EnableTextSearch = SearchForText != "";
+		var	Keywords = SearchForText.split( ',' );
+		for ( var i=0; i < Keywords.length; i++ )
+			Keywords[i] = Keywords[i].trim();
+
+		// Prepare tag search
+		var	SearchTags = [];
+		Tags.forEach( function( _Tag ) {
+			if ( _Tag.checkBox.parameters.value )
+				SearchTags.push( _Tag );
+		} );
+
+		// Collect all entries in the database that match our criteria
+		var	Results = [];
+		database.Entries.forEach( function( _Entry ) {
+
+			// Filter by text
+			var	found = false;
+			if ( EnableTextSearch ) 
 			{
-				var	value = parseFloat( v );
-				if ( !isNaN( value ) )
-					data.push( value );
-				else
-					throw "fuck!";
-			}
-			catch ( e )
-			{
-				errors += (errors != "" ? ", " : "") + v;
-			}
-		}
-
-		// Re-order data based on user's choice
-		var		Xmin = 1e18, Xmax = -1e18;
-		var		Ymin = 1e18, Ymax = -1e18;
-		var		couplesCount = Math.floor( data.length / 2 ) | 0;
-		var		couples = [];
-		for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
-		{
-			var	couple;
-			switch ( inputOrder ) {
-			case 0: couple = { x: data[2*coupleIndex+0], y: data[2*coupleIndex+1] }; break;
-			case 1: couple = { y: data[2*coupleIndex+0], x: data[2*coupleIndex+1] }; break;
-			case 2: couple = { x: data[coupleIndex], y: data[couplesCount+coupleIndex] }; break;
-			case 3: couple = { y: data[coupleIndex], x: data[couplesCount+coupleIndex] }; break;
-			}
-			couples.push( couple );
-
-			// Keep track of the maxima
-			Xmin = Math.min( Xmin, couple.x );
-			Xmax = Math.max( Xmax, couple.x );
-			Ymin = Math.min( Ymin, couple.y );
-			Ymax = Math.max( Ymax, couple.y );
-		}
-
-		// Write infos about the data
-		{
-			var	infos = "";
-			if ( errors != "" )
-				infos += "<strong>Warning: Failed to parse the following values: " + errors + "</strong><br />";
-			else if ( 2*couplesCount != data.length )
-				infos += "<strong>Warning: " + data.length + " values were provided, which is an odd number. Only " + couplesCount + " couples of data could be formed.</strong><br />";
-
-			infos += couplesCount + " couples of values found:<br />";
-			for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
-				infos += (coupleIndex > 0 ? ", " : "") + "(" + couples[coupleIndex].x.toFixed( 3 ) + ", " + couples[coupleIndex].y.toFixed( 3 ) + ")";
-			infos += "<br />";
-
-			$('#input_infos').html( infos );
-		}
-
-		// Solve
-		var	result = llsqpy4Solve( couples, polyDegree );
-
-		// Show the result
-		{
-			function Format( num ) { return (num > 0.0 ? "+ " : "- ") + Math.abs( num ); }
-
-			var	infos = "";
-			switch ( polyDegree )
-			{
-			case 1: infos += "y = " + result.coeffs[1] + " * x " + Format( result.coeffs[0] ); break;
-			case 2: infos += "y = " + result.coeffs[2] + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
-			case 3: infos += "y = " + result.coeffs[3] + " * x^3 " + Format( result.coeffs[2] ) + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
-			case 4: infos += "y = " + result.coeffs[4] + " * x^4 " + Format( result.coeffs[3] ) + " * x^3 " + Format( result.coeffs[2] ) + " * x^2 " + Format( result.coeffs[1] ) + " * x " + Format( result.coeffs[0] ); break;
-			}
-			$('#result').html( infos );
-		}
-
-		// Write infos about the result
-		{
-			var	infos = "<br/>Residuals for each point:<br/>";
-			var	errorMin = 1e6, errorMax = 0.0, errorAvg = 0.0;
-			for ( var residualIndex=0; residualIndex < result.residuals.length; residualIndex++ )
-			{
-				var	residual = result.residuals[residualIndex];
-				infos += (residualIndex > 0 ? ", " : "") + residual;
-
-				// Analyze error
-				residual = Math.abs( residual );
-				errorMin = Math.min( errorMin, residual );
-				errorMax = Math.max( errorMax, residual );
-				errorAvg += residual;
-			}
-			errorAvg /= result.residuals.length;
-			infos += "<br/>Error Min=" + errorMin + " Max=" + errorMax + " Average=" + errorAvg;
-			$('#result_infos').html( infos );
-		}
-
-		// Draw result
-		{
-			var	W = 600;
-			var	H = 400;
-
-			// Create our canvas
-			var	graphContainer = $('#graph');
-			graphContainer[0].innerHTML = '<canvas id="canvas" width="' + W + 'px" height="' + H + '"px"></canvas>';
-
-			var	canvas = $('#canvas');
-  
-			var g = canvas[0].getContext( "2d" );
-			g.scale( 1.0, 1.0 );
-
-			// Draw background
-			g.fillStyle = "#FFF";
-			g.fillRect( 0, 0, W, H );
-
-			// Find cute boundaries
-			var	Xcenter = 0.5 * (Xmin + Xmax);
-			var	Ycenter = 0.5 * (Ymin + Ymax);
-			var	sizeX = Xmax - Xmin;
-			var	sizeY = Ymax - Ymin;
-				sizeX *= 1.1;
-				sizeY *= 1.1;
-			Xmin = Xcenter - 0.5 * sizeX;
-			Ymin = Ycenter - 0.5 * sizeY;
-
-			function	Data2ClientX( x )	// Transforms a data-space X into a client-space X
-			{
-				var	r = W * (x - Xmin) / sizeX;
-				return r;
-			}
-			function	Client2DataX( x )	// Transforms a client-space X into a data-space X
-			{
-				var r = x * sizeX / W + Xmin;
-				return r;
-			}
-			function	Data2ClientY( y )	// Transforms a data-space Y into a client-space Y
-			{
-				var r = H * (1.0 - (y - Ymin) / sizeY);
-				return r;
-			}
-
-			// Draw axes
-			g.beginPath();
-			g.strokeStyle = "#000";
-			g.lineWidth = 1.5;
-			g.moveTo( 0, Data2ClientY( 0.0 ) );
-			g.lineTo( W, Data2ClientY( 0.0 ) );
-			g.stroke();
-			g.moveTo( Data2ClientX( 0.0 ), 0 );
-			g.lineTo( Data2ClientX( 0.0 ), H );
-			g.stroke();
-
-			// Draw fit curve
-			{
-				g.beginPath();
-				g.lineWidth = 2.0;
-				g.strokeStyle = "#888";
-
-				var	coeffs = [result.coeffs[0], result.coeffs[1]];
-					coeffs[2] = polyDegree > 1 ? result.coeffs[2] : 0.0;
-					coeffs[3] = polyDegree > 2 ? result.coeffs[3] : 0.0;
-					coeffs[4] = polyDegree > 3 ? result.coeffs[4] : 0.0;
-				function eval( _x )
+				for ( var KeywordIndex=0; KeywordIndex < Keywords.length && !found; KeywordIndex++ )
 				{
-					_x = Client2DataX( _x );
-
-					var	result = coeffs[4];
-						result = result * _x + coeffs[3];
-						result = result * _x + coeffs[2];
-						result = result * _x + coeffs[1];
-						result = result * _x + coeffs[0];
-					return Data2ClientY( result );
-				}
-
-				g.fillStyle = "#000";
-				g.moveTo( 0, eval( 0 ) );
-				for ( var x=1; x < W; x++ )
-					g.lineTo( x, eval( x ) );
-				g.stroke();
+					var	Keyword = Keywords[KeywordIndex];
+					found = _Entry.FriendlyName_Lower.indexOf( Keyword ) != -1;
+					found |= _Entry.Description_Lower.indexOf( Keyword ) != -1;
+				}				
 			}
 
-			// Draw original data
+			// Filter by tags
+			if ( SearchTags.length > 0 && _Entry.Tags_Split.length > 0 )
 			{
-				g.fillStyle = "#000";
-
-				for ( var coupleIndex=0; coupleIndex < couplesCount; coupleIndex++ )
+				for ( var EntryTagIndex=0; EntryTagIndex < _Entry.Tags_Split.length && !found; EntryTagIndex++ )
 				{
-					g.beginPath();
-					g.arc( Data2ClientX( couples[coupleIndex].x ), Data2ClientY( couples[coupleIndex].y ), 2, 0, 2*Math.PI );
-					g.fill();
+					var	EntryTag = _Entry.Tags_Split[EntryTagIndex];
+					for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length && !found; SearchTagIndex++ )
+					{
+						var	SearchTag = SearchTags[SearchTagIndex].F;
+						found = EntryTag == SearchTag;
+					}
 				}
 			}
-		}
+
+			if ( found )
+				Results.push( _Entry );
+		} );
+
+		var	list = $( '#PanelResult' );
+
+		list.html( '' );
+		list.append( '<div>' + Results.length + ' entries found.</div>' );
+
+		Results.forEach( function( _Entry ) {
+
+			list.append( '<div class="list-element ui-corner-all" onclick=""><span>' + _Entry.FriendlyName + '</span><img class="list-element-thumbnail" src="' + databasePath + _Entry.TextureInfos.ThumbnailFileName + '"/></div></div>' );
+			_Entry.UIElement = list.children().last();
+			_Entry.UIElement.click( function() {
+
+				if ( selectedEntry )
+					selectedEntry.UIElement.removeClass( 'list-element-selected' );
+
+				selectedEntry = _Entry;
+				selectedEntry.UIElement.addClass( "list-element-selected" );
+
+				UpdateSelection();
+			} );
+
+		 } );
+	}
+
+	// Create the tags
+	var	TagIndex = 0;
+	Tags.forEach( function( T ) {
+
+		var	CheckBoxName = "TagCheckBox" + TagIndex;
+
+		var	ContainerIndex = (TagIndex / 10) | 0;
+		var	Container = $( "#Tags" + ContainerIndex );
+
+//		Container.append( '<div id="' + CheckBoxName + '" class="UI-widget-label"><div class="t0"><span>' + T.N + '</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-checkbox"/></div></div>' );
+		Container.append( '<div id="' + CheckBoxName + '" class="UI-widget-label"><div class="t1"><span class="ui-state-default ui-corner-all ui-checkbox"/></div><div class="t0"><span>' + T.N + '</span></div></div>' );
+
+		T.checkBox = new patapi.ui.LabelCheckBox( {
+			selector : "#" + CheckBoxName + " .t1 span",
+			classSelected : "checkbox-checked",
+			classUnSelected : "checkbox-unchecked",
+			change : function( value ) {
+				QueryDatabase();
+			}
+		} );		
+
+		TagIndex++;
 	} );
 
+	// Create the search text box
+	$( '#SearchTextBox' ).change( QueryDatabase );
+
+	// Create the "Clear Tags" button
+	function ClearTags() {
+		allowDatabaseQuery = false;
+		Tags.forEach( function( T ) {
+			T.checkBox.set( false );
+		} );
+		allowDatabaseQuery = true;
+
+		// Query only once
+		QueryDatabase();
+	}
+
+	$( '#ClearTags' ).button().click( ClearTags );
+
+	// Make the result panel fit the screen's height
+	var $window = $(window).on( 'resize', function() {
+       var	height = $(this).height() - $( '#PanelSearch' ).height();
+			height -= 20;
+       $( '#PanelResult' ).height( height );
+
+    } ).trigger('resize'); //on page load
+
+	// We can now authorize queries...
+	allowDatabaseQuery = true;
+
 } );
+
+function		UpdateSelection()
+{
+	alert( "Bisou!" );
+}
+
 </script>
 </head>
 
 <!-- 
-intégrale + passer godcomplex en library
+passer godcomplex en library
 import/export json nuaj'
  -->
 
@@ -254,10 +348,20 @@ import/export json nuaj'
 		<div id="PanelLeft" class="panel">
 			<!-- Contains the search & list panels -->
 			<div id="PanelSearch" class="panel">
-				SEARCH
+				<div id="SearchText">
+					<div>
+						<div>Search for: <input id='SearchTextBox' type="text" value="" for="SearchText_Input" style='margin-left:10px;'></div>
+						<div><button id="ClearTags">Clear Tags</button></div>
+					</div>
+				</div>
+				<div id="TagsBox">
+					<div id="Tags0" class='tags-list'></div>
+					<div id="Tags1" class='tags-list'></div>
+					<div id="Tags2" class='tags-list'></div>
+					<div id="Tags3" class='tags-list'></div>
+				</div>
 			</div>
 			<div id="PanelResult" class="panel">
-				RESULTS
 			</div>
 		</div>
 		<div id="PanelRight" class="panel">
