@@ -200,9 +200,6 @@ $(document).ready( function() {
 		if ( !database || !allowDatabaseQuery )
 			return;
 
-		// Clear selection when we rebuild
-		selectedEntry = null;
-
 		// Prepare text search
 		var	SearchForText = $( '#SearchTextBox' )[0].value;
 			SearchForText = SearchForText.toLowerCase();
@@ -257,7 +254,10 @@ $(document).ready( function() {
 		list.html( '' );
 		list.append( '<div>' + Results.length + ' entries found.</div>' );
 
+		var	ExistingSelectionFound = false;
 		Results.forEach( function( _Entry ) {
+
+			ExistingSelectionFound |= _Entry == selectedEntry;
 
 			list.append( '<div class="list-element ui-corner-all" onclick=""><span>' + _Entry.FriendlyName + '</span><img class="list-element-thumbnail" src="' + databasePath + _Entry.TextureInfos.ThumbnailFileName + '"/></div></div>' );
 			_Entry.UIElement = list.children().last();
@@ -273,6 +273,13 @@ $(document).ready( function() {
 			} );
 
 		 } );
+
+		// Clear selection if not contained in results anymore
+		if ( !ExistingSelectionFound )
+		{
+			selectedEntry = null;
+			UpdateSelection();
+		}
 	}
 
 	// Create the tags
@@ -318,9 +325,13 @@ $(document).ready( function() {
 
 	// Make the result panel fit the screen's height
 	var $window = $(window).on( 'resize', function() {
-       var	height = $(this).height() - $( '#PanelSearch' ).height();
+		var	height = $(this).height() - $( '#PanelSearch' ).height();
 			height -= 20;
-       $( '#PanelResult' ).height( height );
+		$( '#PanelResult' ).height( height );
+
+		height = $(this).height() - $( '#PanelVisuTop' ).height();
+		height -= 20;
+		$( '#PanelVisuBottom' ).height( height );
 
     } ).trigger('resize'); //on page load
 
@@ -331,16 +342,48 @@ $(document).ready( function() {
 
 function		UpdateSelection()
 {
-	alert( "Bisou!" );
+	$( "#Texture" ).html( 
+		selectedEntry ? '<img class="texture" src="' + databasePath + selectedEntry.TextureInfos.TextureFileName + '"/>'
+					  : ''
+	);
+
+	function SetupSwatch( _$, _Swatch, _Name )
+	{
+		_$.swatch = _Swatch;
+		if ( _Swatch )
+		{
+			_$.css( "background-color", "#" + _Swatch.Color );
+			_$.click( function() {
+				var	R = parseInt( "0x" + _Swatch.Color.slice( 0, 2 ) );
+				var	G = parseInt( "0x" + _Swatch.Color.slice( 2, 4 ) );
+				var	B = parseInt( "0x" + _Swatch.Color.slice( 4, 6 ) );
+
+				var	Y = parseFloat( _Swatch.xyY.split( ';' )[2].trim() );
+
+				$( '#SwatchInfos' ).html(	"Selected Swatch: " + _Name + " - Albedo=" + (100.0 * Y).toFixed( 2 ) + "%<br/>" +
+											"<br/>" +
+											"xyY = ( " + _Swatch.xyY.replace( /;/g, ',' ) + " )<br/>" +
+											"sRGB [0,1] = ( " + _Swatch.RGB.replace( /;/g, ',' ) + " )<br/>" +
+											"sRGB [0,255] = ( R=" + R + " G=" + G + " B=" + B + " )" );
+			} );
+		}
+		else
+		{
+			_$.css( "background-color", "" );
+			$( '#SwatchInfos' ).html( "" );
+		}
+	}
+
+	SetupSwatch( $( "#SwatchMin" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Min : null, "Min" );
+	SetupSwatch( $( "#SwatchMax" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Max : null, "Max" );
+	SetupSwatch( $( "#SwatchAvg" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Avg : null, "Average" );
+
+	for ( var CSIndex=0; CSIndex < 9; CSIndex++ )
+		SetupSwatch( $( "#CS"+CSIndex ), selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length ? selectedEntry.TextureInfos.Swatches.Custom[CSIndex] : null, "Custom #"+CSIndex );
 }
 
 </script>
 </head>
-
-<!-- 
-passer godcomplex en library
-import/export json nuaj'
- -->
 
 <body>
 
@@ -372,7 +415,37 @@ import/export json nuaj'
 			</div>
 			<div id="PanelVisuBottom" class="panel">
 				<!-- Contains the texture view -->
-				TEXTURE VISU
+				<div id="TextureAndSwatches">
+					<div id="Texture"></div>
+					<div id="SwatchesAndInfos">
+						<div id="AllSwatches">
+							<div class="swatches-line">
+								<div id="SwatchMin" class="swatch"></div>
+								<div id="SwatchMax" class="swatch"></div>
+								<div id="SwatchAvg" class="swatch"></div>
+							</div>
+							<div id="CustomSwatches">
+								<div class="swatches-line"">
+									<div id="CS0" class="swatch"></div>
+									<div id="CS1" class="swatch"></div>
+									<div id="CS2" class="swatch"></div>
+								</div>
+								<div class="custom-swatches-line"">
+									<div id="CS3" class="swatch"></div>
+									<div id="CS4" class="swatch"></div>
+									<div id="CS5" class="swatch"></div>
+								</div>
+								<div class="custom-swatches-line"">
+									<div id="CS6" class="swatch"></div>
+									<div id="CS7" class="swatch"></div>
+									<div id="CS8" class="swatch"></div>
+								</div>
+							</div>
+						</div>
+						<div id="SwatchInfos">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
