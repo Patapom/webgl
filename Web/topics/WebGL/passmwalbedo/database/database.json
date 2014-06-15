@@ -1,0 +1,690 @@
+{
+	Entries : [
+		{
+			RelativePath : "Arkane Studios/Bureau Pom",
+			FriendlyName : "Bureau Pom",
+			Description : "Que du bisou!",
+			Tags : "WOOD,NEUTRAL,DESK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Bureau Pom/CRW_7570.jpg",
+				TextureFileName : "Arkane Studios/Bureau Pom/CRW_7570.png",
+				OverviewImageFileName : "Meow!.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3656023; 0.3645278; 0.3706462",
+						RGB : "0.7340934; 0.6233369; 0.5221661",
+						Color : "BB9E85",
+					},
+					Max : 
+					{
+						xyY : "0.3540347; 0.3654947; 0.5563483",
+						RGB : "0.8424463; 0.7605902; 0.6404229",
+						Color : "D6C1A3",
+					},
+					Avg : 
+					{
+						xyY : "0.3640244; 0.3670608; 0.497692",
+						RGB : "0.828141; 0.7155668; 0.5938048",
+						Color : "D3B697",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Canapé Cuir Romu",
+			FriendlyName : "Black Leather Armchair",
+			Description : "Romuald's office",
+			Tags : "SKIN,BLACK,DARK,CHAIR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.jpg",
+				TextureFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0; 1; 0.004525983",
+						RGB : "-0.08988884; 0.08964182; -0.01192904",
+						Color : "001600",
+					},
+					Max : 
+					{
+						xyY : "0.3181291; 0.3391655; 0.1467428",
+						RGB : "0.4189486; 0.4209846; 0.4022591",
+						Color : "6A6B66",
+					},
+					Avg : 
+					{
+						xyY : "0.2992932; 0.3055958; 0.007999124",
+						RGB : "0.08562141; 0.08494705; 0.09813797",
+						Color : "151519",
+					},
+					Custom : [
+						{
+							xyY : "0.3062423; 0.320748; 0.009083314",
+							RGB : "0.09233685; 0.09370865; 0.09852534",
+							Color : "171719",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Canapé Gris",
+			FriendlyName : "Grey Armchair",
+			Description : "",
+			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Canapé Gris/CRW_7583.jpg",
+				TextureFileName : "Arkane Studios/Canapé Gris/CRW_7583.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3068098; 0.302528; 0.07885011",
+						RGB : "0.3266995; 0.3028408; 0.3423625",
+						Color : "534D57",
+					},
+					Max : 
+					{
+						xyY : "0.3104078; 0.3357311; 0.3105474",
+						RGB : "0.5747614; 0.5994579; 0.5826017",
+						Color : "929894",
+					},
+					Avg : 
+					{
+						xyY : "0.3080997; 0.3276352; 0.1655564",
+						RGB : "0.434372; 0.4459094; 0.4485306",
+						Color : "6E7172",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Canapé Vert",
+			FriendlyName : "Green Armchair",
+			Description : "",
+			Tags : "FABRIC,GREEN,CHAIR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Canapé Vert/CRW_7581.jpg",
+				TextureFileName : "Arkane Studios/Canapé Vert/CRW_7581.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3796202; 0.4541944; 0.1254074",
+						RGB : "0.3871124; 0.4038556; 0.1854674",
+						Color : "62662F",
+					},
+					Max : 
+					{
+						xyY : "0.3764577; 0.4525074; 0.4390435",
+						RGB : "0.6843414; 0.7196937; 0.3594242",
+						Color : "AEB75B",
+					},
+					Avg : 
+					{
+						xyY : "0.3871958; 0.4741444; 0.2593407",
+						RGB : "0.5369309; 0.5697947; 0.2181842",
+						Color : "889137",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Cube Cuir Noir",
+			FriendlyName : "Black Leather Cube",
+			Description : "",
+			Tags : "SKIN,BLACK,DARK,CHAIR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.jpg",
+				TextureFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0; 1; 0.004525983",
+						RGB : "-0.08988884; 0.08964182; -0.01192904",
+						Color : "001600",
+					},
+					Max : 
+					{
+						xyY : "0.3191039; 0.3572043; 0.02873384",
+						RGB : "0.1756952; 0.1901178; 0.1644563",
+						Color : "2C3029",
+					},
+					Avg : 
+					{
+						xyY : "0.2935496; 0.3096914; 0.007243165",
+						RGB : "0.07430836; 0.0809748; 0.09121592",
+						Color : "121417",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Lobby Bureau Sarah",
+			FriendlyName : "Black Varnished Desk",
+			Description : "",
+			Tags : "PLASTIC,BLACK,DARK,DESK,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.jpg",
+				TextureFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0; 1; 0.004525983",
+						RGB : "-0.08988884; 0.08964182; -0.01192904",
+						Color : "001600",
+					},
+					Max : 
+					{
+						xyY : "0.3155869; 0.3341881; 0.1901949",
+						RGB : "0.4734561; 0.4742964; 0.4636055",
+						Color : "787876",
+					},
+					Avg : 
+					{
+						xyY : "0.274912; 0.2688003; 0.008909447",
+						RGB : "0.08822856; 0.08979433; 0.1266924",
+						Color : "161620",
+					},
+					Custom : [
+						{
+							xyY : "0.2636115; 0.2416012; 0.00581525",
+							RGB : "0.06737921; 0.06343599; 0.1106468",
+							Color : "11101C",
+						},
+						{
+							xyY : "0.2583055; 0.2708392; 0.006897692",
+							RGB : "0.05841651; 0.07896271; 0.1099354",
+							Color : "0E141C",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Lobby Fauteuil Orange",
+			FriendlyName : "Orange Armchair",
+			Description : "From the lobby",
+			Tags : "FABRIC,ORANGE,CHAIR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.jpg",
+				TextureFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.5714939; 0.3596687; 0.129679",
+						RGB : "0.7056088; 0.2338195; 0.1076827",
+						Color : "B33B1B",
+					},
+					Max : 
+					{
+						xyY : "0.5032266; 0.3739433; 0.3077867",
+						RGB : "0.9156371; 0.461626; 0.2873787",
+						Color : "E97549",
+					},
+					Avg : 
+					{
+						xyY : "0.5466701; 0.3768821; 0.1842867",
+						RGB : "0.7762292; 0.3286608; 0.1372513",
+						Color : "C55322",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Lobby Moquette Noire",
+			FriendlyName : "Black Carpet",
+			Description : "Lobby",
+			Tags : "FABRIC,BLACK,DARK,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.jpg",
+				TextureFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0; 1; 0.004525983",
+						RGB : "-0.08988884; 0.08964182; -0.01192904",
+						Color : "001600",
+					},
+					Max : 
+					{
+						xyY : "0.3368299; 0.3414508; 0.1492253",
+						RGB : "0.4584063; 0.4143167; 0.3905975",
+						Color : "746963",
+					},
+					Avg : 
+					{
+						xyY : "0.3130936; 0.3165014; 0.01151973",
+						RGB : "0.1149342; 0.1068981; 0.1151382",
+						Color : "1D1B1D",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Lobby Parquet",
+			FriendlyName : "Wooden Floor",
+			Description : "Lobby",
+			Tags : "WOOD,NEUTRAL,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Lobby Parquet/CRW_7587.jpg",
+				TextureFileName : "Arkane Studios/Lobby Parquet/CRW_7587.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3564873; 0.3519785; 0.1136841",
+						RGB : "0.4254653; 0.3584665; 0.3185283",
+						Color : "6C5B51",
+					},
+					Max : 
+					{
+						xyY : "0.3202136; 0.3389071; 0.6229239",
+						RGB : "0.8194647; 0.8119161; 0.7784655",
+						Color : "D0CFC6",
+					},
+					Avg : 
+					{
+						xyY : "0.3469658; 0.3572963; 0.2421907",
+						RGB : "0.5747843; 0.5217695; 0.4560387",
+						Color : "928574",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Moquette Grise",
+			FriendlyName : "Dark Gray Carpet",
+			Description : "",
+			Tags : "FABRIC,GRAY,DARK,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Moquette Grise/CRW_7572.jpg",
+				TextureFileName : "Arkane Studios/Moquette Grise/CRW_7572.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2609509; 0.2900736; 0.008672317",
+						RGB : "0.06346794; 0.09500858; 0.1169273",
+						Color : "10181D",
+					},
+					Max : 
+					{
+						xyY : "0.343123; 0.3653602; 0.1623724",
+						RGB : "0.4613124; 0.4394417; 0.3692214",
+						Color : "75705E",
+					},
+					Avg : 
+					{
+						xyY : "0.3047603; 0.323949; 0.0287459",
+						RGB : "0.1793108; 0.1866158; 0.1913283",
+						Color : "2D2F30",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Moquette Orange",
+			FriendlyName : "Dark Orange Carpet",
+			Description : "",
+			Tags : "FABRIC,ORANGE,DARK,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Moquette Orange/CRW_7575.jpg",
+				TextureFileName : "Arkane Studios/Moquette Orange/CRW_7575.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4450671; 0.2983848; 0.02128101",
+						RGB : "0.2740218; 0.09935459; 0.1370616",
+						Color : "451922",
+					},
+					Max : 
+					{
+						xyY : "0.3661636; 0.3497712; 0.2078329",
+						RGB : "0.5850967; 0.4685192; 0.4210914",
+						Color : "95776B",
+					},
+					Avg : 
+					{
+						xyY : "0.4711777; 0.3457803; 0.06263521",
+						RGB : "0.4414212; 0.2095894; 0.1793188",
+						Color : "70352D",
+					},
+					Custom : [
+						{
+							xyY : "0.4528973; 0.3588437; 0.08720554",
+							RGB : "0.4843092; 0.2690518; 0.2111891",
+							Color : "7B4435",
+						},
+						{
+							xyY : "0.5011929; 0.3284121; 0.04284589",
+							RGB : "0.4029541; 0.1425456; 0.1446413",
+							Color : "662424",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Paillasson Réfectoire",
+			FriendlyName : "Dark Gray Doormat",
+			Description : "",
+			Tags : "FABRIC,GRAY,DARK,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.jpg",
+				TextureFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2839165; 0.312357; 0.01178793",
+						RGB : "0.09323401; 0.1141608; 0.1247213",
+						Color : "171D1F",
+					},
+					Max : 
+					{
+						xyY : "0.3395812; 0.3315454; 0.3307655",
+						RGB : "0.6841988; 0.5889663; 0.5822276",
+						Color : "AE9694",
+					},
+					Avg : 
+					{
+						xyY : "0.3129836; 0.3287584; 0.04850981",
+						RGB : "0.2445753; 0.2438344; 0.2441157",
+						Color : "3E3E3E",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Table Basse Blanche",
+			FriendlyName : "White Table",
+			Description : "",
+			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.jpg",
+				TextureFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3163986; 0.3325195; 0.6398088",
+						RGB : "0.8280765; 0.8200272; 0.8079668",
+						Color : "D3D1CE",
+					},
+					Max : 
+					{
+						xyY : "0.3123343; 0.3281273; 0.8962123",
+						RGB : "0.953375; 0.9524971; 0.9559336",
+						Color : "F3F2F3",
+					},
+					Avg : 
+					{
+						xyY : "0.3078281; 0.3204268; 0.8398822",
+						RGB : "0.9250074; 0.9232087; 0.9563404",
+						Color : "EBEBF3",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Terrasse Bois",
+			FriendlyName : "Wood floor raw plancks",
+			Description : "",
+			Tags : "WOOD,NEUTRAL,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597.jpg",
+				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.265237; 0.2539474; 0.005790926",
+						RGB : "0.06321908; 0.06531755; 0.1045583",
+						Color : "10101A",
+					},
+					Max : 
+					{
+						xyY : "0.3169031; 0.3383631; 0.3497268",
+						RGB : "0.6231092; 0.6289955; 0.6042426",
+						Color : "9EA09A",
+					},
+					Avg : 
+					{
+						xyY : "0.3259099; 0.341502; 0.1054813",
+						RGB : "0.3700708; 0.3568201; 0.3365752",
+						Color : "5E5A55",
+					},
+					Custom : [
+						{
+							xyY : "0.3259365; 0.3438511; 0.1173846",
+							RGB : "0.3869837; 0.3766076; 0.3515473",
+							Color : "626059",
+						},
+						{
+							xyY : "0.3293487; 0.3435915; 0.05589109",
+							RGB : "0.2743403; 0.2604021; 0.2422196",
+							Color : "45423D",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Terrasse Bois",
+			FriendlyName : "Wood floor raw planck (closeup)",
+			Description : "Closeup on a single planck",
+			Tags : "WOOD,NEUTRAL,FLOOR",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.jpg",
+				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3023515; 0.3123776; 0.02110803",
+						RGB : "0.1550236; 0.1554444; 0.1693656",
+						Color : "27272B",
+					},
+					Max : 
+					{
+						xyY : "0.3184233; 0.3433217; 0.3465579",
+						RGB : "0.6169055; 0.6284871; 0.5909724",
+						Color : "9DA096",
+					},
+					Avg : 
+					{
+						xyY : "0.325746; 0.3425142; 0.1144158",
+						RGB : "0.3833415; 0.3715423; 0.3489432",
+						Color : "615E58",
+					},
+					Custom : [
+						{
+							xyY : "0.3267546; 0.3445115; 0.113135",
+							RGB : "0.3810794; 0.3698859; 0.3441005",
+							Color : "615E57",
+						},
+						{
+							xyY : "0.3329591; 0.3521287; 0.07249536",
+							RGB : "0.3101652; 0.2980161; 0.2660921",
+							Color : "4F4B43",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Terrasse Table Orange",
+			FriendlyName : "Orange Metal Table",
+			Description : "",
+			Tags : "PAINT,ORANGE,NEUTRAL,TABLE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.jpg",
+				TextureFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.5180412; 0.3940507; 0.1734759",
+						RGB : "0.7035719; 0.3591946; 0.1438311",
+						Color : "B35B24",
+					},
+					Max : 
+					{
+						xyY : "0.4922588; 0.3894245; 0.2423489",
+						RGB : "0.787882; 0.4376955; 0.2360066",
+						Color : "C86F3C",
+					},
+					Avg : 
+					{
+						xyY : "0.5375769; 0.3943939; 0.2064792",
+						RGB : "0.7838885; 0.3751356; 0.107342",
+						Color : "C75F1B",
+					},
+					Custom : [
+						{
+							xyY : "0.5361084; 0.3965879; 0.2086416",
+							RGB : "0.7831181; 0.380438; 0.1034901",
+							Color : "C7611A",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Terrasse Table Rouge",
+			FriendlyName : "Red Metal Table",
+			Description : "",
+			Tags : "PAINT,RED,DARK,TABLE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.jpg",
+				TextureFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.5912495; 0.3342545; 0.06300122",
+						RGB : "0.5442297; 0.1048115; 0.08753852",
+						Color : "8A1A16",
+					},
+					Max : 
+					{
+						xyY : "0.3223312; 0.3378751; 0.4428423",
+						RGB : "0.7126828; 0.6942441; 0.668128",
+						Color : "B5B1AA",
+					},
+					Avg : 
+					{
+						xyY : "0.5829782; 0.3338287; 0.07419443",
+						RGB : "0.5808132; 0.125273; 0.1098802",
+						Color : "941F1C",
+					},
+					Custom : [
+						{
+							xyY : "0.5844588; 0.333749; 0.07418504",
+							RGB : "0.581957; 0.1233636; 0.1080586",
+							Color : "941F1B",
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Arkane Studios/Terrasse Table Verte",
+			FriendlyName : "Green Metal Table",
+			Description : "",
+			Tags : "PAINT,GREEN,NEUTRAL,TABLE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 8,
+				ThumbnailFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.jpg",
+				TextureFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.png",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3683763; 0.4820185; 0.420742",
+						RGB : "0.6098196; 0.7241149; 0.2935976",
+						Color : "9BB84A",
+					},
+					Max : 
+					{
+						xyY : "0.3628627; 0.4845898; 0.5570981",
+						RGB : "0.6711723; 0.8255817; 0.3405685",
+						Color : "ABD256",
+					},
+					Avg : 
+					{
+						xyY : "0.3672298; 0.4930092; 0.495104",
+						RGB : "0.6374703; 0.7840954; 0.288969",
+						Color : "A2C749",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+	]
+}
