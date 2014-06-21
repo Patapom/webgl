@@ -13,6 +13,31 @@ html, body
 	font-family:		Trebuchet MS;
 }
 
+#Header
+{
+	display:			block;
+	font-size:			0.5em;
+	height:				20px;
+	padding-bottom:		4px;
+	border-bottom:		2px;
+	border-color:		#000;
+	border-bottom-style:solid;
+}
+#Header h1
+{
+	position:			fixed;
+	left:				0px;
+	top:				-10px;
+	display:			inline-block;
+}
+#GlobalInfo
+{
+	display:			inline-block;
+	position:			fixed;
+	right:				0px;
+	font-size:			1.5em;
+}
+
 #ContainerGlobal
 {
 	display:			block;
@@ -46,6 +71,8 @@ html, body
 	left:				30%;
 	right:				auto;
 
+	padding-top:		8px;
+	padding-left:		8px;
 	text-align:			left;
 	border-left:		2px;
 	border-left-style:	solid;
@@ -159,7 +186,7 @@ html, body
 {
 	background-color:	#C0C0C0;	/* Light Gray */
 
-	height:				20%;
+	height:				0%;
 }
 
 /* Bottom-Left Contains Results */
@@ -174,7 +201,7 @@ html, body
 #TextureAndSwatches
 {
 	position:absolute;
-	left:0px;
+	left:auto;
 }
 
 #SwatchesAndInfos
@@ -184,13 +211,32 @@ html, body
 #AllSwatches
 {
 	display:inline-block;
-	width: 140px;
+	width: 250px;
 }
 #SwatchInfos
 {
 	display:inline-block;
 	width:auto;
 }
+#ForCoders
+{
+	padding:4px;	
+	border:			1px;
+	border-color:	#654;
+	border-style:	dotted;
+}
+#ForArtists
+{
+	padding:4px;	
+	border:			1px;
+	border-color:	#456;
+	border-style:	dotted;
+}
+#PreferedColorSpace
+{
+	color:			Green;
+}
+
 .texture
 {
 	display:		inline-block;
@@ -211,12 +257,21 @@ html, body
 .swatch
 {
 	display:		inline-block;
-	width:40px;
-	height:30px;
+	width:			40px;
+	height:			30px;
 	border:			1px;
 	border-color:	#000;
 	border-style:	solid;
-	margin-left:auto;
+	margin-left:	auto;
+	box-shadow:		2px 3px 4px 1px rgba(0,0,0,0.1)
+}
+.swatch-inset
+{
+	position:		relative;
+	width:			14px;
+	height:			10px;
+	left:			26px;
+	top:			20px;
 }
 
 

@@ -4,7 +4,8 @@
 			RelativePath : "Arkane Studios/Bureau Pom",
 			FriendlyName : "Bureau Pom",
 			Description : "Que du bisou!",
-			Tags : "WOOD,NEUTRAL,DESK",
+			OverviewImagePath: "..\..\Meow!.png",
+			Tags : "WOOD,NEUTRAL,DESK,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -40,7 +41,7 @@
 			RelativePath : "Arkane Studios/Canapé Cuir Romu",
 			FriendlyName : "Black Leather Armchair",
 			Description : "Romuald's office",
-			Tags : "SKIN,BLACK,DARK,CHAIR",
+			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -71,6 +72,8 @@
 							xyY : "0.3062423; 0.320748; 0.009083314",
 							RGB : "0.09233685; 0.09370865; 0.09852534",
 							Color : "171719",
+							TopLeft : { x : 0.4946237, y : 0.2669903 },
+							BottomRight : { x : 0.5892473, y : 0.4126213 },
 						},
 					]
 				}
@@ -80,7 +83,7 @@
 			RelativePath : "Arkane Studios/Canapé Gris",
 			FriendlyName : "Grey Armchair",
 			Description : "",
-			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR",
+			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -115,7 +118,7 @@
 			RelativePath : "Arkane Studios/Canapé Vert",
 			FriendlyName : "Green Armchair",
 			Description : "",
-			Tags : "FABRIC,GREEN,CHAIR",
+			Tags : "FABRIC,GREEN,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -150,7 +153,7 @@
 			RelativePath : "Arkane Studios/Cube Cuir Noir",
 			FriendlyName : "Black Leather Cube",
 			Description : "",
-			Tags : "SKIN,BLACK,DARK,CHAIR",
+			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -185,7 +188,7 @@
 			RelativePath : "Arkane Studios/Lobby Bureau Sarah",
 			FriendlyName : "Black Varnished Desk",
 			Description : "",
-			Tags : "PLASTIC,BLACK,DARK,DESK,VARNISHED",
+			Tags : "PLASTIC,BLACK,DARK,DESK,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -216,11 +219,15 @@
 							xyY : "0.2636115; 0.2416012; 0.00581525",
 							RGB : "0.06737921; 0.06343599; 0.1106468",
 							Color : "11101C",
+							TopLeft : { x : 0.1526882, y : 0.3381877 },
+							BottomRight : { x : 0.1784946, y : 0.3932039 },
 						},
 						{
 							xyY : "0.2583055; 0.2708392; 0.006897692",
 							RGB : "0.05841651; 0.07896271; 0.1099354",
 							Color : "0E141C",
+							TopLeft : { x : 0.6451613, y : 0.4190938 },
+							BottomRight : { x : 0.6860215, y : 0.4838188 },
 						},
 					]
 				}
@@ -230,7 +237,7 @@
 			RelativePath : "Arkane Studios/Lobby Fauteuil Orange",
 			FriendlyName : "Orange Armchair",
 			Description : "From the lobby",
-			Tags : "FABRIC,ORANGE,CHAIR",
+			Tags : "FABRIC,ORANGE,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -265,7 +272,7 @@
 			RelativePath : "Arkane Studios/Lobby Moquette Noire",
 			FriendlyName : "Black Carpet",
 			Description : "Lobby",
-			Tags : "FABRIC,BLACK,DARK,FLOOR",
+			Tags : "FABRIC,BLACK,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -300,7 +307,7 @@
 			RelativePath : "Arkane Studios/Lobby Parquet",
 			FriendlyName : "Wooden Floor",
 			Description : "Lobby",
-			Tags : "WOOD,NEUTRAL,FLOOR",
+			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -335,7 +342,7 @@
 			RelativePath : "Arkane Studios/Moquette Grise",
 			FriendlyName : "Dark Gray Carpet",
 			Description : "",
-			Tags : "FABRIC,GRAY,DARK,FLOOR",
+			Tags : "FABRIC,GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -370,7 +377,7 @@
 			RelativePath : "Arkane Studios/Moquette Orange",
 			FriendlyName : "Dark Orange Carpet",
 			Description : "",
-			Tags : "FABRIC,ORANGE,DARK,FLOOR",
+			Tags : "FABRIC,ORANGE,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -401,11 +408,15 @@
 							xyY : "0.4528973; 0.3588437; 0.08720554",
 							RGB : "0.4843092; 0.2690518; 0.2111891",
 							Color : "7B4435",
+							TopLeft : { x : 0.288172, y : 0.2591241 },
+							BottomRight : { x : 0.311828, y : 0.7445256 },
 						},
 						{
 							xyY : "0.5011929; 0.3284121; 0.04284589",
 							RGB : "0.4029541; 0.1425456; 0.1446413",
 							Color : "662424",
+							TopLeft : { x : 0.2172043, y : 0.2773723 },
+							BottomRight : { x : 0.2387097, y : 0.7591241 },
 						},
 					]
 				}
@@ -415,7 +426,7 @@
 			RelativePath : "Arkane Studios/Paillasson Réfectoire",
 			FriendlyName : "Dark Gray Doormat",
 			Description : "",
-			Tags : "FABRIC,GRAY,DARK,FLOOR",
+			Tags : "FABRIC,GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -450,7 +461,7 @@
 			RelativePath : "Arkane Studios/Table Basse Blanche",
 			FriendlyName : "White Table",
 			Description : "",
-			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,VARNISHED",
+			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -485,7 +496,7 @@
 			RelativePath : "Arkane Studios/Terrasse Bois",
 			FriendlyName : "Wood floor raw plancks",
 			Description : "",
-			Tags : "WOOD,NEUTRAL,FLOOR",
+			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -516,11 +527,15 @@
 							xyY : "0.3259365; 0.3438511; 0.1173846",
 							RGB : "0.3869837; 0.3766076; 0.3515473",
 							Color : "626059",
+							TopLeft : { x : 0.4989247, y : 0.1990291 },
+							BottomRight : { x : 0.595699, y : 0.3608414 },
 						},
 						{
 							xyY : "0.3293487; 0.3435915; 0.05589109",
 							RGB : "0.2743403; 0.2604021; 0.2422196",
 							Color : "45423D",
+							TopLeft : { x : 0.9032258, y : 0.4352751 },
+							BottomRight : { x : 0.9290323, y : 0.4644013 },
 						},
 					]
 				}
@@ -530,7 +545,7 @@
 			RelativePath : "Arkane Studios/Terrasse Bois",
 			FriendlyName : "Wood floor raw planck (closeup)",
 			Description : "Closeup on a single planck",
-			Tags : "WOOD,NEUTRAL,FLOOR",
+			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -561,11 +576,15 @@
 							xyY : "0.3267546; 0.3445115; 0.113135",
 							RGB : "0.3810794; 0.3698859; 0.3441005",
 							Color : "615E57",
+							TopLeft : { x : 0.4041353, y : 0.09337349 },
+							BottomRight : { x : 0.6447368, y : 0.2801205 },
 						},
 						{
 							xyY : "0.3329591; 0.3521287; 0.07249536",
 							RGB : "0.3101652; 0.2980161; 0.2660921",
 							Color : "4F4B43",
+							TopLeft : { x : 0.3477444, y : 0.439759 },
+							BottomRight : { x : 0.3552631, y : 0.6536145 },
 						},
 					]
 				}
@@ -575,7 +594,7 @@
 			RelativePath : "Arkane Studios/Terrasse Table Orange",
 			FriendlyName : "Orange Metal Table",
 			Description : "",
-			Tags : "PAINT,ORANGE,NEUTRAL,TABLE",
+			Tags : "PAINT,ORANGE,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -606,6 +625,8 @@
 							xyY : "0.5361084; 0.3965879; 0.2086416",
 							RGB : "0.7831181; 0.380438; 0.1034901",
 							Color : "C7611A",
+							TopLeft : { x : 0.4250765, y : 0.4608434 },
+							BottomRight : { x : 0.6024465, y : 0.6295181 },
 						},
 					]
 				}
@@ -615,7 +636,7 @@
 			RelativePath : "Arkane Studios/Terrasse Table Rouge",
 			FriendlyName : "Red Metal Table",
 			Description : "",
-			Tags : "PAINT,RED,DARK,TABLE",
+			Tags : "PAINT,RED,DARK,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
@@ -646,6 +667,8 @@
 							xyY : "0.5844588; 0.333749; 0.07418504",
 							RGB : "0.581957; 0.1233636; 0.1080586",
 							Color : "941F1B",
+							TopLeft : { x : 0.3874046, y : 0.3554217 },
+							BottomRight : { x : 0.639313, y : 0.6536145 },
 						},
 					]
 				}
@@ -655,7 +678,7 @@
 			RelativePath : "Arkane Studios/Terrasse Table Verte",
 			FriendlyName : "Green Metal Table",
 			Description : "",
-			Tags : "PAINT,GREEN,NEUTRAL,TABLE",
+			Tags : "PAINT,GREEN,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,

@@ -112,8 +112,8 @@ o3djs.require( 'patapi.ui' );
 var	Tags = [
 	// Type
 	{ N : "Wood", F : "WOOD" },
-	{ N : "Stone", F : "STONE" },
-	{ N : "Skin", F : "SKIN" },
+	{ N : "Stone/Ceramic", F : "STONE" },
+	{ N : "Skin/Leather", F : "SKIN" },
 	{ N : "Fabric", F : "FABRIC" },
 	{ N : "Paper/Canvas", F : "PAPER_CANVAS" },
 	{ N : "Paint", F : "PAINT" },
@@ -191,6 +191,13 @@ $(document).ready( function() {
 		alert( "Error during database parsing: " + _e );
 		return;
 	}
+
+	// Fill up global infos
+	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
+								'Latest database update: 2014-05-25.&nbsp;' +
+								'Latest webpage update: 2014-06-21.&nbsp;' +
+								''
+						 );
 
 	// Main database query function
 	var	that = this;
@@ -325,11 +332,11 @@ $(document).ready( function() {
 
 	// Make the result panel fit the screen's height
 	var $window = $(window).on( 'resize', function() {
-		var	height = $(this).height() - $( '#PanelSearch' ).height();
+		var	height = $(this).height() - $( '#PanelSearch' ).height() - $( '#Header' ).height();
 			height -= 20;
 		$( '#PanelResult' ).height( height );
 
-		height = $(this).height() - $( '#PanelVisuTop' ).height();
+		height = $(this).height() - $( '#PanelVisuTop' ).height() - $( '#Header' ).height();
 		height -= 20;
 		$( '#PanelVisuBottom' ).height( height );
 
@@ -340,53 +347,186 @@ $(document).ready( function() {
 
 } );
 
-function		UpdateSelection()
+// Converts RGB to Photoshop HSB color (From http://wiki.nuaj.net/index.php?title=Color_Transforms#RGB_.E2.86.92_HSV)
+function	RGB2HSV( R, G, B )
+{
+	var	Min = Math.min( R, G, B )	// Min. value of RGB
+	var	Max = Math.max( R, G, B )	// Max. value of RGB
+	var	Delta = Max - Min			// Delta RGB value 
+
+	var	H = 0.0;
+	var	S = 0.0
+	var	V = Max
+
+	if ( Delta > 0 )			// This is a gray, no chroma...
+	{
+	   S = Delta / Max
+
+	   var	del_R = ( ( ( Max - R ) / 6 ) + ( Delta / 2 ) ) / Delta
+	   var	del_G = ( ( ( Max - G ) / 6 ) + ( Delta / 2 ) ) / Delta
+	   var	del_B = ( ( ( Max - B ) / 6 ) + ( Delta / 2 ) ) / Delta
+
+	   if      ( R == Max ) H = del_B - del_G
+	   else if ( G == Max ) H = ( 1 / 3 ) + del_R - del_B
+	   else if ( B == Max ) H = ( 2 / 3 ) + del_G - del_R
+
+	   if ( H < 0 ) H += 1
+	   if ( H > 1 ) H -= 1
+	}
+
+//	return { H : (H * 360) | 0, S : (S * 100) | 0, V : (V * 100) | 0 };
+	return { H : (0.4999 + H * 360).toFixed( 0 ), S : (0.4999 + S * 100).toFixed( 0 ), V : (0.4999 + V * 100).toFixed( 0 ) };
+}
+
+function	xyY2XYZ( x, y, Y )
+{
+	return {
+		X : x * ( Y / y ),
+		Y : Y,
+		Z : ( 1 - x - y ) * ( Y / y )
+	};
+}
+
+// From http://wiki.nuaj.net/index.php?title=Color_Transforms#XYZ_.E2.86.92_RGB
+function	XYZ2RGBLinear( X, Y, Z )
+{
+	var	Result = {	R : X *  3.2406 + Y * -1.5372 + Z * -0.4986,
+					G : X * -0.9689 + Y *  1.8758 + Z *  0.0415,
+					B : X *  0.0557 + Y * -0.2040 + Z *  1.0570 };
+	return Result;
+}
+
+// From http://wiki.nuaj.net/index.php?title=Color_Transforms#XYZ_.E2.86.92_L.2Aa.2Ab.2A
+function	XYZ2Lab( X, Y, Z )
+{
+	X = X / 0.95047;		// ref_X = 0.95047   Observer= 2°, Illuminant= D65
+	Y = Y / 1.00000;		// ref_Y = 1.000
+	Z = Z / 1.08883;		// ref_Z = 1.08883
+
+	X = X > 0.008856 ? Math.pow( X, 1.0/3.0 ) : 7.787 * X + ( 16.0 / 116.0 );
+	Y = Y > 0.008856 ? Math.pow( Y, 1.0/3.0 ) : 7.787 * Y + ( 16.0 / 116.0 );
+	Z = Z > 0.008856 ? Math.pow( Z, 1.0/3.0 ) : 7.787 * Z + ( 16.0 / 116.0 );
+
+	var	Result = {	L : (0.4999 + (116 * Y) - 16) | 0,
+					a : (0.4999 + 500 * ( X - Y )) | 0,
+					b : (0.4999 + 200 * ( Y - Z )) | 0 };
+	return Result;
+}
+
+function	Linear2sRGB( v )
+{
+	return v > 0.0031308 ? 1.055 * Math.pow( v, 1.0 / 2.4 ) - 0.055 : 12.92 * v;
+}
+
+function	UpdateSelection()
 {
 	$( "#Texture" ).html( 
 		selectedEntry ? '<img class="texture" src="' + databasePath + selectedEntry.TextureInfos.TextureFileName + '"/>'
 					  : ''
 	);
 
-	function SetupSwatch( _$, _Swatch, _Name )
+	function SetupSwatch( _$, _Swatch, _Name, __opt_Desaturated )
 	{
-		_$.swatch = _Swatch;
-		if ( _Swatch )
-		{
-			_$.css( "background-color", "#" + _Swatch.Color );
-			_$.click( function() {
-				var	R = parseInt( "0x" + _Swatch.Color.slice( 0, 2 ) );
-				var	G = parseInt( "0x" + _Swatch.Color.slice( 2, 4 ) );
-				var	B = parseInt( "0x" + _Swatch.Color.slice( 4, 6 ) );
-
-				var	Y = parseFloat( _Swatch.xyY.split( ';' )[2].trim() );
-
-				$( '#SwatchInfos' ).html(	"Selected Swatch: " + _Name + " - Albedo=" + (100.0 * Y).toFixed( 2 ) + "%<br/>" +
-											"<br/>" +
-											"xyY = ( " + _Swatch.xyY.replace( /;/g, ',' ) + " )<br/>" +
-											"sRGB [0,1] = ( " + _Swatch.RGB.replace( /;/g, ',' ) + " )<br/>" +
-											"sRGB [0,255] = ( R=" + R + " G=" + G + " B=" + B + " )" );
-			} );
-		}
-		else
+		if ( !_Swatch )
 		{
 			_$.css( "background-color", "" );
+			_$.click();
 			$( '#SwatchInfos' ).html( "" );
+			return;
 		}
+
+		var	xyYValues = _Swatch.xyY.split( ';' );
+		var	x_unorm = parseFloat( xyYValues[0].trim() );
+		var	y_unorm = parseFloat( xyYValues[1].trim() );
+		var	Y_unorm = parseFloat( xyYValues[2].trim() );
+
+// 		var	RGBValues = _Swatch.RGB.split( ';' );
+// 		var	R_unorm = parseFloat( RGBValues[0].trim() );
+// 		var	G_unorm = parseFloat( RGBValues[1].trim() );
+// 		var	B_unorm = parseFloat( RGBValues[2].trim() );
+
+		if ( __opt_Desaturated )
+		{	// Replace xy by white reference and update sRGB values
+			x_unorm = 0.31271;	// D65
+			y_unorm = 0.32902;
+		}
+
+		// Convert to XYZ
+		var	XYZ = xyY2XYZ( x_unorm, y_unorm, Y_unorm );
+
+		// Convert to linear RGB value (using D65 illuminant 2° observer)
+		var	RGB_linear = XYZ2RGBLinear( XYZ.X, XYZ.Y, XYZ.Z );
+
+		// Convert to sRGB values 
+		var	R_unorm = Linear2sRGB( RGB_linear.R );
+		var	G_unorm = Linear2sRGB( RGB_linear.G );
+		var	B_unorm = Linear2sRGB( RGB_linear.B );
+
+		// Convert sRGB to [0,255] range and as a #rrggbb color tag
+		var	R = (0.5 + 255.0 * R_unorm) | 0;
+		var	G = (0.5 + 255.0 * G_unorm) | 0;
+		var	B = (0.5 + 255.0 * B_unorm) | 0;
+		function convert(integer)
+		{
+			var str = Number(integer).toString(16); 
+			return str.length == 1 ? "0" + str : str; 
+		};
+		var	Color = "#" + convert( R ) + convert( G ) + convert( B );
+
+		// Convert to HSL and La*b*
+		var	HSV = RGB2HSV( R_unorm, G_unorm, B_unorm );
+		var	Lab = XYZ2Lab( XYZ.X, XYZ.Y, XYZ.Z );
+			
+		// Save the swatch info text as a property of the DOM element for when it's selected
+		_$[0].selectedHtml = "Selected Swatch: " + _Name + " - Albedo=" + (100.0 * Y_unorm).toFixed( 2 ) + "%<br/>" +
+									'<div id="ForArtists">' +
+										'<u>For artists:</u><br/>' +
+										'Maya: sRGB [0,1] = ( ' + R_unorm.toFixed(4) + ', ' + G_unorm.toFixed(4) + ', ' + B_unorm.toFixed(4) + ' )<br/>' +
+										'Photoshop: sRGB [0,255] = ( R=' + R + ' G=' + G + ' B=' + B + ' )<br/>' +
+										'Photoshop: ' + Color + '<br/>' +
+										'<span id="PreferedColorSpace">Photoshop: L*a*b* = ( L*=' + Lab.L + ' a*=' + Lab.a + ' b*=' + Lab.b + ' )</span><br/>' +
+										'Photoshop: HSB = ( H=' + HSV.H + '° S=' + HSV.S + '% B=' + HSV.V + '% )<br/>' +
+									'</div>' +
+									'<br/>' +
+									'<div id="ForCoders">' +
+										'<u>For coders:</u><br/>' +
+										'xyY = float3( ' + x_unorm.toFixed( 5 ) + ', ' + y_unorm.toFixed( 5 ) + ', ' + Y_unorm.toFixed( 5 ) + ' )<br/>' +
+										'XYZ = float3( ' + XYZ.X.toFixed( 5 ) + ', ' + XYZ.Y.toFixed( 5 ) + ', ' + XYZ.Z.toFixed( 5 ) + ' )<br/>' +
+										'RGB (linear) = float3( ' + RGB_linear.R.toFixed( 5 ) + ', ' + RGB_linear.G.toFixed( 5 ) + ', ' + RGB_linear.B.toFixed( 5 ) + ' )<br/>' +
+										'(uses D65 illuminant)<br/>' +
+									'</div>'
+
+
+		// Setup background color and the click handler that will display the Html text when we click on the swatch
+		_$.css( "background-color", Color );
+		_$.click( function( e ) {
+				$( '#SwatchInfos' ).html( e.srcElement.selectedHtml );
+			} );
 	}
 
 	SetupSwatch( $( "#SwatchMin" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Min : null, "Min" );
 	SetupSwatch( $( "#SwatchMax" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Max : null, "Max" );
 	SetupSwatch( $( "#SwatchAvg" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Avg : null, "Average" );
 
+	SetupSwatch( $( "#SwatchMinDesaturated" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Min : null, "Min (desat)", true );
+	SetupSwatch( $( "#SwatchMaxDesaturated" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Max : null, "Max (desat)", true );
+	SetupSwatch( $( "#SwatchAvgDesaturated" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Avg : null, "Average (desat)", true );
+
 	for ( var CSIndex=0; CSIndex < 9; CSIndex++ )
+	{
 		SetupSwatch( $( "#CS"+CSIndex ), selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length ? selectedEntry.TextureInfos.Swatches.Custom[CSIndex] : null, "Custom #"+CSIndex );
+		SetupSwatch( $( "#CS_desat"+CSIndex ), selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length ? selectedEntry.TextureInfos.Swatches.Custom[CSIndex] : null, "Custom (desat) #"+CSIndex, true );
+	}
 }
 
 </script>
 </head>
 
 <body>
-
+	<div id="Header">
+		<h1>Passmw'Albedo v0.5</h1>
+		<div id="GlobalInfo"></div>
+	</div>
 	<div id="ContainerGlobal">
 		<div id="PanelLeft" class="panel">
 			<!-- Contains the search & list panels -->
@@ -420,25 +560,33 @@ function		UpdateSelection()
 					<div id="SwatchesAndInfos">
 						<div id="AllSwatches">
 							<div class="swatches-line">
-								<div id="SwatchMin" class="swatch"></div>
-								<div id="SwatchMax" class="swatch"></div>
-								<div id="SwatchAvg" class="swatch"></div>
+								<span>Min&nbsp;</span><div id="SwatchMin" class="swatch"><div id="SwatchMinDesaturated" class="swatch-inset"></div></div>
+								<span>Max&nbsp;</span><div id="SwatchMax" class="swatch"><div id="SwatchMaxDesaturated" class="swatch-inset"></div></div>
+								<span>Avg&nbsp;</span><div id="SwatchAvg" class="swatch"><div id="SwatchAvgDesaturated" class="swatch-inset"></div></div>
 							</div>
+<!-- 
+							<div class="swatches-line">
+								<span>Min&nbsp;</span><div id="SwatchMinDesaturated" class="swatch"></div>
+								<span>Max&nbsp;</span><div id="SwatchMaxDesaturated" class="swatch"></div>
+								<span>Avg&nbsp;</span><div id="SwatchAvgDesaturated" class="swatch"></div>
+							</div>
+ -->
 							<div id="CustomSwatches">
+								<span>Custom Swatches:</span>
 								<div class="swatches-line"">
-									<div id="CS0" class="swatch"></div>
-									<div id="CS1" class="swatch"></div>
-									<div id="CS2" class="swatch"></div>
+									<div id="CS0" class="swatch"><div id="CS_desat0" class="swatch-inset"></div></div>
+									<div id="CS1" class="swatch"><div id="CS_desat1" class="swatch-inset"></div></div>
+									<div id="CS2" class="swatch"><div id="CS_desat2" class="swatch-inset"></div></div>
 								</div>
 								<div class="custom-swatches-line"">
-									<div id="CS3" class="swatch"></div>
-									<div id="CS4" class="swatch"></div>
-									<div id="CS5" class="swatch"></div>
+									<div id="CS3" class="swatch"><div id="CS_desat3" class="swatch-inset"></div></div>
+									<div id="CS4" class="swatch"><div id="CS_desat4" class="swatch-inset"></div></div>
+									<div id="CS5" class="swatch"><div id="CS_desat5" class="swatch-inset"></div></div>
 								</div>
 								<div class="custom-swatches-line"">
-									<div id="CS6" class="swatch"></div>
-									<div id="CS7" class="swatch"></div>
-									<div id="CS8" class="swatch"></div>
+									<div id="CS6" class="swatch"><div id="CS_desat6" class="swatch-inset"></div></div>
+									<div id="CS7" class="swatch"><div id="CS_desat7" class="swatch-inset"></div></div>
+									<div id="CS8" class="swatch"><div id="CS_desat8" class="swatch-inset"></div></div>
 								</div>
 							</div>
 						</div>
