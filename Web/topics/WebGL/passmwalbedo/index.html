@@ -169,6 +169,8 @@ var	Tags = [
 var	databasePath = "database/";
 var	database;	// JSON database loads there
 
+var	checkBoxExclusiveSearch;
+
 var	selectedEntry = null;
 
 $(document).ready( function() {
@@ -199,6 +201,7 @@ $(document).ready( function() {
 								''
 						 );
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Main database query function
 	var	that = this;
 
@@ -241,13 +244,37 @@ $(document).ready( function() {
 			// Filter by tags
 			if ( SearchTags.length > 0 && _Entry.Tags_Split.length > 0 )
 			{
-				for ( var EntryTagIndex=0; EntryTagIndex < _Entry.Tags_Split.length && !found; EntryTagIndex++ )
-				{
-					var	EntryTag = _Entry.Tags_Split[EntryTagIndex];
-					for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length && !found; SearchTagIndex++ )
+				if ( checkBoxExclusiveSearch && checkBoxExclusiveSearch.parameters.value )
+				{	// Exclusive search
+					if ( found || !EnableTextSearch )
 					{
-						var	SearchTag = SearchTags[SearchTagIndex].F;
-						found = EntryTag == SearchTag;
+						var	MatchesCount = 0;
+						for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length && !found; SearchTagIndex++ )
+						{
+							var	SearchTag = SearchTags[SearchTagIndex].F;
+							for ( var EntryTagIndex=0; EntryTagIndex < _Entry.Tags_Split.length; EntryTagIndex++ )
+							{
+								var	EntryTag = _Entry.Tags_Split[EntryTagIndex];
+								if ( EntryTag == SearchTag )
+								{	// One more match!
+									MatchesCount++;
+									break;
+								}
+							}
+						}
+						found = MatchesCount == SearchTags.length;
+					}
+				}
+				else
+				{	// Inclusive search
+					for ( var EntryTagIndex=0; EntryTagIndex < _Entry.Tags_Split.length && !found; EntryTagIndex++ )
+					{
+						var	EntryTag = _Entry.Tags_Split[EntryTagIndex];
+						for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length && !found; SearchTagIndex++ )
+						{
+							var	SearchTag = SearchTags[SearchTagIndex].F;
+							found = EntryTag == SearchTag;
+						}
 					}
 				}
 			}
@@ -288,6 +315,7 @@ $(document).ready( function() {
 			UpdateSelection();
 		}
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Create the tags
 	var	TagIndex = 0;
@@ -317,7 +345,7 @@ $(document).ready( function() {
 	$( '#SearchTextBox' ).change( QueryDatabase );
 
 	// Create the "Clear Tags" button
-	function ClearTags() {
+	$( '#ClearTags' ).button().click( function() {
 		allowDatabaseQuery = false;
 		Tags.forEach( function( T ) {
 			T.checkBox.set( false );
@@ -326,9 +354,17 @@ $(document).ready( function() {
 
 		// Query only once
 		QueryDatabase();
-	}
+	} );
 
-	$( '#ClearTags' ).button().click( ClearTags );
+	// Create the "exclusive search" checkbox
+	checkBoxExclusiveSearch = new patapi.ui.LabelCheckBox( {
+			selector : "#ExclusiveSearch .t1 span",
+			classSelected : "checkbox-checked",
+			classUnSelected : "checkbox-unchecked",
+			change : function( value ) {
+				QueryDatabase();
+			}
+		} );
 
 	// Make the result panel fit the screen's height
 	var $window = $(window).on( 'resize', function() {
@@ -390,9 +426,9 @@ function	xyY2XYZ( x, y, Y )
 // From http://wiki.nuaj.net/index.php?title=Color_Transforms#XYZ_.E2.86.92_RGB
 function	XYZ2RGBLinear( X, Y, Z )
 {
-	var	Result = {	R : X *  3.2406 + Y * -1.5372 + Z * -0.4986,
-					G : X * -0.9689 + Y *  1.8758 + Z *  0.0415,
-					B : X *  0.0557 + Y * -0.2040 + Z *  1.0570 };
+	var	Result = {	R : Math.max( 0.0, X *  3.2406 + Y * -1.5372 + Z * -0.4986 ),
+					G : Math.max( 0.0,X * -0.9689 + Y *  1.8758 + Z *  0.0415 ),
+					B : Math.max( 0.0,X *  0.0557 + Y * -0.2040 + Z *  1.0570 ) };
 	return Result;
 }
 
@@ -418,92 +454,163 @@ function	Linear2sRGB( v )
 	return v > 0.0031308 ? 1.055 * Math.pow( v, 1.0 / 2.4 ) - 0.055 : 12.92 * v;
 }
 
+function SetupSwatch( _$, _Swatch, _Name, __opt_Desaturated )
+{
+	if ( !_Swatch )
+	{
+		_$.css( "background-color", "" );
+		_$.click( function() {} );
+		$( '#SwatchInfos' ).html( "" );
+		return;
+	}
+
+	var	xyYValues = _Swatch.xyY.split( ';' );
+	var	x_unorm = parseFloat( xyYValues[0].trim() );
+	var	y_unorm = parseFloat( xyYValues[1].trim() );
+	var	Y_unorm = parseFloat( xyYValues[2].trim() );
+
+	if ( __opt_Desaturated )
+	{	// Replace xy by white reference and update sRGB values
+		x_unorm = 0.31271;	// D65
+		y_unorm = 0.32902;
+	}
+
+	// Convert to XYZ
+	var	XYZ = xyY2XYZ( x_unorm, y_unorm, Y_unorm );
+
+	// Convert to linear RGB value (using D65 illuminant 2° observer)
+	var	RGB_linear = XYZ2RGBLinear( XYZ.X, XYZ.Y, XYZ.Z );
+
+	// Convert to sRGB values 
+	var	R_unorm = Linear2sRGB( RGB_linear.R );
+	var	G_unorm = Linear2sRGB( RGB_linear.G );
+	var	B_unorm = Linear2sRGB( RGB_linear.B );
+
+	// Convert sRGB to [0,255] range and as a #rrggbb color tag
+	var	R = (0.5 + 255.0 * R_unorm) | 0;
+	var	G = (0.5 + 255.0 * G_unorm) | 0;
+	var	B = (0.5 + 255.0 * B_unorm) | 0;
+	function convert(integer)
+	{
+		var str = Number(integer).toString(16); 
+		return str.length == 1 ? "0" + str : str; 
+	};
+	var	Color = convert( R ) + convert( G ) + convert( B );
+
+	// Convert to HSL and La*b*
+	var	HSV = RGB2HSV( R_unorm, G_unorm, B_unorm );
+	var	Lab = XYZ2Lab( XYZ.X, XYZ.Y, XYZ.Z );
+			
+	// Save the swatch info text as a property of the DOM element for when it's selected
+	_$[0].swatchHtml =	'Selected Swatch: <strong>' + _Name + '</strong> - Albedo=<strong>' + (100.0 * Y_unorm).toFixed( 2 ) + '%</strong><br/>' +
+						'<div id="ForArtists">' +
+							'<u>For artists:</u><br/>' +
+							'Maya: sRGB [0,1] = ( ' + R_unorm.toFixed(4) + ', ' + G_unorm.toFixed(4) + ', ' + B_unorm.toFixed(4) + ' )<br/>' +
+							'Photoshop: sRGB [0,255] = ( R=' + R + ' G=' + G + ' B=' + B + ' )<br/>' +
+							'<span id="CopyColor">Photoshop: #' + Color + '</span><br/>' +
+							'<span id="PreferedColorSpace">Photoshop: L*a*b* = ( L*=' + Lab.L + ' a*=' + Lab.a + ' b*=' + Lab.b + ' )</span><br/>' +
+							'Photoshop: HSB = ( H=' + HSV.H + '° S=' + HSV.S + '% B=' + HSV.V + '% )<br/>' +
+						'</div>' +
+						'<br/>' +
+						'<div id="ForCoders">' +
+							'<u>For coders:</u><br/>' +
+							'<span id="CopyxyY">xyY = float3( ' + x_unorm.toFixed( 5 ) + ', ' + y_unorm.toFixed( 5 ) + ', ' + Y_unorm.toFixed( 5 ) + ' )</span><br/>' +
+							'<span id="CopyXYZ">XYZ = float3( ' + XYZ.X.toFixed( 5 ) + ', ' + XYZ.Y.toFixed( 5 ) + ', ' + XYZ.Z.toFixed( 5 ) + ' )</span><br/>' +
+							'<span id="CopyRGB">RGB (linear) = float3( ' + RGB_linear.R.toFixed( 5 ) + ', ' + RGB_linear.G.toFixed( 5 ) + ', ' + RGB_linear.B.toFixed( 5 ) + ' )</span><br/>' +
+							'(uses D65 illuminant)<br/>' +
+						'</div>'
+
+	_$[0].copy_Color = Color;
+	_$[0].copy_xyY = 'xyY = float3( ' + x_unorm.toFixed( 5 ) + ', ' + y_unorm.toFixed( 5 ) + ', ' + Y_unorm.toFixed( 5 ) + ' )';
+	_$[0].copy_XYZ = 'XYZ = float3( ' + XYZ.X.toFixed( 5 ) + ', ' + XYZ.Y.toFixed( 5 ) + ', ' + XYZ.Z.toFixed( 5 ) + ' )';
+	_$[0].copy_RGB = 'RGB = float3( ' + RGB_linear.R.toFixed( 5 ) + ', ' + RGB_linear.G.toFixed( 5 ) + ', ' + RGB_linear.B.toFixed( 5 ) + ' )';
+
+	// Setup background color and the click handler that will display the Html text when we click on the swatch
+	_$.css( "background-color", "#" + Color );
+	_$.click( function( e ) {
+			var	Element = e.srcElement ? e.srcElement : e.currentTarget;
+			$( '#SwatchInfos' ).html( Element.swatchHtml );
+
+			// Hook to double click events
+			$( "#CopyColor" ).dblclick( function() { window.prompt ("Copy to clipboard: Ctrl+C, Enter", Element.copy_Color ) } );
+			$( "#CopyxyY" ).dblclick( function() { window.prompt ("Copy to clipboard: Ctrl+C, Enter", Element.copy_xyY ) } );
+			$( "#CopyXYZ" ).dblclick( function() { window.prompt ("Copy to clipboard: Ctrl+C, Enter", Element.copy_XYZ ) } );
+			$( "#CopyRGB" ).dblclick( function() { window.prompt ("Copy to clipboard: Ctrl+C, Enter", Element.copy_RGB ) } );
+		} );
+}
+
 function	UpdateSelection()
 {
 	$( "#Texture" ).html( 
-		selectedEntry ? '<img class="texture" src="' + databasePath + selectedEntry.TextureInfos.TextureFileName + '"/>'
+		selectedEntry ? '<img id="TextureImage" class="texture" src="' + databasePath + selectedEntry.TextureInfos.TextureFileName + '">' +
+							'<div id="CSLoc0" class="swatch-location">0</div>' +
+							'<div id="CSLoc1" class="swatch-location">1</div>' +
+							'<div id="CSLoc2" class="swatch-location">2</div>' +
+							'<div id="CSLoc3" class="swatch-location">3</div>' +
+							'<div id="CSLoc4" class="swatch-location">4</div>' +
+							'<div id="CSLoc5" class="swatch-location">5</div>' +
+							'<div id="CSLoc6" class="swatch-location">6</div>' +
+							'<div id="CSLoc7" class="swatch-location">7</div>' +
+							'<div id="CSLoc8" class="swatch-location">8</div>' +
+						'</img>' +
+						'<div class="image-infos"></div>'
 					  : ''
 	);
+ 
+// 	// Handle hovering above the image
+// 	$( "#TextureImage" ).hover(
+// 			function() {
+// 			$( '.image-infos' ).css( 'display', 'block' );
+// 		},
+// 		function() {
+// 			$( '.image-infos' ).css( 'display', 'none' );
+// 		}
+// 	).mousemove( function( e ) {
+// 
+// 		var	Infos = $( '.image-infos' );
+// 
+// 		var	TopLeftImage = patapi.helpers.GetElementPosition( "#TextureImage" );
+// 
+// 		var	ImageX = e.pageX - 5 - TopLeftImage.x;
+// 		var	ImageY = e.pageY - 5 - TopLeftImage.y;
+// 
+// 		var	PixelColor = context.getImageData(x, y, 1, 1).data;
+// 
+// // 		var	SliceX = Math.clamp( 90 * (e.pageX - 5 - TopLeftSlice.x) / that.canvas[0].width, 0, 90 );
+// // 		var	SliceY = Math.clamp( 90 * (that.canvas[0].height-1 - (e.pageY - 5 - TopLeftSlice.y)) / that.canvas[0].height, 0, 90 );
+// // 		that.hoveredThetaH = Math.deg2rad( SliceX );
+// // 		that.hoveredThetaD = Math.deg2rad( SliceY );
+// // 
+// // 		// Transform coordinates based on display type
+// // 		switch ( that.displayTypeThetaH )
+// // 		{
+// // 		case 1:	// Square ThetaH
+// // 			that.hoveredThetaH = Math.INVHALFPI * that.hoveredThetaH*that.hoveredThetaH;
+// // 			break;
+// // 
+// // 		case 2:	// Screen coordinates are actually cosines
+// // 			that.hoveredThetaH = Math.HALFPI - Math.acos( SliceX / 90.0 );
+// // 			that.hoveredThetaD = Math.HALFPI - Math.acos( SliceY / 90.0 );
+// // 			break;
+// // 		}
+// // 
+// // 		// Reconstruct final slice coordinates
+// // 		that.hoveredSliceX = 90.0 * Math.sqrt( that.hoveredThetaH * Math.INVHALFPI );
+// // 		that.hoveredSliceY = 90.0 * that.hoveredThetaD * Math.INVHALFPI;
+// // 
+// // 		// Notify of marker change in position
+// // 		if ( that.markerVisible )
+// // 			that.setMarkerPosition( that.hoveredThetaH, that.hoveredThetaD );
+// // 
+// // 		// Position the viewport infos frame
+// // 		that.UIViewportInfos.html( that.RefreshViewportInfos( Math.rad2deg( that.hoveredThetaH ), Math.rad2deg( that.hoveredThetaD ), that.hoveredSliceX, that.hoveredSliceY ) );
+// // 
+// // 		var	Dx = e.pageX - TopLeftParent.x;
+// // 		var	Dy = e.pageY - TopLeftParent.y;
+// 		
+// 	} );
 
-	function SetupSwatch( _$, _Swatch, _Name, __opt_Desaturated )
-	{
-		if ( !_Swatch )
-		{
-			_$.css( "background-color", "" );
-			_$.click();
-			$( '#SwatchInfos' ).html( "" );
-			return;
-		}
-
-		var	xyYValues = _Swatch.xyY.split( ';' );
-		var	x_unorm = parseFloat( xyYValues[0].trim() );
-		var	y_unorm = parseFloat( xyYValues[1].trim() );
-		var	Y_unorm = parseFloat( xyYValues[2].trim() );
-
-// 		var	RGBValues = _Swatch.RGB.split( ';' );
-// 		var	R_unorm = parseFloat( RGBValues[0].trim() );
-// 		var	G_unorm = parseFloat( RGBValues[1].trim() );
-// 		var	B_unorm = parseFloat( RGBValues[2].trim() );
-
-		if ( __opt_Desaturated )
-		{	// Replace xy by white reference and update sRGB values
-			x_unorm = 0.31271;	// D65
-			y_unorm = 0.32902;
-		}
-
-		// Convert to XYZ
-		var	XYZ = xyY2XYZ( x_unorm, y_unorm, Y_unorm );
-
-		// Convert to linear RGB value (using D65 illuminant 2° observer)
-		var	RGB_linear = XYZ2RGBLinear( XYZ.X, XYZ.Y, XYZ.Z );
-
-		// Convert to sRGB values 
-		var	R_unorm = Linear2sRGB( RGB_linear.R );
-		var	G_unorm = Linear2sRGB( RGB_linear.G );
-		var	B_unorm = Linear2sRGB( RGB_linear.B );
-
-		// Convert sRGB to [0,255] range and as a #rrggbb color tag
-		var	R = (0.5 + 255.0 * R_unorm) | 0;
-		var	G = (0.5 + 255.0 * G_unorm) | 0;
-		var	B = (0.5 + 255.0 * B_unorm) | 0;
-		function convert(integer)
-		{
-			var str = Number(integer).toString(16); 
-			return str.length == 1 ? "0" + str : str; 
-		};
-		var	Color = "#" + convert( R ) + convert( G ) + convert( B );
-
-		// Convert to HSL and La*b*
-		var	HSV = RGB2HSV( R_unorm, G_unorm, B_unorm );
-		var	Lab = XYZ2Lab( XYZ.X, XYZ.Y, XYZ.Z );
-			
-		// Save the swatch info text as a property of the DOM element for when it's selected
-		_$[0].selectedHtml = "Selected Swatch: " + _Name + " - Albedo=" + (100.0 * Y_unorm).toFixed( 2 ) + "%<br/>" +
-									'<div id="ForArtists">' +
-										'<u>For artists:</u><br/>' +
-										'Maya: sRGB [0,1] = ( ' + R_unorm.toFixed(4) + ', ' + G_unorm.toFixed(4) + ', ' + B_unorm.toFixed(4) + ' )<br/>' +
-										'Photoshop: sRGB [0,255] = ( R=' + R + ' G=' + G + ' B=' + B + ' )<br/>' +
-										'Photoshop: ' + Color + '<br/>' +
-										'<span id="PreferedColorSpace">Photoshop: L*a*b* = ( L*=' + Lab.L + ' a*=' + Lab.a + ' b*=' + Lab.b + ' )</span><br/>' +
-										'Photoshop: HSB = ( H=' + HSV.H + '° S=' + HSV.S + '% B=' + HSV.V + '% )<br/>' +
-									'</div>' +
-									'<br/>' +
-									'<div id="ForCoders">' +
-										'<u>For coders:</u><br/>' +
-										'xyY = float3( ' + x_unorm.toFixed( 5 ) + ', ' + y_unorm.toFixed( 5 ) + ', ' + Y_unorm.toFixed( 5 ) + ' )<br/>' +
-										'XYZ = float3( ' + XYZ.X.toFixed( 5 ) + ', ' + XYZ.Y.toFixed( 5 ) + ', ' + XYZ.Z.toFixed( 5 ) + ' )<br/>' +
-										'RGB (linear) = float3( ' + RGB_linear.R.toFixed( 5 ) + ', ' + RGB_linear.G.toFixed( 5 ) + ', ' + RGB_linear.B.toFixed( 5 ) + ' )<br/>' +
-										'(uses D65 illuminant)<br/>' +
-									'</div>'
-
-
-		// Setup background color and the click handler that will display the Html text when we click on the swatch
-		_$.css( "background-color", Color );
-		_$.click( function( e ) {
-				$( '#SwatchInfos' ).html( e.srcElement.selectedHtml );
-			} );
-	}
-
+	// Setup swatch infos
 	SetupSwatch( $( "#SwatchMin" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Min : null, "Min" );
 	SetupSwatch( $( "#SwatchMax" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Max : null, "Max" );
 	SetupSwatch( $( "#SwatchAvg" ), selectedEntry ? selectedEntry.TextureInfos.Swatches.Avg : null, "Average" );
@@ -514,9 +621,50 @@ function	UpdateSelection()
 
 	for ( var CSIndex=0; CSIndex < 9; CSIndex++ )
 	{
-		SetupSwatch( $( "#CS"+CSIndex ), selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length ? selectedEntry.TextureInfos.Swatches.Custom[CSIndex] : null, "Custom #"+CSIndex );
-		SetupSwatch( $( "#CS_desat"+CSIndex ), selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length ? selectedEntry.TextureInfos.Swatches.Custom[CSIndex] : null, "Custom (desat) #"+CSIndex, true );
+		if ( selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length )
+		{	// Valid swatch
+			var	Swatch = selectedEntry.TextureInfos.Swatches.Custom[CSIndex];
+			SetupSwatch( $( "#CS"+CSIndex ), Swatch, "Custom #"+CSIndex );
+			SetupSwatch( $( "#CS_desat"+CSIndex ), Swatch, "Custom #"+CSIndex+" (desat)", true );
+		}
+		else
+		{
+			SetupSwatch( $( "#CS"+CSIndex ), null, "Custom #"+CSIndex );
+			SetupSwatch( $( "#CS_desat"+CSIndex ), null, "Custom #"+CSIndex+" (desat)", true );
+		}
+		$( "#CSLoc"+CSIndex ).css( 'display', 'none' );
 	}
+
+	// When the image is loaded we can finally setup the custom swatch locations
+	$( "#TextureImage" ).load( function() {
+		for ( var CSIndex=0; CSIndex < 9; CSIndex++ )
+			if ( selectedEntry && CSIndex < selectedEntry.TextureInfos.Swatches.Custom.length )
+			{
+				var	Swatch = selectedEntry.TextureInfos.Swatches.Custom[CSIndex];
+				if ( !Swatch.TopLeft || !Swatch.BottomRight )
+					continue;
+
+				// Setup its location within the image
+				var	LocationPanel = $( "#CSLoc"+CSIndex );
+
+				var	ImageElement = $( "#TextureImage" );
+				var	TopLeftImage = patapi.helpers.GetElementPosition( ImageElement[0] );
+				var	TopLeftParent = patapi.helpers.GetElementPosition( $( "#Texture" )[0] );
+
+				var	x = ImageElement[0].width * Swatch.TopLeft.x;
+				var	y = ImageElement[0].height * Swatch.TopLeft.y;
+				var	w = ImageElement[0].width * Swatch.BottomRight.x - x;
+				var	h = ImageElement[0].height * Swatch.BottomRight.y - y;
+
+				LocationPanel.css( 'left', 10+x ).css( 'top', 10+y ).css( 'width', w ).css( 'height', h );
+				LocationPanel.css( 'display', 'block' );
+			}
+		}
+	);
+
+	// Simulate a click on the average swatch
+	if ( selectedEntry )
+		$( "#SwatchAvg" ).click();
 }
 
 </script>
@@ -532,10 +680,9 @@ function	UpdateSelection()
 			<!-- Contains the search & list panels -->
 			<div id="PanelSearch" class="panel">
 				<div id="SearchText">
-					<div>
-						<div>Search for: <input id='SearchTextBox' type="text" value="" for="SearchText_Input" style='margin-left:10px;'></div>
-						<div><button id="ClearTags">Clear Tags</button></div>
-					</div>
+					<div>Search for: <input id='SearchTextBox' type="text" value="" for="SearchText_Input" style='margin-left:10px;'></div>
+					<div><button id="ClearTags">Clear Tags</button></div>
+					<div id="ExclusiveSearch"><div class="t1"><span class="ui-state-default ui-corner-all ui-checkbox"/></div><div class="t0"><span>Exclusive</span></div></div>
 				</div>
 				<div id="TagsBox">
 					<div id="Tags0" class='tags-list'></div>
@@ -550,8 +697,7 @@ function	UpdateSelection()
 		<div id="PanelRight" class="panel">
 			<!-- Contains the visualization panels -->
 			<div id="PanelVisuTop" class="panel">
-				<!-- Contains the 3D view -->
-				3D VISU
+				<!-- Contains the 3D view (not used yet) -->
 			</div>
 			<div id="PanelVisuBottom" class="panel">
 				<!-- Contains the texture view -->
