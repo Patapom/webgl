@@ -2,7 +2,7 @@
 	Entries : [
 		{
 			RelativePath : "Arkane Studios/Bureau Pom",
-			FriendlyName : "Bureau Pom",
+			FriendlyName : "Pom's Desk",
 			Description : "Que du bisou!",
 			OverviewImagePath: "..\..\Meow!.png",
 			Tags : "WOOD,NEUTRAL,DESK,FURNITURE",
@@ -197,7 +197,7 @@
 		{
 			RelativePath : "Arkane Studios/Lobby Bureau Sarah",
 			FriendlyName : "Black Varnished Desk",
-			Description : "",
+			Description : "Evil Sarah's desk!",
 			Tags : "PLASTIC,BLACK,DARK,DESK,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -396,7 +396,7 @@
 		{
 			RelativePath : "Arkane Studios/Moquette Orange",
 			FriendlyName : "Dark Orange Carpet",
-			Description : "",
+			Description : "It's <strong style='color:blue;'>ORANGE</strong>!",
 			Tags : "FABRIC,ORANGE,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,

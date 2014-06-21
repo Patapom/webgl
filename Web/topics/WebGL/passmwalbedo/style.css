@@ -26,6 +26,7 @@ html, body
 #Header h1
 {
 	position:			fixed;
+	margin-left:		10px;
 	left:				0px;
 	top:				-10px;
 	display:			inline-block;
@@ -46,18 +47,13 @@ html, body
 /* Contains the search & results */
 #PanelLeft
 {
+	min-width:			550px;
 	position:			fixed;
 	width:				30%;
 	height:				100%;
 	left:				0;
 	right:				auto;
 
-	text-align:			left;
-/*
-	border:				1px;
-	border-style:		solid;
-	border-color:		#000000;
-*/
 	text-align:			center;
 	background-color:	#C0C0C0;	/* Light Gray */
 }
@@ -65,14 +61,14 @@ html, body
 /* Contains the visualisations */
 #PanelRight
 {
+	overflow:			auto;
+
 	position:			fixed;
 	width:				70%;
 	height:				100%;
-	left:				30%;
-	right:				auto;
+	right:				0%;
 
 	padding-top:		8px;
-	padding-left:		8px;
 	text-align:			left;
 	border-left:		2px;
 	border-left-style:	solid;
@@ -134,7 +130,7 @@ html, body
 	height:				60%;
 	background-image: linear-gradient(#AAA, #BBB, #CCC);
 	background-image:-webkit-linear-gradient(#AAA, #BBB, #CCC);	/* chrome 10+, safari 5.1+ */
-	overflow:			auto;	/* Shows the scrollbar if too many BRDFs vertically... */
+	overflow:			auto;	/* Shows the scrollbar if too many results vertically... */
 }
 
 .list-element
@@ -186,7 +182,7 @@ html, body
 {
 	background-color:	#C0C0C0;	/* Light Gray */
 
-	height:				0%;
+	height:				0px;
 }
 
 /* Bottom-Left Contains Results */
@@ -200,10 +196,29 @@ html, body
 
 #TextureAndSwatches
 {
-/*
-	position:absolute;
-*/
 	left:auto;
+	vertical-align:	top;
+}
+
+#TextureContainer
+{
+	display:		block;
+	padding-left:	10px;
+	padding-top:	10px;
+}
+
+#TextureInfos
+{
+	position:		absolute;
+	display:		inline-block;
+	top:			20px;
+	right:			20px;
+	width:			auto;
+	height:			auto;
+	padding:		8px;
+	border:			1px solid black;
+	vertical-align:	top;
+	background-color: rgba( 255, 255, 255, 0.4 );
 }
 
 #SwatchesAndInfos
@@ -213,13 +228,15 @@ html, body
 }
 #AllSwatches
 {
-	display:inline-block;
-	width: 250px;
+	display:		inline-block;
+	width:			250px;
+	vertical-align:	top;
 }
 #SwatchInfos
 {
-	display:inline-block;
-	width:auto;
+	display:		inline-block;
+	width:			auto;
+	vertical-align:	top;
 }
 #ForCoders
 {
@@ -258,7 +275,7 @@ html, body
 
 .swatches-line
 {
-	display:block;
+	display:		block;
 }
 
 .swatch

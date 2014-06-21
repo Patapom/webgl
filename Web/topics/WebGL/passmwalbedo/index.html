@@ -249,7 +249,7 @@ $(document).ready( function() {
 					if ( found || !EnableTextSearch )
 					{
 						var	MatchesCount = 0;
-						for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length && !found; SearchTagIndex++ )
+						for ( var SearchTagIndex=0; SearchTagIndex < SearchTags.length; SearchTagIndex++ )
 						{
 							var	SearchTag = SearchTags[SearchTagIndex].F;
 							for ( var EntryTagIndex=0; EntryTagIndex < _Entry.Tags_Split.length; EntryTagIndex++ )
@@ -363,18 +363,21 @@ $(document).ready( function() {
 			classUnSelected : "checkbox-unchecked",
 			change : function( value ) {
 				QueryDatabase();
-			}
+			},
+			value : true
 		} );
 
 	// Make the result panel fit the screen's height
-	var $window = $(window).on( 'resize', function() {
+	var $window = $(window).resize( function() {
 		var	height = $(this).height() - $( '#PanelSearch' ).height() - $( '#Header' ).height();
 			height -= 20;
 		$( '#PanelResult' ).height( height );
 
-		height = $(this).height() - $( '#PanelVisuTop' ).height() - $( '#Header' ).height();
-		height -= 20;
-		$( '#PanelVisuBottom' ).height( height );
+		height = $(this).height() - $( '#Header' ).height();
+		height -= 14;
+		$( '#PanelRight' ).height( height );
+
+		$( '#PanelRight' ).width( $(this).width() - $( '#PanelLeft' ).width() - 8 );
 
     } ).trigger('resize'); //on page load
 
@@ -541,7 +544,8 @@ function SetupSwatch( _$, _Swatch, _Name, __opt_Desaturated )
 
 function	UpdateSelection()
 {
-	$( "#Texture" ).html( 
+	// Load texture
+	$( "#TextureContainer" ).html( 
 		selectedEntry ? '<img id="TextureImage" class="texture" src="' + databasePath + selectedEntry.TextureInfos.TextureFileName + '">' +
 							'<div id="CSLoc0" class="swatch-location">0</div>' +
 							'<div id="CSLoc1" class="swatch-location">1</div>' +
@@ -557,6 +561,19 @@ function	UpdateSelection()
 					  : ''
 	);
  
+	// Show texture infos
+	$( "#TextureInfos" ).html( selectedEntry ? 
+		'<strong>' + selectedEntry.FriendlyName + '</strong><br/>' +
+		'<span id="#TextureFileName" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</span><br/>' +
+		selectedEntry.Description + '<br/>' +
+		'<br/>' +
+		'Size ' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + 'x' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + '<br/>' +
+		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
+		'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
+		'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
+		'' : ''
+	);
+
 // 	// Handle hovering above the image
 // 	$( "#TextureImage" ).hover(
 // 			function() {
@@ -649,7 +666,7 @@ function	UpdateSelection()
 
 				var	ImageElement = $( "#TextureImage" );
 				var	TopLeftImage = patapi.helpers.GetElementPosition( ImageElement[0] );
-				var	TopLeftParent = patapi.helpers.GetElementPosition( $( "#Texture" )[0] );
+				var	TopLeftParent = patapi.helpers.GetElementPosition( $( "#TextureContainer" )[0] );
 
 				var	x = ImageElement[0].width * Swatch.TopLeft.x;
 				var	y = ImageElement[0].height * Swatch.TopLeft.y;
@@ -702,7 +719,11 @@ function	UpdateSelection()
 			<div id="PanelVisuBottom" class="panel">
 				<!-- Contains the texture view -->
 				<div id="TextureAndSwatches">
-					<div id="Texture"></div>
+					<div id="Texture">
+						<div id="TextureContainer"></div>
+						<div id="TextureInfos">
+						</div>
+					</div>
 					<div id="SwatchesAndInfos">
 						<div id="AllSwatches">
 							<div class="swatches-line">
