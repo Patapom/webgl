@@ -563,11 +563,10 @@ function	UpdateSelection()
  
 	// Show texture infos
 	$( "#TextureInfos" ).html( selectedEntry ? 
-		'<strong>' + selectedEntry.FriendlyName + '</strong><br/>' +
+		'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
 		'<span id="#TextureFileName" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</span><br/>' +
 		selectedEntry.Description + '<br/>' +
 		'<br/>' +
-		'Size ' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + 'x' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + '<br/>' +
 		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
 		'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
 		'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
