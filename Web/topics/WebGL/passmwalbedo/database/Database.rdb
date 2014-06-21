@@ -1,6 +1,6 @@
 <TexturesDatabase Location="D:\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="18">
   <Entry RelativePath="Arkane Studios\Bureau Pom\CRW_7570.xml">
-    <FriendlyName Value="Bureau Pom" />
+    <FriendlyName Value="Pom's Desk" />
     <Description Value="Que du bisou!" />
     <EnvironmentImage RelativePath="..\..\Meow!.png" />
     <Tags>
@@ -67,7 +67,7 @@
   </Entry>
   <Entry RelativePath="Arkane Studios\Lobby Bureau Sarah\CRW_7589.xml">
     <FriendlyName Value="Black Varnished Desk" />
-    <Description Value="" />
+    <Description Value="Evil Sarah's desk!" />
     <Tags>
       <Type Value="PLASTIC" />
       <Color Value="BLACK" />
@@ -132,7 +132,7 @@
   </Entry>
   <Entry RelativePath="Arkane Studios\Moquette Orange\CRW_7575.xml">
     <FriendlyName Value="Dark Orange Carpet" />
-    <Description Value="" />
+    <Description Value="It's &lt;strong style='color:blue;'&gt;ORANGE&lt;/strong&gt;!" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="ORANGE" />
