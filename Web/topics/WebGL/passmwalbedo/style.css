@@ -223,6 +223,8 @@ html, body
 
 #SwatchesAndInfos
 {
+	position:		absolute;
+	left:			0px;
 	display:		block;
 	padding-top:	10px;
 }
