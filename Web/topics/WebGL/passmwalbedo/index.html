@@ -564,7 +564,7 @@ function	UpdateSelection()
 	// Show texture infos
 	$( "#TextureInfos" ).html( selectedEntry ? 
 		'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
-		'<span id="#TextureFileName" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</span><br/>' +
+		'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
 		selectedEntry.Description + '<br/>' +
 		'<br/>' +
 		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +

@@ -12,6 +12,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Bureau Pom/CRW_7570.jpg",
 				TextureFileName : "Arkane Studios/Bureau Pom/CRW_7570.png",
+				PackagePath : "Arkane Studios/Bureau Pom",
 				TextureWidth : 2983,
 				TextureHeight : 2015,
 				OverviewImageFileName : "Meow!.png",
@@ -50,6 +51,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.jpg",
 				TextureFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.png",
+				PackagePath : "Arkane Studios/Canapé Cuir Romu",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -94,6 +96,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Canapé Gris/CRW_7583.jpg",
 				TextureFileName : "Arkane Studios/Canapé Gris/CRW_7583.png",
+				PackagePath : "Arkane Studios/Canapé Gris",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -131,6 +134,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Canapé Vert/CRW_7581.jpg",
 				TextureFileName : "Arkane Studios/Canapé Vert/CRW_7581.png",
+				PackagePath : "Arkane Studios/Canapé Vert",
 				TextureWidth : 2140,
 				TextureHeight : 1443,
 				Swatches : {
@@ -168,6 +172,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.jpg",
 				TextureFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.png",
+				PackagePath : "Arkane Studios/Cube Cuir Noir",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -205,6 +210,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.jpg",
 				TextureFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.png",
+				PackagePath : "Arkane Studios/Lobby Bureau Sarah",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -256,6 +262,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.jpg",
 				TextureFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.png",
+				PackagePath : "Arkane Studios/Lobby Fauteuil Orange",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -293,6 +300,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.jpg",
 				TextureFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.png",
+				PackagePath : "Arkane Studios/Lobby Moquette Noire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -330,6 +338,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Lobby Parquet/CRW_7587.jpg",
 				TextureFileName : "Arkane Studios/Lobby Parquet/CRW_7587.png",
+				PackagePath : "Arkane Studios/Lobby Parquet",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -367,6 +376,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Moquette Grise/CRW_7572.jpg",
 				TextureFileName : "Arkane Studios/Moquette Grise/CRW_7572.png",
+				PackagePath : "Arkane Studios/Moquette Grise",
 				TextureWidth : 2520,
 				TextureHeight : 1609,
 				Swatches : {
@@ -404,6 +414,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Moquette Orange/CRW_7575.jpg",
 				TextureFileName : "Arkane Studios/Moquette Orange/CRW_7575.png",
+				PackagePath : "Arkane Studios/Moquette Orange",
 				TextureWidth : 2886,
 				TextureHeight : 1706,
 				Swatches : {
@@ -455,6 +466,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.jpg",
 				TextureFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.png",
+				PackagePath : "Arkane Studios/Paillasson Réfectoire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -492,6 +504,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.jpg",
 				TextureFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.png",
+				PackagePath : "Arkane Studios/Table Basse Blanche",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -529,6 +542,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597.jpg",
 				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597.png",
+				PackagePath : "Arkane Studios/Terrasse Bois",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -580,6 +594,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.jpg",
 				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.png",
+				PackagePath : "Arkane Studios/Terrasse Bois",
 				TextureWidth : 1610,
 				TextureHeight : 2002,
 				Swatches : {
@@ -631,6 +646,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.jpg",
 				TextureFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.png",
+				PackagePath : "Arkane Studios/Terrasse Table Orange",
 				TextureWidth : 1153,
 				TextureHeight : 1170,
 				Swatches : {
@@ -675,6 +691,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.jpg",
 				TextureFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.png",
+				PackagePath : "Arkane Studios/Terrasse Table Rouge",
 				TextureWidth : 1067,
 				TextureHeight : 1349,
 				Swatches : {
@@ -719,6 +736,7 @@
 				Aperture : 8,
 				ThumbnailFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.jpg",
 				TextureFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.png",
+				PackagePath : "Arkane Studios/Terrasse Table Verte",
 				TextureWidth : 1134,
 				TextureHeight : 1382,
 				Swatches : {
