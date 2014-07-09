@@ -1,4 +1,4 @@
-<TexturesDatabase Location="D:\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="18">
+<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="37">
   <Entry RelativePath="Arkane Studios\Bureau Pom\CRW_7570.xml">
     <FriendlyName Value="Pom's Desk" />
     <Description Value="Que du bisou!" />
@@ -230,6 +230,253 @@
       <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="TABLE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Bois\Boite Sondes Laquee\CRW_7744.xml">
+    <FriendlyName Value="Varnished Wooden Box" />
+    <Description Value="Picture of my wooden box that came with the diffuse reflectance standard. ^^" />
+    <Tags>
+      <Type Value="WOOD" />
+      <Color Value="NONE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="VARNISHED" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Carrelages\Carrelage Blanc\CRW_7728.xml">
+    <FriendlyName Value="White Floor Tiling" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="WHITE" />
+      <Shade Value="BRIGHT" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="VARNISHED" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Carrelages\Carrelage Jaune\CRW_7730.xml">
+    <FriendlyName Value="Yellow Floor Tiling" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="YELLOW" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="VARNISHED" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Carrelages\Carrelage Rayures Multicolores\CRW_7732.xml">
+    <FriendlyName Value="Multicolored Striped Floor Tiling" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="VARNISHED" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuir Beige\CRW_7740.xml">
+    <FriendlyName Value="Beige Leather" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="WHITE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuir Brun\CRW_7716.xml">
+    <FriendlyName Value="Brown Leather" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="NONE" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuir Brun Clair\CRW_7720.xml">
+    <FriendlyName Value="Light Brown Leather" />
+    <Description Value="More of raw cow skin really" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="NONE" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuir Noir\CRW_7718.xml">
+    <FriendlyName Value="Black Leather" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="BLACK" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuir Super Noir\CRW_7734.xml">
+    <FriendlyName Value="Very Dark Leather" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="BLACK" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Cuire Ocre\CRW_7736.xml">
+    <FriendlyName Value="Crimson Leather" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="RED" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Cuir\Peau Vachette\CRW_7738.xml">
+    <FriendlyName Value="Cow Skin" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="SKIN" />
+      <Color Value="NONE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Beige Rayures Bleues Metal\CRW_7712.xml">
+    <FriendlyName Value="White Fabric with Shiny Blue Stripes" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="WHITE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Chaussette Blanche et Motifs\CRW_7742.xml">
+    <FriendlyName Value="White Sock with Motifs" />
+    <Description Value="Bowling!" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="WHITE" />
+      <Shade Value="BRIGHT" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Jean Noir\CRW_7726.xml">
+    <FriendlyName Value="Black Jean" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="BLACK" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Laine Rouge et Blanche\CRW_7714.xml">
+    <FriendlyName Value="Red Wool" />
+    <Description Value="With a little white fibers" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="RED" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Pied de Poule\CRW_7708.xml">
+    <FriendlyName Value="Hound's-tooth B&amp;W Fabric" />
+    <Description Value="With shiny stripe of fabric at the bottom" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="BLACK" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Tissu Bleu\CRW_7710.xml">
+    <FriendlyName Value="Blue Fabric" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="BLUE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Tissus Peint Multicolore\CRW_7722.xml">
+    <FriendlyName Value="Multicolored Fabric" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="NONE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Tissus\Tissus Rouge Brillant\CRW_7724.xml">
+    <FriendlyName Value="Shiny Red Fabric" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="FABRIC" />
+      <Color Value="RED" />
+      <Shade Value="BRIGHT" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
       <Construction Value="NONE" />
       <Modifiers Value="NONE" />
     </Tags>

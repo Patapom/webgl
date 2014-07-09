@@ -763,5 +763,1077 @@
 				}
 			}
 		},
+		{
+			RelativePath : "Bois/Boite Sondes Laquee",
+			FriendlyName : "Varnished Wooden Box",
+			Description : "Picture of my wooden box that came with the diffuse reflectance standard. ^^",
+			Tags : "WOOD,NEUTRAL,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Bois/Boite Sondes Laquee/CRW_7744.jpg",
+				TextureFileName : "Bois/Boite Sondes Laquee/CRW_7744.png",
+				PackagePath : "Bois/Boite Sondes Laquee",
+				TextureWidth : 2378,
+				TextureHeight : 1557,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4043585; 0.3762823; 0.1446026",
+						RGB : "0.5263536; 0.3873649; 0.2897365",
+						Color : "866249",
+					},
+					Max : 
+					{
+						xyY : "0.3463179; 0.3482326; 0.4929239",
+						RGB : "0.8067238; 0.7136009; 0.6528526",
+						Color : "CDB5A6",
+					},
+					Avg : 
+					{
+						xyY : "0.3695108; 0.3615649; 0.2994392",
+						RGB : "0.6802261; 0.5605516; 0.4747052",
+						Color : "AD8E79",
+					},
+					Custom : [
+						{
+							xyY : "0.3752788; 0.3632931; 0.2626212",
+							RGB : "0.6508825; 0.5246997; 0.4382771",
+							Color : "A5856F",
+							TopLeft : { x : 0.1912651, y : 0.5356322 },
+							BottomRight : { x : 0.308735, y : 0.6183908 },
+						},
+						{
+							xyY : "0.3588865; 0.3552276; 0.377213",
+							RGB : "0.7378352; 0.626962; 0.5518021",
+							Color : "BC9F8C",
+							TopLeft : { x : 0.5677711, y : 0.4896552 },
+							BottomRight : { x : 0.6701807, y : 0.5586207 },
+						},
+						{
+							xyY : "0.3714778; 0.3653578; 0.292733",
+							RGB : "0.6721891; 0.5559015; 0.4610365",
+							Color : "AB8D75",
+							TopLeft : { x : 0.8554217, y : 0.4275862 },
+							BottomRight : { x : 0.8780121, y : 0.4666667 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Carrelages/Carrelage Blanc",
+			FriendlyName : "White Floor Tiling",
+			Description : "",
+			Tags : "STONE,WHITE,BRIGHT,FLOOR,CONSTRUCTION,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Carrelages/Carrelage Blanc/CRW_7728.jpg",
+				TextureFileName : "Carrelages/Carrelage Blanc/CRW_7728.png",
+				PackagePath : "Carrelages/Carrelage Blanc",
+				TextureWidth : 1039,
+				TextureHeight : 553,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3217832; 0.3324395; 0.4197191",
+						RGB : "0.7039835; 0.6739594; 0.66402",
+						Color : "B3ABA9",
+					},
+					Max : 
+					{
+						xyY : "0.3116848; 0.3323595; 0.6515411",
+						RGB : "0.8155803; 0.8317849; 0.8202332",
+						Color : "CFD4D1",
+					},
+					Avg : 
+					{
+						xyY : "0.3120999; 0.3314246; 0.5805534",
+						RGB : "0.7784079; 0.7889191; 0.7809533",
+						Color : "C6C9C7",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Carrelages/Carrelage Jaune",
+			FriendlyName : "Yellow Floor Tiling",
+			Description : "",
+			Tags : "STONE,YELLOW,FLOOR,CONSTRUCTION,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Carrelages/Carrelage Jaune/CRW_7730.jpg",
+				TextureFileName : "Carrelages/Carrelage Jaune/CRW_7730.png",
+				PackagePath : "Carrelages/Carrelage Jaune",
+				TextureWidth : 524,
+				TextureHeight : 1121,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3672035; 0.3856615; 0.3796496",
+						RGB : "0.7128538; 0.6437386; 0.4843442",
+						Color : "B5A47B",
+					},
+					Max : 
+					{
+						xyY : "0.3542114; 0.3800507; 0.6131688",
+						RGB : "0.8519233; 0.8061289; 0.6341897",
+						Color : "D9CDA1",
+					},
+					Avg : 
+					{
+						xyY : "0.3585546; 0.3852206; 0.5343136",
+						RGB : "0.805442; 0.7580526; 0.5787912",
+						Color : "CDC193",
+					},
+					Custom : [
+						{
+							xyY : "0.3569199; 0.3833416; 0.5464869",
+							RGB : "0.8119046; 0.7657977; 0.5910881",
+							Color : "CFC396",
+							TopLeft : { x : 0.2774194, y : 0.5090361 },
+							BottomRight : { x : 0.5935484, y : 0.6927711 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Carrelages/Carrelage Rayures Multicolores",
+			FriendlyName : "Multicolored Striped Floor Tiling",
+			Description : "",
+			Tags : "STONE,FLOOR,CONSTRUCTION,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Carrelages/Carrelage Rayures Multicolores/CRW_7732.jpg",
+				TextureFileName : "Carrelages/Carrelage Rayures Multicolores/CRW_7732.png",
+				PackagePath : "Carrelages/Carrelage Rayures Multicolores",
+				TextureWidth : 671,
+				TextureHeight : 511,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4519126; 0.3578934; 0.0795044",
+						RGB : "0.4637919; 0.2567481; 0.2029515",
+						Color : "764133",
+					},
+					Max : 
+					{
+						xyY : "0.3198714; 0.3375259; 0.6909397",
+						RGB : "0.8597751; 0.8492714; 0.8191688",
+						Color : "DBD8D0",
+					},
+					Avg : 
+					{
+						xyY : "0.3486366; 0.3469955; 0.3114468",
+						RGB : "0.6644952; 0.5770028; 0.5297847",
+						Color : "A99387",
+					},
+					Custom : [
+						{
+							xyY : "0.4481977; 0.3724321; 0.107049",
+							RGB : "0.5139837; 0.309677; 0.2204364",
+							Color : "834E38",
+							TopLeft : { x : 0.2942529, y : 0.4006024 },
+							BottomRight : { x : 0.4689655, y : 0.4216867 },
+						},
+						{
+							xyY : "0.3077191; 0.3289794; 0.3622527",
+							RGB : "0.6194595; 0.6404452; 0.6404542",
+							Color : "9DA3A3",
+							TopLeft : { x : 0.2574713, y : 0.3373494 },
+							BottomRight : { x : 0.4758621, y : 0.3614458 },
+						},
+						{
+							xyY : "0.3289789; 0.3418311; 0.5016586",
+							RGB : "0.7689471; 0.7309121; 0.6909419",
+							Color : "C4BAB0",
+							TopLeft : { x : 0.3471264, y : 0.1656626 },
+							BottomRight : { x : 0.4643678, y : 0.1807229 },
+						},
+						{
+							xyY : "0.3914046; 0.3711364; 0.3576818",
+							RGB : "0.7726291; 0.5969108; 0.4730497",
+							Color : "C59878",
+							TopLeft : { x : 0.3057471, y : 0.1987952 },
+							BottomRight : { x : 0.4367816, y : 0.2198795 },
+						},
+						{
+							xyY : "0.440655; 0.4080326; 0.3432948",
+							RGB : "0.8037702; 0.5748929; 0.3230592",
+							Color : "CC9252",
+							TopLeft : { x : 0.2781609, y : 0.5722892 },
+							BottomRight : { x : 0.4206896, y : 0.5873494 },
+						},
+						{
+							xyY : "0.2973317; 0.3235407; 0.2790777",
+							RGB : "0.5261668; 0.5735762; 0.5865028",
+							Color : "869295",
+							TopLeft : { x : 0.4597701, y : 0.7138554 },
+							BottomRight : { x : 0.6321839, y : 0.7349398 },
+						},
+						{
+							xyY : "0.3475804; 0.346909; 0.3294015",
+							RGB : "0.6789016; 0.5927547; 0.5447395",
+							Color : "AD978A",
+							TopLeft : { x : 0.7287356, y : 0.1777108 },
+							BottomRight : { x : 0.8528736, y : 0.8493976 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuir Beige",
+			FriendlyName : "Beige Leather",
+			Description : "",
+			Tags : "SKIN,WHITE,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuir Beige/CRW_7740.jpg",
+				TextureFileName : "Cuir/Cuir Beige/CRW_7740.png",
+				PackagePath : "Cuir/Cuir Beige",
+				TextureWidth : 586,
+				TextureHeight : 383,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3288131; 0.3338086; 0.1471127",
+						RGB : "0.4483658; 0.4123929; 0.4033406",
+						Color : "726966",
+					},
+					Max : 
+					{
+						xyY : "0.3382803; 0.3677204; 0.5262604",
+						RGB : "0.7674427; 0.7583028; 0.6377081",
+						Color : "C3C1A2",
+					},
+					Avg : 
+					{
+						xyY : "0.3376469; 0.3660295; 0.4167772",
+						RGB : "0.6922125; 0.6823693; 0.5776058",
+						Color : "B0AE93",
+					},
+					Custom : [
+						{
+							xyY : "0.3378855; 0.3668944; 0.4181524",
+							RGB : "0.6924984; 0.6837674; 0.5764877",
+							Color : "B0AE93",
+							TopLeft : { x : 0.4430107, y : 0.3052805 },
+							BottomRight : { x : 0.739785, y : 0.6650165 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuir Brun",
+			FriendlyName : "Brown Leather",
+			Description : "",
+			Tags : "SKIN,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuir Brun/CRW_7716.jpg",
+				TextureFileName : "Cuir/Cuir Brun/CRW_7716.png",
+				PackagePath : "Cuir/Cuir Brun",
+				TextureWidth : 625,
+				TextureHeight : 484,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.422785; 0.3633001; 0.02465539",
+						RGB : "0.2422844; 0.1475592; 0.111571",
+						Color : "3D251C",
+					},
+					Max : 
+					{
+						xyY : "0.3541676; 0.3593237; 0.07569616",
+						RGB : "0.3412104; 0.2979053; 0.2540458",
+						Color : "574B40",
+					},
+					Avg : 
+					{
+						xyY : "0.3956126; 0.3627461; 0.03154175",
+						RGB : "0.2540512; 0.1781782; 0.1414014",
+						Color : "402D24",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuir Brun Clair",
+			FriendlyName : "Light Brown Leather",
+			Description : "More of raw cow skin really",
+			Tags : "SKIN,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuir Brun Clair/CRW_7720.jpg",
+				TextureFileName : "Cuir/Cuir Brun Clair/CRW_7720.png",
+				PackagePath : "Cuir/Cuir Brun Clair",
+				TextureWidth : 1401,
+				TextureHeight : 544,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.306119; 0.2971064; 0.01498417",
+						RGB : "0.1382628; 0.1230478; 0.1471312",
+						Color : "231F25",
+					},
+					Max : 
+					{
+						xyY : "0.3861218; 0.4082137; 0.158631",
+						RGB : "0.4873776; 0.430814; 0.2727708",
+						Color : "7C6D45",
+					},
+					Avg : 
+					{
+						xyY : "0.4274363; 0.41993; 0.07084693",
+						RGB : "0.3686474; 0.2808068; 0.1371377",
+						Color : "5E4722",
+					},
+					Custom : [
+						{
+							xyY : "0.4285466; 0.4203826; 0.0681683",
+							RGB : "0.3626731; 0.2752031; 0.1326534",
+							Color : "5C4621",
+							TopLeft : { x : 0.2451613, y : 0.2 },
+							BottomRight : { x : 0.4537635, y : 0.7166666 },
+						},
+						{
+							xyY : "0.410486; 0.4197447; 0.1321306",
+							RGB : "0.4719382; 0.3883819; 0.2112842",
+							Color : "786335",
+							TopLeft : { x : 0.883871, y : 0.3277778 },
+							BottomRight : { x : 0.8903226, y : 0.3388889 },
+						},
+						{
+							xyY : "0.4263634; 0.4200004; 0.07222436",
+							RGB : "0.3709329; 0.2839382; 0.139469",
+							Color : "5E4823",
+							TopLeft : { x : 0.7354839, y : 0.3944444 },
+							BottomRight : { x : 0.8, y : 0.8 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuir Noir",
+			FriendlyName : "Black Leather",
+			Description : "",
+			Tags : "SKIN,BLACK,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuir Noir/CRW_7718.jpg",
+				TextureFileName : "Cuir/Cuir Noir/CRW_7718.png",
+				PackagePath : "Cuir/Cuir Noir",
+				TextureWidth : 978,
+				TextureHeight : 651,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.1748646; 0.09788709; 0.0112005",
+						RGB : "0.07130248; 0.06175011; 0.3260138",
+						Color : "120F53",
+					},
+					Max : 
+					{
+						xyY : "0.3036647; 0.3250458; 0.162678",
+						RGB : "0.4232878; 0.4437401; 0.4512895",
+						Color : "6B7173",
+					},
+					Avg : 
+					{
+						xyY : "0.2743113; 0.2798149; 0.01513362",
+						RGB : "0.116575; 0.1284245; 0.1650026",
+						Color : "1D202A",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuir Super Noir",
+			FriendlyName : "Very Dark Leather",
+			Description : "",
+			Tags : "SKIN,BLACK,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuir Super Noir/CRW_7734.jpg",
+				TextureFileName : "Cuir/Cuir Super Noir/CRW_7734.png",
+				PackagePath : "Cuir/Cuir Super Noir",
+				TextureWidth : 924,
+				TextureHeight : 721,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.07769438; 0.5169733; 0.01095222",
+						RGB : "-0.2039205; 0.1486832; 0.07794181",
+						Color : "002513",
+					},
+					Max : 
+					{
+						xyY : "0.3211114; 0.3417782; 0.1353327",
+						RGB : "0.4064746; 0.4047219; 0.3819497",
+						Color : "676761",
+					},
+					Avg : 
+					{
+						xyY : "0.264864; 0.272687; 0.01457503",
+						RGB : "0.1070249; 0.126554; 0.1677931",
+						Color : "1B202A",
+					},
+					Custom : [
+						{
+							xyY : "0.268699; 0.2833167; 0.01459311",
+							RGB : "0.105593; 0.1279542; 0.1608253",
+							Color : "1A2029",
+							TopLeft : { x : 0.5129412, y : 0.433735 },
+							BottomRight : { x : 0.6305882, y : 0.560241 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Cuire Ocre",
+			FriendlyName : "Crimson Leather",
+			Description : "",
+			Tags : "SKIN,RED,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Cuire Ocre/CRW_7736.jpg",
+				TextureFileName : "Cuir/Cuire Ocre/CRW_7736.png",
+				PackagePath : "Cuir/Cuire Ocre",
+				TextureWidth : 445,
+				TextureHeight : 896,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4479544; 0.2992623; 0.02334047",
+						RGB : "0.2881525; 0.104586; 0.1429344",
+						Color : "491A24",
+					},
+					Max : 
+					{
+						xyY : "0.3890901; 0.3430738; 0.07451182",
+						RGB : "0.3963241; 0.2723918; 0.2502927",
+						Color : "65453F",
+					},
+					Avg : 
+					{
+						xyY : "0.4368757; 0.3170398; 0.0308487",
+						RGB : "0.3102078; 0.1413189; 0.1575478",
+						Color : "4F2428",
+					},
+					Custom : [
+						{
+							xyY : "0.4317268; 0.3125417; 0.02932918",
+							RGB : "0.30201; 0.1370192; 0.1586017",
+							Color : "4D2228",
+							TopLeft : { x : 0.1432927, y : 0.4246988 },
+							BottomRight : { x : 0.3262195, y : 0.5783132 },
+						},
+						{
+							xyY : "0.4094653; 0.312034; 0.03110834",
+							RGB : "0.2946618; 0.1515015; 0.1728824",
+							Color : "4B262C",
+							TopLeft : { x : 0.2042683, y : 0.6987952 },
+							BottomRight : { x : 0.472561, y : 0.7409639 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Cuir/Peau Vachette",
+			FriendlyName : "Cow Skin",
+			Description : "",
+			Tags : "SKIN,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Cuir/Peau Vachette/CRW_7738.jpg",
+				TextureFileName : "Cuir/Peau Vachette/CRW_7738.png",
+				PackagePath : "Cuir/Peau Vachette",
+				TextureWidth : 924,
+				TextureHeight : 562,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3817866; 0.36231; 0.1025142",
+						RGB : "0.4319604; 0.332966; 0.2753872",
+						Color : "6E5446",
+					},
+					Max : 
+					{
+						xyY : "0.3590254; 0.376119; 0.4238467",
+						RGB : "0.742389; 0.6766376; 0.5386232",
+						Color : "BDAC89",
+					},
+					Avg : 
+					{
+						xyY : "0.3720057; 0.3795929; 0.2510436",
+						RGB : "0.6092556; 0.5264561; 0.4046279",
+						Color : "9B8667",
+					},
+					Custom : [
+						{
+							xyY : "0.3755507; 0.3806116; 0.2270517",
+							RGB : "0.5877628; 0.5008998; 0.3809575",
+							Color : "957F61",
+							TopLeft : { x : 0.1978495, y : 0.5283688 },
+							BottomRight : { x : 0.3978495, y : 0.7269503 },
+						},
+						{
+							xyY : "0.3642095; 0.377044; 0.3212073",
+							RGB : "0.6665387; 0.5935277; 0.4669893",
+							Color : "A99777",
+							TopLeft : { x : 0.8408602, y : 0.1808511 },
+							BottomRight : { x : 0.9268817, y : 0.3617021 },
+						},
+						{
+							xyY : "0.3652107; 0.3758511; 0.2208925",
+							RGB : "0.5658444; 0.4985505; 0.3926117",
+							Color : "907F64",
+							TopLeft : { x : 0.8172043, y : 0.0141844 },
+							BottomRight : { x : 0.8731183, y : 0.06028369 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Beige Rayures Bleues Metal",
+			FriendlyName : "White Fabric with Shiny Blue Stripes",
+			Description : "",
+			Tags : "FABRIC,WHITE,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Beige Rayures Bleues Metal/CRW_7712.jpg",
+				TextureFileName : "Tissus/Beige Rayures Bleues Metal/CRW_7712.png",
+				PackagePath : "Tissus/Beige Rayures Bleues Metal",
+				TextureWidth : 2548,
+				TextureHeight : 1455,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2945152; 0.3113906; 0.1525767",
+						RGB : "0.4055957; 0.4293791; 0.4625724",
+						Color : "676D75",
+					},
+					Max : 
+					{
+						xyY : "0.3309128; 0.3461068; 0.9378051",
+						RGB : "1.012079; 0.967063; 0.8980988",
+						Color : "FFF6E5",
+					},
+					Avg : 
+					{
+						xyY : "0.3291051; 0.3433917; 0.3041189",
+						RGB : "0.6117352; 0.5839216; 0.5476009",
+						Color : "9B948B",
+					},
+					Custom : [
+						{
+							xyY : "0.333374; 0.3459504; 0.3503111",
+							RGB : "0.6603209; 0.6209193; 0.5753831",
+							Color : "A89E92",
+							TopLeft : { x : 0.2913257, y : 0.2126437 },
+							BottomRight : { x : 0.3109656, y : 0.6293104 },
+						},
+						{
+							xyY : "0.3146575; 0.3342217; 0.2643759",
+							RGB : "0.5484954; 0.5528723; 0.5405444",
+							Color : "8B8C89",
+							TopLeft : { x : 0.4075286, y : 0.341954 },
+							BottomRight : { x : 0.4124386, y : 0.6609195 },
+						},
+						{
+							xyY : "0.3282529; 0.3442498; 0.3143227",
+							RGB : "0.6171975; 0.5940281; 0.5551113",
+							Color : "9D978D",
+							TopLeft : { x : 0.4844517, y : 0.2183908 },
+							BottomRight : { x : 0.6546645, y : 0.4224138 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Chaussette Blanche et Motifs",
+			FriendlyName : "White Sock with Motifs",
+			Description : "Bowling!",
+			Tags : "FABRIC,WHITE,BRIGHT",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Chaussette Blanche et Motifs/CRW_7742.jpg",
+				TextureFileName : "Tissus/Chaussette Blanche et Motifs/CRW_7742.png",
+				PackagePath : "Tissus/Chaussette Blanche et Motifs",
+				TextureWidth : 2428,
+				TextureHeight : 810,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2864318; 0.3044002; 0.0214651",
+						RGB : "0.1431529; 0.1596361; 0.1801147",
+						Color : "24282D",
+					},
+					Max : 
+					{
+						xyY : "0.3178146; 0.3377178; 0.9278255",
+						RGB : "0.969218; 0.9702712; 0.9355826",
+						Color : "F7F7EE",
+					},
+					Avg : 
+					{
+						xyY : "0.3170957; 0.3309326; 0.5913112",
+						RGB : "0.8057083; 0.7895789; 0.7831636",
+						Color : "CDC9C7",
+					},
+					Custom : [
+						{
+							xyY : "0.3166085; 0.3347111; 0.7542391",
+							RGB : "0.8864271; 0.884015; 0.8631105",
+							Color : "E2E1DC",
+							TopLeft : { x : 0.572043, y : 0.3064516 },
+							BottomRight : { x : 0.6258065, y : 0.5129032 },
+						},
+						{
+							xyY : "0.5719147; 0.3162638; 0.1259619",
+							RGB : "0.7498697; 0.1401854; 0.20306",
+							Color : "BF2333",
+							TopLeft : { x : 0.2924731, y : 0.5387097 },
+							BottomRight : { x : 0.3075269, y : 0.6483871 },
+						},
+						{
+							xyY : "0.1914699; 0.1912849; 0.07904858",
+							RGB : "0.08400824; 0.3174924; 0.5448219",
+							Color : "15508A",
+							TopLeft : { x : 0.2236559, y : 0.2225806 },
+							BottomRight : { x : 0.2817204, y : 0.3580645 },
+						},
+						{
+							xyY : "0.3025028; 0.3185125; 0.03350731",
+							RGB : "0.1955655; 0.2018184; 0.2123336",
+							Color : "313336",
+							TopLeft : { x : 0.3462366, y : 0.8612903 },
+							BottomRight : { x : 0.3698925, y : 0.8806452 },
+						},
+						{
+							xyY : "0.561352; 0.3149623; 0.1283119",
+							RGB : "0.7475559; 0.1567945; 0.2204055",
+							Color : "BE2738",
+							TopLeft : { x : 0.05806452, y : 0.4483871 },
+							BottomRight : { x : 0.06236559, y : 0.5967742 },
+						},
+						{
+							xyY : "0.1991644; 0.1997386; 0.08209246",
+							RGB : "0.1328213; 0.3225982; 0.5360563",
+							Color : "215288",
+							TopLeft : { x : 0.02365591, y : 0.616129 },
+							BottomRight : { x : 0.02365591, y : 0.7967742 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Jean Noir",
+			FriendlyName : "Black Jean",
+			Description : "",
+			Tags : "FABRIC,BLACK,DARK",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Jean Noir/CRW_7726.jpg",
+				TextureFileName : "Tissus/Jean Noir/CRW_7726.png",
+				PackagePath : "Tissus/Jean Noir",
+				TextureWidth : 2429,
+				TextureHeight : 847,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2824124; 0.2791145; 0.01663355",
+						RGB : "0.1330661; 0.1332482; 0.1724629",
+						Color : "21212B",
+					},
+					Max : 
+					{
+						xyY : "0.3200552; 0.3441989; 0.1414533",
+						RGB : "0.4100227; 0.4149988; 0.3875571",
+						Color : "686962",
+					},
+					Avg : 
+					{
+						xyY : "0.3069259; 0.3205324; 0.04113092",
+						RGB : "0.2225447; 0.2237053; 0.2329967",
+						Color : "38393B",
+					},
+					Custom : [
+						{
+							xyY : "0.3081826; 0.3221427; 0.04324305",
+							RGB : "0.2289302; 0.229611; 0.2372883",
+							Color : "3A3A3C",
+							TopLeft : { x : 0.3075269, y : 0.3395062 },
+							BottomRight : { x : 0.5505376, y : 0.7098765 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Laine Rouge et Blanche",
+			FriendlyName : "Red Wool",
+			Description : "With a little white fibers",
+			Tags : "FABRIC,RED,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Laine Rouge et Blanche/CRW_7714.jpg",
+				TextureFileName : "Tissus/Laine Rouge et Blanche/CRW_7714.png",
+				PackagePath : "Tissus/Laine Rouge et Blanche",
+				TextureWidth : 2716,
+				TextureHeight : 775,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.5387793; 0.3022067; 0.02099913",
+						RGB : "0.3199929; 0.04587992; 0.09644873",
+						Color : "510B18",
+					},
+					Max : 
+					{
+						xyY : "0.3742287; 0.332848; 0.3386984",
+						RGB : "0.7765101; 0.5645602; 0.5537231",
+						Color : "C68F8D",
+					},
+					Avg : 
+					{
+						xyY : "0.5283878; 0.3168148; 0.08924131",
+						RGB : "0.6041406; 0.1718421; 0.2095974",
+						Color : "9A2B35",
+					},
+					Custom : [
+						{
+							xyY : "0.5417145; 0.3160556; 0.08357381",
+							RGB : "0.5986519; 0.1497058; 0.1920543",
+							Color : "982630",
+							TopLeft : { x : 0.2209493, y : 0.3678161 },
+							BottomRight : { x : 0.2765957, y : 0.5517241 },
+						},
+						{
+							xyY : "0.4197998; 0.3225715; 0.1767929",
+							RGB : "0.667754; 0.3727464; 0.3900444",
+							Color : "AA5F63",
+							TopLeft : { x : 0.5810148, y : 0.683908 },
+							BottomRight : { x : 0.5859247, y : 0.7011494 },
+						},
+						{
+							xyY : "0.4585269; 0.3203685; 0.1551996",
+							RGB : "0.6856707; 0.3139701; 0.3387794",
+							Color : "AE5056",
+							TopLeft : { x : 0.4337152, y : 0.3563218 },
+							BottomRight : { x : 0.4435352, y : 0.3908046 },
+						},
+						{
+							xyY : "0.5317661; 0.317259; 0.09357416",
+							RGB : "0.6198574; 0.173387; 0.211237",
+							Color : "9E2C35",
+							TopLeft : { x : 0.3682488, y : 0.6264368 },
+							BottomRight : { x : 0.4615385, y : 0.8908046 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Pied de Poule",
+			FriendlyName : "Hound's-tooth B&W Fabric",
+			Description : "With shiny stripe of fabric at the bottom",
+			Tags : "FABRIC,BLACK,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Pied de Poule/CRW_7708.jpg",
+				TextureFileName : "Tissus/Pied de Poule/CRW_7708.png",
+				PackagePath : "Tissus/Pied de Poule",
+				TextureWidth : 2049,
+				TextureHeight : 1088,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2181618; 0.2325624; 0.01236448",
+						RGB : "0.05092833; 0.1186627; 0.1862849",
+						Color : "0C1E2F",
+					},
+					Max : 
+					{
+						xyY : "0.3248985; 0.3422528; 0.4258896",
+						RGB : "0.7006854; 0.6831391; 0.6448551",
+						Color : "B2AEA4",
+					},
+					Avg : 
+					{
+						xyY : "0.3189947; 0.3294906; 0.1077263",
+						RGB : "0.3735476; 0.3587837; 0.3579997",
+						Color : "5F5B5B",
+					},
+					Custom : [
+						{
+							xyY : "0.3167223; 0.3306898; 0.1374456",
+							RGB : "0.4131117; 0.4049388; 0.4018858",
+							Color : "696766",
+							TopLeft : { x : 0.2516129, y : 0.203252 },
+							BottomRight : { x : 0.3569892, y : 0.4227642 },
+						},
+						{
+							xyY : "0.326965; 0.3222728; 0.07026286",
+							RGB : "0.3224869; 0.2847285; 0.2943453",
+							Color : "52484B",
+							TopLeft : { x : 0.1913978, y : 0.8577236 },
+							BottomRight : { x : 0.2666667, y : 0.9471545 },
+						},
+						{
+							xyY : "0.3234928; 0.3378921; 0.303464",
+							RGB : "0.6041241; 0.5841527; 0.5617606",
+							Color : "9A948F",
+							TopLeft : { x : 0.4500818, y : 0.4598765 },
+							BottomRight : { x : 0.4582651, y : 0.4753087 },
+						},
+						{
+							xyY : "0.2928256; 0.3100867; 0.01935853",
+							RGB : "0.138751; 0.1500978; 0.1651745",
+							Color : "23262A",
+							TopLeft : { x : 0.4903226, y : 0.3780488 },
+							BottomRight : { x : 0.4989247, y : 0.3902439 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Tissu Bleu",
+			FriendlyName : "Blue Fabric",
+			Description : "",
+			Tags : "FABRIC,BLUE,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Tissu Bleu/CRW_7710.jpg",
+				TextureFileName : "Tissus/Tissu Bleu/CRW_7710.png",
+				PackagePath : "Tissus/Tissu Bleu",
+				TextureWidth : 1308,
+				TextureHeight : 571,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2254585; 0.2294388; 0.04972025",
+						RGB : "0.1641014; 0.249883; 0.3771871",
+						Color : "293F60",
+					},
+					Max : 
+					{
+						xyY : "0.2806587; 0.3136584; 0.3808753",
+						RGB : "0.559502; 0.6686878; 0.70974",
+						Color : "8EAAB4",
+					},
+					Avg : 
+					{
+						xyY : "0.2558866; 0.2839132; 0.1334666",
+						RGB : "0.3070633; 0.4138522; 0.4935754",
+						Color : "4E697D",
+					},
+					Custom : [
+						{
+							xyY : "0.2556064; 0.2825864; 0.126743",
+							RGB : "0.30034; 0.4033996; 0.4839234",
+							Color : "4C667B",
+							TopLeft : { x : 0.2487725, y : 0.1992481 },
+							BottomRight : { x : 0.3715221, y : 0.5037594 },
+						},
+						{
+							xyY : "0.2605177; 0.290981; 0.1868511",
+							RGB : "0.367617; 0.4849344; 0.5616621",
+							Color : "5D7B8F",
+							TopLeft : { x : 0.3011457, y : 0.8233083 },
+							BottomRight : { x : 0.4468085, y : 0.9473684 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Tissus Peint Multicolore",
+			FriendlyName : "Multicolored Fabric",
+			Description : "",
+			Tags : "FABRIC,NEUTRAL",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Tissus Peint Multicolore/CRW_7722.jpg",
+				TextureFileName : "Tissus/Tissus Peint Multicolore/CRW_7722.png",
+				PackagePath : "Tissus/Tissus Peint Multicolore",
+				TextureWidth : 2961,
+				TextureHeight : 887,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3751702; 0.285408; 0.0461033",
+						RGB : "0.3461132; 0.1898764; 0.2526024",
+						Color : "583040",
+					},
+					Max : 
+					{
+						xyY : "0.3133057; 0.3347203; 0.6402118",
+						RGB : "0.8107103; 0.825657; 0.8061832",
+						Color : "CED2CD",
+					},
+					Avg : 
+					{
+						xyY : "0.2946447; 0.3081793; 0.1586566",
+						RGB : "0.4178515; 0.4355019; 0.4756737",
+						Color : "6A6F79",
+					},
+					Custom : [
+						{
+							xyY : "0.3183933; 0.3081672; 0.1564731",
+							RGB : "0.471752; 0.4165224; 0.458365",
+							Color : "786A74",
+							TopLeft : { x : 0.04086021, y : 0.2482014 },
+							BottomRight : { x : 0.09247312, y : 0.3848921 },
+						},
+						{
+							xyY : "0.2245592; 0.2294296; 0.1687734",
+							RGB : "0.304748; 0.4531378; 0.6646774",
+							Color : "4D73A9",
+							TopLeft : { x : 0.4494624, y : 0.1043165 },
+							BottomRight : { x : 0.4924731, y : 0.2338129 },
+						},
+						{
+							xyY : "0.4478513; 0.4505746; 0.3026332",
+							RGB : "0.7190257; 0.5648608; 0.1797043",
+							Color : "B7902D",
+							TopLeft : { x : 0.1376344, y : 0.6151079 },
+							BottomRight : { x : 0.1612903, y : 0.7086331 },
+						},
+						{
+							xyY : "0.2592854; 0.4305726; 0.1247281",
+							RGB : "0.07745553; 0.4428699; 0.3009332",
+							Color : "13704C",
+							TopLeft : { x : 0.8946236, y : 0.6654676 },
+							BottomRight : { x : 0.9354839, y : 0.8165467 },
+						},
+						{
+							xyY : "0.2333029; 0.3474631; 0.1476109",
+							RGB : "0.06549326; 0.4710875; 0.4412829",
+							Color : "107870",
+							TopLeft : { x : 0.7784946, y : 0.5575539 },
+							BottomRight : { x : 0.8064516, y : 0.6582734 },
+						},
+						{
+							xyY : "0.3599529; 0.4152021; 0.1538401",
+							RGB : "0.4290891; 0.4402053; 0.2808295",
+							Color : "6D7047",
+							TopLeft : { x : 0.255914, y : 0.3057554 },
+							BottomRight : { x : 0.283871, y : 0.4208633 },
+						},
+						{
+							xyY : "0.5439917; 0.3031815; 0.10936",
+							RGB : "0.6945623; 0.1396091; 0.2398008",
+							Color : "B1233D",
+							TopLeft : { x : 0.04086021, y : 0.05395683 },
+							BottomRight : { x : 0.07526882, y : 0.147482 },
+						},
+						{
+							xyY : "0.3157066; 0.3095429; 0.1753292",
+							RGB : "0.489149; 0.4422565; 0.4829025",
+							Color : "7C707B",
+							TopLeft : { x : 0.5182796, y : 0.7733813 },
+							BottomRight : { x : 0.5376344, y : 0.8309352 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Tissus/Tissus Rouge Brillant",
+			FriendlyName : "Shiny Red Fabric",
+			Description : "",
+			Tags : "FABRIC,RED,BRIGHT",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Tissus/Tissus Rouge Brillant/CRW_7724.jpg",
+				TextureFileName : "Tissus/Tissus Rouge Brillant/CRW_7724.png",
+				PackagePath : "Tissus/Tissus Rouge Brillant",
+				TextureWidth : 1250,
+				TextureHeight : 540,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3136434; 0.2610334; 0.01311743",
+						RGB : "0.1527971; 0.1012738; 0.1550822",
+						Color : "261927",
+					},
+					Max : 
+					{
+						xyY : "0.4685532; 0.3196538; 0.2701812",
+						RGB : "0.8956409; 0.3966264; 0.4316759",
+						Color : "E4656E",
+					},
+					Avg : 
+					{
+						xyY : "0.4927181; 0.3036771; 0.1277898",
+						RGB : "0.6891896; 0.2276201; 0.3055992",
+						Color : "AF3A4D",
+					},
+					Custom : [
+						{
+							xyY : "0.4930768; 0.3032019; 0.1389515",
+							RGB : "0.7166893; 0.2363451; 0.3188533",
+							Color : "B63C51",
+							TopLeft : { x : 0.288172, y : 0.255 },
+							BottomRight : { x : 0.5505376, y : 0.705 },
+						},
+					]
+				}
+			}
+		},
 	]
 }
