@@ -196,8 +196,8 @@ $(document).ready( function() {
 
 	// Fill up global infos
 	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
-								'Latest database update: 2014-05-25.&nbsp;' +
-								'Latest webpage update: 2014-06-21.&nbsp;' +
+								'Latest database update: 2014-07-09.&nbsp;' +
+								'Latest webpage update: 2014-07-09.&nbsp;' +
 								''
 						 );
 
@@ -429,9 +429,9 @@ function	xyY2XYZ( x, y, Y )
 // From http://wiki.nuaj.net/index.php?title=Color_Transforms#XYZ_.E2.86.92_RGB
 function	XYZ2RGBLinear( X, Y, Z )
 {
-	var	Result = {	R : Math.max( 0.0, X *  3.2406 + Y * -1.5372 + Z * -0.4986 ),
-					G : Math.max( 0.0,X * -0.9689 + Y *  1.8758 + Z *  0.0415 ),
-					B : Math.max( 0.0,X *  0.0557 + Y * -0.2040 + Z *  1.0570 ) };
+	var	Result = {	R : Math.max( 0.0, Math.min( 1.0, X *  3.2406 + Y * -1.5372 + Z * -0.4986 ) ),
+					G : Math.max( 0.0, Math.min( 1.0, X * -0.9689 + Y *  1.8758 + Z *  0.0415 ) ),
+					B : Math.max( 0.0, Math.min( 1.0, X *  0.0557 + Y * -0.2040 + Z *  1.0570 ) ) };
 	return Result;
 }
 
@@ -672,7 +672,7 @@ function	UpdateSelection()
 				var	w = ImageElement[0].width * Swatch.BottomRight.x - x;
 				var	h = ImageElement[0].height * Swatch.BottomRight.y - y;
 
-				LocationPanel.css( 'left', 10+x ).css( 'top', 10+y ).css( 'width', w ).css( 'height', h );
+				LocationPanel.css( 'left', 10+x ).css( 'top', 20+y ).css( 'width', w ).css( 'height', h );
 				LocationPanel.css( 'display', 'block' );
 			}
 		}
