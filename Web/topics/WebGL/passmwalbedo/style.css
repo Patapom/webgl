@@ -174,7 +174,10 @@ html, body
 	border-color:	#000;
 	border-style:	solid;
 	height:			98%;
+/* Wide images don't fit with this!
 	width:			auto;
+*/
+	width:			25%;
 }
 
 /* Top-Right Contains 3D visualization */
