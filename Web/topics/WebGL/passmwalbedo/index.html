@@ -114,7 +114,7 @@ var	Tags = [
 	{ N : "Wood", F : "WOOD" },
 	{ N : "Stone/Ceramic", F : "STONE" },
 	{ N : "Skin/Leather", F : "SKIN" },
-	{ N : "Fabric", F : "FABRIC" },
+	{ N : "Fabric/Wool", F : "FABRIC" },
 	{ N : "Paper/Canvas", F : "PAPER_CANVAS" },
 	{ N : "Paint", F : "PAINT" },
 	{ N : "Plastic/Resin", F : "PLASTIC" },
@@ -186,6 +186,10 @@ $(document).ready( function() {
 			_Entry.FriendlyName_Lower = _Entry.FriendlyName.toLowerCase();
 			_Entry.Description_Lower = _Entry.Description.toLowerCase();
 			_Entry.Tags_Split = _Entry.Tags.split( ',' );
+
+			// Clean up the tags
+			for ( var TagIndex=0; TagIndex < _Entry.Tags_Split.length; TagIndex++ )
+				_Entry.Tags_Split[TagIndex] = _Entry.Tags_Split[TagIndex].trim().toUpperCase();
 		} );
 	}
 	catch ( _e )
@@ -197,7 +201,7 @@ $(document).ready( function() {
 	// Fill up global infos
 	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
 								'Latest database update: 2014-07-09.&nbsp;' +
-								'Latest webpage update: 2014-07-09.&nbsp;' +
+								'Latest webpage update: 2014-07-10.&nbsp;' +
 								''
 						 );
 
@@ -293,7 +297,7 @@ $(document).ready( function() {
 
 			ExistingSelectionFound |= _Entry == selectedEntry;
 
-			list.append( '<div class="list-element ui-corner-all" onclick=""><span>' + _Entry.FriendlyName + '</span><img class="list-element-thumbnail" src="' + databasePath + _Entry.TextureInfos.ThumbnailFileName + '"/></div></div>' );
+			list.append( '<div class="list-element ui-corner-all" onclick=""><span>' + _Entry.FriendlyName + '</span><img class="list-element-thumbnail" src="' + databasePath + _Entry.TextureInfos.ThumbnailFileName + '"/></div>' );
 			_Entry.UIElement = list.children().last();
 			_Entry.UIElement.click( function() {
 
@@ -565,7 +569,7 @@ function	UpdateSelection()
 	$( "#TextureInfos" ).html( selectedEntry ? 
 		'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
 		'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
-		selectedEntry.Description + '<br/>' +
+		(selectedEntry.Description != "" ? selectedEntry.Description + '<br/>' : "") +
 		'<br/>' +
 		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
 		'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +

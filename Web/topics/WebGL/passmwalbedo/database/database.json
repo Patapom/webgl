@@ -1,7 +1,7 @@
 {
 	Entries : [
 		{
-			RelativePath : "Arkane Studios/Bureau Pom",
+			RelativePath : "Wood/Bureau Pom",
 			FriendlyName : "Pom's Desk",
 			Description : "Que du bisou!",
 			OverviewImagePath: "..\..\Meow!.png",
@@ -10,9 +10,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Bureau Pom/CRW_7570.jpg",
-				TextureFileName : "Arkane Studios/Bureau Pom/CRW_7570.png",
-				PackagePath : "Arkane Studios/Bureau Pom",
+				ThumbnailFileName : "Wood/Bureau Pom/CRW_7570.jpg",
+				TextureFileName : "Wood/Bureau Pom/CRW_7570.png",
+				PackagePath : "Wood/Bureau Pom",
 				TextureWidth : 2983,
 				TextureHeight : 2015,
 				OverviewImageFileName : "Meow!.png",
@@ -41,7 +41,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Canapé Cuir Romu",
+			RelativePath : "Leather/Canapé Cuir Romu",
 			FriendlyName : "Black Leather Armchair",
 			Description : "Romuald's office",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
@@ -49,9 +49,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.jpg",
-				TextureFileName : "Arkane Studios/Canapé Cuir Romu/CRW_7606.png",
-				PackagePath : "Arkane Studios/Canapé Cuir Romu",
+				ThumbnailFileName : "Leather/Canapé Cuir Romu/CRW_7606.jpg",
+				TextureFileName : "Leather/Canapé Cuir Romu/CRW_7606.png",
+				PackagePath : "Leather/Canapé Cuir Romu",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -86,7 +86,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Canapé Gris",
+			RelativePath : "Fabric/Canapé Gris",
 			FriendlyName : "Grey Armchair",
 			Description : "",
 			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR,FURNITURE",
@@ -94,9 +94,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Canapé Gris/CRW_7583.jpg",
-				TextureFileName : "Arkane Studios/Canapé Gris/CRW_7583.png",
-				PackagePath : "Arkane Studios/Canapé Gris",
+				ThumbnailFileName : "Fabric/Canapé Gris/CRW_7583.jpg",
+				TextureFileName : "Fabric/Canapé Gris/CRW_7583.png",
+				PackagePath : "Fabric/Canapé Gris",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -124,7 +124,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Canapé Vert",
+			RelativePath : "Fabric/Canapé Vert",
 			FriendlyName : "Green Armchair",
 			Description : "",
 			Tags : "FABRIC,GREEN,CHAIR,FURNITURE",
@@ -132,9 +132,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Canapé Vert/CRW_7581.jpg",
-				TextureFileName : "Arkane Studios/Canapé Vert/CRW_7581.png",
-				PackagePath : "Arkane Studios/Canapé Vert",
+				ThumbnailFileName : "Fabric/Canapé Vert/CRW_7581.jpg",
+				TextureFileName : "Fabric/Canapé Vert/CRW_7581.png",
+				PackagePath : "Fabric/Canapé Vert",
 				TextureWidth : 2140,
 				TextureHeight : 1443,
 				Swatches : {
@@ -162,7 +162,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Cube Cuir Noir",
+			RelativePath : "Leather/Cube Cuir Noir",
 			FriendlyName : "Black Leather Cube",
 			Description : "",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
@@ -170,9 +170,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.jpg",
-				TextureFileName : "Arkane Studios/Cube Cuir Noir/CRW_7608.png",
-				PackagePath : "Arkane Studios/Cube Cuir Noir",
+				ThumbnailFileName : "Leather/Cube Cuir Noir/CRW_7608.jpg",
+				TextureFileName : "Leather/Cube Cuir Noir/CRW_7608.png",
+				PackagePath : "Leather/Cube Cuir Noir",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -200,7 +200,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Lobby Bureau Sarah",
+			RelativePath : "Plastic/Lobby Bureau Sarah",
 			FriendlyName : "Black Varnished Desk",
 			Description : "Evil Sarah's desk!",
 			Tags : "PLASTIC,BLACK,DARK,DESK,FURNITURE,VARNISHED",
@@ -208,9 +208,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.jpg",
-				TextureFileName : "Arkane Studios/Lobby Bureau Sarah/CRW_7589.png",
-				PackagePath : "Arkane Studios/Lobby Bureau Sarah",
+				ThumbnailFileName : "Plastic/Lobby Bureau Sarah/CRW_7589.jpg",
+				TextureFileName : "Plastic/Lobby Bureau Sarah/CRW_7589.png",
+				PackagePath : "Plastic/Lobby Bureau Sarah",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -252,7 +252,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Lobby Fauteuil Orange",
+			RelativePath : "Fabric/Lobby Fauteuil Orange",
 			FriendlyName : "Orange Armchair",
 			Description : "From the lobby",
 			Tags : "FABRIC,ORANGE,CHAIR,FURNITURE",
@@ -260,9 +260,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.jpg",
-				TextureFileName : "Arkane Studios/Lobby Fauteuil Orange/CRW_7593.png",
-				PackagePath : "Arkane Studios/Lobby Fauteuil Orange",
+				ThumbnailFileName : "Fabric/Lobby Fauteuil Orange/CRW_7593.jpg",
+				TextureFileName : "Fabric/Lobby Fauteuil Orange/CRW_7593.png",
+				PackagePath : "Fabric/Lobby Fauteuil Orange",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -290,7 +290,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Lobby Moquette Noire",
+			RelativePath : "Fabric/Lobby Moquette Noire",
 			FriendlyName : "Black Carpet",
 			Description : "Lobby",
 			Tags : "FABRIC,BLACK,DARK,FLOOR,CONSTRUCTION",
@@ -298,9 +298,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.jpg",
-				TextureFileName : "Arkane Studios/Lobby Moquette Noire/CRW_7591.png",
-				PackagePath : "Arkane Studios/Lobby Moquette Noire",
+				ThumbnailFileName : "Fabric/Lobby Moquette Noire/CRW_7591.jpg",
+				TextureFileName : "Fabric/Lobby Moquette Noire/CRW_7591.png",
+				PackagePath : "Fabric/Lobby Moquette Noire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -328,7 +328,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Lobby Parquet",
+			RelativePath : "Wood/Lobby Parquet",
 			FriendlyName : "Wooden Floor",
 			Description : "Lobby",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
@@ -336,9 +336,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Lobby Parquet/CRW_7587.jpg",
-				TextureFileName : "Arkane Studios/Lobby Parquet/CRW_7587.png",
-				PackagePath : "Arkane Studios/Lobby Parquet",
+				ThumbnailFileName : "Wood/Lobby Parquet/CRW_7587.jpg",
+				TextureFileName : "Wood/Lobby Parquet/CRW_7587.png",
+				PackagePath : "Wood/Lobby Parquet",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -366,17 +366,17 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Moquette Grise",
+			RelativePath : "Fabric/Moquette Grise",
 			FriendlyName : "Dark Gray Carpet",
 			Description : "",
-			Tags : "FABRIC,GRAY,DARK,FLOOR,CONSTRUCTION",
+			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Moquette Grise/CRW_7572.jpg",
-				TextureFileName : "Arkane Studios/Moquette Grise/CRW_7572.png",
-				PackagePath : "Arkane Studios/Moquette Grise",
+				ThumbnailFileName : "Fabric/Moquette Grise/CRW_7572.jpg",
+				TextureFileName : "Fabric/Moquette Grise/CRW_7572.png",
+				PackagePath : "Fabric/Moquette Grise",
 				TextureWidth : 2520,
 				TextureHeight : 1609,
 				Swatches : {
@@ -404,7 +404,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Moquette Orange",
+			RelativePath : "Fabric/Moquette Orange",
 			FriendlyName : "Dark Orange Carpet",
 			Description : "It's <strong style='color:blue;'>ORANGE</strong>!",
 			Tags : "FABRIC,ORANGE,DARK,FLOOR,CONSTRUCTION",
@@ -412,9 +412,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Moquette Orange/CRW_7575.jpg",
-				TextureFileName : "Arkane Studios/Moquette Orange/CRW_7575.png",
-				PackagePath : "Arkane Studios/Moquette Orange",
+				ThumbnailFileName : "Fabric/Moquette Orange/CRW_7575.jpg",
+				TextureFileName : "Fabric/Moquette Orange/CRW_7575.png",
+				PackagePath : "Fabric/Moquette Orange",
 				TextureWidth : 2886,
 				TextureHeight : 1706,
 				Swatches : {
@@ -456,17 +456,17 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Paillasson Réfectoire",
+			RelativePath : "Fabric/Paillasson Réfectoire",
 			FriendlyName : "Dark Gray Doormat",
 			Description : "",
-			Tags : "FABRIC,GRAY,DARK,FLOOR,CONSTRUCTION",
+			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.jpg",
-				TextureFileName : "Arkane Studios/Paillasson Réfectoire/CRW_7595.png",
-				PackagePath : "Arkane Studios/Paillasson Réfectoire",
+				ThumbnailFileName : "Fabric/Paillasson Réfectoire/CRW_7595.jpg",
+				TextureFileName : "Fabric/Paillasson Réfectoire/CRW_7595.png",
+				PackagePath : "Fabric/Paillasson Réfectoire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -494,7 +494,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Table Basse Blanche",
+			RelativePath : "Plastic/Table Basse Blanche",
 			FriendlyName : "White Table",
 			Description : "",
 			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,FURNITURE,VARNISHED",
@@ -502,9 +502,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.jpg",
-				TextureFileName : "Arkane Studios/Table Basse Blanche/CRW_7578.png",
-				PackagePath : "Arkane Studios/Table Basse Blanche",
+				ThumbnailFileName : "Plastic/Table Basse Blanche/CRW_7578.jpg",
+				TextureFileName : "Plastic/Table Basse Blanche/CRW_7578.png",
+				PackagePath : "Plastic/Table Basse Blanche",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -532,7 +532,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Terrasse Bois",
+			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw plancks",
 			Description : "",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
@@ -540,9 +540,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597.jpg",
-				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597.png",
-				PackagePath : "Arkane Studios/Terrasse Bois",
+				ThumbnailFileName : "Wood/Terrasse Bois/CRW_7597.jpg",
+				TextureFileName : "Wood/Terrasse Bois/CRW_7597.png",
+				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
 				Swatches : {
@@ -584,7 +584,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Terrasse Bois",
+			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw planck (closeup)",
 			Description : "Closeup on a single planck",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
@@ -592,9 +592,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.jpg",
-				TextureFileName : "Arkane Studios/Terrasse Bois/CRW_7597_plank.png",
-				PackagePath : "Arkane Studios/Terrasse Bois",
+				ThumbnailFileName : "Wood/Terrasse Bois/CRW_7597_plank.jpg",
+				TextureFileName : "Wood/Terrasse Bois/CRW_7597_plank.png",
+				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 1610,
 				TextureHeight : 2002,
 				Swatches : {
@@ -636,7 +636,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Terrasse Table Orange",
+			RelativePath : "Paint/Terrasse Table Orange",
 			FriendlyName : "Orange Metal Table",
 			Description : "",
 			Tags : "PAINT,ORANGE,NEUTRAL,TABLE,FURNITURE",
@@ -644,9 +644,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.jpg",
-				TextureFileName : "Arkane Studios/Terrasse Table Orange/CRW_7603.png",
-				PackagePath : "Arkane Studios/Terrasse Table Orange",
+				ThumbnailFileName : "Paint/Terrasse Table Orange/CRW_7603.jpg",
+				TextureFileName : "Paint/Terrasse Table Orange/CRW_7603.png",
+				PackagePath : "Paint/Terrasse Table Orange",
 				TextureWidth : 1153,
 				TextureHeight : 1170,
 				Swatches : {
@@ -681,7 +681,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Terrasse Table Rouge",
+			RelativePath : "Paint/Terrasse Table Rouge",
 			FriendlyName : "Red Metal Table",
 			Description : "",
 			Tags : "PAINT,RED,DARK,TABLE,FURNITURE",
@@ -689,9 +689,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.jpg",
-				TextureFileName : "Arkane Studios/Terrasse Table Rouge/CRW_7601.png",
-				PackagePath : "Arkane Studios/Terrasse Table Rouge",
+				ThumbnailFileName : "Paint/Terrasse Table Rouge/CRW_7601.jpg",
+				TextureFileName : "Paint/Terrasse Table Rouge/CRW_7601.png",
+				PackagePath : "Paint/Terrasse Table Rouge",
 				TextureWidth : 1067,
 				TextureHeight : 1349,
 				Swatches : {
@@ -726,7 +726,7 @@
 			}
 		},
 		{
-			RelativePath : "Arkane Studios/Terrasse Table Verte",
+			RelativePath : "Paint/Terrasse Table Verte",
 			FriendlyName : "Green Metal Table",
 			Description : "",
 			Tags : "PAINT,GREEN,NEUTRAL,TABLE,FURNITURE",
@@ -734,9 +734,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 8,
-				ThumbnailFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.jpg",
-				TextureFileName : "Arkane Studios/Terrasse Table Verte/CRW_7599.png",
-				PackagePath : "Arkane Studios/Terrasse Table Verte",
+				ThumbnailFileName : "Paint/Terrasse Table Verte/CRW_7599.jpg",
+				TextureFileName : "Paint/Terrasse Table Verte/CRW_7599.png",
+				PackagePath : "Paint/Terrasse Table Verte",
 				TextureWidth : 1134,
 				TextureHeight : 1382,
 				Swatches : {
@@ -764,17 +764,17 @@
 			}
 		},
 		{
-			RelativePath : "Bois/Boite Sondes Laquee",
+			RelativePath : "Wood/Boite Sondes Laquee",
 			FriendlyName : "Varnished Wooden Box",
-			Description : "Picture of my wooden box that came with the diffuse reflectance standard. ^^",
+			Description : "Picture of my wooden box that came with the diffuse reflectance standards. ^^",
 			Tags : "WOOD,NEUTRAL,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Bois/Boite Sondes Laquee/CRW_7744.jpg",
-				TextureFileName : "Bois/Boite Sondes Laquee/CRW_7744.png",
-				PackagePath : "Bois/Boite Sondes Laquee",
+				ThumbnailFileName : "Wood/Boite Sondes Laquee/CRW_7744.jpg",
+				TextureFileName : "Wood/Boite Sondes Laquee/CRW_7744.png",
+				PackagePath : "Wood/Boite Sondes Laquee",
 				TextureWidth : 2378,
 				TextureHeight : 1557,
 				Swatches : {
@@ -823,7 +823,7 @@
 			}
 		},
 		{
-			RelativePath : "Carrelages/Carrelage Blanc",
+			RelativePath : "Stone/Carrelage Blanc",
 			FriendlyName : "White Floor Tiling",
 			Description : "",
 			Tags : "STONE,WHITE,BRIGHT,FLOOR,CONSTRUCTION,VARNISHED",
@@ -831,9 +831,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Carrelages/Carrelage Blanc/CRW_7728.jpg",
-				TextureFileName : "Carrelages/Carrelage Blanc/CRW_7728.png",
-				PackagePath : "Carrelages/Carrelage Blanc",
+				ThumbnailFileName : "Stone/Carrelage Blanc/CRW_7728.jpg",
+				TextureFileName : "Stone/Carrelage Blanc/CRW_7728.png",
+				PackagePath : "Stone/Carrelage Blanc",
 				TextureWidth : 1039,
 				TextureHeight : 553,
 				Swatches : {
@@ -861,7 +861,7 @@
 			}
 		},
 		{
-			RelativePath : "Carrelages/Carrelage Jaune",
+			RelativePath : "Stone/Carrelage Jaune",
 			FriendlyName : "Yellow Floor Tiling",
 			Description : "",
 			Tags : "STONE,YELLOW,FLOOR,CONSTRUCTION,VARNISHED",
@@ -869,9 +869,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Carrelages/Carrelage Jaune/CRW_7730.jpg",
-				TextureFileName : "Carrelages/Carrelage Jaune/CRW_7730.png",
-				PackagePath : "Carrelages/Carrelage Jaune",
+				ThumbnailFileName : "Stone/Carrelage Jaune/CRW_7730.jpg",
+				TextureFileName : "Stone/Carrelage Jaune/CRW_7730.png",
+				PackagePath : "Stone/Carrelage Jaune",
 				TextureWidth : 524,
 				TextureHeight : 1121,
 				Swatches : {
@@ -906,17 +906,17 @@
 			}
 		},
 		{
-			RelativePath : "Carrelages/Carrelage Rayures Multicolores",
+			RelativePath : "Stone/Carrelage Rayures Multicolores",
 			FriendlyName : "Multicolored Striped Floor Tiling",
 			Description : "",
-			Tags : "STONE,FLOOR,CONSTRUCTION,VARNISHED",
+			Tags : "STONE,WHITE, GRAY, CYAN, ORANGE,FLOOR,CONSTRUCTION,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Carrelages/Carrelage Rayures Multicolores/CRW_7732.jpg",
-				TextureFileName : "Carrelages/Carrelage Rayures Multicolores/CRW_7732.png",
-				PackagePath : "Carrelages/Carrelage Rayures Multicolores",
+				ThumbnailFileName : "Stone/Carrelage Rayures Multicolores/CRW_7732.jpg",
+				TextureFileName : "Stone/Carrelage Rayures Multicolores/CRW_7732.png",
+				PackagePath : "Stone/Carrelage Rayures Multicolores",
 				TextureWidth : 671,
 				TextureHeight : 511,
 				Swatches : {
@@ -993,7 +993,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuir Beige",
+			RelativePath : "Leather/Cuir Beige",
 			FriendlyName : "Beige Leather",
 			Description : "",
 			Tags : "SKIN,WHITE,NEUTRAL",
@@ -1001,9 +1001,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuir Beige/CRW_7740.jpg",
-				TextureFileName : "Cuir/Cuir Beige/CRW_7740.png",
-				PackagePath : "Cuir/Cuir Beige",
+				ThumbnailFileName : "Leather/Cuir Beige/CRW_7740.jpg",
+				TextureFileName : "Leather/Cuir Beige/CRW_7740.png",
+				PackagePath : "Leather/Cuir Beige",
 				TextureWidth : 586,
 				TextureHeight : 383,
 				Swatches : {
@@ -1038,7 +1038,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuir Brun",
+			RelativePath : "Leather/Cuir Brun",
 			FriendlyName : "Brown Leather",
 			Description : "",
 			Tags : "SKIN,DARK",
@@ -1046,9 +1046,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuir Brun/CRW_7716.jpg",
-				TextureFileName : "Cuir/Cuir Brun/CRW_7716.png",
-				PackagePath : "Cuir/Cuir Brun",
+				ThumbnailFileName : "Leather/Cuir Brun/CRW_7716.jpg",
+				TextureFileName : "Leather/Cuir Brun/CRW_7716.png",
+				PackagePath : "Leather/Cuir Brun",
 				TextureWidth : 625,
 				TextureHeight : 484,
 				Swatches : {
@@ -1076,7 +1076,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuir Brun Clair",
+			RelativePath : "Leather/Cuir Brun Clair",
 			FriendlyName : "Light Brown Leather",
 			Description : "More of raw cow skin really",
 			Tags : "SKIN,DARK",
@@ -1084,9 +1084,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuir Brun Clair/CRW_7720.jpg",
-				TextureFileName : "Cuir/Cuir Brun Clair/CRW_7720.png",
-				PackagePath : "Cuir/Cuir Brun Clair",
+				ThumbnailFileName : "Leather/Cuir Brun Clair/CRW_7720.jpg",
+				TextureFileName : "Leather/Cuir Brun Clair/CRW_7720.png",
+				PackagePath : "Leather/Cuir Brun Clair",
 				TextureWidth : 1401,
 				TextureHeight : 544,
 				Swatches : {
@@ -1135,7 +1135,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuir Noir",
+			RelativePath : "Leather/Cuir Noir",
 			FriendlyName : "Black Leather",
 			Description : "",
 			Tags : "SKIN,BLACK,DARK",
@@ -1143,9 +1143,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuir Noir/CRW_7718.jpg",
-				TextureFileName : "Cuir/Cuir Noir/CRW_7718.png",
-				PackagePath : "Cuir/Cuir Noir",
+				ThumbnailFileName : "Leather/Cuir Noir/CRW_7718.jpg",
+				TextureFileName : "Leather/Cuir Noir/CRW_7718.png",
+				PackagePath : "Leather/Cuir Noir",
 				TextureWidth : 978,
 				TextureHeight : 651,
 				Swatches : {
@@ -1173,7 +1173,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuir Super Noir",
+			RelativePath : "Leather/Cuir Super Noir",
 			FriendlyName : "Very Dark Leather",
 			Description : "",
 			Tags : "SKIN,BLACK,DARK",
@@ -1181,9 +1181,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuir Super Noir/CRW_7734.jpg",
-				TextureFileName : "Cuir/Cuir Super Noir/CRW_7734.png",
-				PackagePath : "Cuir/Cuir Super Noir",
+				ThumbnailFileName : "Leather/Cuir Super Noir/CRW_7734.jpg",
+				TextureFileName : "Leather/Cuir Super Noir/CRW_7734.png",
+				PackagePath : "Leather/Cuir Super Noir",
 				TextureWidth : 924,
 				TextureHeight : 721,
 				Swatches : {
@@ -1218,7 +1218,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Cuire Ocre",
+			RelativePath : "Leather/Cuire Ocre",
 			FriendlyName : "Crimson Leather",
 			Description : "",
 			Tags : "SKIN,RED,DARK",
@@ -1226,9 +1226,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Cuire Ocre/CRW_7736.jpg",
-				TextureFileName : "Cuir/Cuire Ocre/CRW_7736.png",
-				PackagePath : "Cuir/Cuire Ocre",
+				ThumbnailFileName : "Leather/Cuire Ocre/CRW_7736.jpg",
+				TextureFileName : "Leather/Cuire Ocre/CRW_7736.png",
+				PackagePath : "Leather/Cuire Ocre",
 				TextureWidth : 445,
 				TextureHeight : 896,
 				Swatches : {
@@ -1270,7 +1270,7 @@
 			}
 		},
 		{
-			RelativePath : "Cuir/Peau Vachette",
+			RelativePath : "Leather/Peau Vachette",
 			FriendlyName : "Cow Skin",
 			Description : "",
 			Tags : "SKIN,NEUTRAL",
@@ -1278,9 +1278,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Cuir/Peau Vachette/CRW_7738.jpg",
-				TextureFileName : "Cuir/Peau Vachette/CRW_7738.png",
-				PackagePath : "Cuir/Peau Vachette",
+				ThumbnailFileName : "Leather/Peau Vachette/CRW_7738.jpg",
+				TextureFileName : "Leather/Peau Vachette/CRW_7738.png",
+				PackagePath : "Leather/Peau Vachette",
 				TextureWidth : 924,
 				TextureHeight : 562,
 				Swatches : {
@@ -1329,17 +1329,17 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Beige Rayures Bleues Metal",
+			RelativePath : "Fabric/Beige Rayures Bleues Metal",
 			FriendlyName : "White Fabric with Shiny Blue Stripes",
 			Description : "",
-			Tags : "FABRIC,WHITE,NEUTRAL",
+			Tags : "FABRIC,GRAY, CYAN,NEUTRAL",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Beige Rayures Bleues Metal/CRW_7712.jpg",
-				TextureFileName : "Tissus/Beige Rayures Bleues Metal/CRW_7712.png",
-				PackagePath : "Tissus/Beige Rayures Bleues Metal",
+				ThumbnailFileName : "Fabric/Beige Rayures Bleues Metal/CRW_7712.jpg",
+				TextureFileName : "Fabric/Beige Rayures Bleues Metal/CRW_7712.png",
+				PackagePath : "Fabric/Beige Rayures Bleues Metal",
 				TextureWidth : 2548,
 				TextureHeight : 1455,
 				Swatches : {
@@ -1388,17 +1388,17 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Chaussette Blanche et Motifs",
-			FriendlyName : "White Sock with Motifs",
-			Description : "Bowling!",
-			Tags : "FABRIC,WHITE,BRIGHT",
+			RelativePath : "Fabric/Chaussette Blanche et Motifs",
+			FriendlyName : "White Cotton Sock with Motifs",
+			Description : "Cotton sock for when you go bowling!",
+			Tags : "FABRIC,BLACK, WHITE, RED, BLUE,BRIGHT",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Chaussette Blanche et Motifs/CRW_7742.jpg",
-				TextureFileName : "Tissus/Chaussette Blanche et Motifs/CRW_7742.png",
-				PackagePath : "Tissus/Chaussette Blanche et Motifs",
+				ThumbnailFileName : "Fabric/Chaussette Blanche et Motifs/CRW_7742.jpg",
+				TextureFileName : "Fabric/Chaussette Blanche et Motifs/CRW_7742.png",
+				PackagePath : "Fabric/Chaussette Blanche et Motifs",
 				TextureWidth : 2428,
 				TextureHeight : 810,
 				Swatches : {
@@ -1468,7 +1468,7 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Jean Noir",
+			RelativePath : "Fabric/Jean Noir",
 			FriendlyName : "Black Jean",
 			Description : "",
 			Tags : "FABRIC,BLACK,DARK",
@@ -1476,9 +1476,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Jean Noir/CRW_7726.jpg",
-				TextureFileName : "Tissus/Jean Noir/CRW_7726.png",
-				PackagePath : "Tissus/Jean Noir",
+				ThumbnailFileName : "Fabric/Jean Noir/CRW_7726.jpg",
+				TextureFileName : "Fabric/Jean Noir/CRW_7726.png",
+				PackagePath : "Fabric/Jean Noir",
 				TextureWidth : 2429,
 				TextureHeight : 847,
 				Swatches : {
@@ -1513,17 +1513,17 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Laine Rouge et Blanche",
+			RelativePath : "Fabric/Laine Rouge et Blanche",
 			FriendlyName : "Red Wool",
-			Description : "With a little white fibers",
+			Description : "With little white fibers",
 			Tags : "FABRIC,RED,NEUTRAL",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Laine Rouge et Blanche/CRW_7714.jpg",
-				TextureFileName : "Tissus/Laine Rouge et Blanche/CRW_7714.png",
-				PackagePath : "Tissus/Laine Rouge et Blanche",
+				ThumbnailFileName : "Fabric/Laine Rouge et Blanche/CRW_7714.jpg",
+				TextureFileName : "Fabric/Laine Rouge et Blanche/CRW_7714.png",
+				PackagePath : "Fabric/Laine Rouge et Blanche",
 				TextureWidth : 2716,
 				TextureHeight : 775,
 				Swatches : {
@@ -1579,17 +1579,17 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Pied de Poule",
+			RelativePath : "Fabric/Pied de Poule",
 			FriendlyName : "Hound's-tooth B&W Fabric",
-			Description : "With shiny stripe of fabric at the bottom",
-			Tags : "FABRIC,BLACK,NEUTRAL",
+			Description : "With shiny stripe of purple fabric at the bottom",
+			Tags : "FABRIC,BLACK, WHITE,NEUTRAL",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Pied de Poule/CRW_7708.jpg",
-				TextureFileName : "Tissus/Pied de Poule/CRW_7708.png",
-				PackagePath : "Tissus/Pied de Poule",
+				ThumbnailFileName : "Fabric/Pied de Poule/CRW_7708.jpg",
+				TextureFileName : "Fabric/Pied de Poule/CRW_7708.png",
+				PackagePath : "Fabric/Pied de Poule",
 				TextureWidth : 2049,
 				TextureHeight : 1088,
 				Swatches : {
@@ -1645,7 +1645,7 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Tissu Bleu",
+			RelativePath : "Fabric/Tissu Bleu",
 			FriendlyName : "Blue Fabric",
 			Description : "",
 			Tags : "FABRIC,BLUE,NEUTRAL",
@@ -1653,9 +1653,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Tissu Bleu/CRW_7710.jpg",
-				TextureFileName : "Tissus/Tissu Bleu/CRW_7710.png",
-				PackagePath : "Tissus/Tissu Bleu",
+				ThumbnailFileName : "Fabric/Tissu Bleu/CRW_7710.jpg",
+				TextureFileName : "Fabric/Tissu Bleu/CRW_7710.png",
+				PackagePath : "Fabric/Tissu Bleu",
 				TextureWidth : 1308,
 				TextureHeight : 571,
 				Swatches : {
@@ -1697,17 +1697,17 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Tissus Peint Multicolore",
+			RelativePath : "Fabric/Tissus Peint Multicolore",
 			FriendlyName : "Multicolored Fabric",
 			Description : "",
-			Tags : "FABRIC,NEUTRAL",
+			Tags : "FABRIC,GRAY, RED, GREEN, BLUE, YELLOW,NEUTRAL",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Tissus Peint Multicolore/CRW_7722.jpg",
-				TextureFileName : "Tissus/Tissus Peint Multicolore/CRW_7722.png",
-				PackagePath : "Tissus/Tissus Peint Multicolore",
+				ThumbnailFileName : "Fabric/Tissus Peint Multicolore/CRW_7722.jpg",
+				TextureFileName : "Fabric/Tissus Peint Multicolore/CRW_7722.png",
+				PackagePath : "Fabric/Tissus Peint Multicolore",
 				TextureWidth : 2961,
 				TextureHeight : 887,
 				Swatches : {
@@ -1791,7 +1791,7 @@
 			}
 		},
 		{
-			RelativePath : "Tissus/Tissus Rouge Brillant",
+			RelativePath : "Fabric/Tissus Rouge Brillant",
 			FriendlyName : "Shiny Red Fabric",
 			Description : "",
 			Tags : "FABRIC,RED,BRIGHT",
@@ -1799,9 +1799,9 @@
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
 				Aperture : 5.595919,
-				ThumbnailFileName : "Tissus/Tissus Rouge Brillant/CRW_7724.jpg",
-				TextureFileName : "Tissus/Tissus Rouge Brillant/CRW_7724.png",
-				PackagePath : "Tissus/Tissus Rouge Brillant",
+				ThumbnailFileName : "Fabric/Tissus Rouge Brillant/CRW_7724.jpg",
+				TextureFileName : "Fabric/Tissus Rouge Brillant/CRW_7724.png",
+				PackagePath : "Fabric/Tissus Rouge Brillant",
 				TextureWidth : 1250,
 				TextureHeight : 540,
 				Swatches : {
