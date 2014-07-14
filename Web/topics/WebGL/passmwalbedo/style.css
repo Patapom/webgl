@@ -224,6 +224,13 @@ html, body
 	background-color: rgba( 255, 255, 255, 0.4 );
 }
 
+.overview-thumbnail
+{
+	border:			2px solid #E08020;
+	margin:			4px;
+	max-width:		400px;
+}
+
 #SwatchesAndInfos
 {
 	position:		absolute;

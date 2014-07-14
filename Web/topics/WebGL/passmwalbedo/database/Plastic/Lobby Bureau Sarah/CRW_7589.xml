@@ -1,0 +1,37 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7589.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7589.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="8" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.074468" />
+    <WhiteBalance xyY="0.31379; 0.3292413; 0.6274211" />
+    <CropSource Value="False" />
+    <CropRectangleCenter X="0.5" Y="0.5" />
+    <CropRectangleHalfSize X="0.7509727" Y="0.5" />
+    <CropRectangleRotation Value="0" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7589.png" Width="3088" Height="2056">
+    <DefaultSwatches>
+      <Min Name="CRW_7589_Min.png" xyY="0; 1; 0.004525983" RGB="-0.08988884; 0.08964182; -0.01192904" />
+      <Max Name="CRW_7589_Max.png" xyY="0.3155869; 0.3341881; 0.1901949" RGB="0.4734561; 0.4742964; 0.4636055" />
+      <Avg Name="CRW_7589_Avg.png" xyY="0.274912; 0.2688003; 0.008909447" RGB="0.08822856; 0.08979433; 0.1266924" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+  <CustomSwatches Count="2">
+    <Custom0 Name="CRW_7589_Custom0.png" xyY="0.2636115; 0.2416012; 0.00581525" RGB="0.06737921; 0.06343599; 0.1106468" SampleTopLeft="0.1526882; 0.3381877" SampleBottomRight="0.1784946; 0.3932039" />
+    <Custom1 Name="CRW_7589_Custom1.png" xyY="0.2583055; 0.2708392; 0.006897692" RGB="0.05841651; 0.07896271; 0.1099354" SampleTopLeft="0.6451613; 0.4190938" SampleBottomRight="0.6860215; 0.4838188" />
+  </CustomSwatches>
+</Manifest>

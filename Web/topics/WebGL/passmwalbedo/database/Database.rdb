@@ -1,8 +1,8 @@
-<TexturesDatabase Location="D:\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="37">
+<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="37">
   <Entry RelativePath="Wood\Bureau Pom\CRW_7570.xml">
     <FriendlyName Value="Pom's Desk" />
     <Description Value="Que du bisou!" />
-    <EnvironmentImage RelativePath="..\..\Meow!.png" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="WOOD" />
       <Color Value="NONE" />
@@ -16,6 +16,7 @@
   <Entry RelativePath="Leather\Canapé Cuir Romu\CRW_7606.xml">
     <FriendlyName Value="Black Leather Armchair" />
     <Description Value="Romuald's office" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="SKIN" />
       <Color Value="BLACK" />
@@ -29,6 +30,7 @@
   <Entry RelativePath="Fabric\Canapé Gris\CRW_7583.xml">
     <FriendlyName Value="Grey Armchair" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="GRAY" />
@@ -42,6 +44,7 @@
   <Entry RelativePath="Fabric\Canapé Vert\CRW_7581.xml">
     <FriendlyName Value="Green Armchair" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="GREEN" />
@@ -55,6 +58,7 @@
   <Entry RelativePath="Leather\Cube Cuir Noir\CRW_7608.xml">
     <FriendlyName Value="Black Leather Cube" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="SKIN" />
       <Color Value="BLACK" />
@@ -68,6 +72,7 @@
   <Entry RelativePath="Plastic\Lobby Bureau Sarah\CRW_7589.xml">
     <FriendlyName Value="Black Varnished Desk" />
     <Description Value="Evil Sarah's desk!" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="PLASTIC" />
       <Color Value="BLACK" />
@@ -81,6 +86,7 @@
   <Entry RelativePath="Fabric\Lobby Fauteuil Orange\CRW_7593.xml">
     <FriendlyName Value="Orange Armchair" />
     <Description Value="From the lobby" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="ORANGE" />
@@ -94,6 +100,7 @@
   <Entry RelativePath="Fabric\Lobby Moquette Noire\CRW_7591.xml">
     <FriendlyName Value="Black Carpet" />
     <Description Value="Lobby" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="BLACK" />
@@ -107,6 +114,7 @@
   <Entry RelativePath="Wood\Lobby Parquet\CRW_7587.xml">
     <FriendlyName Value="Wooden Floor" />
     <Description Value="Lobby" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="WOOD" />
       <Color Value="NONE" />
@@ -120,6 +128,7 @@
   <Entry RelativePath="Fabric\Moquette Grise\CRW_7572.xml">
     <FriendlyName Value="Dark Gray Carpet" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="BLACK, GRAY" />
@@ -133,6 +142,7 @@
   <Entry RelativePath="Fabric\Moquette Orange\CRW_7575.xml">
     <FriendlyName Value="Dark Orange Carpet" />
     <Description Value="It's &lt;strong style='color:blue;'&gt;ORANGE&lt;/strong&gt;!" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="ORANGE" />
@@ -146,6 +156,7 @@
   <Entry RelativePath="Fabric\Paillasson Réfectoire\CRW_7595.xml">
     <FriendlyName Value="Dark Gray Doormat" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="FABRIC" />
       <Color Value="BLACK, GRAY" />
@@ -159,6 +170,7 @@
   <Entry RelativePath="Plastic\Table Basse Blanche\CRW_7578.xml">
     <FriendlyName Value="White Table" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="PLASTIC" />
       <Color Value="WHITE" />
@@ -172,6 +184,7 @@
   <Entry RelativePath="Wood\Terrasse Bois\CRW_7597.xml">
     <FriendlyName Value="Wood floor raw plancks" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="WOOD" />
       <Color Value="NONE" />
@@ -185,6 +198,7 @@
   <Entry RelativePath="Wood\Terrasse Bois\CRW_7597_plank.xml">
     <FriendlyName Value="Wood floor raw planck (closeup)" />
     <Description Value="Closeup on a single planck" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="WOOD" />
       <Color Value="NONE" />
@@ -198,6 +212,7 @@
   <Entry RelativePath="Paint\Terrasse Table Orange\CRW_7603.xml">
     <FriendlyName Value="Orange Metal Table" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="PAINT" />
       <Color Value="ORANGE" />
@@ -211,6 +226,7 @@
   <Entry RelativePath="Paint\Terrasse Table Rouge\CRW_7601.xml">
     <FriendlyName Value="Red Metal Table" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="PAINT" />
       <Color Value="RED" />
@@ -224,6 +240,7 @@
   <Entry RelativePath="Paint\Terrasse Table Verte\CRW_7599.xml">
     <FriendlyName Value="Green Metal Table" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="PAINT" />
       <Color Value="GREEN" />

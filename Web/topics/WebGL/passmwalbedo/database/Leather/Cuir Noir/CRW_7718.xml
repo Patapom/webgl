@@ -1,0 +1,33 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7718.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7718.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="5.595919" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.398006" />
+    <WhiteBalance xyY="0.310928; 0.3264663; 0.7153087" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.5428907" Y="0.533527" />
+    <CropRectangleHalfSize X="0.2380162" Y="0.1585454" />
+    <CropRectangleRotation Value="-0.2169498" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7718.png" Width="978" Height="651">
+    <DefaultSwatches>
+      <Min Name="CRW_7718_Min.png" xyY="0.1748646; 0.09788709; 0.0112005" RGB="0.07130248; 0.06175011; 0.3260138" />
+      <Max Name="CRW_7718_Max.png" xyY="0.3036647; 0.3250458; 0.162678" RGB="0.4232878; 0.4437401; 0.4512895" />
+      <Avg Name="CRW_7718_Avg.png" xyY="0.2743113; 0.2798149; 0.01513362" RGB="0.116575; 0.1284245; 0.1650026" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+</Manifest>

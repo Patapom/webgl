@@ -1,0 +1,36 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7724.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7724.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="5.595919" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.587363" />
+    <WhiteBalance xyY="0.270315; 0.2981184; 0.6299796" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.3665352" Y="0.5201695" />
+    <CropRectangleHalfSize X="0.3041984" Y="0.1313765" />
+    <CropRectangleRotation Value="-0.05510676" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7724.png" Width="1250" Height="540">
+    <DefaultSwatches>
+      <Min Name="CRW_7724_Min.png" xyY="0.3136434; 0.2610334; 0.01311743" RGB="0.1527971; 0.1012738; 0.1550822" />
+      <Max Name="CRW_7724_Max.png" xyY="0.4685532; 0.3196538; 0.2701812" RGB="0.8956409; 0.3966264; 0.4316759" />
+      <Avg Name="CRW_7724_Avg.png" xyY="0.4927181; 0.3036771; 0.1277898" RGB="0.6891896; 0.2276201; 0.3055992" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+  <CustomSwatches Count="1">
+    <Custom0 Name="CRW_7724_Custom0.png" xyY="0.4930768; 0.3032019; 0.1389515" RGB="0.7166893; 0.2363451; 0.3188533" SampleTopLeft="0.288172; 0.255" SampleBottomRight="0.5505376; 0.705" />
+  </CustomSwatches>
+</Manifest>
