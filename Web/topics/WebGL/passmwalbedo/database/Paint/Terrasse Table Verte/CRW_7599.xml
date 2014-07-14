@@ -1,0 +1,33 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7599.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7599.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="8" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.196312" />
+    <WhiteBalance xyY="0.2843858; 0.2583065; 0.5635182" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.5294058" Y="0.6561695" />
+    <CropRectangleHalfSize X="0.275902" Y="0.3361392" />
+    <CropRectangleRotation Value="0.01006919" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7599.png" Width="1134" Height="1382">
+    <DefaultSwatches>
+      <Min Name="CRW_7599_Min.png" xyY="0.3683763; 0.4820185; 0.420742" RGB="0.6098196; 0.7241149; 0.2935976" />
+      <Max Name="CRW_7599_Max.png" xyY="0.3628627; 0.4845898; 0.5570981" RGB="0.6711723; 0.8255817; 0.3405685" />
+      <Avg Name="CRW_7599_Avg.png" xyY="0.3672298; 0.4930092; 0.495104" RGB="0.6374703; 0.7840954; 0.288969" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+</Manifest>

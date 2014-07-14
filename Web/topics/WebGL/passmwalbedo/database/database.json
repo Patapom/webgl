@@ -4,7 +4,7 @@
 			RelativePath : "Wood/Bureau Pom",
 			FriendlyName : "Pom's Desk",
 			Description : "Que du bisou!",
-			OverviewImagePath: "..\..\Meow!.png",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,DESK,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -15,7 +15,7 @@
 				PackagePath : "Wood/Bureau Pom",
 				TextureWidth : 2983,
 				TextureHeight : 2015,
-				OverviewImageFileName : "Meow!.png",
+				OverviewImageFileName : "Wood/Bureau Pom/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -44,6 +44,7 @@
 			RelativePath : "Leather/Canapé Cuir Romu",
 			FriendlyName : "Black Leather Armchair",
 			Description : "Romuald's office",
+			OverviewImagePath: "overview.jpg",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -54,6 +55,7 @@
 				PackagePath : "Leather/Canapé Cuir Romu",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Leather/Canapé Cuir Romu/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -89,6 +91,7 @@
 			RelativePath : "Fabric/Canapé Gris",
 			FriendlyName : "Grey Armchair",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -99,6 +102,7 @@
 				PackagePath : "Fabric/Canapé Gris",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Canapé Gris/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -127,6 +131,7 @@
 			RelativePath : "Fabric/Canapé Vert",
 			FriendlyName : "Green Armchair",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,GREEN,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -137,6 +142,7 @@
 				PackagePath : "Fabric/Canapé Vert",
 				TextureWidth : 2140,
 				TextureHeight : 1443,
+				OverviewImageFileName : "Fabric/Canapé Vert/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -165,6 +171,7 @@
 			RelativePath : "Leather/Cube Cuir Noir",
 			FriendlyName : "Black Leather Cube",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -175,6 +182,7 @@
 				PackagePath : "Leather/Cube Cuir Noir",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Leather/Cube Cuir Noir/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -203,6 +211,7 @@
 			RelativePath : "Plastic/Lobby Bureau Sarah",
 			FriendlyName : "Black Varnished Desk",
 			Description : "Evil Sarah's desk!",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PLASTIC,BLACK,DARK,DESK,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -213,6 +222,7 @@
 				PackagePath : "Plastic/Lobby Bureau Sarah",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Plastic/Lobby Bureau Sarah/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -255,6 +265,7 @@
 			RelativePath : "Fabric/Lobby Fauteuil Orange",
 			FriendlyName : "Orange Armchair",
 			Description : "From the lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,ORANGE,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -265,6 +276,7 @@
 				PackagePath : "Fabric/Lobby Fauteuil Orange",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Lobby Fauteuil Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -293,6 +305,7 @@
 			RelativePath : "Fabric/Lobby Moquette Noire",
 			FriendlyName : "Black Carpet",
 			Description : "Lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -303,6 +316,7 @@
 				PackagePath : "Fabric/Lobby Moquette Noire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Lobby Moquette Noire/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -331,6 +345,7 @@
 			RelativePath : "Wood/Lobby Parquet",
 			FriendlyName : "Wooden Floor",
 			Description : "Lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -341,6 +356,7 @@
 				PackagePath : "Wood/Lobby Parquet",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Wood/Lobby Parquet/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -369,6 +385,7 @@
 			RelativePath : "Fabric/Moquette Grise",
 			FriendlyName : "Dark Gray Carpet",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -379,6 +396,7 @@
 				PackagePath : "Fabric/Moquette Grise",
 				TextureWidth : 2520,
 				TextureHeight : 1609,
+				OverviewImageFileName : "Fabric/Moquette Grise/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -407,6 +425,7 @@
 			RelativePath : "Fabric/Moquette Orange",
 			FriendlyName : "Dark Orange Carpet",
 			Description : "It's <strong style='color:blue;'>ORANGE</strong>!",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,ORANGE,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -417,6 +436,7 @@
 				PackagePath : "Fabric/Moquette Orange",
 				TextureWidth : 2886,
 				TextureHeight : 1706,
+				OverviewImageFileName : "Fabric/Moquette Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -459,6 +479,7 @@
 			RelativePath : "Fabric/Paillasson Réfectoire",
 			FriendlyName : "Dark Gray Doormat",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -469,6 +490,7 @@
 				PackagePath : "Fabric/Paillasson Réfectoire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Paillasson Réfectoire/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -497,6 +519,7 @@
 			RelativePath : "Plastic/Table Basse Blanche",
 			FriendlyName : "White Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -507,6 +530,7 @@
 				PackagePath : "Plastic/Table Basse Blanche",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Plastic/Table Basse Blanche/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -535,6 +559,7 @@
 			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw plancks",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -545,6 +570,7 @@
 				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Wood/Terrasse Bois/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -587,6 +613,7 @@
 			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw planck (closeup)",
 			Description : "Closeup on a single planck",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -597,6 +624,7 @@
 				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 1610,
 				TextureHeight : 2002,
+				OverviewImageFileName : "Wood/Terrasse Bois/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -639,6 +667,7 @@
 			RelativePath : "Paint/Terrasse Table Orange",
 			FriendlyName : "Orange Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,ORANGE,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -649,6 +678,7 @@
 				PackagePath : "Paint/Terrasse Table Orange",
 				TextureWidth : 1153,
 				TextureHeight : 1170,
+				OverviewImageFileName : "Paint/Terrasse Table Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -684,6 +714,7 @@
 			RelativePath : "Paint/Terrasse Table Rouge",
 			FriendlyName : "Red Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,RED,DARK,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -694,6 +725,7 @@
 				PackagePath : "Paint/Terrasse Table Rouge",
 				TextureWidth : 1067,
 				TextureHeight : 1349,
+				OverviewImageFileName : "Paint/Terrasse Table Rouge/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -729,6 +761,7 @@
 			RelativePath : "Paint/Terrasse Table Verte",
 			FriendlyName : "Green Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,GREEN,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -739,6 +772,7 @@
 				PackagePath : "Paint/Terrasse Table Verte",
 				TextureWidth : 1134,
 				TextureHeight : 1382,
+				OverviewImageFileName : "Paint/Terrasse Table Verte/overview.jpg",
 				Swatches : {
 					Min : 
 					{

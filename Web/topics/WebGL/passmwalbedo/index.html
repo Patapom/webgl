@@ -201,7 +201,7 @@ $(document).ready( function() {
 	// Fill up global infos
 	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
 								'Latest database update: 2014-07-09.&nbsp;' +
-								'Latest webpage update: 2014-07-10.&nbsp;' +
+								'Latest webpage update: 2014-07-14.&nbsp;' +
 								''
 						 );
 
@@ -566,15 +566,16 @@ function	UpdateSelection()
 	);
  
 	// Show texture infos
-	$( "#TextureInfos" ).html( selectedEntry ? 
-		'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
-		'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
-		(selectedEntry.Description != "" ? selectedEntry.Description + '<br/>' : "") +
-		'<br/>' +
-		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
-		'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
-		'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
-		'' : ''
+	$( "#TextureInfos" ).html( selectedEntry
+		? 	'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
+			'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
+			(selectedEntry.Description != "" ? selectedEntry.Description + '<br/>' : "") +
+			'<br/>' +
+			'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
+			'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
+			'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
+			(selectedEntry.OverviewImagePath ? '<img class="overview-thumbnail" src="' + databasePath + selectedEntry.RelativePath + '/' + selectedEntry.OverviewImagePath + '"/>' : '')
+		: ''
 	);
 
 // 	// Handle hovering above the image
