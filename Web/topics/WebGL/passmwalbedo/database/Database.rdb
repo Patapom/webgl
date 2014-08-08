@@ -1,4 +1,4 @@
-<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="37">
+<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="67">
   <Entry RelativePath="Wood\Bureau Pom\CRW_7570.xml">
     <FriendlyName Value="Pom's Desk" />
     <Description Value="Que du bisou!" />
@@ -492,6 +492,406 @@
       <Type Value="FABRIC" />
       <Color Value="RED" />
       <Shade Value="BRIGHT" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Ardoise\CRW_7749.xml">
+    <FriendlyName Value="Dark Slate" />
+    <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="BLACK, GRAY" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Dirty Sewer Plate\CRW_7795.xml">
+    <FriendlyName Value="Sewer Plate" />
+    <Description Value="Dirty sewer plate" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="BLACK" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="DUSTY" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Dusty Aluminum Floor\CRW_7809.xml">
+    <FriendlyName Value="Aluminum Floor Plate" />
+    <Description Value="Dirty floor plate from Arkane's lift.&#xD;&#xA;(if you want my opinion, avoid using it because, as expected for metals, it's showing a lot of specularity and you don't get the exact albedo)" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="DUSTY" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Dusty Round Sewer Plate\CRW_7799.xml">
+    <FriendlyName Value="Round sewer plate (ductile iron)" />
+    <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="GRAY" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="DUSTY, RUSTY" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Rusty Rail\CRW_7786.xml">
+    <FriendlyName Value="Rusty rail" />
+    <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="ORANGE" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="RUSTY, OLD" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Rusty Sewer Plate\CRW_7782.xml">
+    <FriendlyName Value="Rusty Sewer Plate" />
+    <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="ORANGE" />
+      <Shade Value="DARK" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="RUSTY, OLD" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Metal\Thick Metal Plate\CRW_7805.xml">
+    <FriendlyName Value="Thick Metal Plate" />
+    <Description Value="&quot;Welcome mat&quot; in front of Arkane's building" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="METAL" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="NEW" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Soil\Ground with Pebbles\CRW_7753.xml">
+    <FriendlyName Value="Mixed Soil" />
+    <Description Value="Soil + small pebbles" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="YELLOW" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="SOIL" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Soil\Ground with Pebbles2\CRW_7757.xml">
+    <FriendlyName Value="Mixed Soil 2" />
+    <Description Value="Soil + small pebbles" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="SOIL" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Soil\Ground with Pebbles3\CRW_7778.xml">
+    <FriendlyName Value="Mixed Soil 3 (sand)" />
+    <Description Value="Sand + Pebbles" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="YELLOW" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="SOIL" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Soil\Mixed Soil\CRW_7797.xml">
+    <FriendlyName Value="Dark Earth Soil" />
+    <Description Value="Earth soil" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="DARK" />
+      <Nature Value="SOIL" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Asphalt Mixed with Pebbles\CRW_7807.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cement Mixed with Pebbles\CRW_7759.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cinderblock\CRW_7803.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Grey\CRW_7763.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Grey2\CRW_7765.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Grey3\CRW_7770.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Grey4\CRW_7772.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Rusty\CRW_7774.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Cobblestone Rusty Brown\CRW_7768.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Dark Floor Tiling\CRW_7811.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Dark Stone Pavement\CRW_7776.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Indoor Concrete Floor\CRW_7751.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Outdoor Concrete\CRW_7755.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Stone Slab\CRW_7761.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Wood\Dirty Wood Plank\CRW_7792.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Wood\Dirty Wood Plank (wet)\CRW_7793.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Wood\Polished Plank\CRW_7814.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Wood\Rough Plank\CRW_7780.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="NONE" />
+      <Modifiers Value="NONE" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Wood\Smooth Wooden Bench\CRW_7790.xml">
+    <FriendlyName Value="" />
+    <Description Value="" />
+    <Tags>
+      <Type Value="NONE" />
+      <Color Value="NONE" />
+      <Shade Value="NONE" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
       <Construction Value="NONE" />
