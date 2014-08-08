@@ -1,0 +1,42 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 7\RAW Materials\CRW_7807.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 7\RAW Materials\CRW_7807.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="5.595919" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="2.065983" />
+    <WhiteBalance xyY="0.2972756; 0.3116797; 0.4840339" />
+    <CropSource Value="False" />
+    <CropRectangleCenter X="0.5" Y="0.5" />
+    <CropRectangleHalfSize X="0.7509727" Y="0.5" />
+    <CropRectangleRotation Value="0" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7807.png" Width="3088" Height="2056">
+    <DefaultSwatches>
+      <Min Name="CRW_7807_Min.png" xyY="0.3002487; 0.3164418; 0.02586201" RGB="0.1685789; 0.1757168; 0.1870196" />
+      <Max Name="CRW_7807_Max.png" xyY="0.3197161; 0.3478422; 0.7569076" RGB="0.8705022; 0.8940857; 0.8260751" />
+      <Avg Name="CRW_7807_Avg.png" xyY="0.3291174; 0.3447188; 0.1339251" RGB="0.4172838; 0.3996; 0.3714653" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+  <CustomSwatches Count="7">
+    <Custom0 Name="CRW_7807_Custom0.png" xyY="0.3283791; 0.3472137; 0.1436704" RGB="0.4269484; 0.414716; 0.3813105" SampleTopLeft="0.4860215; 0.5194175" SampleBottomRight="0.5526882; 0.5873786" />
+    <Custom1 Name="CRW_7807_Custom1.png" xyY="0.3779846; 0.3575768; 0.1039302" RGB="0.4339726; 0.3348524; 0.2852737" SampleTopLeft="0.8150538; 0.4449838" SampleBottomRight="0.832258; 0.4514563" />
+    <Custom2 Name="CRW_7807_Custom2.png" xyY="0.3185732; 0.3378086; 0.3933557" RGB="0.6636508; 0.6614513; 0.636914" SampleTopLeft="0.2817204; 0.263754" SampleBottomRight="0.3032258; 0.2928803" />
+    <Custom3 Name="CRW_7807_Custom3.png" xyY="0.323826; 0.3423952; 0.2874308" RGB="0.5832879; 0.5725144; 0.5397298" SampleTopLeft="0.5548387; 0.6650485" SampleBottomRight="0.5741935; 0.6877022" />
+    <Custom4 Name="CRW_7807_Custom4.png" xyY="0.3672826; 0.3879687; 0.1335595" RGB="0.4397095; 0.3980726; 0.2909853" SampleTopLeft="0.2688172; 0.6359223" SampleBottomRight="0.288172; 0.6650485" />
+    <Custom5 Name="CRW_7807_Custom5.png" xyY="0.3320778; 0.3402277; 0.0788538" RGB="0.3324209; 0.3064918; 0.2901976" SampleTopLeft="0.5376344; 0.1699029" SampleBottomRight="0.5569893; 0.1893204" />
+    <Custom6 Name="CRW_7807_Custom6.png" xyY="0.3314416; 0.3536181; 0.0458567" RGB="0.243801; 0.2376431; 0.209701" SampleTopLeft="0.7247312; 0.2864078" SampleBottomRight="0.7204301; 0.2928803" />
+  </CustomSwatches>
+</Manifest>
