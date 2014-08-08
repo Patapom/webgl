@@ -1,0 +1,33 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 7\RAW Materials\CRW_7803.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 7\RAW Materials\CRW_7803.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="5.595919" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="2.017836" />
+    <WhiteBalance xyY="0.2968142; 0.3091214; 0.4955833" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.4925037" Y="0.4977511" />
+    <CropRectangleHalfSize X="0.7209877" Y="0.4632684" />
+    <CropRectangleRotation Value="0.0225125" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7803.png" Width="2964" Height="1904">
+    <DefaultSwatches>
+      <Min Name="CRW_7803_Min.png" xyY="0.3387127; 0.3507064; 0.07326613" RGB="0.3214844; 0.2965972; 0.2661363" />
+      <Max Name="CRW_7803_Max.png" xyY="0.3169171; 0.3332433; 0.5082327" RGB="0.7477415; 0.7400683; 0.7268614" />
+      <Avg Name="CRW_7803_Avg.png" xyY="0.327768; 0.3473498; 0.2842477" RGB="0.5835655; 0.5697226; 0.5250555" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+</Manifest>

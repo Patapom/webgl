@@ -652,203 +652,219 @@
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Asphalt Mixed with Pebbles\CRW_7807.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Worn Asphalt" />
+    <Description Value="Mixed with pebbles" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cement Mixed with Pebbles\CRW_7759.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Mixed Cement" />
+    <Description Value="Cement + small pebbles" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cinderblock\CRW_7803.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cinderblock" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="WALL" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Grey\CRW_7763.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Grey2\CRW_7765.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone 2" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="DARK" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Grey3\CRW_7770.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone 3" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Grey4\CRW_7772.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone 4" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Rusty\CRW_7774.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone 5 (rusty)" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="ORANGE" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="RUSTY" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Cobblestone Rusty Brown\CRW_7768.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Cobblestone 6 (rusty)" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="..\cobblestone_overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="ORANGE" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="RUSTY" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Dark Floor Tiling\CRW_7811.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Dark Floor Tiling" />
+    <Description Value="In Arkane's very toilets... ^_^" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="DARK" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="VARNISHED, NEW" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Dark Stone Pavement\CRW_7776.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Dark Stone Pavement" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="DARK" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Indoor Concrete Floor\CRW_7751.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Concrete Floor" />
+    <Description Value="Indoor concrete floor (front of the elevator)" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY, YELLOW" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
+      <Construction Value="FLOOR" />
       <Modifiers Value="NONE" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Outdoor Concrete\CRW_7755.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Concrete Floor 2" />
+    <Description Value="Outdoor concrete floor, installed quite recently I suppose since they've been redoing the tarmac about 4 times now..." />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="FLOOR" />
+      <Modifiers Value="NEW" />
     </Tags>
   </Entry>
   <Entry RelativePath="Stone\Stone Slab\CRW_7761.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Stone Slab Pavement" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="STONE" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
-      <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Construction Value="ROAD_PAVEMENT" />
+      <Modifiers Value="OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Dirty Wood Plank\CRW_7792.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Dirty Wood Plank" />
+    <Description Value="Some piece of wood board from a box I suppose" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="WOOD" />
+      <Color Value="YELLOW" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
       <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Modifiers Value="OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Dirty Wood Plank (wet)\CRW_7793.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Dirty Wood Plank (wet side)" />
+    <Description Value="The wet side of the previous plank (was lying on the floor after the rain)" />
+    <EnvironmentImage RelativePath="..\Dirty Wood Plank\overview.jpg" />
     <Tags>
       <Type Value="NONE" />
       <Color Value="NONE" />
@@ -860,42 +876,45 @@
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Polished Plank\CRW_7814.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Polished Wood Plank" />
+    <Description Value="From an ikea sofa" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="WOOD" />
+      <Color Value="YELLOW, ORANGE" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
-      <Furniture Value="NONE" />
+      <Furniture Value="CHAIR" />
       <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Modifiers Value="VARNISHED" />
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Rough Plank\CRW_7780.xml">
-    <FriendlyName Value="" />
-    <Description Value="" />
+    <FriendlyName Value="Rough Raw Wood Plank" />
+    <Description Value="Old wood :)" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="WOOD" />
+      <Color Value="GRAY" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
       <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Modifiers Value="OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Smooth Wooden Bench\CRW_7790.xml">
-    <FriendlyName Value="" />
+    <FriendlyName Value="Smooth Wooden Bench" />
     <Description Value="" />
+    <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
-      <Color Value="NONE" />
-      <Shade Value="NONE" />
+      <Type Value="WOOD" />
+      <Color Value="YELLOW" />
+      <Shade Value="NEUTRAL" />
       <Nature Value="NONE" />
-      <Furniture Value="NONE" />
+      <Furniture Value="CHAIR" />
       <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Modifiers Value="VARNISHED" />
     </Tags>
   </Entry>
 </TexturesDatabase>
