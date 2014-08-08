@@ -584,7 +584,7 @@
   </Entry>
   <Entry RelativePath="Metal\Thick Metal Plate\CRW_7805.xml">
     <FriendlyName Value="Thick Metal Plate" />
-    <Description Value="&quot;Welcome mat&quot; in front of Arkane's building" />
+    <Description Value="Serves as &quot;welcome mat&quot; in front of Arkane's building" />
     <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="METAL" />
@@ -872,7 +872,7 @@
       <Nature Value="NONE" />
       <Furniture Value="NONE" />
       <Construction Value="NONE" />
-      <Modifiers Value="NONE" />
+      <Modifiers Value="WET, OLD" />
     </Tags>
   </Entry>
   <Entry RelativePath="Wood\Polished Plank\CRW_7814.xml">
