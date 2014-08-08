@@ -38,6 +38,7 @@ o3djs.require( 'patapi.ui' );
 // 		PAPER_CANVAS,
 // 		PAINT,
 // 		PLASTIC,
+// 		METAL,
 // 	}
 // 
 // 	public enum		TAGS_COLOR
@@ -118,6 +119,7 @@ var	Tags = [
 	{ N : "Paper/Canvas", F : "PAPER_CANVAS" },
 	{ N : "Paint", F : "PAINT" },
 	{ N : "Plastic/Resin", F : "PLASTIC" },
+	{ N : "Metal", F : "METAL" },
 
 	// Color
 	{ N : "Black", F : "BLACK" },
@@ -161,6 +163,7 @@ var	Tags = [
 	{ N : "Wet", F : "WET," },
 	{ N : "Dusty", F : "DUSTY," },
 	{ N : "Frosty", F : "FROSTY" },
+	{ N : "Rusty", F : "RUSTY," },
 	{ N : "Varnished", F : "VARNISHED" },
 	{ N : "Old", F : "OLD" },
 	{ N : "New", F : "NEW" },
@@ -200,7 +203,7 @@ $(document).ready( function() {
 
 	// Fill up global infos
 	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
-								'Latest database update: 2014-07-09.&nbsp;' +
+								'Latest database update: 2014-08-07.&nbsp;' +
 								'Latest webpage update: 2014-07-14.&nbsp;' +
 								''
 						 );

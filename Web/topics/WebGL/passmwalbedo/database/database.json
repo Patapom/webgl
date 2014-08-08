@@ -2064,8 +2064,7 @@
 		{
 			RelativePath : "Metal/Dusty Aluminum Floor",
 			FriendlyName : "Aluminum Floor Plate",
-			Description : "Dirty floor plate from Arkane's lift.
-(if you want my opinion, avoid using it because, as expected for metals, it's showing a lot of specularity and you don't get the exact albedo)",
+			Description : "Dirty floor plate from Arkane's lift.<br/>(if you want my opinion, avoid using it because, as expected for metals, it's showing a lot of specularity and you don't get the exact albedo)",
 			OverviewImagePath: "overview.jpg",
 			Tags : "METAL,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,DUSTY",
 			TextureInfos : {
@@ -2428,7 +2427,7 @@
 		{
 			RelativePath : "Metal/Thick Metal Plate",
 			FriendlyName : "Thick Metal Plate",
-			Description : ""Welcome mat" in front of Arkane's building",
+			Description : "Serves as &quot;welcome mat&quot; in front of Arkane's building",
 			OverviewImagePath: "overview.jpg",
 			Tags : "METAL,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,NEW",
 			TextureInfos : {
@@ -4054,7 +4053,7 @@
 			FriendlyName : "Dirty Wood Plank (wet side)",
 			Description : "The wet side of the previous plank (was lying on the floor after the rain)",
 			OverviewImagePath: "..\Dirty Wood Plank\overview.jpg",
-			Tags : "",
+			Tags : "WET, OLD",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
