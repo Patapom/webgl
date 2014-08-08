@@ -528,7 +528,7 @@
   </Entry>
   <Entry RelativePath="Metal\Dusty Aluminum Floor\CRW_7809.xml">
     <FriendlyName Value="Aluminum Floor Plate" />
-    <Description Value="Dirty floor plate from Arkane's lift.&#xD;&#xA;(if you want my opinion, avoid using it because, as expected for metals, it's showing a lot of specularity and you don't get the exact albedo)" />
+    <Description Value="Dirty floor plate from Arkane's lift.&#xD;&#xA;(if you want my opinion, avoid using it because,&#xD;&#xA;as expected for metals, it's showing a lot of&#xD;&#xA; specularity and you don't get the exact albedo)" />
     <EnvironmentImage RelativePath="overview.jpg" />
     <Tags>
       <Type Value="METAL" />
@@ -866,7 +866,7 @@
     <Description Value="The wet side of the previous plank (was lying on the floor after the rain)" />
     <EnvironmentImage RelativePath="..\Dirty Wood Plank\overview.jpg" />
     <Tags>
-      <Type Value="NONE" />
+      <Type Value="WOOD" />
       <Color Value="NONE" />
       <Shade Value="NONE" />
       <Nature Value="NONE" />
