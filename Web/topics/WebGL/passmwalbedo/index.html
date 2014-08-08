@@ -104,9 +104,10 @@ o3djs.require( 'patapi.ui' );
 // 		WET = 1,
 // 		DUSTY = 2,
 // 		FROSTY = 4,
-// 		VARNISHED = 8,
-// 		OLD = 16,
-// 		NEW = 32,
+// 		RUSTY = 8,
+// 		VARNISHED = 16,
+// 		OLD = 32,
+// 		NEW = 64,
 //	}
 //
 // Create the dynamic tags that are provided with the couple ("friendly name", "C# enum name"
@@ -160,10 +161,10 @@ var	Tags = [
 	{ N : "Road/Pavement", F : "ROAD_PAVEMENT" },
 
 	// Modifiers
-	{ N : "Wet", F : "WET," },
-	{ N : "Dusty", F : "DUSTY," },
+	{ N : "Wet", F : "WET" },
+	{ N : "Dusty", F : "DUSTY" },
 	{ N : "Frosty", F : "FROSTY" },
-	{ N : "Rusty", F : "RUSTY," },
+	{ N : "Rusty", F : "RUSTY" },
 	{ N : "Varnished", F : "VARNISHED" },
 	{ N : "Old", F : "OLD" },
 	{ N : "New", F : "NEW" },
@@ -330,7 +331,7 @@ $(document).ready( function() {
 
 		var	CheckBoxName = "TagCheckBox" + TagIndex;
 
-		var	ContainerIndex = (TagIndex / 10) | 0;
+		var	ContainerIndex = (TagIndex / 11) | 0;
 		var	Container = $( "#Tags" + ContainerIndex );
 
 //		Container.append( '<div id="' + CheckBoxName + '" class="UI-widget-label"><div class="t0"><span>' + T.N + '</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-checkbox"/></div></div>' );

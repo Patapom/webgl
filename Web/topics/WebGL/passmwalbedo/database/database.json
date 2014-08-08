@@ -2064,7 +2064,7 @@
 		{
 			RelativePath : "Metal/Dusty Aluminum Floor",
 			FriendlyName : "Aluminum Floor Plate",
-			Description : "Dirty floor plate from Arkane's lift.<br/>(if you want my opinion, avoid using it because, as expected for metals, it's showing a lot of specularity and you don't get the exact albedo)",
+			Description : "Dirty floor plate from Arkane's lift.<br/>(if you want my opinion, avoid using it because,<br/>as expected for metals, it's showing a lot of<br/> specularity and you don't get the exact albedo)",
 			OverviewImagePath: "overview.jpg",
 			Tags : "METAL,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,DUSTY",
 			TextureInfos : {
@@ -3103,7 +3103,7 @@
 			RelativePath : "Stone/Cobblestone Grey",
 			FriendlyName : "Cobblestone",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -3178,7 +3178,7 @@
 			RelativePath : "Stone/Cobblestone Grey2",
 			FriendlyName : "Cobblestone 2",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,GRAY,DARK,ROAD_PAVEMENT,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -3274,7 +3274,7 @@
 			RelativePath : "Stone/Cobblestone Grey3",
 			FriendlyName : "Cobblestone 3",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -3370,7 +3370,7 @@
 			RelativePath : "Stone/Cobblestone Grey4",
 			FriendlyName : "Cobblestone 4",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -3459,7 +3459,7 @@
 			RelativePath : "Stone/Cobblestone Rusty",
 			FriendlyName : "Cobblestone 5 (rusty)",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,ORANGE,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,RUSTY",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -3548,7 +3548,7 @@
 			RelativePath : "Stone/Cobblestone Rusty Brown",
 			FriendlyName : "Cobblestone 6 (rusty)",
 			Description : "",
-			OverviewImagePath: "..\cobblestone_overview.jpg",
+			OverviewImagePath: "../cobblestone_overview.jpg",
 			Tags : "STONE,ORANGE,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,RUSTY",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -4052,8 +4052,8 @@
 			RelativePath : "Wood/Dirty Wood Plank (wet)",
 			FriendlyName : "Dirty Wood Plank (wet side)",
 			Description : "The wet side of the previous plank (was lying on the floor after the rain)",
-			OverviewImagePath: "..\Dirty Wood Plank\overview.jpg",
-			Tags : "WET, OLD",
+			OverviewImagePath: "../Dirty Wood Plank/overview.jpg",
+			Tags : "WOOD,WET, OLD",
 			TextureInfos : {
 				ISOSpeed : 100,
 				ShutterSpeed : 1,
