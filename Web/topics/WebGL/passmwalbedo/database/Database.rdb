@@ -1,4 +1,4 @@
-<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="67">
+<TexturesDatabase Location="C:\Pom\Workspaces\Patapom.com\Web\topics\WebGL\passmwalbedo\database" EntriesCount="69">
   <Entry RelativePath="Wood\Bureau Pom\CRW_7570.xml">
     <FriendlyName Value="Pom's Desk" />
     <Description Value="Que du bisou!" />
@@ -915,6 +915,34 @@
       <Furniture Value="CHAIR" />
       <Construction Value="NONE" />
       <Modifiers Value="VARNISHED" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Sexy Brick\CRW_7816.xml">
+    <FriendlyName Value="Old Brick (interior)" />
+    <Description Value="Sexy brick.&#xD;&#xA;Interior side as it seems less worn out" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="ORANGE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="WALL" />
+      <Modifiers Value="DUSTY, OLD" />
+    </Tags>
+  </Entry>
+  <Entry RelativePath="Stone\Sexy Brick\CRW_7817.xml">
+    <FriendlyName Value="Old Brick (exterior)" />
+    <Description Value="Sexy brick.&#xD;&#xA;Exterior side, more worn out" />
+    <EnvironmentImage RelativePath="overview.jpg" />
+    <Tags>
+      <Type Value="STONE" />
+      <Color Value="ORANGE" />
+      <Shade Value="NEUTRAL" />
+      <Nature Value="NONE" />
+      <Furniture Value="NONE" />
+      <Construction Value="WALL" />
+      <Modifiers Value="RUSTY, OLD" />
     </Tags>
   </Entry>
 </TexturesDatabase>
