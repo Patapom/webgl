@@ -4383,5 +4383,162 @@
 				}
 			}
 		},
+		{
+			RelativePath : "Stone/Sexy Brick",
+			FriendlyName : "Old Brick (interior)",
+			Description : "Sexy brick.<br/>Interior side as it seems less worn out",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,WALL,CONSTRUCTION,DUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Sexy Brick/CRW_7816.jpg",
+				TextureFileName : "Stone/Sexy Brick/CRW_7816.png",
+				PackagePath : "Stone/Sexy Brick",
+				TextureWidth : 1313,
+				TextureHeight : 1602,
+				OverviewImageFileName : "Stone/Sexy Brick/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3475642; 0.3618212; 0.05162423",
+						RGB : "0.2732162; 0.2490829; 0.2092454",
+						Color : "453F35",
+					},
+					Max : 
+					{
+						xyY : "0.3138984; 0.3426591; 0.7052106",
+						RGB : "0.8306116; 0.8683554; 0.8205417",
+						Color : "D3DDD1",
+					},
+					Avg : 
+					{
+						xyY : "0.3754191; 0.37662; 0.1983228",
+						RGB : "0.5570253; 0.4683307; 0.3632761",
+						Color : "8E775C",
+					},
+					Custom : [
+						{
+							xyY : "0.4120294; 0.3812967; 0.1862036",
+							RGB : "0.5973753; 0.434721; 0.3131173",
+							Color : "986E4F",
+							TopLeft : { x : 0.8216912, y : 0.2861446 },
+							BottomRight : { x : 0.8327206, y : 0.3012048 },
+						},
+						{
+							xyY : "0.3756669; 0.3796526; 0.1837196",
+							RGB : "0.5347844; 0.4533787; 0.3454621",
+							Color : "887358",
+							TopLeft : { x : 0.2591912, y : 0.3313253 },
+							BottomRight : { x : 0.2922794, y : 0.3644578 },
+						},
+						{
+							xyY : "0.3862402; 0.3798023; 0.1990976",
+							RGB : "0.573901; 0.4641917; 0.3496886",
+							Color : "927659",
+							TopLeft : { x : 0.5165441, y : 0.3704819 },
+							BottomRight : { x : 0.5753676, y : 0.4096386 },
+						},
+						{
+							xyY : "0.4078839; 0.3797904; 0.1629826",
+							RGB : "0.5575826; 0.4098952; 0.2991361",
+							Color : "8E684C",
+							TopLeft : { x : 0.5533088, y : 0.7530121 },
+							BottomRight : { x : 0.5643382, y : 0.7530121 },
+						},
+						{
+							xyY : "0.3225937; 0.3533511; 0.5195591",
+							RGB : "0.7359406; 0.7578161; 0.6829371",
+							Color : "BBC1AE",
+							TopLeft : { x : 0.08272059, y : 0.8885542 },
+							BottomRight : { x : 0.09742647, y : 0.9487952 },
+						},
+						{
+							xyY : "0.3773547; 0.3808701; 0.1866509",
+							RGB : "0.5403246; 0.4563741; 0.3448851",
+							Color : "897457",
+							TopLeft : { x : 0.4356618, y : 0.5120482 },
+							BottomRight : { x : 0.5569853, y : 0.5903614 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Sexy Brick",
+			FriendlyName : "Old Brick (exterior)",
+			Description : "Sexy brick.<br/>Exterior side, more worn out",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,WALL,CONSTRUCTION,RUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Sexy Brick/CRW_7817.jpg",
+				TextureFileName : "Stone/Sexy Brick/CRW_7817.png",
+				PackagePath : "Stone/Sexy Brick",
+				TextureWidth : 1050,
+				TextureHeight : 1155,
+				OverviewImageFileName : "Stone/Sexy Brick/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3566464; 0.3520356; 0.06610499",
+						RGB : "0.3284675; 0.2748142; 0.2428653",
+						Color : "53463D",
+					},
+					Max : 
+					{
+						xyY : "0.3423394; 0.3634091; 0.3221506",
+						RGB : "0.6327887; 0.6021655; 0.5136541",
+						Color : "A19982",
+					},
+					Avg : 
+					{
+						xyY : "0.3611117; 0.3647614; 0.1706099",
+						RGB : "0.5076134; 0.4387982; 0.3657704",
+						Color : "816F5D",
+					},
+					Custom : [
+						{
+							xyY : "0.4211763; 0.3718005; 0.175307",
+							RGB : "0.6058289; 0.4106843; 0.310364",
+							Color : "9A684F",
+							TopLeft : { x : 0.9501661, y : 0.1295181 },
+							BottomRight : { x : 0.9833887, y : 0.1746988 },
+						},
+						{
+							xyY : "0.3815619; 0.3626485; 0.1490017",
+							RGB : "0.5133338; 0.398704; 0.3307944",
+							Color : "826554",
+							TopLeft : { x : 0.3488372, y : 0.6174699 },
+							BottomRight : { x : 0.3687708, y : 0.6566265 },
+						},
+						{
+							xyY : "0.3569391; 0.3637451; 0.1774807",
+							RGB : "0.5102035; 0.4489945; 0.3773572",
+							Color : "827260",
+							TopLeft : { x : 0.654485, y : 0.1626506 },
+							BottomRight : { x : 0.6910299, y : 0.2018072 },
+						},
+						{
+							xyY : "0.3494513; 0.3673859; 0.1943808",
+							RGB : "0.5123581; 0.4750791; 0.3944381",
+							Color : "827964",
+							TopLeft : { x : 0.7009967, y : 0.7620482 },
+							BottomRight : { x : 0.807309, y : 0.8373494 },
+						},
+						{
+							xyY : "0.3808109; 0.3655696; 0.1624036",
+							RGB : "0.5295342; 0.4174111; 0.3413106",
+							Color : "876A57",
+							TopLeft : { x : 0.435216, y : 0.2740964 },
+							BottomRight : { x : 0.461794, y : 0.3192771 },
+						},
+					]
+				}
+			}
+		},
 	]
 }
