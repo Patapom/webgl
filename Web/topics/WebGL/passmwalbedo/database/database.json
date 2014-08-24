@@ -4,7 +4,7 @@
 			RelativePath : "Wood/Bureau Pom",
 			FriendlyName : "Pom's Desk",
 			Description : "Que du bisou!",
-			OverviewImagePath: "..\..\Meow!.png",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,DESK,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -15,7 +15,7 @@
 				PackagePath : "Wood/Bureau Pom",
 				TextureWidth : 2983,
 				TextureHeight : 2015,
-				OverviewImageFileName : "Meow!.png",
+				OverviewImageFileName : "Wood/Bureau Pom/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -44,6 +44,7 @@
 			RelativePath : "Leather/Canapé Cuir Romu",
 			FriendlyName : "Black Leather Armchair",
 			Description : "Romuald's office",
+			OverviewImagePath: "overview.jpg",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -54,6 +55,7 @@
 				PackagePath : "Leather/Canapé Cuir Romu",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Leather/Canapé Cuir Romu/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -89,6 +91,7 @@
 			RelativePath : "Fabric/Canapé Gris",
 			FriendlyName : "Grey Armchair",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,GRAY,NEUTRAL,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -99,6 +102,7 @@
 				PackagePath : "Fabric/Canapé Gris",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Canapé Gris/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -127,6 +131,7 @@
 			RelativePath : "Fabric/Canapé Vert",
 			FriendlyName : "Green Armchair",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,GREEN,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -137,6 +142,7 @@
 				PackagePath : "Fabric/Canapé Vert",
 				TextureWidth : 2140,
 				TextureHeight : 1443,
+				OverviewImageFileName : "Fabric/Canapé Vert/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -165,6 +171,7 @@
 			RelativePath : "Leather/Cube Cuir Noir",
 			FriendlyName : "Black Leather Cube",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "SKIN,BLACK,DARK,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -175,6 +182,7 @@
 				PackagePath : "Leather/Cube Cuir Noir",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Leather/Cube Cuir Noir/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -203,6 +211,7 @@
 			RelativePath : "Plastic/Lobby Bureau Sarah",
 			FriendlyName : "Black Varnished Desk",
 			Description : "Evil Sarah's desk!",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PLASTIC,BLACK,DARK,DESK,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -213,6 +222,7 @@
 				PackagePath : "Plastic/Lobby Bureau Sarah",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Plastic/Lobby Bureau Sarah/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -255,6 +265,7 @@
 			RelativePath : "Fabric/Lobby Fauteuil Orange",
 			FriendlyName : "Orange Armchair",
 			Description : "From the lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,ORANGE,CHAIR,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -265,6 +276,7 @@
 				PackagePath : "Fabric/Lobby Fauteuil Orange",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Lobby Fauteuil Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -293,6 +305,7 @@
 			RelativePath : "Fabric/Lobby Moquette Noire",
 			FriendlyName : "Black Carpet",
 			Description : "Lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -303,6 +316,7 @@
 				PackagePath : "Fabric/Lobby Moquette Noire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Lobby Moquette Noire/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -331,6 +345,7 @@
 			RelativePath : "Wood/Lobby Parquet",
 			FriendlyName : "Wooden Floor",
 			Description : "Lobby",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -341,6 +356,7 @@
 				PackagePath : "Wood/Lobby Parquet",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Wood/Lobby Parquet/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -369,6 +385,7 @@
 			RelativePath : "Fabric/Moquette Grise",
 			FriendlyName : "Dark Gray Carpet",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -379,6 +396,7 @@
 				PackagePath : "Fabric/Moquette Grise",
 				TextureWidth : 2520,
 				TextureHeight : 1609,
+				OverviewImageFileName : "Fabric/Moquette Grise/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -407,6 +425,7 @@
 			RelativePath : "Fabric/Moquette Orange",
 			FriendlyName : "Dark Orange Carpet",
 			Description : "It's <strong style='color:blue;'>ORANGE</strong>!",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,ORANGE,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -417,6 +436,7 @@
 				PackagePath : "Fabric/Moquette Orange",
 				TextureWidth : 2886,
 				TextureHeight : 1706,
+				OverviewImageFileName : "Fabric/Moquette Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -459,6 +479,7 @@
 			RelativePath : "Fabric/Paillasson Réfectoire",
 			FriendlyName : "Dark Gray Doormat",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "FABRIC,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -469,6 +490,7 @@
 				PackagePath : "Fabric/Paillasson Réfectoire",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Fabric/Paillasson Réfectoire/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -497,6 +519,7 @@
 			RelativePath : "Plastic/Table Basse Blanche",
 			FriendlyName : "White Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PLASTIC,WHITE,BRIGHT,TABLE,FURNITURE,VARNISHED",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -507,6 +530,7 @@
 				PackagePath : "Plastic/Table Basse Blanche",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Plastic/Table Basse Blanche/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -535,6 +559,7 @@
 			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw plancks",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -545,6 +570,7 @@
 				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 3088,
 				TextureHeight : 2056,
+				OverviewImageFileName : "Wood/Terrasse Bois/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -587,6 +613,7 @@
 			RelativePath : "Wood/Terrasse Bois",
 			FriendlyName : "Wood floor raw planck (closeup)",
 			Description : "Closeup on a single planck",
+			OverviewImagePath: "overview.jpg",
 			Tags : "WOOD,NEUTRAL,FLOOR,CONSTRUCTION",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -597,6 +624,7 @@
 				PackagePath : "Wood/Terrasse Bois",
 				TextureWidth : 1610,
 				TextureHeight : 2002,
+				OverviewImageFileName : "Wood/Terrasse Bois/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -639,6 +667,7 @@
 			RelativePath : "Paint/Terrasse Table Orange",
 			FriendlyName : "Orange Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,ORANGE,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -649,6 +678,7 @@
 				PackagePath : "Paint/Terrasse Table Orange",
 				TextureWidth : 1153,
 				TextureHeight : 1170,
+				OverviewImageFileName : "Paint/Terrasse Table Orange/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -684,6 +714,7 @@
 			RelativePath : "Paint/Terrasse Table Rouge",
 			FriendlyName : "Red Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,RED,DARK,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -694,6 +725,7 @@
 				PackagePath : "Paint/Terrasse Table Rouge",
 				TextureWidth : 1067,
 				TextureHeight : 1349,
+				OverviewImageFileName : "Paint/Terrasse Table Rouge/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -729,6 +761,7 @@
 			RelativePath : "Paint/Terrasse Table Verte",
 			FriendlyName : "Green Metal Table",
 			Description : "",
+			OverviewImagePath: "overview.jpg",
 			Tags : "PAINT,GREEN,NEUTRAL,TABLE,FURNITURE",
 			TextureInfos : {
 				ISOSpeed : 100,
@@ -739,6 +772,7 @@
 				PackagePath : "Paint/Terrasse Table Verte",
 				TextureWidth : 1134,
 				TextureHeight : 1382,
+				OverviewImageFileName : "Paint/Terrasse Table Verte/overview.jpg",
 				Swatches : {
 					Min : 
 					{
@@ -1830,6 +1864,2677 @@
 							Color : "B63C51",
 							TopLeft : { x : 0.288172, y : 0.255 },
 							BottomRight : { x : 0.5505376, y : 0.705 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Ardoise",
+			FriendlyName : "Dark Slate",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,BLACK, GRAY,DARK,FLOOR,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Ardoise/CRW_7749.jpg",
+				TextureFileName : "Stone/Ardoise/CRW_7749.png",
+				PackagePath : "Stone/Ardoise",
+				TextureWidth : 929,
+				TextureHeight : 450,
+				OverviewImageFileName : "Stone/Ardoise/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2209791; 0.1783761; 0.01168074",
+						RGB : "0.09541823; 0.096728; 0.2209093",
+						Color : "181838",
+					},
+					Max : 
+					{
+						xyY : "0.2999581; 0.3266347; 0.1190879",
+						RGB : "0.3549537; 0.3857125; 0.3896036",
+						Color : "5A6263",
+					},
+					Avg : 
+					{
+						xyY : "0.2966914; 0.3157536; 0.02581655",
+						RGB : "0.1645978; 0.1764592; 0.1883076",
+						Color : "292C30",
+					},
+					Custom : [
+						{
+							xyY : "0.2985351; 0.3194395; 0.02906017",
+							RGB : "0.1756192; 0.1885186; 0.197461",
+							Color : "2C3032",
+							TopLeft : { x : 0.3870968, y : 0.2155555 },
+							BottomRight : { x : 0.4172043, y : 0.2644444 },
+						},
+						{
+							xyY : "0.3024834; 0.3321308; 0.1098126",
+							RGB : "0.3407383; 0.3720265; 0.3669356",
+							Color : "565E5D",
+							TopLeft : { x : 0.6989247, y : 0.4288889 },
+							BottomRight : { x : 0.6989247, y : 0.4288889 },
+						},
+						{
+							xyY : "0.2925654; 0.3182881; 0.02600164",
+							RGB : "0.158567; 0.1790053; 0.1884831",
+							Color : "282D30",
+							TopLeft : { x : 0.2537634, y : 0.7711111 },
+							BottomRight : { x : 0.2989247, y : 0.82 },
+						},
+						{
+							xyY : "0.299399; 0.3193343; 0.03297402",
+							RGB : "0.1892983; 0.2013674; 0.210916",
+							Color : "303335",
+							TopLeft : { x : 0.1784946, y : 0.2333333 },
+							BottomRight : { x : 0.2301075, y : 0.3444445 },
+						},
+						{
+							xyY : "0.304016; 0.3245496; 0.04770736",
+							RGB : "0.2328007; 0.2438692; 0.2489789",
+							Color : "3B3E3F",
+							TopLeft : { x : 0.5806451, y : 0.08666667 },
+							BottomRight : { x : 0.6, y : 0.14 },
+						},
+						{
+							xyY : "0.3026402; 0.3256913; 0.05223114",
+							RGB : "0.2408044; 0.2562733; 0.2601872",
+							Color : "3D4142",
+							TopLeft : { x : 0.6688172, y : 0.5355555 },
+							BottomRight : { x : 0.6688172, y : 0.5355555 },
+						},
+						{
+							xyY : "0.2964055; 0.3200433; 0.02433215",
+							RGB : "0.1563008; 0.171913; 0.1796482",
+							Color : "272B2D",
+							TopLeft : { x : 0.8172043, y : 0.4822222 },
+							BottomRight : { x : 0.8516129, y : 0.5444444 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Dirty Sewer Plate",
+			FriendlyName : "Sewer Plate",
+			Description : "Dirty sewer plate",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,BLACK,DARK,ROAD_PAVEMENT,CONSTRUCTION,DUSTY",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Dirty Sewer Plate/CRW_7795.jpg",
+				TextureFileName : "Metal/Dirty Sewer Plate/CRW_7795.png",
+				PackagePath : "Metal/Dirty Sewer Plate",
+				TextureWidth : 2675,
+				TextureHeight : 1835,
+				OverviewImageFileName : "Metal/Dirty Sewer Plate/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3447152; 0.3474118; 0.02517115",
+						RGB : "0.1935195; 0.1677964; 0.1509877",
+						Color : "312A26",
+					},
+					Max : 
+					{
+						xyY : "0.3257577; 0.3376607; 0.4496787",
+						RGB : "0.729478; 0.6956186; 0.6698311",
+						Color : "BAB1AA",
+					},
+					Avg : 
+					{
+						xyY : "0.3366154; 0.3488456; 0.09932756",
+						RGB : "0.3707066; 0.3443857; 0.312805",
+						Color : "5E574F",
+					},
+					Custom : [
+						{
+							xyY : "0.3330581; 0.3489077; 0.1095572",
+							RGB : "0.3821507; 0.3628823; 0.3300884",
+							Color : "615C54",
+							TopLeft : { x : 0.5827957, y : 0.4748428 },
+							BottomRight : { x : 0.6494623, y : 0.5283019 },
+						},
+						{
+							xyY : "0.338566; 0.3509539; 0.05774017",
+							RGB : "0.2855368; 0.2635237; 0.2356426",
+							Color : "48433C",
+							TopLeft : { x : 0.3419355, y : 0.4056604 },
+							BottomRight : { x : 0.3913979, y : 0.4213836 },
+						},
+						{
+							xyY : "0.3298889; 0.342633; 0.0655986",
+							RGB : "0.2986516; 0.2816014; 0.2634003",
+							Color : "4C4743",
+							TopLeft : { x : 0.3913979, y : 0.572327 },
+							BottomRight : { x : 0.4430107, y : 0.591195 },
+						},
+						{
+							xyY : "0.3509578; 0.3596863; 0.06254051",
+							RGB : "0.3065575; 0.272326; 0.231605",
+							Color : "4E453B",
+							TopLeft : { x : 0.5032258, y : 0.7798742 },
+							BottomRight : { x : 0.5204301, y : 0.8238994 },
+						},
+						{
+							xyY : "0.3479806; 0.3574563; 0.1634225",
+							RGB : "0.4813568; 0.4340493; 0.3778468",
+							Color : "7A6E60",
+							TopLeft : { x : 0.6602151, y : 0.2955975 },
+							BottomRight : { x : 0.6795699, y : 0.336478 },
+						},
+						{
+							xyY : "0.3370775; 0.3514918; 0.09138023",
+							RGB : "0.3544373; 0.3315858; 0.2971175",
+							Color : "5A544B",
+							TopLeft : { x : 0.3419355, y : 0.2578616 },
+							BottomRight : { x : 0.3827957, y : 0.2924528 },
+						},
+						{
+							xyY : "0.3412703; 0.3514684; 0.05024112",
+							RGB : "0.2693218; 0.2447482; 0.21771",
+							Color : "443E37",
+							TopLeft : { x : 0.7290323, y : 0.4874214 },
+							BottomRight : { x : 0.7419355, y : 0.4968553 },
+						},
+						{
+							xyY : "0.3756722; 0.3682678; 0.05280716",
+							RGB : "0.3037017; 0.2436884; 0.1932419",
+							Color : "4D3E31",
+							TopLeft : { x : 0.2860215, y : 0.4779874 },
+							BottomRight : { x : 0.2967742, y : 0.4968553 },
+						},
+						{
+							xyY : "0.3288543; 0.3443091; 0.03781378",
+							RGB : "0.2238108; 0.213379; 0.1971983",
+							Color : "393632",
+							TopLeft : { x : 0.1397849, y : 0.2044025 },
+							BottomRight : { x : 0.1505376, y : 0.2232704 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Dusty Aluminum Floor",
+			FriendlyName : "Aluminum Floor Plate",
+			Description : "Dirty floor plate from Arkane's lift.<br/>(if you want my opinion, avoid using it because,<br/>as expected for metals, it's showing a lot of<br/> specularity and you don't get the exact albedo)",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,DUSTY",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Dusty Aluminum Floor/CRW_7809.jpg",
+				TextureFileName : "Metal/Dusty Aluminum Floor/CRW_7809.png",
+				PackagePath : "Metal/Dusty Aluminum Floor",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Metal/Dusty Aluminum Floor/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3323391; 0.3464776; 0.04732127",
+						RGB : "0.2539641; 0.2390632; 0.2187248",
+						Color : "403C37",
+					},
+					Max : 
+					{
+						xyY : "0.3203226; 0.3338946; 0.5387589",
+						RGB : "0.7788303; 0.7566703; 0.7410101",
+						Color : "C6C0BC",
+					},
+					Avg : 
+					{
+						xyY : "0.3238673; 0.3407957; 0.1243961",
+						RGB : "0.3970954; 0.3869148; 0.3665007",
+						Color : "65625D",
+					},
+					Custom : [
+						{
+							xyY : "0.3170896; 0.3346839; 0.1464685",
+							RGB : "0.4216608; 0.4190556; 0.4085388",
+							Color : "6B6A68",
+							TopLeft : { x : 0.2322581, y : 0.4158576 },
+							BottomRight : { x : 0.260215, y : 0.4546925 },
+						},
+						{
+							xyY : "0.3170338; 0.3326457; 0.1134587",
+							RGB : "0.3756436; 0.3703278; 0.3642483",
+							Color : "5F5E5C",
+							TopLeft : { x : 0.2193548, y : 0.7815534 },
+							BottomRight : { x : 0.2430108, y : 0.8236246 },
+						},
+						{
+							xyY : "0.3309275; 0.3458307; 0.1228157",
+							RGB : "0.4027686; 0.3830143; 0.3539151",
+							Color : "66615A",
+							TopLeft : { x : 0.339785, y : 0.7783172 },
+							BottomRight : { x : 0.3483871, y : 0.7880259 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Dusty Round Sewer Plate",
+			FriendlyName : "Round sewer plate (ductile iron)",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,GRAY,DARK,ROAD_PAVEMENT,CONSTRUCTION,DUSTY, RUSTY",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Dusty Round Sewer Plate/CRW_7799.jpg",
+				TextureFileName : "Metal/Dusty Round Sewer Plate/CRW_7799.png",
+				PackagePath : "Metal/Dusty Round Sewer Plate",
+				TextureWidth : 2428,
+				TextureHeight : 1840,
+				OverviewImageFileName : "Metal/Dusty Round Sewer Plate/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.206646; 0.1518959; 0.01246231",
+						RGB : "0.09687342; 0.09411645; 0.257741",
+						Color : "181741",
+					},
+					Max : 
+					{
+						xyY : "0.3280638; 0.3448949; 0.4273309",
+						RGB : "0.7071917; 0.683296; 0.637253",
+						Color : "B4AEA2",
+					},
+					Avg : 
+					{
+						xyY : "0.3335449; 0.3463758; 0.06134793",
+						RGB : "0.2910175; 0.2721325; 0.2495531",
+						Color : "4A453F",
+					},
+					Custom : [
+						{
+							xyY : "0.303189; 0.3273134; 0.03356108",
+							RGB : "0.1906362; 0.2041278; 0.2057699",
+							Color : "303434",
+							TopLeft : { x : 0.4783105, y : 0.4939759 },
+							BottomRight : { x : 0.5125571, y : 0.5120482 },
+						},
+						{
+							xyY : "0.3142228; 0.3342898; 0.02582498",
+							RGB : "0.1734535; 0.1757647; 0.1710296",
+							Color : "2C2C2B",
+							TopLeft : { x : 0.4942922, y : 0.4126506 },
+							BottomRight : { x : 0.5079909, y : 0.4487952 },
+						},
+						{
+							xyY : "0.3029501; 0.3207122; 0.02460061",
+							RGB : "0.1644797; 0.1711939; 0.1784707",
+							Color : "292B2D",
+							TopLeft : { x : 0.3755708, y : 0.2831325 },
+							BottomRight : { x : 0.4372146, y : 0.3222892 },
+						},
+						{
+							xyY : "0.3148463; 0.3348589; 0.02735481",
+							RGB : "0.1793464; 0.1813185; 0.1759474",
+							Color : "2D2E2C",
+							TopLeft : { x : 0.5285388, y : 0.1656626 },
+							BottomRight : { x : 0.5399544, y : 0.2409639 },
+						},
+						{
+							xyY : "0.3649239; 0.3675673; 0.1602085",
+							RGB : "0.4967337; 0.4252382; 0.3482115",
+							Color : "7E6C58",
+							TopLeft : { x : 0.4349315, y : 0.810241 },
+							BottomRight : { x : 0.5034246, y : 0.9126506 },
+						},
+						{
+							xyY : "0.401278; 0.385214; 0.0735689",
+							RGB : "0.3733153; 0.2837287; 0.1975971",
+							Color : "5F4832",
+							TopLeft : { x : 0.6015982, y : 0.4156626 },
+							BottomRight : { x : 0.6107306, y : 0.4277108 },
+						},
+						{
+							xyY : "0.3470131; 0.3622451; 0.1377555",
+							RGB : "0.4375917; 0.4032129; 0.3425707",
+							Color : "6F6657",
+							TopLeft : { x : 0.4075342, y : 0.6566265 },
+							BottomRight : { x : 0.4212329, y : 0.6686747 },
+						},
+						{
+							xyY : "0.3030107; 0.3225932; 0.02696651",
+							RGB : "0.1719402; 0.1804636; 0.1862823",
+							Color : "2B2E2F",
+							TopLeft : { x : 0.2819635, y : 0.3463855 },
+							BottomRight : { x : 0.3299087, y : 0.3825301 },
+						},
+						{
+							xyY : "0.3015484; 0.323062; 0.02762241",
+							RGB : "0.1721755; 0.1833956; 0.1888183",
+							Color : "2B2E30",
+							TopLeft : { x : 0.5057077, y : 0.2831325 },
+							BottomRight : { x : 0.5445206, y : 0.3192771 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Rusty Rail",
+			FriendlyName : "Rusty rail",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,ORANGE,DARK,ROAD_PAVEMENT,CONSTRUCTION,RUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Rusty Rail/CRW_7786.jpg",
+				TextureFileName : "Metal/Rusty Rail/CRW_7786.png",
+				PackagePath : "Metal/Rusty Rail",
+				TextureWidth : 2391,
+				TextureHeight : 1600,
+				OverviewImageFileName : "Metal/Rusty Rail/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3318525; 0.3028096; 0.01671941",
+						RGB : "0.1665351; 0.1255028; 0.1470286",
+						Color : "2A2025",
+					},
+					Max : 
+					{
+						xyY : "0.3277163; 0.3530083; 0.469875",
+						RGB : "0.7216207; 0.7195832; 0.6481293",
+						Color : "B8B7A5",
+					},
+					Avg : 
+					{
+						xyY : "0.3503517; 0.3608511; 0.1062665",
+						RGB : "0.3938371; 0.3540308; 0.3014595",
+						Color : "645A4C",
+					},
+					Custom : [
+						{
+							xyY : "0.4070511; 0.3769024; 0.03867758",
+							RGB : "0.2824652; 0.1996607; 0.1422327",
+							Color : "483224",
+							TopLeft : { x : 0.2967742, y : 0.02733119 },
+							BottomRight : { x : 0.4967742, y : 0.9565917 },
+						},
+						{
+							xyY : "0.3596342; 0.3452929; 0.02748792",
+							RGB : "0.2174676; 0.1710765; 0.1551772",
+							Color : "372B27",
+							TopLeft : { x : 0.4021505, y : 0.2106109 },
+							BottomRight : { x : 0.4021505, y : 0.2106109 },
+						},
+						{
+							xyY : "0.4080508; 0.3867233; 0.05715091",
+							RGB : "0.3361705; 0.2478888; 0.167077",
+							Color : "553F2A",
+							TopLeft : { x : 0.4107527, y : 0.09807074 },
+							BottomRight : { x : 0.4107527, y : 0.09807074 },
+						},
+						{
+							xyY : "0.426382; 0.387866; 0.04977752",
+							RGB : "0.3298951; 0.2247399; 0.1432416",
+							Color : "543924",
+							TopLeft : { x : 0.4193548, y : 0.6221865 },
+							BottomRight : { x : 0.4365591, y : 0.6511254 },
+						},
+						{
+							xyY : "0.4192646; 0.3860601; 0.05051744",
+							RGB : "0.3271891; 0.2284227; 0.1503032",
+							Color : "533A26",
+							TopLeft : { x : 0.344086, y : 0.5289389 },
+							BottomRight : { x : 0.3505376, y : 0.5546624 },
+						},
+						{
+							xyY : "0.4291678; 0.3946511; 0.1170499",
+							RGB : "0.4917719; 0.3464865; 0.216392",
+							Color : "7D5837",
+							TopLeft : { x : 0.7784946, y : 0.8311897 },
+							BottomRight : { x : 0.7956989, y : 0.8826367 },
+						},
+						{
+							xyY : "0.3625367; 0.4070152; 0.05766696",
+							RGB : "0.2751425; 0.2711524; 0.1741287",
+							Color : "46452C",
+							TopLeft : { x : 0.1913978, y : 0.4067524 },
+							BottomRight : { x : 0.2043011, y : 0.4324759 },
+						},
+						{
+							xyY : "0.3558754; 0.3527719; 0.02790793",
+							RGB : "0.211621; 0.1756863; 0.152724",
+							Color : "352C26",
+							TopLeft : { x : 0.344086, y : 0.6318328 },
+							BottomRight : { x : 0.3462366, y : 0.6511254 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Rusty Sewer Plate",
+			FriendlyName : "Rusty Sewer Plate",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,ORANGE,DARK,ROAD_PAVEMENT,CONSTRUCTION,RUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Rusty Sewer Plate/CRW_7782.jpg",
+				TextureFileName : "Metal/Rusty Sewer Plate/CRW_7782.png",
+				PackagePath : "Metal/Rusty Sewer Plate",
+				TextureWidth : 3028,
+				TextureHeight : 1963,
+				OverviewImageFileName : "Metal/Rusty Sewer Plate/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3601275; 0.3380443; 0.01703642",
+						RGB : "0.1720031; 0.1283708; 0.1210936",
+						Color : "2B201E",
+					},
+					Max : 
+					{
+						xyY : "0.3366458; 0.347545; 0.407014",
+						RGB : "0.7135569; 0.6628067; 0.6095924",
+						Color : "B5A99B",
+					},
+					Avg : 
+					{
+						xyY : "0.3844023; 0.3774158; 0.06370341",
+						RGB : "0.3358993; 0.2678069; 0.2000243",
+						Color : "554433",
+					},
+					Custom : [
+						{
+							xyY : "0.4032981; 0.3855443; 0.06973242",
+							RGB : "0.3657966; 0.2755567; 0.1904471",
+							Color : "5D4630",
+							TopLeft : { x : 0.4688172, y : 0.5431893 },
+							BottomRight : { x : 0.5139785, y : 0.589701 },
+						},
+						{
+							xyY : "0.3659541; 0.3484665; 0.02763316",
+							RGB : "0.2216989; 0.170541; 0.151343",
+							Color : "382B26",
+							TopLeft : { x : 0.316129, y : 0.4966777 },
+							BottomRight : { x : 0.3548387, y : 0.5066445 },
+						},
+						{
+							xyY : "0.3368005; 0.3544833; 0.1354457",
+							RGB : "0.4235948; 0.4020042; 0.3562101",
+							Color : "6C665A",
+							TopLeft : { x : 0.5333334, y : 0.1245847 },
+							BottomRight : { x : 0.6129032, y : 0.1777409 },
+						},
+						{
+							xyY : "0.3573095; 0.3703542; 0.1841616",
+							RGB : "0.5118349; 0.4600641; 0.3741522",
+							Color : "82755F",
+							TopLeft : { x : 0.5354839, y : 0.2142857 },
+							BottomRight : { x : 0.595699, y : 0.2774086 },
+						},
+						{
+							xyY : "0.3633827; 0.3472322; 0.03007387",
+							RGB : "0.2300834; 0.1790874; 0.1605263",
+							Color : "3A2D28",
+							TopLeft : { x : 0.6129032, y : 0.6196013 },
+							BottomRight : { x : 0.6559139, y : 0.6328903 },
+						},
+						{
+							xyY : "0.3207704; 0.3343279; 0.02882918",
+							RGB : "0.1914071; 0.1846155; 0.1795818",
+							Color : "302F2D",
+							TopLeft : { x : 0.7032258, y : 0.2541528 },
+							BottomRight : { x : 0.739785, y : 0.2674419 },
+						},
+						{
+							xyY : "0.3633735; 0.3710704; 0.06070273",
+							RGB : "0.3087777; 0.2672888; 0.2116328",
+							Color : "4E4435",
+							TopLeft : { x : 0.4688172, y : 0.3139535 },
+							BottomRight : { x : 0.5010753, y : 0.3770764 },
+						},
+						{
+							xyY : "0.4017658; 0.3858246; 0.05978312",
+							RGB : "0.3379038; 0.2557049; 0.1758047",
+							Color : "56412C",
+							TopLeft : { x : 0.1526882, y : 0.410299 },
+							BottomRight : { x : 0.2150538, y : 0.4601329 },
+						},
+						{
+							xyY : "0.350249; 0.3600939; 0.3406211",
+							RGB : "0.6751577; 0.6091262; 0.5256733",
+							Color : "AC9B86",
+							TopLeft : { x : 0.4344086, y : 0.692691 },
+							BottomRight : { x : 0.4430107, y : 0.6993356 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Metal/Thick Metal Plate",
+			FriendlyName : "Thick Metal Plate",
+			Description : "Serves as &quot;welcome mat&quot; in front of Arkane's building",
+			OverviewImagePath: "overview.jpg",
+			Tags : "METAL,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,NEW",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Metal/Thick Metal Plate/CRW_7805.jpg",
+				TextureFileName : "Metal/Thick Metal Plate/CRW_7805.png",
+				PackagePath : "Metal/Thick Metal Plate",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Metal/Thick Metal Plate/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3589448; 0.3388918; 0.03295152",
+						RGB : "0.2421741; 0.1870552; 0.1766016",
+						Color : "3D2F2D",
+					},
+					Max : 
+					{
+						xyY : "0.3219288; 0.3468068; 0.3588566",
+						RGB : "0.6318121; 0.6379198; 0.590578",
+						Color : "A1A296",
+					},
+					Avg : 
+					{
+						xyY : "0.3035953; 0.3286359; 0.1073745",
+						RGB : "0.3431948; 0.3660287; 0.3665667",
+						Color : "575D5D",
+					},
+					Custom : [
+						{
+							xyY : "0.3078691; 0.3302595; 0.1136565",
+							RGB : "0.359999; 0.3745255; 0.3724154",
+							Color : "5B5F5E",
+							TopLeft : { x : 0.2774194, y : 0.3252427 },
+							BottomRight : { x : 0.3591398, y : 0.4935275 },
+						},
+						{
+							xyY : "0.30661; 0.3259067; 0.08858938",
+							RGB : "0.3210538; 0.3310577; 0.3356623",
+							Color : "515455",
+							TopLeft : { x : 0.1247312, y : 0.1537217 },
+							BottomRight : { x : 0.1591398, y : 0.2152104 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Soil/Ground with Pebbles",
+			FriendlyName : "Mixed Soil",
+			Description : "Soil + small pebbles",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,YELLOW,NEUTRAL,SOIL,NATURE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Soil/Ground with Pebbles/CRW_7753.jpg",
+				TextureFileName : "Soil/Ground with Pebbles/CRW_7753.png",
+				PackagePath : "Soil/Ground with Pebbles",
+				TextureWidth : 2798,
+				TextureHeight : 2052,
+				OverviewImageFileName : "Soil/Ground with Pebbles/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3324411; 0.3294809; 0.01748286",
+						RGB : "0.1573856; 0.1355288; 0.1351911",
+						Color : "282222",
+					},
+					Max : 
+					{
+						xyY : "0.3453147; 0.3675081; 0.5588083",
+						RGB : "0.8122491; 0.7720923; 0.6474777",
+						Color : "CFC4A5",
+					},
+					Avg : 
+					{
+						xyY : "0.3797001; 0.3901228; 0.1520564",
+						RGB : "0.4857819; 0.4176275; 0.2975926",
+						Color : "7B6A4B",
+					},
+					Custom : [
+						{
+							xyY : "0.3390578; 0.3576156; 0.4203638",
+							RGB : "0.7135871; 0.677901; 0.595498",
+							Color : "B5AC97",
+							TopLeft : { x : 0.2201327, y : 0.3493976 },
+							BottomRight : { x : 0.2289823, y : 0.373494 },
+						},
+						{
+							xyY : "0.3322387; 0.3489062; 0.1142058",
+							RGB : "0.3883066; 0.3706051; 0.337288",
+							Color : "635E56",
+							TopLeft : { x : 0.2002212, y : 0.4879518 },
+							BottomRight : { x : 0.2245575, y : 0.5060241 },
+						},
+						{
+							xyY : "0.341626; 0.3647765; 0.09812514",
+							RGB : "0.361696; 0.3463148; 0.2904116",
+							Color : "5C584A",
+							TopLeft : { x : 0.5586283, y : 0.4819277 },
+							BottomRight : { x : 0.574115, y : 0.5030121 },
+						},
+						{
+							xyY : "0.4055675; 0.4100878; 0.1413732",
+							RGB : "0.4890869; 0.3992719; 0.2377807",
+							Color : "7C653C",
+							TopLeft : { x : 0.6825221, y : 0.4638554 },
+							BottomRight : { x : 0.7002212, y : 0.4849398 },
+						},
+						{
+							xyY : "0.370493; 0.3856275; 0.217555",
+							RGB : "0.5604444; 0.497009; 0.3698199",
+							Color : "8E7E5E",
+							TopLeft : { x : 0.5077434, y : 0.6024097 },
+							BottomRight : { x : 0.5210177, y : 0.6325301 },
+						},
+						{
+							xyY : "0.3635814; 0.386879; 0.1277879",
+							RGB : "0.4257562; 0.3911754; 0.2886464",
+							Color : "6C6349",
+							TopLeft : { x : 0.755531, y : 0.6716868 },
+							BottomRight : { x : 0.7776549, y : 0.7198795 },
+						},
+						{
+							xyY : "0.418984; 0.402103; 0.08902511",
+							RGB : "0.4155207; 0.3109137; 0.1858804",
+							Color : "694F2F",
+							TopLeft : { x : 0.284292, y : 0.8192771 },
+							BottomRight : { x : 0.2975664, y : 0.8403614 },
+						},
+						{
+							xyY : "0.3507673; 0.3663419; 0.265106",
+							RGB : "0.5952117; 0.5467004; 0.4570783",
+							Color : "978B74",
+							TopLeft : { x : 0.08960177, y : 0.8343374 },
+							BottomRight : { x : 0.1073009, y : 0.8644578 },
+						},
+						{
+							xyY : "0.4343677; 0.3983271; 0.08959105",
+							RGB : "0.4367755; 0.3034478; 0.1790194",
+							Color : "6F4D2D",
+							TopLeft : { x : 0.4502212, y : 0.7349398 },
+							BottomRight : { x : 0.4590708, y : 0.7439759 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Soil/Ground with Pebbles2",
+			FriendlyName : "Mixed Soil 2",
+			Description : "Soil + small pebbles",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,SOIL,NATURE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Soil/Ground with Pebbles2/CRW_7757.jpg",
+				TextureFileName : "Soil/Ground with Pebbles2/CRW_7757.png",
+				PackagePath : "Soil/Ground with Pebbles2",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Soil/Ground with Pebbles2/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.35515; 0.3484808; 0.02314263",
+						RGB : "0.1932585; 0.1575133; 0.140034",
+						Color : "312823",
+					},
+					Max : 
+					{
+						xyY : "0.3246249; 0.3420747; 0.6050833",
+						RGB : "0.8191052; 0.7995843; 0.7558713",
+						Color : "D0CBC0",
+					},
+					Avg : 
+					{
+						xyY : "0.3507496; 0.3596742; 0.1749761",
+						RGB : "0.4996794; 0.4476418; 0.3851739",
+						Color : "7F7262",
+					},
+					Custom : [
+						{
+							xyY : "0.3527859; 0.3656708; 0.3721441",
+							RGB : "0.7003968; 0.63592; 0.5340682",
+							Color : "B2A288",
+							TopLeft : { x : 0.4946237, y : 0.4967638 },
+							BottomRight : { x : 0.5075269, y : 0.5161812 },
+						},
+						{
+							xyY : "0.4069164; 0.3665449; 0.05182998",
+							RGB : "0.3332855; 0.2288135; 0.1773837",
+							Color : "543A2D",
+							TopLeft : { x : 0.3462366, y : 0.5420712 },
+							BottomRight : { x : 0.3526882, y : 0.5517799 },
+						},
+						{
+							xyY : "0.3174412; 0.3357158; 0.1904023",
+							RGB : "0.4761921; 0.4741403; 0.4602929",
+							Color : "797875",
+							TopLeft : { x : 0.3376344, y : 0.04692557 },
+							BottomRight : { x : 0.3483871, y : 0.05987055 },
+						},
+						{
+							xyY : "0.3473443; 0.3599326; 0.1723025",
+							RGB : "0.4891145; 0.4466182; 0.3844475",
+							Color : "7C7162",
+							TopLeft : { x : 0.6580645, y : 0.5291262 },
+							BottomRight : { x : 0.7032258, y : 0.6262136 },
+						},
+						{
+							xyY : "0.3492969; 0.3601934; 0.1909327",
+							RGB : "0.5166067; 0.4674541; 0.4018026",
+							Color : "837766",
+							TopLeft : { x : 0.5247312, y : 0.684466 },
+							BottomRight : { x : 0.6172043, y : 0.8171521 },
+						},
+						{
+							xyY : "0.3513978; 0.3627239; 0.1836322",
+							RGB : "0.5085668; 0.4590755; 0.389202",
+							Color : "817563",
+							TopLeft : { x : 0.7526882, y : 0.1440129 },
+							BottomRight : { x : 0.8451613, y : 0.2734628 },
+						},
+						{
+							xyY : "0.3516634; 0.3609806; 0.201582",
+							RGB : "0.5336354; 0.4783143; 0.4092313",
+							Color : "887968",
+							TopLeft : { x : 0.2387097, y : 0.1343042 },
+							BottomRight : { x : 0.339785, y : 0.2669903 },
+						},
+						{
+							xyY : "0.3507779; 0.3566538; 0.1789056",
+							RGB : "0.5085309; 0.4506786; 0.3936018",
+							Color : "817264",
+							TopLeft : { x : 0.1419355, y : 0.7491909 },
+							BottomRight : { x : 0.2129032, y : 0.8495145 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Soil/Ground with Pebbles3",
+			FriendlyName : "Mixed Soil 3 (sand)",
+			Description : "Sand + Pebbles",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,YELLOW,NEUTRAL,SOIL,NATURE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Soil/Ground with Pebbles3/CRW_7778.jpg",
+				TextureFileName : "Soil/Ground with Pebbles3/CRW_7778.png",
+				PackagePath : "Soil/Ground with Pebbles3",
+				TextureWidth : 2872,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Soil/Ground with Pebbles3/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3335325; 0.3498882; 0.03716001",
+						RGB : "0.2235008; 0.211431; 0.1895147",
+						Color : "383530",
+					},
+					Max : 
+					{
+						xyY : "0.3278781; 0.3503; 0.5967343",
+						RGB : "0.8090945; 0.7982925; 0.7279634",
+						Color : "CECBB9",
+					},
+					Avg : 
+					{
+						xyY : "0.3671848; 0.3739647; 0.2293381",
+						RGB : "0.5820814; 0.5048984; 0.4009697",
+						Color : "948066",
+					},
+					Custom : [
+						{
+							xyY : "0.3790235; 0.3848061; 0.2252139",
+							RGB : "0.5871418; 0.4991572; 0.3695423",
+							Color : "957F5E",
+							TopLeft : { x : 0.1965443, y : 0.05120482 },
+							BottomRight : { x : 0.2548596, y : 0.3644578 },
+						},
+						{
+							xyY : "0.3348477; 0.3538737; 0.4630767",
+							RGB : "0.7386566; 0.7090549; 0.6346468",
+							Color : "BCB4A1",
+							TopLeft : { x : 0.4924406, y : 0.5030121 },
+							BottomRight : { x : 0.5053996, y : 0.5271084 },
+						},
+						{
+							xyY : "0.3507146; 0.357308; 0.3643829",
+							RGB : "0.7017172; 0.6256666; 0.5471614",
+							Color : "B29F8B",
+							TopLeft : { x : 0.6781858, y : 0.7439759 },
+							BottomRight : { x : 0.6889849, y : 0.7560241 },
+						},
+						{
+							xyY : "0.4272403; 0.4000481; 0.1502606",
+							RGB : "0.5436663; 0.3945309; 0.2397127",
+							Color : "8A643D",
+							TopLeft : { x : 0.3261339, y : 0.5301205 },
+							BottomRight : { x : 0.3261339, y : 0.5421687 },
+						},
+						{
+							xyY : "0.3444396; 0.3570106; 0.3057334",
+							RGB : "0.6329931; 0.58233; 0.5109352",
+							Color : "A19482",
+							TopLeft : { x : 0.74946, y : 0.7319277 },
+							BottomRight : { x : 0.762419, y : 0.75 },
+						},
+						{
+							xyY : "0.3682269; 0.3595963; 0.3469986",
+							RGB : "0.7268044; 0.5991223; 0.5133601",
+							Color : "B99882",
+							TopLeft : { x : 0.9244061, y : 0.7078313 },
+							BottomRight : { x : 0.9308856, y : 0.7048193 },
+						},
+						{
+							xyY : "0.3606112; 0.3560843; 0.228217",
+							RGB : "0.5905389; 0.4974561; 0.4343647",
+							Color : "967E6E",
+							TopLeft : { x : 0.2159827, y : 0.7680723 },
+							BottomRight : { x : 0.2267819, y : 0.7831326 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Soil/Mixed Soil",
+			FriendlyName : "Dark Earth Soil",
+			Description : "Earth soil",
+			Tags : "STONE,GRAY,DARK,SOIL,NATURE",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Soil/Mixed Soil/CRW_7797.jpg",
+				TextureFileName : "Soil/Mixed Soil/CRW_7797.png",
+				PackagePath : "Soil/Mixed Soil",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.1691488; 0.1247736; 0.0110055",
+						RGB : "0.004890343; 0.09163354; 0.2815081",
+						Color : "011747",
+					},
+					Max : 
+					{
+						xyY : "0.3416396; 0.3459007; 0.2499591",
+						RGB : "0.5866807; 0.5261433; 0.4861258",
+						Color : "95867B",
+					},
+					Avg : 
+					{
+						xyY : "0.3580641; 0.359712; 0.03772291",
+						RGB : "0.2451097; 0.2078594; 0.1743943",
+						Color : "3E352C",
+					},
+					Custom : [
+						{
+							xyY : "0.3396646; 0.3332837; 0.02057748",
+							RGB : "0.1765407; 0.1478555; 0.1442563",
+							Color : "2D2524",
+							TopLeft : { x : 0.3548387, y : 0.3511327 },
+							BottomRight : { x : 0.3806452, y : 0.3834952 },
+						},
+						{
+							xyY : "0.3323465; 0.3306113; 0.01764655",
+							RGB : "0.1575706; 0.1365531; 0.1353159",
+							Color : "282222",
+							TopLeft : { x : 0.5483871, y : 0.6650485 },
+							BottomRight : { x : 0.6064516, y : 0.7200647 },
+						},
+						{
+							xyY : "0.3325779; 0.3238381; 0.01848932",
+							RGB : "0.1654061; 0.1386359; 0.1429203",
+							Color : "2A2324",
+							TopLeft : { x : 0.7741935, y : 0.3543689 },
+							BottomRight : { x : 0.7913979, y : 0.4126213 },
+						},
+						{
+							xyY : "0.3845907; 0.3782508; 0.05242379",
+							RGB : "0.3050367; 0.242838; 0.179298",
+							Color : "4D3D2D",
+							TopLeft : { x : 0.3290323, y : 0.1084142 },
+							BottomRight : { x : 0.3483871, y : 0.1537217 },
+						},
+						{
+							xyY : "0.3161853; 0.4293901; 0.1019978",
+							RGB : "0.2635427; 0.3826994; 0.2407651",
+							Color : "43613D",
+							TopLeft : { x : 0.1354839, y : 0.8300971 },
+							BottomRight : { x : 0.1354839, y : 0.8300971 },
+						},
+						{
+							xyY : "0.3479837; 0.4523743; 0.08536742",
+							RGB : "0.2779505; 0.3459215; 0.1758201",
+							Color : "46582C",
+							TopLeft : { x : 0.4322581, y : 0.1019417 },
+							BottomRight : { x : 0.4322581, y : 0.1019417 },
+						},
+						{
+							xyY : "0.3967632; 0.3674888; 0.02831415",
+							RGB : "0.2387371; 0.1689699; 0.1289933",
+							Color : "3C2B20",
+							TopLeft : { x : 0.4623656, y : 0.5194175 },
+							BottomRight : { x : 0.4731183, y : 0.5420712 },
+						},
+						{
+							xyY : "0.3439701; 0.3487965; 0.2274397",
+							RGB : "0.5632587; 0.5038568; 0.45878",
+							Color : "8F8074",
+							TopLeft : { x : 0.483871, y : 0.6682848 },
+							BottomRight : { x : 0.4924731, y : 0.6812298 },
+						},
+						{
+							xyY : "0.3447133; 0.3384748; 0.01996641",
+							RGB : "0.175157; 0.1452166; 0.1372829",
+							Color : "2C2523",
+							TopLeft : { x : 0.227957, y : 0.5420712 },
+							BottomRight : { x : 0.2645161, y : 0.6456311 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Asphalt Mixed with Pebbles",
+			FriendlyName : "Worn Asphalt",
+			Description : "Mixed with pebbles",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Asphalt Mixed with Pebbles/CRW_7807.jpg",
+				TextureFileName : "Stone/Asphalt Mixed with Pebbles/CRW_7807.png",
+				PackagePath : "Stone/Asphalt Mixed with Pebbles",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Asphalt Mixed with Pebbles/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3002487; 0.3164418; 0.02586201",
+						RGB : "0.1685789; 0.1757168; 0.1870196",
+						Color : "2A2C2F",
+					},
+					Max : 
+					{
+						xyY : "0.3197161; 0.3478422; 0.7569076",
+						RGB : "0.8705022; 0.8940857; 0.8260751",
+						Color : "DDE3D2",
+					},
+					Avg : 
+					{
+						xyY : "0.3291174; 0.3447188; 0.1339251",
+						RGB : "0.4172838; 0.3996; 0.3714653",
+						Color : "6A655E",
+					},
+					Custom : [
+						{
+							xyY : "0.3283791; 0.3472137; 0.1436704",
+							RGB : "0.4269484; 0.414716; 0.3813105",
+							Color : "6C6961",
+							TopLeft : { x : 0.4860215, y : 0.5194175 },
+							BottomRight : { x : 0.5526882, y : 0.5873786 },
+						},
+						{
+							xyY : "0.3779846; 0.3575768; 0.1039302",
+							RGB : "0.4339726; 0.3348524; 0.2852737",
+							Color : "6E5548",
+							TopLeft : { x : 0.8150538, y : 0.4449838 },
+							BottomRight : { x : 0.832258, y : 0.4514563 },
+						},
+						{
+							xyY : "0.3185732; 0.3378086; 0.3933557",
+							RGB : "0.6636508; 0.6614513; 0.636914",
+							Color : "A9A8A2",
+							TopLeft : { x : 0.2817204, y : 0.263754 },
+							BottomRight : { x : 0.3032258, y : 0.2928803 },
+						},
+						{
+							xyY : "0.323826; 0.3423952; 0.2874308",
+							RGB : "0.5832879; 0.5725144; 0.5397298",
+							Color : "949189",
+							TopLeft : { x : 0.5548387, y : 0.6650485 },
+							BottomRight : { x : 0.5741935, y : 0.6877022 },
+						},
+						{
+							xyY : "0.3672826; 0.3879687; 0.1335595",
+							RGB : "0.4397095; 0.3980726; 0.2909853",
+							Color : "70654A",
+							TopLeft : { x : 0.2688172, y : 0.6359223 },
+							BottomRight : { x : 0.288172, y : 0.6650485 },
+						},
+						{
+							xyY : "0.3320778; 0.3402277; 0.0788538",
+							RGB : "0.3324209; 0.3064918; 0.2901976",
+							Color : "544E4A",
+							TopLeft : { x : 0.5376344, y : 0.1699029 },
+							BottomRight : { x : 0.5569893, y : 0.1893204 },
+						},
+						{
+							xyY : "0.3314416; 0.3536181; 0.0458567",
+							RGB : "0.243801; 0.2376431; 0.209701",
+							Color : "3E3C35",
+							TopLeft : { x : 0.7247312, y : 0.2864078 },
+							BottomRight : { x : 0.7204301, y : 0.2928803 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cement Mixed with Pebbles",
+			FriendlyName : "Mixed Cement",
+			Description : "Cement + small pebbles",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cement Mixed with Pebbles/CRW_7759.jpg",
+				TextureFileName : "Stone/Cement Mixed with Pebbles/CRW_7759.png",
+				PackagePath : "Stone/Cement Mixed with Pebbles",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Cement Mixed with Pebbles/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3181402; 0.3359011; 0.02682615",
+						RGB : "0.1803999; 0.1786916; 0.1723986",
+						Color : "2E2D2B",
+					},
+					Max : 
+					{
+						xyY : "0.3288283; 0.3519982; 0.5150836",
+						RGB : "0.7577335; 0.7479684; 0.6766089",
+						Color : "C1BEAC",
+					},
+					Avg : 
+					{
+						xyY : "0.3545509; 0.3635928; 0.1346276",
+						RGB : "0.4447772; 0.395402; 0.3321163",
+						Color : "716454",
+					},
+					Custom : [
+						{
+							xyY : "0.3554233; 0.3564991; 0.07162742",
+							RGB : "0.3361844; 0.2882819; 0.2491715",
+							Color : "55493F",
+							TopLeft : { x : 0.3784946, y : 0.3220065 },
+							BottomRight : { x : 0.3935484, y : 0.3446602 },
+						},
+						{
+							xyY : "0.3329946; 0.3474299; 0.2577831",
+							RGB : "0.5713943; 0.5410289; 0.4975775",
+							Color : "91897E",
+							TopLeft : { x : 0.8150538, y : 0.3478964 },
+							BottomRight : { x : 0.8258064, y : 0.3576052 },
+						},
+						{
+							xyY : "0.3341287; 0.3503746; 0.08466883",
+							RGB : "0.3380096; 0.3204089; 0.2887911",
+							Color : "565149",
+							TopLeft : { x : 0.4967742, y : 0.6553398 },
+							BottomRight : { x : 0.4989247, y : 0.6941748 },
+						},
+						{
+							xyY : "0.3404655; 0.3562208; 0.09717794",
+							RGB : "0.3661184; 0.3419057; 0.2991328",
+							Color : "5D574C",
+							TopLeft : { x : 0.7892473, y : 0.5355987 },
+							BottomRight : { x : 0.8, y : 0.5517799 },
+						},
+						{
+							xyY : "0.3533876; 0.3629099; 0.1381657",
+							RGB : "0.4488942; 0.4006116; 0.3379844",
+							Color : "726656",
+							TopLeft : { x : 0.2086021, y : 0.4288026 },
+							BottomRight : { x : 0.3053764, y : 0.5582525 },
+						},
+						{
+							xyY : "0.3995238; 0.3530793; 0.06802335",
+							RGB : "0.3827572; 0.2600646; 0.2231745",
+							Color : "614238",
+							TopLeft : { x : 0.4774193, y : 0.5097088 },
+							BottomRight : { x : 0.4774193, y : 0.5097088 },
+						},
+						{
+							xyY : "0.3147847; 0.3454094; 0.03791219",
+							RGB : "0.2062648; 0.2185664; 0.2016255",
+							Color : "343733",
+							TopLeft : { x : 0.2021505, y : 0.9174757 },
+							BottomRight : { x : 0.2021505, y : 0.9174757 },
+						},
+						{
+							xyY : "0.3348553; 0.3537904; 0.4247816",
+							RGB : "0.7107894; 0.6819959; 0.6104472",
+							Color : "B5AD9B",
+							TopLeft : { x : 0.3268817, y : 0.8009709 },
+							BottomRight : { x : 0.3268817, y : 0.8009709 },
+						},
+						{
+							xyY : "0.3900516; 0.3680529; 0.1224355",
+							RGB : "0.4756026; 0.3612092; 0.2877205",
+							Color : "795C49",
+							TopLeft : { x : 0.1053763, y : 0.2799353 },
+							BottomRight : { x : 0.1182796, y : 0.2831715 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cinderblock",
+			FriendlyName : "Cinderblock",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,WALL,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cinderblock/CRW_7803.jpg",
+				TextureFileName : "Stone/Cinderblock/CRW_7803.png",
+				PackagePath : "Stone/Cinderblock",
+				TextureWidth : 2964,
+				TextureHeight : 1904,
+				OverviewImageFileName : "Stone/Cinderblock/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3387127; 0.3507064; 0.07326613",
+						RGB : "0.3214844; 0.2965972; 0.2661363",
+						Color : "514B43",
+					},
+					Max : 
+					{
+						xyY : "0.3169171; 0.3332433; 0.5082327",
+						RGB : "0.7477415; 0.7400683; 0.7268614",
+						Color : "BEBCB9",
+					},
+					Avg : 
+					{
+						xyY : "0.327768; 0.3473498; 0.2842477",
+						RGB : "0.5835655; 0.5697226; 0.5250555",
+						Color : "949185",
+					},
+					Custom : [
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Grey",
+			FriendlyName : "Cobblestone",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Grey/CRW_7763.jpg",
+				TextureFileName : "Stone/Cobblestone Grey/CRW_7763.png",
+				PackagePath : "Stone/Cobblestone Grey",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.326545; 0.3650055; 0.01982131",
+						RGB : "0.1457438; 0.1546655; 0.1265541",
+						Color : "252720",
+					},
+					Max : 
+					{
+						xyY : "0.328764; 0.3438335; 0.7756206",
+						RGB : "0.9274303; 0.889604; 0.8343723",
+						Color : "ECE2D4",
+					},
+					Avg : 
+					{
+						xyY : "0.3483128; 0.3640265; 0.1473411",
+						RGB : "0.452056; 0.4163516; 0.3506407",
+						Color : "736A59",
+					},
+					Custom : [
+						{
+							xyY : "0.3439713; 0.36431; 0.172433",
+							RGB : "0.4773617; 0.450975; 0.3808445",
+							Color : "797261",
+							TopLeft : { x : 0.3139785, y : 0.0987055 },
+							BottomRight : { x : 0.8473119, y : 0.7880259 },
+						},
+						{
+							xyY : "0.3316705; 0.3528264; 0.1491109",
+							RGB : "0.4347525; 0.4228175; 0.3785473",
+							Color : "6E6B60",
+							TopLeft : { x : 0.627957, y : 0.6229774 },
+							BottomRight : { x : 0.6623656, y : 0.6585761 },
+						},
+						{
+							xyY : "0.3884427; 0.3788599; 0.08078264",
+							RGB : "0.3803151; 0.3002063; 0.2225734",
+							Color : "604C38",
+							TopLeft : { x : 0.09677419, y : 0.5420712 },
+							BottomRight : { x : 0.1247312, y : 0.6003236 },
+						},
+						{
+							xyY : "0.357637; 0.3770656; 0.1797994",
+							RGB : "0.4990614; 0.458098; 0.3599923",
+							Color : "7F745B",
+							TopLeft : { x : 0.5462366, y : 0.4093851 },
+							BottomRight : { x : 0.5935484, y : 0.4708738 },
+						},
+						{
+							xyY : "0.3543559; 0.3838684; 0.06045077",
+							RGB : "0.2878292; 0.2740398; 0.2039534",
+							Color : "494534",
+							TopLeft : { x : 0.9290323, y : 0.47411 },
+							BottomRight : { x : 0.9612903, y : 0.6812298 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Grey2",
+			FriendlyName : "Cobblestone 2",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,GRAY,DARK,ROAD_PAVEMENT,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Grey2/CRW_7765.jpg",
+				TextureFileName : "Stone/Cobblestone Grey2/CRW_7765.png",
+				PackagePath : "Stone/Cobblestone Grey2",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3434069; 0.3819909; 0.02450833",
+						RGB : "0.1716201; 0.1731856; 0.1275883",
+						Color : "2B2C20",
+					},
+					Max : 
+					{
+						xyY : "0.3301383; 0.3416215; 0.4295246",
+						RGB : "0.7214147; 0.6804507; 0.643516",
+						Color : "B7ADA4",
+					},
+					Avg : 
+					{
+						xyY : "0.346218; 0.3609241; 0.1244466",
+						RGB : "0.4171453; 0.3840518; 0.328216",
+						Color : "6A6153",
+					},
+					Custom : [
+						{
+							xyY : "0.3344708; 0.3573073; 0.08610856",
+							RGB : "0.3350478; 0.3255017; 0.2837232",
+							Color : "555348",
+							TopLeft : { x : 0.2365591, y : 0.105178 },
+							BottomRight : { x : 0.7591398, y : 0.7588997 },
+						},
+						{
+							xyY : "0.3699149; 0.3704649; 0.1030972",
+							RGB : "0.4087672; 0.3434845; 0.2741159",
+							Color : "685745",
+							TopLeft : { x : 0.02150538, y : 0.118123 },
+							BottomRight : { x : 0.05376344, y : 0.7135922 },
+						},
+						{
+							xyY : "0.3401416; 0.3530318; 0.2259096",
+							RGB : "0.5470354; 0.507467; 0.4535915",
+							Color : "8B8173",
+							TopLeft : { x : 0.8666667, y : 0.6747573 },
+							BottomRight : { x : 0.9849463, y : 0.9822006 },
+						},
+						{
+							xyY : "0.3410583; 0.3636494; 0.07976382",
+							RGB : "0.3273477; 0.3129719; 0.2632837",
+							Color : "534F43",
+							TopLeft : { x : 0.4322581, y : 0.2475728 },
+							BottomRight : { x : 0.5032258, y : 0.3381877 },
+						},
+						{
+							xyY : "0.3508634; 0.3616364; 0.2501354",
+							RGB : "0.5862944; 0.5294509; 0.452503",
+							Color : "958773",
+							TopLeft : { x : 0.1483871, y : 0.5226537 },
+							BottomRight : { x : 0.1634409, y : 0.5550162 },
+						},
+						{
+							xyY : "0.3571865; 0.4253525; 0.04768105",
+							RGB : "0.2329172; 0.2519425; 0.1440552",
+							Color : "3B4024",
+							TopLeft : { x : 0.9526882, y : 0.461165 },
+							BottomRight : { x : 0.9849463, y : 0.5 },
+						},
+						{
+							xyY : "0.3629093; 0.3714735; 0.1712482",
+							RGB : "0.5041016; 0.4419786; 0.3555406",
+							Color : "80705A",
+							TopLeft : { x : 0.5204301, y : 0.8754045 },
+							BottomRight : { x : 0.5612903, y : 0.907767 },
+						},
+						{
+							xyY : "0.339002; 0.3452663; 0.3152509",
+							RGB : "0.6458621; 0.5868441; 0.5445774",
+							Color : "A4958A",
+							TopLeft : { x : 0.09247312, y : 0.8171521 },
+							BottomRight : { x : 0.1075269, y : 0.8689321 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Grey3",
+			FriendlyName : "Cobblestone 3",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Grey3/CRW_7770.jpg",
+				TextureFileName : "Stone/Cobblestone Grey3/CRW_7770.png",
+				PackagePath : "Stone/Cobblestone Grey3",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3326106; 0.3273583; 0.01819237",
+						RGB : "0.1621529; 0.1381702; 0.1395459",
+						Color : "292323",
+					},
+					Max : 
+					{
+						xyY : "0.3203684; 0.3389119; 0.5399271",
+						RGB : "0.7694494; 0.7616217; 0.7300833",
+						Color : "C4C2BA",
+					},
+					Avg : 
+					{
+						xyY : "0.348379; 0.3625819; 0.1304267",
+						RGB : "0.4285611; 0.3923195; 0.3323162",
+						Color : "6D6454",
+					},
+					Custom : [
+						{
+							xyY : "0.3494553; 0.3673096; 0.1383554",
+							RGB : "0.4375053; 0.405026; 0.3351682",
+							Color : "6F6755",
+							TopLeft : { x : 0.3311828, y : 0.1537217 },
+							BottomRight : { x : 0.7354839, y : 0.8042071 },
+						},
+						{
+							xyY : "0.3472593; 0.3635314; 0.1096083",
+							RGB : "0.3919995; 0.3620008; 0.3048069",
+							Color : "635C4D",
+							TopLeft : { x : 0.0172043, y : 0.0210356 },
+							BottomRight : { x : 0.1247312, y : 0.7427185 },
+						},
+						{
+							xyY : "0.3634006; 0.3686316; 0.07180361",
+							RGB : "0.3371223; 0.2897628; 0.2333568",
+							Color : "55493B",
+							TopLeft : { x : 0.9311828, y : 0.2119741 },
+							BottomRight : { x : 0.9849463, y : 0.3932039 },
+						},
+						{
+							xyY : "0.3631564; 0.3882852; 0.170246",
+							RGB : "0.4844776; 0.4487019; 0.3306324",
+							Color : "7B7254",
+							TopLeft : { x : 0.3569892, y : 0.3543689 },
+							BottomRight : { x : 0.3763441, y : 0.3932039 },
+						},
+						{
+							xyY : "0.3270024; 0.3424789; 0.05804799",
+							RGB : "0.2771853; 0.2659811; 0.2489566",
+							Color : "46433F",
+							TopLeft : { x : 0.4967742, y : 0.7006472 },
+							BottomRight : { x : 0.5118279, y : 0.7394822 },
+						},
+						{
+							xyY : "0.3561885; 0.3860884; 0.05398913",
+							RGB : "0.2727112; 0.2588935; 0.1892505",
+							Color : "454230",
+							TopLeft : { x : 0.1913978, y : 0.4093851 },
+							BottomRight : { x : 0.2021505, y : 0.4902913 },
+						},
+						{
+							xyY : "0.3478387; 0.3518395; 0.09548204",
+							RGB : "0.3787957; 0.333663; 0.2973349",
+							Color : "60554B",
+							TopLeft : { x : 0.8107527, y : 0.3187702 },
+							BottomRight : { x : 0.8344086, y : 0.3446602 },
+						},
+						{
+							xyY : "0.3525466; 0.3691185; 0.1419429",
+							RGB : "0.446435; 0.4091122; 0.334908",
+							Color : "716855",
+							TopLeft : { x : 0.5268817, y : 0.1925566 },
+							BottomRight : { x : 0.6602151, y : 0.3187702 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Grey4",
+			FriendlyName : "Cobblestone 4",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Grey4/CRW_7772.jpg",
+				TextureFileName : "Stone/Cobblestone Grey4/CRW_7772.png",
+				PackagePath : "Stone/Cobblestone Grey4",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3422424; 0.3406163; 0.01966541",
+						RGB : "0.1706026; 0.1451126; 0.1355052",
+						Color : "2B2522",
+					},
+					Max : 
+					{
+						xyY : "0.3268075; 0.3494194; 0.7639507",
+						RGB : "0.900377; 0.8911964; 0.8165043",
+						Color : "E5E3D0",
+					},
+					Avg : 
+					{
+						xyY : "0.3418245; 0.3574646; 0.1240404",
+						RGB : "0.4123325; 0.384227; 0.3346757",
+						Color : "696155",
+					},
+					Custom : [
+						{
+							xyY : "0.3301242; 0.3543481; 0.1243926",
+							RGB : "0.3945865; 0.389529; 0.3460701",
+							Color : "646358",
+							TopLeft : { x : 0.3096774, y : 0.1731392 },
+							BottomRight : { x : 0.6709678, y : 0.8236246 },
+						},
+						{
+							xyY : "0.3507388; 0.3572907; 0.1753421",
+							RGB : "0.5029863; 0.4468226; 0.3889731",
+							Color : "807163",
+							TopLeft : { x : 0.01505376, y : 0.01779935 },
+							BottomRight : { x : 0.1053763, y : 0.3187702 },
+						},
+						{
+							xyY : "0.3522591; 0.358812; 0.1126598",
+							RGB : "0.4100281; 0.3622479; 0.3115079",
+							Color : "685C4F",
+							TopLeft : { x : 0.01505376, y : 0.4514563 },
+							BottomRight : { x : 0.1763441, y : 0.9757282 },
+						},
+						{
+							xyY : "0.3317468; 0.3478743; 0.06830819",
+							RGB : "0.3029884; 0.2884033; 0.2628867",
+							Color : "4D4943",
+							TopLeft : { x : 0.7311828, y : 0.1569579 },
+							BottomRight : { x : 0.7892473, y : 0.2087379 },
+						},
+						{
+							xyY : "0.3397474; 0.3642237; 0.1058383",
+							RGB : "0.3724096; 0.3598486; 0.3031995",
+							Color : "5E5B4D",
+							TopLeft : { x : 0.4688172, y : 0.4579288 },
+							BottomRight : { x : 0.516129, y : 0.4935275 },
+						},
+						{
+							xyY : "0.3279931; 0.3517625; 0.138445",
+							RGB : "0.4136925; 0.4098139; 0.369005",
+							Color : "69685E",
+							TopLeft : { x : 0.4344086, y : 0.5355987 },
+							BottomRight : { x : 0.5032258, y : 0.6521035 },
+						},
+						{
+							xyY : "0.3246813; 0.3493233; 0.1294107",
+							RGB : "0.3968046; 0.3976388; 0.3622848",
+							Color : "65655C",
+							TopLeft : { x : 0.3311828, y : 0.2572815 },
+							BottomRight : { x : 0.3548387, y : 0.4093851 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Rusty",
+			FriendlyName : "Cobblestone 5 (rusty)",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,RUSTY",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Rusty/CRW_7774.jpg",
+				TextureFileName : "Stone/Cobblestone Rusty/CRW_7774.png",
+				PackagePath : "Stone/Cobblestone Rusty",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2994752; 0.3000928; 0.01945685",
+						RGB : "0.151997; 0.1462714; 0.1701514",
+						Color : "26252B",
+					},
+					Max : 
+					{
+						xyY : "0.3438072; 0.3765908; 0.8557588",
+						RGB : "0.95445; 0.9427315; 0.7614397",
+						Color : "F3F0C2",
+					},
+					Avg : 
+					{
+						xyY : "0.3549359; 0.3642815; 0.1346509",
+						RGB : "0.4447546; 0.3955474; 0.3310079",
+						Color : "716454",
+					},
+					Custom : [
+						{
+							xyY : "0.3812186; 0.3794772; 0.1235594",
+							RGB : "0.4534527; 0.3730233; 0.2807519",
+							Color : "735F47",
+							TopLeft : { x : 0.3462366, y : 0.1407767 },
+							BottomRight : { x : 0.627957, y : 0.9174757 },
+						},
+						{
+							xyY : "0.3274911; 0.3464976; 0.1336588",
+							RGB : "0.4116961; 0.4009536; 0.3698269",
+							Color : "68665E",
+							TopLeft : { x : 0.04301075, y : 0.06634304 },
+							BottomRight : { x : 0.1569892, y : 0.6941748 },
+						},
+						{
+							xyY : "0.3325302; 0.3511476; 0.09858485",
+							RGB : "0.3602802; 0.3460685; 0.3112984",
+							Color : "5B584F",
+							TopLeft : { x : 0.02365591, y : 0.8495145 },
+							BottomRight : { x : 0.1526882, y : 0.9757282 },
+						},
+						{
+							xyY : "0.3389105; 0.3531895; 0.2141519",
+							RGB : "0.5307806; 0.4959926; 0.4430862",
+							Color : "877E70",
+							TopLeft : { x : 0.8043011, y : 0.6618123 },
+							BottomRight : { x : 0.8903226, y : 0.7427185 },
+						},
+						{
+							xyY : "0.3476384; 0.4373159; 0.1333753",
+							RGB : "0.3588933; 0.4238216; 0.242749",
+							Color : "5B6C3D",
+							TopLeft : { x : 0.2989247, y : 0.4190938 },
+							BottomRight : { x : 0.3075269, y : 0.4482201 },
+						},
+						{
+							xyY : "0.3995661; 0.3761531; 0.1206041",
+							RGB : "0.4776213; 0.3576333; 0.2683671",
+							Color : "795B44",
+							TopLeft : { x : 0.7892473, y : 0.03074434 },
+							BottomRight : { x : 0.8021505, y : 0.06634304 },
+						},
+						{
+							xyY : "0.3775754; 0.3769441; 0.08237954",
+							RGB : "0.3719066; 0.307098; 0.2334424",
+							Color : "5E4E3B",
+							TopLeft : { x : 0.283871, y : 0.8624595 },
+							BottomRight : { x : 0.3032258, y : 0.8883495 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Cobblestone Rusty Brown",
+			FriendlyName : "Cobblestone 6 (rusty)",
+			Description : "",
+			OverviewImagePath: "../cobblestone_overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,RUSTY",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Cobblestone Rusty Brown/CRW_7768.jpg",
+				TextureFileName : "Stone/Cobblestone Rusty Brown/CRW_7768.png",
+				PackagePath : "Stone/Cobblestone Rusty Brown",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/cobblestone_overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3470517; 0.348961; 0.02220798",
+						RGB : "0.182066; 0.156204; 0.1388705",
+						Color : "2E2723",
+					},
+					Max : 
+					{
+						xyY : "0.324308; 0.3432309; 0.5675018",
+						RGB : "0.792513; 0.7783587; 0.7321365",
+						Color : "CAC6BA",
+					},
+					Avg : 
+					{
+						xyY : "0.3566604; 0.3646721; 0.1291538",
+						RGB : "0.4386653; 0.3870531; 0.3227411",
+						Color : "6F6252",
+					},
+					Custom : [
+						{
+							xyY : "0.3679729; 0.3735714; 0.1094327",
+							RGB : "0.4146165; 0.3558095; 0.279962",
+							Color : "695A47",
+							TopLeft : { x : 0.4, y : 0.09223301 },
+							BottomRight : { x : 0.7892473, y : 0.8042071 },
+						},
+						{
+							xyY : "0.3638639; 0.3728776; 0.1223924",
+							RGB : "0.4312221; 0.377207; 0.2995598",
+							Color : "6D604C",
+							TopLeft : { x : 0.4903226, y : 0.315534 },
+							BottomRight : { x : 0.6021506, y : 0.6035599 },
+						},
+						{
+							xyY : "0.3516174; 0.3640266; 0.1283522",
+							RGB : "0.4294693; 0.388281; 0.3258514",
+							Color : "6D6353",
+							TopLeft : { x : 0.0172043, y : 0.04045307 },
+							BottomRight : { x : 0.2086021, y : 0.684466 },
+						},
+						{
+							xyY : "0.3667958; 0.3862277; 0.05016774",
+							RGB : "0.2745885; 0.2459607; 0.1767903",
+							Color : "463E2D",
+							TopLeft : { x : 0.2752688, y : 0.8656958 },
+							BottomRight : { x : 0.2924731, y : 0.9271845 },
+						},
+						{
+							xyY : "0.3654672; 0.3718978; 0.1284987",
+							RGB : "0.4447753; 0.3847862; 0.3069717",
+							Color : "71624E",
+							TopLeft : { x : 0.3591398, y : 0.5 },
+							BottomRight : { x : 0.4580645, y : 0.6359223 },
+						},
+						{
+							xyY : "0.3524813; 0.3713795; 0.155151",
+							RGB : "0.4627635; 0.4277366; 0.3466351",
+							Color : "766D58",
+							TopLeft : { x : 0.9096774, y : 0.3220065 },
+							BottomRight : { x : 0.9268817, y : 0.3737864 },
+						},
+						{
+							xyY : "0.3369476; 0.3437036; 0.2983441",
+							RGB : "0.6270052; 0.572834; 0.5355495",
+							Color : "9F9288",
+							TopLeft : { x : 0.832258, y : 0.8754045 },
+							BottomRight : { x : 0.8408602, y : 0.9271845 },
+						},
+						{
+							xyY : "0.3559414; 0.3574836; 0.1066972",
+							RGB : "0.4066958; 0.3504661; 0.3026539",
+							Color : "67594D",
+							TopLeft : { x : 0.2731183, y : 0.2216828 },
+							BottomRight : { x : 0.2967742, y : 0.2508091 },
+						},
+						{
+							xyY : "0.356852; 0.3694029; 0.09998908",
+							RGB : "0.3846565; 0.344173; 0.2790755",
+							Color : "625747",
+							TopLeft : { x : 0.9161291, y : 0.07605178 },
+							BottomRight : { x : 0.9397849, y : 0.118123 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Dark Floor Tiling",
+			FriendlyName : "Dark Floor Tiling",
+			Description : "In Arkane's very toilets... ^_^",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,DARK,FLOOR,CONSTRUCTION,VARNISHED, NEW",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Dark Floor Tiling/CRW_7811.jpg",
+				TextureFileName : "Stone/Dark Floor Tiling/CRW_7811.png",
+				PackagePath : "Stone/Dark Floor Tiling",
+				TextureWidth : 2984,
+				TextureHeight : 1898,
+				OverviewImageFileName : "Stone/Dark Floor Tiling/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.2881338; 0.2719092; 0.01694975",
+						RGB : "0.1449865; 0.1310259; 0.1775326",
+						Color : "24212D",
+					},
+					Max : 
+					{
+						xyY : "0.3400004; 0.358173; 0.202492",
+						RGB : "0.5132932; 0.485288; 0.4232652",
+						Color : "827B6B",
+					},
+					Avg : 
+					{
+						xyY : "0.3136508; 0.3274597; 0.05762111",
+						RGB : "0.2689387; 0.2653325; 0.2672809",
+						Color : "444344",
+					},
+					Custom : [
+						{
+							xyY : "0.3136331; 0.325279; 0.05572657",
+							RGB : "0.2662248; 0.2601601; 0.2648197",
+							Color : "434243",
+							TopLeft : { x : 0.2129032, y : 0.4118644 },
+							BottomRight : { x : 0.2752688, y : 0.4728813 },
+						},
+						{
+							xyY : "0.3252048; 0.3383804; 0.07749994",
+							RGB : "0.3205275; 0.3063175; 0.292916",
+							Color : "514E4A",
+							TopLeft : { x : 0.3913979, y : 0.3440678 },
+							BottomRight : { x : 0.4731183, y : 0.3542373 },
+						},
+						{
+							xyY : "0.3132538; 0.327564; 0.05544608",
+							RGB : "0.2631103; 0.260435; 0.2622195",
+							Color : "434242",
+							TopLeft : { x : 0.3526882, y : 0.1745763 },
+							BottomRight : { x : 0.3827957, y : 0.2016949 },
+						},
+						{
+							xyY : "0.3149175; 0.3281304; 0.05618943",
+							RGB : "0.2668952; 0.2617016; 0.262796",
+							Color : "444243",
+							TopLeft : { x : 0.3677419, y : 0.7372881 },
+							BottomRight : { x : 0.3806452, y : 0.7847458 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Dark Stone Pavement",
+			FriendlyName : "Dark Stone Pavement",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,DARK,ROAD_PAVEMENT,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Dark Stone Pavement/CRW_7776.jpg",
+				TextureFileName : "Stone/Dark Stone Pavement/CRW_7776.png",
+				PackagePath : "Stone/Dark Stone Pavement",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Dark Stone Pavement/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3035119; 0.2871807; 0.02680266",
+						RGB : "0.1949335; 0.1696204; 0.2105521",
+						Color : "312B35",
+					},
+					Max : 
+					{
+						xyY : "0.3270948; 0.3437268; 0.4260467",
+						RGB : "0.7052396; 0.682368; 0.6397582",
+						Color : "B3AEA3",
+					},
+					Avg : 
+					{
+						xyY : "0.3243088; 0.3385649; 0.1024369",
+						RGB : "0.3650148; 0.351392; 0.3360672",
+						Color : "5D5955",
+					},
+					Custom : [
+						{
+							xyY : "0.3250856; 0.3412876; 0.1078126",
+							RGB : "0.3726702; 0.3609217; 0.3408624",
+							Color : "5F5C56",
+							TopLeft : { x : 0.4150538, y : 0.4320388 },
+							BottomRight : { x : 0.5763441, y : 0.6003236 },
+						},
+						{
+							xyY : "0.318288; 0.3326288; 0.06037627",
+							RGB : "0.278005; 0.2714884; 0.2668299",
+							Color : "464544",
+							TopLeft : { x : 0.8774194, y : 0.684466 },
+							BottomRight : { x : 0.888172, y : 0.6909385 },
+						},
+						{
+							xyY : "0.337438; 0.3469948; 0.2406993",
+							RGB : "0.5651566; 0.5207967; 0.4792224",
+							Color : "90847A",
+							TopLeft : { x : 0.9333333, y : 0.5679612 },
+							BottomRight : { x : 0.9397849, y : 0.5809062 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Indoor Concrete Floor",
+			FriendlyName : "Concrete Floor",
+			Description : "Indoor concrete floor (front of the elevator)",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY, YELLOW,NEUTRAL,FLOOR,CONSTRUCTION",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Indoor Concrete Floor/CRW_7751.jpg",
+				TextureFileName : "Stone/Indoor Concrete Floor/CRW_7751.png",
+				PackagePath : "Stone/Indoor Concrete Floor",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Indoor Concrete Floor/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3391472; 0.3593903; 0.03354513",
+						RGB : "0.2120615; 0.2010106; 0.1705615",
+						Color : "36332B",
+					},
+					Max : 
+					{
+						xyY : "0.329511; 0.3593036; 0.3803868",
+						RGB : "0.6510981; 0.6570218; 0.5749211",
+						Color : "A6A792",
+					},
+					Avg : 
+					{
+						xyY : "0.3519282; 0.3703678; 0.1311749",
+						RGB : "0.4278625; 0.3949724; 0.3211383",
+						Color : "6D6451",
+					},
+					Custom : [
+						{
+							xyY : "0.3531017; 0.3773845; 0.1404169",
+							RGB : "0.4365083; 0.4103804; 0.3221133",
+							Color : "6F6852",
+							TopLeft : { x : 0.5849462, y : 0.3932039 },
+							BottomRight : { x : 0.6193548, y : 0.4385113 },
+						},
+						{
+							xyY : "0.3494283; 0.3715099; 0.1224441",
+							RGB : "0.4088124; 0.383975; 0.310708",
+							Color : "68614F",
+							TopLeft : { x : 0.8430107, y : 0.4676375 },
+							BottomRight : { x : 0.8623656, y : 0.5 },
+						},
+						{
+							xyY : "0.3475097; 0.370008; 0.1463791",
+							RGB : "0.442693; 0.4182404; 0.3422339",
+							Color : "706A57",
+							TopLeft : { x : 0.3354839, y : 0.4288026 },
+							BottomRight : { x : 0.3634409, y : 0.47411 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Outdoor Concrete",
+			FriendlyName : "Concrete Floor 2",
+			Description : "Outdoor concrete floor, installed quite recently I suppose since they've been redoing the tarmac about 4 times now...",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,FLOOR,CONSTRUCTION,NEW",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Outdoor Concrete/CRW_7755.jpg",
+				TextureFileName : "Stone/Outdoor Concrete/CRW_7755.png",
+				PackagePath : "Stone/Outdoor Concrete",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Outdoor Concrete/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.313683; 0.3257152; 0.0317017",
+						RGB : "0.1987162; 0.1942502; 0.1974999",
+						Color : "323132",
+					},
+					Max : 
+					{
+						xyY : "0.3329735; 0.3564559; 0.4578021",
+						RGB : "0.7241885; 0.7090294; 0.627857",
+						Color : "B8B4A0",
+					},
+					Avg : 
+					{
+						xyY : "0.3299173; 0.3475554; 0.2742693",
+						RGB : "0.5795363; 0.5590116; 0.5143628",
+						Color : "938E83",
+					},
+					Custom : [
+						{
+							xyY : "0.3317093; 0.3531217; 0.2826383",
+							RGB : "0.5839467; 0.568857; 0.5103749",
+							Color : "949182",
+							TopLeft : { x : 0.6645162, y : 0.6165048 },
+							BottomRight : { x : 0.6946236, y : 0.6553398 },
+						},
+						{
+							xyY : "0.3268663; 0.3448617; 0.3386035",
+							RGB : "0.6333053; 0.6160271; 0.5744072",
+							Color : "A19D92",
+							TopLeft : { x : 0.1763441, y : 0.2022654 },
+							BottomRight : { x : 0.1849462, y : 0.2313916 },
+						},
+						{
+							xyY : "0.3240713; 0.3419069; 0.1340369",
+							RGB : "0.4105332; 0.4012796; 0.3782664",
+							Color : "686660",
+							TopLeft : { x : 0.4129032, y : 0.4902913 },
+							BottomRight : { x : 0.4193548, y : 0.5 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Stone Slab",
+			FriendlyName : "Stone Slab Pavement",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,GRAY,NEUTRAL,ROAD_PAVEMENT,CONSTRUCTION,OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Stone Slab/CRW_7761.jpg",
+				TextureFileName : "Stone/Stone Slab/CRW_7761.png",
+				PackagePath : "Stone/Stone Slab",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Stone/Stone Slab/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3393253; 0.3527969; 0.03771214",
+						RGB : "0.2298061; 0.2119837; 0.1867085",
+						Color : "3A362F",
+					},
+					Max : 
+					{
+						xyY : "0.3214074; 0.3426219; 0.4760298",
+						RGB : "0.7237862; 0.7217854; 0.6808199",
+						Color : "B8B8AD",
+					},
+					Avg : 
+					{
+						xyY : "0.3312636; 0.3459187; 0.1865268",
+						RGB : "0.4904743; 0.4661557; 0.4313253",
+						Color : "7D766D",
+					},
+					Custom : [
+						{
+							xyY : "0.3317806; 0.3463787; 0.2485254",
+							RGB : "0.5603938; 0.5322544; 0.4919239",
+							Color : "8E877D",
+							TopLeft : { x : 0.3268817, y : 0.6618123 },
+							BottomRight : { x : 0.3870968, y : 0.7006472 },
+						},
+						{
+							xyY : "0.3271531; 0.34161; 0.1044215",
+							RGB : "0.3704119; 0.3545026; 0.3341309",
+							Color : "5E5A55",
+							TopLeft : { x : 0.8623656, y : 0.4676375 },
+							BottomRight : { x : 0.8795699, y : 0.5 },
+						},
+						{
+							xyY : "0.3102361; 0.3419769; 0.0648886",
+							RGB : "0.2673742; 0.2879665; 0.2712321",
+							Color : "444945",
+							TopLeft : { x : 0.832258, y : 0.6553398 },
+							BottomRight : { x : 0.8430107, y : 0.6682848 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Wood/Dirty Wood Plank",
+			FriendlyName : "Dirty Wood Plank",
+			Description : "Some piece of wood board from a box I suppose",
+			OverviewImagePath: "overview.jpg",
+			Tags : "WOOD,YELLOW,NEUTRAL,OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Wood/Dirty Wood Plank/CRW_7792.jpg",
+				TextureFileName : "Wood/Dirty Wood Plank/CRW_7792.png",
+				PackagePath : "Wood/Dirty Wood Plank",
+				TextureWidth : 1031,
+				TextureHeight : 1551,
+				OverviewImageFileName : "Wood/Dirty Wood Plank/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3924931; 0.3617118; 0.02575592",
+						RGB : "0.227277; 0.1599176; 0.1273422",
+						Color : "392820",
+					},
+					Max : 
+					{
+						xyY : "0.3650179; 0.3711109; 0.2014558",
+						RGB : "0.5478381; 0.4752565; 0.3831231",
+						Color : "8B7961",
+					},
+					Avg : 
+					{
+						xyY : "0.391876; 0.3894829; 0.1111937",
+						RGB : "0.437265; 0.3538182; 0.2466011",
+						Color : "6F5A3E",
+					},
+					Custom : [
+						{
+							xyY : "0.4010192; 0.3948843; 0.1449599",
+							RGB : "0.5030406; 0.3993187; 0.2667032",
+							Color : "806544",
+							TopLeft : { x : 0.2113636, y : 0.7590361 },
+							BottomRight : { x : 0.3431818, y : 0.8885542 },
+						},
+						{
+							xyY : "0.36667; 0.3734735; 0.07636885",
+							RGB : "0.3476446; 0.2991362; 0.2341553",
+							Color : "584C3B",
+							TopLeft : { x : 0.475, y : 0.4246988 },
+							BottomRight : { x : 0.6068182, y : 0.4879518 },
+						},
+						{
+							xyY : "0.3768545; 0.3810779; 0.1034672",
+							RGB : "0.4096885; 0.3452443; 0.2578184",
+							Color : "685841",
+							TopLeft : { x : 0.5204545, y : 0.1295181 },
+							BottomRight : { x : 0.5613636, y : 0.186747 },
+						},
+						{
+							xyY : "0.3854412; 0.3903629; 0.1461623",
+							RGB : "0.4858153; 0.4069953; 0.2869678",
+							Color : "7B6749",
+							TopLeft : { x : 0.2931818, y : 0.2198795 },
+							BottomRight : { x : 0.3295455, y : 0.2680723 },
+						},
+						{
+							xyY : "0.3802511; 0.3828412; 0.05434411",
+							RGB : "0.3027559; 0.2504003; 0.1809125",
+							Color : "4D3F2E",
+							TopLeft : { x : 0.5068182, y : 0.3313253 },
+							BottomRight : { x : 0.525, y : 0.3403614 },
+						},
+						{
+							xyY : "0.4019246; 0.397614; 0.1215884",
+							RGB : "0.4623361; 0.3680006; 0.2396644",
+							Color : "755D3D",
+							TopLeft : { x : 0.8204545, y : 0.4186747 },
+							BottomRight : { x : 0.8613636, y : 0.4608434 },
+						},
+						{
+							xyY : "0.3733928; 0.380201; 0.1803593",
+							RGB : "0.5255704; 0.4511118; 0.3434501",
+							Color : "867357",
+							TopLeft : { x : 0.3704545, y : 0.5271084 },
+							BottomRight : { x : 0.3840909, y : 0.5481928 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Wood/Dirty Wood Plank (wet)",
+			FriendlyName : "Dirty Wood Plank (wet side)",
+			Description : "The wet side of the previous plank (was lying on the floor after the rain)",
+			OverviewImagePath: "../Dirty Wood Plank/overview.jpg",
+			Tags : "WOOD,WET, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Wood/Dirty Wood Plank (wet)/CRW_7793.jpg",
+				TextureFileName : "Wood/Dirty Wood Plank (wet)/CRW_7793.png",
+				PackagePath : "Wood/Dirty Wood Plank (wet)",
+				TextureWidth : 1030,
+				TextureHeight : 1444,
+				OverviewImageFileName : "Wood/Dirty Wood Plank/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4324427; 0.3647414; 0.01952023",
+						RGB : "0.2197063; 0.1265219; 0.0916812",
+						Color : "382017",
+					},
+					Max : 
+					{
+						xyY : "0.3602121; 0.3713447; 0.2605766",
+						RGB : "0.6051831; 0.5387762; 0.4366628",
+						Color : "9A896F",
+					},
+					Avg : 
+					{
+						xyY : "0.3919645; 0.3845339; 0.07034612",
+						RGB : "0.3555968; 0.2809899; 0.1992161",
+						Color : "5A4732",
+					},
+					Custom : [
+						{
+							xyY : "0.4031738; 0.3876311; 0.06409714",
+							RGB : "0.3496349; 0.2649671; 0.179961",
+							Color : "59432D",
+							TopLeft : { x : 0.2733051, y : 0.310241 },
+							BottomRight : { x : 0.315678, y : 0.5030121 },
+						},
+						{
+							xyY : "0.4093545; 0.3941205; 0.07806805",
+							RGB : "0.3861243; 0.2923158; 0.1888536",
+							Color : "624A30",
+							TopLeft : { x : 0.4385593, y : 0.3072289 },
+							BottomRight : { x : 0.4639831, y : 0.4126506 },
+						},
+						{
+							xyY : "0.4002; 0.387396; 0.04441304",
+							RGB : "0.2897557; 0.2205323; 0.1483692",
+							Color : "493825",
+							TopLeft : { x : 0.6377119, y : 0.1927711 },
+							BottomRight : { x : 0.6673729, y : 0.246988 },
+						},
+						{
+							xyY : "0.3689971; 0.3707798; 0.03335272",
+							RGB : "0.2337789; 0.1943592; 0.1507833",
+							Color : "3B3126",
+							TopLeft : { x : 0.5360169, y : 0.75 },
+							BottomRight : { x : 0.5614407, y : 0.8343374 },
+						},
+						{
+							xyY : "0.3744318; 0.3776812; 0.1440686",
+							RGB : "0.4780033; 0.4041296; 0.3104367",
+							Color : "79674F",
+							TopLeft : { x : 0.0529661, y : 0.04518072 },
+							BottomRight : { x : 0.1207627, y : 0.126506 },
+						},
+						{
+							xyY : "0.3960555; 0.38932; 0.1264114",
+							RGB : "0.4704122; 0.374071; 0.2601519",
+							Color : "775F42",
+							TopLeft : { x : 0.06991526, y : 0.7560241 },
+							BottomRight : { x : 0.1631356, y : 0.9126506 },
+						},
+						{
+							xyY : "0.3542619; 0.3639994; 0.03000502",
+							RGB : "0.2118864; 0.1861525; 0.1519338",
+							Color : "362F26",
+							TopLeft : { x : 0.8156779, y : 0.7259036 },
+							BottomRight : { x : 0.8411017, y : 0.7560241 },
+						},
+						{
+							xyY : "0.3947539; 0.3921727; 0.08117056",
+							RGB : "0.3780614; 0.3033849; 0.2047596",
+							Color : "604D34",
+							TopLeft : { x : 0.7817796, y : 0.1626506 },
+							BottomRight : { x : 0.7987288, y : 0.25 },
+						},
+						{
+							xyY : "0.3989296; 0.3865876; 0.05467393",
+							RGB : "0.3202403; 0.2456486; 0.1682186",
+							Color : "513E2A",
+							TopLeft : { x : 0.4173729, y : 0.4728916 },
+							BottomRight : { x : 0.8411017, y : 0.6114458 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Wood/Polished Plank",
+			FriendlyName : "Polished Wood Plank",
+			Description : "From an ikea sofa",
+			OverviewImagePath: "overview.jpg",
+			Tags : "WOOD,YELLOW, ORANGE,NEUTRAL,CHAIR,FURNITURE,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Wood/Polished Plank/CRW_7814.jpg",
+				TextureFileName : "Wood/Polished Plank/CRW_7814.png",
+				PackagePath : "Wood/Polished Plank",
+				TextureWidth : 879,
+				TextureHeight : 1818,
+				OverviewImageFileName : "Wood/Polished Plank/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.4087989; 0.3666763; 0.1257066",
+						RGB : "0.5090849; 0.35454; 0.2795592",
+						Color : "815A47",
+					},
+					Max : 
+					{
+						xyY : "0.3554855; 0.3616113; 0.4475214",
+						RGB : "0.7755263; 0.6855837; 0.5867333",
+						Color : "C5AE95",
+					},
+					Avg : 
+					{
+						xyY : "0.3719536; 0.3681914; 0.289799",
+						RGB : "0.6661306; 0.5549167; 0.4533503",
+						Color : "A98D73",
+					},
+					Custom : [
+						{
+							xyY : "0.3706506; 0.368985; 0.301352",
+							RGB : "0.6738949; 0.5664693; 0.4615315",
+							Color : "AB9075",
+							TopLeft : { x : 0.434375, y : 0.316265 },
+							BottomRight : { x : 0.484375, y : 0.3433735 },
+						},
+						{
+							xyY : "0.3842947; 0.3758764; 0.2346219",
+							RGB : "0.619713; 0.4998473; 0.386693",
+							Color : "9E7F62",
+							TopLeft : { x : 0.371875, y : 0.2620482 },
+							BottomRight : { x : 0.378125, y : 0.2740964 },
+						},
+						{
+							xyY : "0.3699442; 0.3669196; 0.3244071",
+							RGB : "0.6980824; 0.5849558; 0.4822166",
+							Color : "B2957A",
+							TopLeft : { x : 0.546875, y : 0.560241 },
+							BottomRight : { x : 0.571875, y : 0.5753012 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Wood/Rough Plank",
+			FriendlyName : "Rough Raw Wood Plank",
+			Description : "Old wood :)",
+			OverviewImagePath: "overview.jpg",
+			Tags : "WOOD,GRAY,NEUTRAL,OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Wood/Rough Plank/CRW_7780.jpg",
+				TextureFileName : "Wood/Rough Plank/CRW_7780.png",
+				PackagePath : "Wood/Rough Plank",
+				TextureWidth : 3088,
+				TextureHeight : 2056,
+				OverviewImageFileName : "Wood/Rough Plank/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3408462; 0.3541385; 0.0606698",
+						RGB : "0.2931886; 0.2703262; 0.2377484",
+						Color : "4A443C",
+					},
+					Max : 
+					{
+						xyY : "0.3292048; 0.3490679; 0.3858925",
+						RGB : "0.6717705; 0.6545744; 0.5990935",
+						Color : "ABA698",
+					},
+					Avg : 
+					{
+						xyY : "0.3361754; 0.3569503; 0.199738",
+						RGB : "0.5031236; 0.4840029; 0.4252225",
+						Color : "807B6C",
+					},
+					Custom : [
+						{
+							xyY : "0.3378699; 0.35987; 0.2520075",
+							RGB : "0.5599722; 0.5393198; 0.4678711",
+							Color : "8E8977",
+							TopLeft : { x : 0.5354839, y : 0.1343042 },
+							BottomRight : { x : 0.6537634, y : 0.3349515 },
+						},
+						{
+							xyY : "0.3334208; 0.3513351; 0.1513909",
+							RGB : "0.4431402; 0.4241315; 0.3821512",
+							Color : "716C61",
+							TopLeft : { x : 0.07526882, y : 0.1019417 },
+							BottomRight : { x : 0.1827957, y : 0.3220065 },
+						},
+						{
+							xyY : "0.3341495; 0.3539451; 0.1259538",
+							RGB : "0.4049728; 0.3895458; 0.3462261",
+							Color : "676358",
+							TopLeft : { x : 0.4924731, y : 0.5291262 },
+							BottomRight : { x : 0.5139785, y : 0.6035599 },
+						},
+						{
+							xyY : "0.3357719; 0.3576982; 0.1843755",
+							RGB : "0.4830212; 0.4669524; 0.4086819",
+							Color : "7B7768",
+							TopLeft : { x : 0.6365591, y : 0.6747573 },
+							BottomRight : { x : 0.6516129, y : 0.710356 },
+						},
+						{
+							xyY : "0.3428003; 0.3634447; 0.2531731",
+							RGB : "0.5681469; 0.5390956; 0.4588916",
+							Color : "908975",
+							TopLeft : { x : 0.4688172, y : 0.6132686 },
+							BottomRight : { x : 0.483871, y : 0.6391585 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Wood/Smooth Wooden Bench",
+			FriendlyName : "Smooth Wooden Bench",
+			Description : "",
+			OverviewImagePath: "overview.jpg",
+			Tags : "WOOD,YELLOW,NEUTRAL,CHAIR,FURNITURE,VARNISHED",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Wood/Smooth Wooden Bench/CRW_7790.jpg",
+				TextureFileName : "Wood/Smooth Wooden Bench/CRW_7790.png",
+				PackagePath : "Wood/Smooth Wooden Bench",
+				TextureWidth : 2875,
+				TextureHeight : 2005,
+				OverviewImageFileName : "Wood/Smooth Wooden Bench/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3437155; 0.3501712; 0.02071952",
+						RGB : "0.1719379; 0.1513256; 0.1336018",
+						Color : "2B2622",
+					},
+					Max : 
+					{
+						xyY : "0.348812; 0.3607219; 0.4002101",
+						RGB : "0.7208233; 0.6569628; 0.5662317",
+						Color : "B7A790",
+					},
+					Avg : 
+					{
+						xyY : "0.3720163; 0.376471; 0.1797736",
+						RGB : "0.526556; 0.4493052; 0.3494765",
+						Color : "867259",
+					},
+					Custom : [
+						{
+							xyY : "0.3701666; 0.37703; 0.213252",
+							RGB : "0.565155; 0.4879909; 0.3800256",
+							Color : "907C60",
+							TopLeft : { x : 0.3806452, y : 0.00617284 },
+							BottomRight : { x : 0.6559139, y : 0.9722222 },
+						},
+						{
+							xyY : "0.3895806; 0.3829627; 0.1378476",
+							RGB : "0.4864434; 0.3902006; 0.2854276",
+							Color : "7C6348",
+							TopLeft : { x : 0.1505376, y : 0.1141975 },
+							BottomRight : { x : 0.1612903, y : 0.2191358 },
+						},
+						{
+							xyY : "0.3687715; 0.375008; 0.2263963",
+							RGB : "0.5805525; 0.5014504; 0.3954702",
+							Color : "947F64",
+							TopLeft : { x : 0.1870968, y : 0.3271605 },
+							BottomRight : { x : 0.2, y : 0.4814815 },
+						},
+						{
+							xyY : "0.3794749; 0.3800243; 0.1385851",
+							RGB : "0.4750696; 0.395182; 0.2977713",
+							Color : "79644B",
+							TopLeft : { x : 0.2537634, y : 0.5648148 },
+							BottomRight : { x : 0.2752688, y : 0.7253087 },
+						},
+						{
+							xyY : "0.3692878; 0.3775321; 0.2566997",
+							RGB : "0.6124431; 0.532511; 0.4149381",
+							Color : "9C8769",
+							TopLeft : { x : 0.5247312, y : 0.6358024 },
+							BottomRight : { x : 0.544086, y : 0.728395 },
+						},
+						{
+							xyY : "0.3742606; 0.3833903; 0.2749827",
+							RGB : "0.6346657; 0.5496805; 0.4135802",
+							Color : "A18C69",
+							TopLeft : { x : 0.4967742, y : 0.3209876 },
+							BottomRight : { x : 0.4967742, y : 0.4012346 },
+						},
+						{
+							xyY : "0.3758778; 0.3808279; 0.113572",
+							RGB : "0.4268879; 0.3614582; 0.2711704",
+							Color : "6C5C45",
+							TopLeft : { x : 0.1397849, y : 0.5277778 },
+							BottomRight : { x : 0.1397849, y : 0.5432099 },
+						},
+						{
+							xyY : "0.3693403; 0.3718031; 0.1320058",
+							RGB : "0.4567872; 0.3876508; 0.3085001",
+							Color : "74624E",
+							TopLeft : { x : 0.8516129, y : 0.4938272 },
+							BottomRight : { x : 0.8774194, y : 0.7098765 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Sexy Brick",
+			FriendlyName : "Old Brick (interior)",
+			Description : "Sexy brick.<br/>Interior side as it seems less worn out",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,WALL,CONSTRUCTION,DUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Sexy Brick/CRW_7816.jpg",
+				TextureFileName : "Stone/Sexy Brick/CRW_7816.png",
+				PackagePath : "Stone/Sexy Brick",
+				TextureWidth : 1313,
+				TextureHeight : 1602,
+				OverviewImageFileName : "Stone/Sexy Brick/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3475642; 0.3618212; 0.05162423",
+						RGB : "0.2732162; 0.2490829; 0.2092454",
+						Color : "453F35",
+					},
+					Max : 
+					{
+						xyY : "0.3138984; 0.3426591; 0.7052106",
+						RGB : "0.8306116; 0.8683554; 0.8205417",
+						Color : "D3DDD1",
+					},
+					Avg : 
+					{
+						xyY : "0.3754191; 0.37662; 0.1983228",
+						RGB : "0.5570253; 0.4683307; 0.3632761",
+						Color : "8E775C",
+					},
+					Custom : [
+						{
+							xyY : "0.4120294; 0.3812967; 0.1862036",
+							RGB : "0.5973753; 0.434721; 0.3131173",
+							Color : "986E4F",
+							TopLeft : { x : 0.8216912, y : 0.2861446 },
+							BottomRight : { x : 0.8327206, y : 0.3012048 },
+						},
+						{
+							xyY : "0.3756669; 0.3796526; 0.1837196",
+							RGB : "0.5347844; 0.4533787; 0.3454621",
+							Color : "887358",
+							TopLeft : { x : 0.2591912, y : 0.3313253 },
+							BottomRight : { x : 0.2922794, y : 0.3644578 },
+						},
+						{
+							xyY : "0.3862402; 0.3798023; 0.1990976",
+							RGB : "0.573901; 0.4641917; 0.3496886",
+							Color : "927659",
+							TopLeft : { x : 0.5165441, y : 0.3704819 },
+							BottomRight : { x : 0.5753676, y : 0.4096386 },
+						},
+						{
+							xyY : "0.4078839; 0.3797904; 0.1629826",
+							RGB : "0.5575826; 0.4098952; 0.2991361",
+							Color : "8E684C",
+							TopLeft : { x : 0.5533088, y : 0.7530121 },
+							BottomRight : { x : 0.5643382, y : 0.7530121 },
+						},
+						{
+							xyY : "0.3225937; 0.3533511; 0.5195591",
+							RGB : "0.7359406; 0.7578161; 0.6829371",
+							Color : "BBC1AE",
+							TopLeft : { x : 0.08272059, y : 0.8885542 },
+							BottomRight : { x : 0.09742647, y : 0.9487952 },
+						},
+						{
+							xyY : "0.3773547; 0.3808701; 0.1866509",
+							RGB : "0.5403246; 0.4563741; 0.3448851",
+							Color : "897457",
+							TopLeft : { x : 0.4356618, y : 0.5120482 },
+							BottomRight : { x : 0.5569853, y : 0.5903614 },
+						},
+					]
+				}
+			}
+		},
+		{
+			RelativePath : "Stone/Sexy Brick",
+			FriendlyName : "Old Brick (exterior)",
+			Description : "Sexy brick.<br/>Exterior side, more worn out",
+			OverviewImagePath: "overview.jpg",
+			Tags : "STONE,ORANGE,NEUTRAL,WALL,CONSTRUCTION,RUSTY, OLD",
+			TextureInfos : {
+				ISOSpeed : 100,
+				ShutterSpeed : 1,
+				Aperture : 5.595919,
+				ThumbnailFileName : "Stone/Sexy Brick/CRW_7817.jpg",
+				TextureFileName : "Stone/Sexy Brick/CRW_7817.png",
+				PackagePath : "Stone/Sexy Brick",
+				TextureWidth : 1050,
+				TextureHeight : 1155,
+				OverviewImageFileName : "Stone/Sexy Brick/overview.jpg",
+				Swatches : {
+					Min : 
+					{
+						xyY : "0.3566464; 0.3520356; 0.06610499",
+						RGB : "0.3284675; 0.2748142; 0.2428653",
+						Color : "53463D",
+					},
+					Max : 
+					{
+						xyY : "0.3423394; 0.3634091; 0.3221506",
+						RGB : "0.6327887; 0.6021655; 0.5136541",
+						Color : "A19982",
+					},
+					Avg : 
+					{
+						xyY : "0.3611117; 0.3647614; 0.1706099",
+						RGB : "0.5076134; 0.4387982; 0.3657704",
+						Color : "816F5D",
+					},
+					Custom : [
+						{
+							xyY : "0.4211763; 0.3718005; 0.175307",
+							RGB : "0.6058289; 0.4106843; 0.310364",
+							Color : "9A684F",
+							TopLeft : { x : 0.9501661, y : 0.1295181 },
+							BottomRight : { x : 0.9833887, y : 0.1746988 },
+						},
+						{
+							xyY : "0.3815619; 0.3626485; 0.1490017",
+							RGB : "0.5133338; 0.398704; 0.3307944",
+							Color : "826554",
+							TopLeft : { x : 0.3488372, y : 0.6174699 },
+							BottomRight : { x : 0.3687708, y : 0.6566265 },
+						},
+						{
+							xyY : "0.3569391; 0.3637451; 0.1774807",
+							RGB : "0.5102035; 0.4489945; 0.3773572",
+							Color : "827260",
+							TopLeft : { x : 0.654485, y : 0.1626506 },
+							BottomRight : { x : 0.6910299, y : 0.2018072 },
+						},
+						{
+							xyY : "0.3494513; 0.3673859; 0.1943808",
+							RGB : "0.5123581; 0.4750791; 0.3944381",
+							Color : "827964",
+							TopLeft : { x : 0.7009967, y : 0.7620482 },
+							BottomRight : { x : 0.807309, y : 0.8373494 },
+						},
+						{
+							xyY : "0.3808109; 0.3655696; 0.1624036",
+							RGB : "0.5295342; 0.4174111; 0.3413106",
+							Color : "876A57",
+							TopLeft : { x : 0.435216, y : 0.2740964 },
+							BottomRight : { x : 0.461794, y : 0.3192771 },
 						},
 					]
 				}
