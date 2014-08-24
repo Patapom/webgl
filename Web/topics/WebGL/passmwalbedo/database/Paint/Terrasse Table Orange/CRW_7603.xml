@@ -1,0 +1,36 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7603.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7603.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="8" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.243483" />
+    <WhiteBalance xyY="0.2732916; 0.3033888; 0.5421415" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.6545718" Y="0.6834387" />
+    <CropRectangleHalfSize X="0.2804248" Y="0.2846683" />
+    <CropRectangleRotation Value="0.06149623" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7603.png" Width="1153" Height="1170">
+    <DefaultSwatches>
+      <Min Name="CRW_7603_Min.png" xyY="0.5180412; 0.3940507; 0.1734759" RGB="0.7035719; 0.3591946; 0.1438311" />
+      <Max Name="CRW_7603_Max.png" xyY="0.4922588; 0.3894245; 0.2423489" RGB="0.787882; 0.4376955; 0.2360066" />
+      <Avg Name="CRW_7603_Avg.png" xyY="0.5375769; 0.3943939; 0.2064792" RGB="0.7838885; 0.3751356; 0.107342" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+  <CustomSwatches Count="1">
+    <Custom0 Name="CRW_7603_Custom0.png" xyY="0.5361084; 0.3965879; 0.2086416" RGB="0.7831181; 0.380438; 0.1034901" SampleTopLeft="0.4250765; 0.4608434" SampleBottomRight="0.6024465; 0.6295181" />
+  </CustomSwatches>
+</Manifest>
