@@ -1,0 +1,33 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7593.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="D:\Workspaces\GodComplex\Tools\StandardizedDiffuseAlbedoMaps\Standard Reflectances\Camera Calibration 5\RAW Materials\Arkane Studios\CRW_7593.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="8" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.296959" />
+    <WhiteBalance xyY="0.2784914; 0.3053871; 0.519788" />
+    <CropSource Value="False" />
+    <CropRectangleCenter X="0.5" Y="0.5" />
+    <CropRectangleHalfSize X="0.7509727" Y="0.5" />
+    <CropRectangleRotation Value="0" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7593.png" Width="3088" Height="2056">
+    <DefaultSwatches>
+      <Min Name="CRW_7593_Min.png" xyY="0.5714939; 0.3596687; 0.129679" RGB="0.7056088; 0.2338195; 0.1076827" />
+      <Max Name="CRW_7593_Max.png" xyY="0.5032266; 0.3739433; 0.3077867" RGB="0.9156371; 0.461626; 0.2873787" />
+      <Avg Name="CRW_7593_Avg.png" xyY="0.5466701; 0.3768821; 0.1842867" RGB="0.7762292; 0.3286608; 0.1372513" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+</Manifest>

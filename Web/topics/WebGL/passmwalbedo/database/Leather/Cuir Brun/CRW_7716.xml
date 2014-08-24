@@ -1,0 +1,33 @@
+<!--***Do not modify!***
+
+This is a calibrated texture manifest file generated from the uncalibrated image "C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7716.CRW"
+Resulting generated images have been stored using a standard sRGB profile and can be used directly as source or color-picked by artists
+ without any other processing. Colors in the textures will have the proper reflectance (assuming the original image has been properly captured
+ with specular removal using polarization filters) and after sRGB->Linear conversion will be directly useable as reflectance in the lighting equation.
+The xyY values are given in device-independent xyY color space and can be used as linear-space colors directly.
+
+***Do not modify!***-->
+<Manifest>
+  <SourceInfos>
+    <SourceImageName Value="C:\Users\bmayaux\Desktop\Docs\Colorimetry\STANDARDIZED DIFFUSE REFLECTANCES\Camera Calibration 6\RAW Materials\CRW_7716.CRW" />
+    <ISOSpeed Value="100" />
+    <ShutterSpeed Value="1" />
+    <Aperture Value="5.595919" />
+    <SpatialCorrection Status="Enabled" />
+    <WhiteReflectanceCorrectionFactor Value="1.388539" />
+    <WhiteBalance xyY="0.3137197; 0.330562; 0.7201859" />
+    <CropSource Value="True" />
+    <CropRectangleCenter X="0.4965293" Y="0.4911218" />
+    <CropRectangleHalfSize X="0.1520594" Y="0.1178542" />
+    <CropRectangleRotation Value="0.5927407" />
+    <SwatchesSize Width="48" Height="32" />
+    <TargetFormat Value="PNG16" />
+  </SourceInfos>
+  <CalibratedTexture Name="CRW_7716.png" Width="625" Height="484">
+    <DefaultSwatches>
+      <Min Name="CRW_7716_Min.png" xyY="0.422785; 0.3633001; 0.02465539" RGB="0.2422844; 0.1475592; 0.111571" />
+      <Max Name="CRW_7716_Max.png" xyY="0.3541676; 0.3593237; 0.07569616" RGB="0.3412104; 0.2979053; 0.2540458" />
+      <Avg Name="CRW_7716_Avg.png" xyY="0.3956126; 0.3627461; 0.03154175" RGB="0.2540512; 0.1781782; 0.1414014" />
+    </DefaultSwatches>
+  </CalibratedTexture>
+</Manifest>
