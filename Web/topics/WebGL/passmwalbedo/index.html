@@ -38,6 +38,7 @@ o3djs.require( 'patapi.ui' );
 // 		PAPER_CANVAS,
 // 		PAINT,
 // 		PLASTIC,
+// 		METAL,
 // 	}
 // 
 // 	public enum		TAGS_COLOR
@@ -103,9 +104,10 @@ o3djs.require( 'patapi.ui' );
 // 		WET = 1,
 // 		DUSTY = 2,
 // 		FROSTY = 4,
-// 		VARNISHED = 8,
-// 		OLD = 16,
-// 		NEW = 32,
+// 		RUSTY = 8,
+// 		VARNISHED = 16,
+// 		OLD = 32,
+// 		NEW = 64,
 //	}
 //
 // Create the dynamic tags that are provided with the couple ("friendly name", "C# enum name"
@@ -118,6 +120,7 @@ var	Tags = [
 	{ N : "Paper/Canvas", F : "PAPER_CANVAS" },
 	{ N : "Paint", F : "PAINT" },
 	{ N : "Plastic/Resin", F : "PLASTIC" },
+	{ N : "Metal", F : "METAL" },
 
 	// Color
 	{ N : "Black", F : "BLACK" },
@@ -158,9 +161,10 @@ var	Tags = [
 	{ N : "Road/Pavement", F : "ROAD_PAVEMENT" },
 
 	// Modifiers
-	{ N : "Wet", F : "WET," },
-	{ N : "Dusty", F : "DUSTY," },
+	{ N : "Wet", F : "WET" },
+	{ N : "Dusty", F : "DUSTY" },
 	{ N : "Frosty", F : "FROSTY" },
+	{ N : "Rusty", F : "RUSTY" },
 	{ N : "Varnished", F : "VARNISHED" },
 	{ N : "Old", F : "OLD" },
 	{ N : "New", F : "NEW" },
@@ -200,8 +204,8 @@ $(document).ready( function() {
 
 	// Fill up global infos
 	$( '#GlobalInfo' ).html(	'Database contains ' + database.Entries.length + ' materials.&nbsp;' +
-								'Latest database update: 2014-07-09.&nbsp;' +
-								'Latest webpage update: 2014-07-10.&nbsp;' +
+								'Latest database update: 2014-08-07.&nbsp;' +
+								'Latest webpage update: 2014-07-14.&nbsp;' +
 								''
 						 );
 
@@ -327,7 +331,7 @@ $(document).ready( function() {
 
 		var	CheckBoxName = "TagCheckBox" + TagIndex;
 
-		var	ContainerIndex = (TagIndex / 10) | 0;
+		var	ContainerIndex = (TagIndex / 11) | 0;
 		var	Container = $( "#Tags" + ContainerIndex );
 
 //		Container.append( '<div id="' + CheckBoxName + '" class="UI-widget-label"><div class="t0"><span>' + T.N + '</span></div><div class="t1"><span class="ui-state-default ui-corner-all ui-checkbox"/></div></div>' );
@@ -566,15 +570,16 @@ function	UpdateSelection()
 	);
  
 	// Show texture infos
-	$( "#TextureInfos" ).html( selectedEntry ? 
-		'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
-		'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
-		(selectedEntry.Description != "" ? selectedEntry.Description + '<br/>' : "") +
-		'<br/>' +
-		'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
-		'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
-		'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
-		'' : ''
+	$( "#TextureInfos" ).html( selectedEntry
+		? 	'<strong>' + selectedEntry.FriendlyName + '</strong> (' + selectedEntry.TextureInfos.TextureWidth.toFixed( 0 ) + ' x ' + selectedEntry.TextureInfos.TextureHeight.toFixed( 0 ) + ')<br/>' +
+			'<a id="#TextureFileName" href="' + databasePath + selectedEntry.TextureInfos.PackagePath + '" target="_blank" style="font-size:small;">"' + selectedEntry.TextureInfos.TextureFileName + '"</a><br/>' +
+			(selectedEntry.Description != "" ? selectedEntry.Description + '<br/>' : "") +
+			'<br/>' +
+			'ISO Speed ' + selectedEntry.TextureInfos.ISOSpeed.toFixed( 0 ) + '<br/>' +
+			'Shutter Speed ' + (selectedEntry.TextureInfos.ShutterSpeed > 0 ? selectedEntry.TextureInfos.ShutterSpeed.toFixed( 2 ) : "1/"+(1.0/selectedEntry.TextureInfos.ShutterSpeed).toFixed( 0 )) + 's<br/>' +
+			'Aperture f/' + selectedEntry.TextureInfos.Aperture.toFixed( 0 ) + '<br/>' +
+			(selectedEntry.OverviewImagePath ? '<img class="overview-thumbnail" src="' + databasePath + selectedEntry.RelativePath + '/' + selectedEntry.OverviewImagePath + '"/>' : '')
+		: ''
 	);
 
 // 	// Handle hovering above the image
