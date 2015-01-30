@@ -39,5 +39,14 @@
     <None Include="..\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader">
       <Filter>Shaders\_SOURCE_</Filter>
     </None>
+    <None Include="...\..\Web\topics\WebGL\cathedral\scene.json" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.ps" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\Emissive.vs" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.ps" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\EmissiveMask.vs" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.ps" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\GlobalIllumSH.vs" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\PNTBT2SH2.shader" />
+    <None Include="...\..\Web\topics\WebGL\cathedral\Shaders\_SOURCES_\StainedGlass.shader" />
   </ItemGroup>
 </Project>
