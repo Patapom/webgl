@@ -60,7 +60,7 @@ patapi.PointerLock.prototype =
 		function	LockChangeCallback( e ) {
 		}
 
-		if ( !_element.requestPointerLock )
+//		if ( !_element.requestPointerLock )
 		{	// Register the listeners only once
 			document.addEventListener( 'pointerlockchange', this.LockChangeCallback, false );
 			document.addEventListener( 'mozpointerlockchange', this.LockChangeCallback, false );
@@ -93,7 +93,8 @@ patapi.PointerLock.prototype =
 	//////////////////////////////////////////////////////////////////////////
 	, __LockChangeCallback : function() 
 	{
-		if ( document.mozPointerLockElement === this.m_element ||
+		if ( document.pointerLockElement === this.m_element ||
+			 document.mozPointerLockElement === this.m_element ||
 			 document.webkitPointerLockElement === this.m_element ) {
 			this.m_isLocked = true;
 		} else {
