@@ -1,0 +1,113 @@
+body,h1,h2,h3,p,quote,small,form,input,ul,li,ol,label{
+	margin:0px;
+	padding:0px;
+}
+
+body{
+	color:white;
+	font-size:13px;
+	background: url(img/bg.png);
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+h1{
+	color:white;
+	font-size:28px;
+	font-weight:bold;
+	font-family:"Trebuchet MS",Arial, Helvetica, sans-serif;
+}
+
+h2{
+	font-family:"Arial Narrow",Arial,Helvetica,sans-serif;
+	font-size:10px;
+	font-weight:normal;
+	letter-spacing:1px;
+	padding-left:2px;
+	text-transform:uppercase;
+	white-space:nowrap;
+}
+
+.clear{
+	clear:both;
+}
+
+#main{
+	width:1280px;
+	margin:0 auto;
+}
+
+.container,.titles{
+	color:white;
+	margin-top:30px;
+	width:100%;
+	overflow:hidden;
+	
+	background:url(img/bg_dark.png) #28313b;
+	padding:20px 10px 10px;
+	
+	-moz-border-radius:12px;
+	-khtml-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius:12px;
+}
+
+.titles{
+	width:280px;
+	padding:10px 15px;
+	height:55px;
+}
+
+.product{
+	width:700px;
+	height:350px;
+	background:url(img/product_bg.png) repeat-x;
+	padding-top:10px;
+	float:left;
+	
+	-moz-border-radius:12px;
+	-khtml-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius:12px;
+}
+
+.product .pic{
+	float:left;
+	width:400px;
+	height:300px;
+	padding:0 10px 5px;
+	margin-top:-15px;
+}
+
+.product .link,.product .price{
+	font-size:10px;
+	text-transform:uppercase;
+	padding:4px 0;
+}
+
+.product .price{
+	color:#CCCCCC;
+}
+
+.product .title{
+	font-size:16px;
+	font-weight:bold;
+}
+
+a, a:visited {
+	color:#00BBFF;
+	text-decoration:none;
+	outline:none;
+}
+
+a:hover{
+	text-decoration:underline;
+}
+
+.tutorial-info{
+	position: absolute;
+	text-align:center;
+	padding:10px;
+	bottom: 10px;
+	left: 10%;
+	width: 80%;
+}

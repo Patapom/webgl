@@ -1,0 +1,101 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D
+ O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D
+ O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D O3D
+  -->
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<title>O3D Experiments</title>
+	<link rel="stylesheet" type="text/css" href="/index.css" />
+</head>
+<body>
+
+<div id="main">
+	<div class="titles">
+	<h1>O3D Experiments</h1>
+	<a href="/" style="position:relative; left: 250px; top: -32px;" ><img src="/img/Home.png" width="30px" height="30px" style="margin: 0px auto; clear: both;" border="0" /></a>
+	</div>
+ 
+	<div class="container tutorial-info">
+	<div class="link"><b>NOTE:</b> O3D is not supported anymore. The project was abandonned by Google and is now somewhat replaced by <a href="http://en.wikipedia.org/wiki/WebGL" target="_blank">WebGL</a>.</div>
+	<div class="link">You can refer to my <a href="/topics/WebGL">WebGL section</a> for new demonstrations of that API.</div>
+	If you'd like to install O3D nonetheless, you can still download a copy of the installer I kept for myself <a href="O3DSetup.exe">here</a> but I was unsuccessful at installing it again myself...
+	</div>
+
+	<div class="container">
+		O3D is a Javascript API designed by Google Labs to support high-end 3D hardware capabilities already present in most computers and bring them to your personnal web browser.<br />
+		Please, install the O3D plug-in by visiting <a href=http://tools.google.com/dlpage/o3d/eula.html>Google Labs</a> before clicking the links below.<br />
+		<br />
+		<b>Notes :</b><br />
+		&nbsp Tests are run on Firefox 3.5.1, Internet Explorer 8 and Chrome 2.0.172.37<br />
+		<br />
+
+		<h3>PatAPI</h3>
+
+		The PatAPI is a little addition to the O3D API. You can find the sources <a href="patapi">here</a>.<br />
+		It's currently featuring :<br />
+		<h4>&nbsp System Helpers</h4>
+		&nbsp _ Small hierarchy helpers to deal with O3D render nodes & transform nodes<br />
+		&nbsp _ A simple camera manipulation helper to move around the scenes using standard MAYA (i.e. targeted) or UnrealEd (i.e. first person) motion<br />
+		&nbsp _ A post-process chain helper that alleviates the setup of post-process passes<br />
+		&nbsp _ A "scene override" that helps render an entire scene into a specific buffer using a single override material (e.g. Depth pass, shadow mapping)<br />
+		&nbsp _ An <a href="patapi/effectsmanager.js" type="text/plain">Effects Manager</a> that allows you to use the #include directive in your shaders and also manages the concept of "shader interfaces"<br />
+		&nbsp _ A Material Translator helper that substitutes override effects to existing materials based on regular expression matches and also translates shader parameters to ensure compatibility and correct initialization<br />
+		&nbsp _ A "minipack" helper to handle subsets of O3D objects within the actual O3D pack (helps to unload a single scene without hindering the more general objects)
+		<h4>&nbsp Rendering</h4>
+		&nbsp _ An implementation of the Reinhard tone mapping operator to support HDR scenes<br />
+		&nbsp _ An implementation of the Preetham skylight model for nice environmental scenery<br />
+		&nbsp _ An example of aerial perspective<br />
+		&nbsp _ An example of streamed terrain<br />
+		<h4>&nbsp &nbsp ... And lots of other stuff to come !</h4>
+		<br />
+
+		<p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+		PatAPI is <a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/" style="text-decoration:none;">
+			<img src="http://i.creativecommons.org/l/zero/1.0/88x31.png" border="0" alt="CC0" />
+		  </a>
+		  <br />
+		  To the extent possible under law, <a href="http://www.patapom.com/" rel="dct:publisher"><span property="dct:title">Patapom</span></a>
+		  has waived all copyright and related or neighboring rights to
+		  <span property="dct:title">PatAPI</span>.
+		This work is published from
+		<span about="http://www.patapom.com/O3D/patapi" property="vcard:Country" datatype="dct:ISO3166" content="FR">France</span>.
+		<br />
+		<br />
+
+		<h3>Resources:</h3>
+		Here you can find informations about the FBX converter : <a href="FBXConverter.html">FBX Converter Page</a><br />
+		Here you can find HLSL materials I wrote for 3DS Max and their O3D equivalent : <a href="O3DMaterials.html">Materials Page</a><br />
+		<br />
+
+		<h3>Examples:</h3>
+		<ul>
+			<li>[01-05-09]&nbsp <a href=SimpleImport.html>Simple object import (no shader, plain raw stuff directly from Max)</a></li>
+			<li>[02-05-09]&nbsp <a href=DiffuseNormal.html>Simple object with diffuse + normal material override</a></li>
+			<li>[03-05-09]&nbsp <a href=CameraManipulation.html>Camera Manipulation</a></li>
+			<li>[16-05-09]&nbsp <a href=Spotlight.html>Spotlight Example</a></li>
+			<li>[06-05-09]&nbsp <a href=PostProcessChain.html>Post-Process Chain</a> <a href="PostProcessChain-Square.html">[f]</a></li>
+			<li>[12-05-09]&nbsp <a href=PostProcessGlow.html>Post-Process Glow</a> <a href="PostProcessGlow-Square.html">[f]</a></li>
+			<li>[14-05-09]&nbsp <a href=PostProcessHDRToneMapping.html>HDR Tone Mapping</a> <a href="PostProcessHDRToneMapping-Square.html">[f]</a></li>
+			<li>[16-05-09]&nbsp <a href=SkyDome.html>SkyDome</a> <a href="SkyDome-Square.html">[f]</a></li>
+			<li>[19-05-09]&nbsp <a href=DepthPass.html>Depth Pass</a> <a href="DepthPass-Square.html">[f]</a></li>
+			<li>[21-05-09]&nbsp <a href=AerialPerspective.html>Aerial Perspective</a> <a href="AerialPerspective-Square.html">[f]</a></li>
+			<li>[25-05-09]&nbsp <a href=Water.html>Ugly water</a> <a href="Water-Square.html">[f]</a></li>
+			<li>[06-06-09]&nbsp <a href=Terrain.html>Streaming Terrain</a> <a href="Terrain-Square.html">[f]</a></li>
+			<li>[11-07-09]&nbsp <a href=FBXSceneTest.html>FBX Scene Loader</a><!-- <a href="Terrain-Square.html">[f]</a></li>-->
+			<li>[13-07-09]&nbsp <a href=CustomSceneTest.html>Custom Scene Loader</a> (load your own scenes !)
+			<li>[01-08-09]&nbsp <a href=AsteRocket.html>AsteRocket !</a> (using V8)
+			<li>[18-10-09]&nbsp <a href=Cathedral_Intro.html>Saint Jean Cathedral</a>
+		</ul>
+		<br/>
+		<b>Note :</b> The little "[f]" is the 1024x512 version for Linux<br />
+		<br />
+	</div>
+</div>
+<br />
+<br />
+
+</body>
+</html>
