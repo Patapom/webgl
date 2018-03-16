@@ -1,0 +1,52 @@
+﻿# Project information
+site_name: 'PataBlog'
+site_description: 'Tartinette'
+site_author: 'Benoît Mayaux'
+site_url: 'https://www.patapom.com'
+pages:
+    - Home: index.md
+    - About: about.md
+    - BRDF: BRDF.md
+    - Solid Angle: OrthoSolidAngle.md
+    - Spherical Harmonics: SHPortal.md
+    - The Cross-Product: CrossProduct.md
+    - Useful Stuff: help.md
+
+
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'green'
+    accent: 'teal'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+# Customization
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/patapom'
+    - type: 'twitter'
+      link: 'https://twitter.com/patapom1'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/in/beno%C3%AEt-mayaux-30491a127/'
+
+# Google Analytics
+google_analytics:
+  - 'UA-34588959-1'
+  - 'auto'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - 'pymdownx.emoji'
+  - 'pymdownx.arithmatex'
+  - 'pymdownx.smartsymbols'
+
+extra_javascript:
+  - 'javascripts/extra.js'
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+

@@ -1,0 +1,42 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <line x1="190" y1="120" x2="180" y2="100" arr2="h44"/>
+%  <line x1="190" y1="120" x2="190" y2="150" arr2="h44"/>
+%  <line x1="190" y1="120" x2="220" y2="120" arr2="h44"/>
+%  <line x1="210" y1="120" x2="210" y2="140" li="dot" lw="0.50"/>
+%  <line x1="190" y1="140" x2="210" y2="140" li="dot" lw="0.50"/>
+%  <line x1="183" y1="126" x2="203" y2="126" li="dot" lw="0.50"/>
+%  <line x1="203" y1="106" x2="203" y2="126" li="dot" lw="0.50"/>
+%  <line x1="210" y1="120" x2="203" y2="106" li="dot" lw="0.50"/>
+%  <line x1="210" y1="140" x2="203" y2="126" li="dot" lw="0.50"/>
+%  <line x1="190" y1="140" x2="183" y2="126" li="dot" lw="0.50"/>
+%  <line x1="183" y1="126" x2="183" y2="106" li="dot" lw="0.50"/>
+%  <line x1="203" y1="106" x2="183" y2="106" li="dot" lw="0.50"/>
+%  <star x="203" y="126" d="0.5" li="dot" lw="0.50"/>
+%  <line x1="190" y1="120" x2="203" y2="126" arr2="h44"/>
+%  <line x1="190" y1="133" x2="175" y2="133" li="dot" lw="0.50" lc="green"/>
+%  <line x1="173" y1="129" x2="175" y2="133" li="dot" lw="0.50" lc="green"/>
+%  <line x1="188" y1="129" x2="190" y2="133" li="dot" lw="0.50" lc="green"/>
+%  <line x1="188" y1="129" x2="173" y2="129" li="dot" lw="0.50" lc="green"/>
+%  <line x1="188" y1="116" x2="173" y2="116" li="dot" lw="0.50" lc="green"/>
+%  <line x1="188" y1="129" x2="188" y2="116" li="dot" lw="0.50" lc="green"/>
+%  <line x1="173" y1="129" x2="173" y2="116" li="dot" lw="0.50" lc="green"/>
+%  <line x1="190" y1="120" x2="175" y2="120" li="dot" lw="0.50" lc="green"/>
+%  <line x1="173" y1="116" x2="175" y2="120" li="dot" lw="0.50" lc="green"/>
+%  <line x1="175" y1="133" x2="175" y2="120" li="dot" lw="0.50" lc="green"/>
+%  <line x1="190" y1="120" x2="173" y2="129" arr2="h44" lc="green"/>
+%  <star x="173" y="129" d="0.5" lc="green"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(145.98, 153.07)(0,0)
+  \put(0,0){\includegraphics{Cross3D.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(145.98, 153.07)(0,0)
+  \put(0,0){\includegraphics{Cross3D}}
+  \end{picture}%
+\fi
+\end{figure}

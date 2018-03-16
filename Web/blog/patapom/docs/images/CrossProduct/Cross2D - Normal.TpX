@@ -1,0 +1,24 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <rect x="187.904" y="112.088" w="2.98419" h="2.87817" rotdeg="315.576"/>
+%  <line x1="190" y1="110" x2="160" y2="140" arr2="h44"/>
+%  <line x1="190" y1="110" x2="231" y2="119" arr2="h44"/>
+%  <arc x="190" y="110" d="31.1127" a1="0.229232" a2="2.35619" li="dash" lw="0.50"/>
+%  <circle x="190" y="110" d="4.47214"/>
+%  <line x1="190" y1="110" x2="220.5" y2="139.5" arr2="h44" lc="red"/>
+%  <star x="190" y="110"/>
+%  <arc x="190" y="110" d="25.7099" a1="0.235545" a2="0.758378" li="dash" lw="0.50" lc="red"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(212.60, 102.72)(0,0)
+  \put(0,0){\includegraphics{Cross2D - Normal.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(212.60, 102.72)(0,0)
+  \put(0,0){\includegraphics{Cross2D - Normal}}
+  \end{picture}%
+\fi
+\end{figure}

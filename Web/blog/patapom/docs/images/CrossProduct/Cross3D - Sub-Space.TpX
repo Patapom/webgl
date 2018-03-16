@@ -1,0 +1,27 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <line x1="170" y1="100" x2="170" y2="150" arr2="h44"/>
+%  <line x1="170" y1="120" x2="186" y2="145" arr2="h44"/>
+%  <rect x="171.557" y="122.375" w="2.71362" h="2.50455" rotdeg="237.375" lw="0.50"/>
+%  <line x1="186" y1="145" x2="186" y2="120" li="dot" lw="0.50"/>
+%  <line x1="186" y1="145" x2="170" y2="145" li="dot" lw="0.50"/>
+%  <line x1="196" y1="120" x2="196" y2="105" li="dot" lw="0.50" lc="red"/>
+%  <line x1="196" y1="105" x2="170" y2="105" li="dot" lw="0.50" lc="red"/>
+%  <line x1="160" y1="120" x2="200" y2="120" arr2="h44"/>
+%  <line x1="170" y1="120" x2="196" y2="105" arr2="h44" lc="red"/>
+%  <star x="170" y="120" d="0.5" li="dot" lw="0.50"/>
+%  <circle x="170" y="120" d="2.82843"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(124.72, 153.07)(0,0)
+  \put(0,0){\includegraphics{Cross3D - Sub-Space.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(124.72, 153.07)(0,0)
+  \put(0,0){\includegraphics{Cross3D - Sub-Space}}
+  \end{picture}%
+\fi
+\end{figure}
