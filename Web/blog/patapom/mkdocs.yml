@@ -2,11 +2,16 @@
 site_name: 'PataBlog'
 site_description: 'Tartinette'
 site_author: 'Benoît Mayaux'
-site_url: 'https://www.patapom.com'
+site_url: 'http://www.patapom.com'
 pages:
     - Home: index.md
     - About: about.md
     - BRDF: BRDF.md
+    - Colorimetry:
+         - Color Spaces: Colorimetry/ColorSpace.md
+         - Color Profiles: Colorimetry/ColorProfile.md
+         - Illuminants: Colorimetry/Illuminants.md
+         - Transforms: Colorimetry/ColorTransforms.md
     - Solid Angle: OrthoSolidAngle.md
     - Spherical Harmonics: SHPortal.md
     - The Cross-Product: CrossProduct.md
