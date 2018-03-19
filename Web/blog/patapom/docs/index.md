@@ -5,6 +5,21 @@
 
 You will find mostly articles about math and rendering.
 
+I specialize in lighting, from the microscopic [BRDF](BRDF) to the macroscopic scale like interactive indirect lighting simulation in 3D scenes.
+
+![image](images/dishonored2.jpg)
+
+![image](images/dishonored2_2.jpg)
+
+(images from the game *"Dishonored 2"*, [Arkane Studio](https://www.arkane-studios.com/uk/index.php))
+
+
+I :heart: every light phenomenon, from emission to scattering, interaction and perception. The beautiful intricacies of matter playing with photons, often in mysterious ways, yielding the most jaw-dropping patterns and colors.
+
+![storm](images/Bio/Storm.jpg)
+![leaf](images/Bio/Translucency.jpg)
+![caustics](images/Bio/Caustics.jpg)
+
 
 
 # Papers

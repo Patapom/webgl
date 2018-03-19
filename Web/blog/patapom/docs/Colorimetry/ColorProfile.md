@@ -329,6 +329,8 @@ So when generating a LUT profile, the profile is likely to pick up some of the p
 XYZ matrices don’t have that problem since they are defined by only 3×3 coordinates in XYZ colorspace, and thus are quite generic by their very nature.
 This is also the reason why we are sticking to color matrices instead of supplying more detailed LUT profiles (besides diskspace usage).
 
+We discuss the maths of to compute a custom XYZ color matrix from 3 chromaticities and the white point [here](ColorTransforms/#xyz-matrices).
+
 
 As a general rule:
 
