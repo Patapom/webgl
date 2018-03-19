@@ -1,5 +1,8 @@
 ﻿# Welcome to the PataBlog!
 
+![PataBlog.jpg](images/PataBlog.jpg)
+
+
 You will find mostly articles about math and rendering.
 
 

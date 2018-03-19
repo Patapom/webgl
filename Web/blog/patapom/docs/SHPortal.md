@@ -104,11 +104,11 @@ Here is a code snippet (source Robin Green's "gritty details") about how to buil
  			fact += 2.0;
  		}
  	}
- 	if( l ## m )
+ 	if( l == m )
  		return pmm;
  
  	double pmmp1 = x * (2.0*m+1.0) * pmm;
- 	if ( l ## m+1 )
+ 	if ( l == m+1 )
  		return pmmp1;
  
  	double pll = 0.0;
@@ -128,9 +128,9 @@ Here is a code snippet (source Robin Green's "gritty details") about how to buil
  // phi in the range [0..2*Pi]
  double SH( int l, int m, double theta, double phi ) {
  	const double sqrt2 = sqrt(2.0);
- 	if( m ## 0 )		return K(l,0)*P(l,m,cos(theta));
+ 	if( m == 0 )		return K(l,0)*P(l,m,cos(theta));
  	else if( m > 0 )	return sqrt2*K(l,m)*cos(m*phi)*P(l,m,cos(theta));
- 	else 			return sqrt2*K(l,-m)*sin(-m*phi)*P(l,-m,cos(theta));
+ 	else 				return sqrt2*K(l,-m)*sin(-m*phi)*P(l,-m,cos(theta));
  } 
 ```
 

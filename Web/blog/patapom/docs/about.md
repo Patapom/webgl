@@ -16,7 +16,7 @@ I also did some contracting for the following companies:
  * [Arkane Studio](https://www.arkane-studios.com/uk/index.php) where I rewrote a good part of the lighting pipeline and provided the indirect lighting solution for the game *"Dishonored 2"*
 
 <br/>
-I like photography, art, natural language processing, science, history, philosophy, politics, nature, watching birds and all sorts of animals.
+I like photography, art, natural language processing, science, cooking, history, philosophy, politics, nature, watching birds and all sorts of animals.
 
 My totem animal is the otter although I choose to be reincarnated as a Red Robin.
 
