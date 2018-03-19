@@ -354,13 +354,13 @@ According to the Photoshop definition:
     The color profiles describe how to map a RGB value to the entire [gamut](http://en.wikipedia.org/wiki/Gamut) of [chromaticities](ColorSpace/#cie-xyy) and how to interpret the luminance (e.g. linear or gamma-corrected).
 
 
-
-##References##
- (2001) Harold, R. W. "[An Introduction to Appearance Analysis](http://www.color.org/ss84.pdf)"
-
-
-
----
 ##Next
 
 Next, we will discuss of the very important notion of [Color Profiles](ColorProfile).
+
+---
+
+##References##
+
+[^1]: (2001) Harold, R. W. "[An Introduction to Appearance Analysis](http://www.color.org/ss84.pdf)"
+

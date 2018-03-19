@@ -165,12 +165,6 @@ There is a lot of room for improvement here (!!) but for the moment I'll leave i
 
 
 
-##References##
-
-[^1] ["Distribution-based BRDFs"](http://www.cs.utah.edu/~premoze/dbrdf/dBRDF.pdf) Ashikhmin et al. (2007)
-
-
-
 ----
 ##OLD STUFF TO REMOVE##
 ----
@@ -188,4 +182,10 @@ All isolines show $\theta_i = \theta_o \in [0,90]$.
 
 * (right figure) The second set of longitudinal isolines (labeled from 7° to 172°) is constructed by keeping $\phi_i = 0$ and making $0 < \theta \le 180°$ for a $\Phi_o = \mbox{iso}$.
 
+
+
+
+##References##
+
+[^1]: ["Distribution-based BRDFs"](http://www.cs.utah.edu/~premoze/dbrdf/dBRDF.pdf) Ashikhmin et al. (2007)
 

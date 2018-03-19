@@ -2,10 +2,9 @@
 
 ![PataBlog.jpg](images/PataBlog.jpg)
 
-
 You will find mostly articles about math and rendering.
 
-I specialize in lighting, from the microscopic [BRDF](BRDF) to the macroscopic scale like interactive indirect lighting simulation in 3D scenes.
+I specialize in lighting, from the microscopic [BRDF](BRDF) to the macroscopic scale interactive indirect lighting simulation in 3D scenes.
 
 ![image](images/dishonored2.jpg)
 

@@ -284,16 +284,16 @@ But that breaks down rapidly if your BRDF consists of multiple lobes and other c
 So we would need to actually shoot several rays to account for complex materials? It seems expensive... But wait, aren't we already doing that when computing the SSAO? Couldn't we use that to our advantage?
 
 
-##References##
-
-[^1] ["A New Change of Variables for Efficient BRDF Representation"](http://www.cs.princeton.edu/~smr/papers/brdf_change_of_variables/) Szymon Rusinkiewicz (1998)
-
-[^2] ["Reflection from Layered Surfaces due to Subsurface Scattering"](http://www.irisa.fr/prive/kadi/Lopez/p165-hanrahan.pdf) Hanrahan and Krueger (1993)
-
-[^3] ["GPU-Based Importance Sampling"](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch20.html) Colbert et al. GPU Gems 3 (2007)
-
-
-
 ## Next
 
 In the [next section](BRDF Study), we will discuss about a (failed) attempt at modeling all the slices of the MERL Database from a single characteristic slice.
+
+
+##References##
+
+[^1]: ["A New Change of Variables for Efficient BRDF Representation"](http://www.cs.princeton.edu/~smr/papers/brdf_change_of_variables/) Szymon Rusinkiewicz (1998)
+
+[^2]: ["Reflection from Layered Surfaces due to Subsurface Scattering"](http://www.irisa.fr/prive/kadi/Lopez/p165-hanrahan.pdf) Hanrahan and Krueger (1993)
+
+[^3]: ["GPU-Based Importance Sampling"](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch20.html) Colbert et al. GPU Gems 3 (2007)
+

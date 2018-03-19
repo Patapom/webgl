@@ -162,18 +162,18 @@ Although positivity and reciprocity are usually quite easy to ensure in physical
 !!! note
     I wrote that energy conservation is difficult to enforce but many models represent a single specular highlight near the mirror direction so, instead of testing the integral of the BRDF for all $\omega_o$, it's only necessary to ensure it returns a correct value in the mirror direction, hence reducing the problem to a single integral evaluation. This usually gives us a single value that we can later use as a normalization factor.
 
-	
-##References##
-
-[^1] ["Practical Physically Based Shading in Film and Game Production"](http://blog.selfshadow.com/publications/s2012-shading-course/) Siggraph 2012 talk.
-
-[^2] ["Geometrical Considerations and Nomenclature for Reflectance"](http://graphics.stanford.edu/courses/cs448-05-winter/papers/nicodemus-brdf-nist.pdf) F.E. Nicodemus et al. (1977)
-
-[^3] ["Screen-Space Perceptual Rendering of Human Skin"](http://www.iryoku.com/sssss/) Jimenez et al. (2009)
-
-[^4] ["Theory for Off-Specular Reflection From Roughened Surfaces"](http://www.opticsinfobase.org/josa/abstract.cfm?uri=josa-57-9-1105) Torrance and Sparrow (1967)
-
 
 ## Next
 
 In the next section, we will list and describe several [analytical models](BRDF Models).
+
+	
+##References##
+
+[^1]: ["Practical Physically Based Shading in Film and Game Production"](http://blog.selfshadow.com/publications/s2012-shading-course/) Siggraph 2012 talk.
+
+[^2]: ["Geometrical Considerations and Nomenclature for Reflectance"](http://graphics.stanford.edu/courses/cs448-05-winter/papers/nicodemus-brdf-nist.pdf) F.E. Nicodemus et al. (1977)
+
+[^3]: ["Screen-Space Perceptual Rendering of Human Skin"](http://www.iryoku.com/sssss/) Jimenez et al. (2009)
+
+[^4]: ["Theory for Off-Specular Reflection From Roughened Surfaces"](http://www.opticsinfobase.org/josa/abstract.cfm?uri=josa-57-9-1105) Torrance and Sparrow (1967)
