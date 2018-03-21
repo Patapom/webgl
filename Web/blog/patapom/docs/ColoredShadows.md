@@ -3,14 +3,19 @@
 This article is about this particular effect that can sometimes be detected in the penumbra regions of an image and that is often exagerated by artists,
  as can be seen in these beautiful paintings by [Piotr Jablonski](https://www.behance.net/gallery/16101045/TOMCAT):
 
-![This](https://magazine.artstation.com/wp-content/uploads/2014/10/141006_PJ_Tomcat3.jpg)
+![This](images/ShadowColor/141006_PJ_Tomcat3.jpg)
 
-![Piotr](https://magazine.artstation.com/wp-content/uploads/2014/10/141006_PJ_Tomcat1.jpg)
+![Piotr](images/ShadowColor/141006_PJ_Tomcat1.jpg)
+
+
+Or again in these concept arts from [Goro Fujita](https://twitter.com/gorosart)
+
+![Fujita](images/ShadowColor/SaturationEffect2.jpg)
 
 
 ## Under the Skin
 
-Shadow saturation is often quite visible when sub-surface scattering phenomenons are occurring, like skin or marble.
+Shadow saturation is often quite visible when sub-surface scattering phenomenons are involved, like in skin or marble.
 Intuitively you can imagine the saturation is coming from the many scattering events that occur beneath the skin or within the translucent material.
 
 ![Skin](images/ShadowColor/SaturationInTheMiddle.jpg)
@@ -24,11 +29,11 @@ It's quite natural to extrapolate and imagine the effect is also present wheneve
 
 A simple explanation is that, assuming the surface/volume has an absorption albedo $\rho < 1$ and is lit by a radiance source $L_i$ then:
 
-* A single rough reflection will yield the radiance $\propto\rho L_i$
-* A second rough reflection will yield the radiance $\propto\rho^2 L_i$
-* A third rough reflection will yield the radiance $\propto\rho^3 L_i$
+* A single rough reflection will yield a radiance $L_o \propto\rho L_i$
+* A second rough reflection will yield a radiance $L_o \propto\rho^2 L_i$
+* A third rough reflection will yield a radiance $L_o \propto\rho^3 L_i$
 * And so on...
-* In a general manner, after N reflections, the radiance will be $\propto\rho^N L_i$
+* In a general manner, after N reflections, the radiance will be $L_o \propto\rho^N L_i$
 
 Thus, we have a [geometric series](http://mathworld.wolfram.com/GeometricSeries.html) and an ideally reflecting rough surface should give us:
 
@@ -56,7 +61,7 @@ A strong direct light will produces a saturated *distant indirect lighting*
 
 * The material needs no restriction on roughness
 
-* The material needs to be quite bright and *possibly desaturated*
+* The material needs to be quite bright and *possibly desaturated* so the saturated indirect reflection shows up
 
 * The saturation comes from the distant reflected indirect lighting that brings the surface coloration
 
@@ -70,7 +75,7 @@ A strong direct light will produces a saturated *distant indirect lighting*
 
 A strong direct light will produce saturated penumbras if it scatters a lot through or at the surface of the material
 
-* The material needs to be very rough or very anisotropic to scatter nearly in a diffuse manner.
+* The material needs to be very rough or very anisotropic to scatter nearly in a diffuse manner (*e.g.* sand, dust, skin, granulates).
 
 * The material needs to be already quite saturated in order for the $\rho^N$ saturation to show
 
@@ -101,7 +106,7 @@ Within that small transition zone of the penumbra, the saturation comes in full 
 !!! note ""
     ![saturation](images/ShadowColor/SaturationEffect.jpg)
 
-    The effect of $k * \frac{\rho}{1-\rho}$ with $\rho=(0.9,0.8,0.3)$ for various values of surface reflectance $k$ and a light intensity of 10.<br/>
+    The effect of $\frac{\rho}{1-\rho}$ with $\rho = k * (0.9,0.8,0.3)$ for various values of surface reflectance $k$ and a light intensity of 10.<br/>
 	**Top color gradients**: color saturation is enabled. **Bottom color gradients**: color saturation is disabled (*i.e.* regular diffuse lighting model)
 
 
@@ -115,7 +120,7 @@ With $L_i=10$ the incoming radiance, $\boldsymbol{\omega_i}$ the incoming light 
 
 And finally $\rho_d$ the diffuse [BRDF](BRDF) that we tweaked a little to incorporate our saturation term:
 
-* When we use the regular diffuse BRDF $\rho_d = \frac{\rho}{\pi}$ we get the bottom gradients in the above figure.
+* When we use the regular diffuse BRDF $\rho_d = \frac{\rho}{\pi}$ we get the bottom gradients in the figure.
 
 * But if we use the new saturated term:
 $$
@@ -127,9 +132,29 @@ $$
 
 ## Implementation
 
-In order to have a physically plausible implementation of the color saturation, we need to make sure the saturation term is energy-conservative, meaning that we can't output more energy than we receive.
+In order to have a physically plausible implementation of the color saturation though, we need to make sure the saturation term is energy-conservative, meaning that we can't output more energy than we receive.
 
-As we saw earlier, this is clearly the case for values of $\rho > 0.5$ and we had to introduce a $\frac{1}{2}$ factor in the $\rho_d$ diffuse BRDF to avoid that.
+As we saw earlier, this is clearly not the case for values of $\rho > 0.5$ and we had to introduce a $\frac{1}{2}$ factor in the $\rho_d = \frac{\rho}{2 \pi (1-\rho)}$ diffuse BRDF to avoid that.
+
+
+In general, we want a physically correct BRDF term that properly accounts for multiple scattering, this is why I would advise you to read the [MSBRDF page](../BRDF/MSBRDF) that deals with that exact subject.
+
+Eventually, we can use the following code to alter the shadow gradient and reveal the multiple-scattering effect early in the terminator band:
+
+``` C++
+// Simple shadow contrasting method
+float	ContrastShadow( float _shadow, float _LdotN ) {
+
+	float	shadow2 = lerp( 1.0, _shadow, saturate( 10.0 * (_LdotN-0.2) ) );	// This removes shadowing on back faces
+			shadow2 = 1.0 - pow( 1.0 - shadow2, 16 );
+//			shadow2 *= saturate( 0.2 + 0.8 * dot( light, _normal ) );			// Larger L.N, eating into the backfaces
+			shadow2 *= _LdotN;
+	return shadow2;
+}
+```
+
+## Results
+
 
 
 ### Curve Fitting
@@ -148,11 +173,10 @@ $$
 E(\boldsymbol{\omega_o}) = \int_{\Omega^+} f(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
 $$
 
-Assuming the material has no absorption (*i.e.* perfectly specular), we expect $E(\boldsymbol{\omega_o}) = 1$ whatever the viewing direction, which is clearly almost never the case with BRDF models that consider only single scattering.
+Assuming the material has no absorption (*i.e.* perfectly specular), we expect $E(\boldsymbol{\omega_o}) = 1$ whatever the viewing direction, which is clearly almost never the case with BRDF models that consider only single scattering
+(this is due to the [shadowing/masking](BRDF/BRDF%20Models/#shadowing-masking) that only removes energy without considering the inter-reflections between micro-facets that add energy back).
 
-This comes from the [shadowing/masking](BRDF/BRDF%20Models/#shadowing-masking) that only removes energy without considering the inter-reflections between micro-facets that adds energy back.
-
-Kulla et al. propose to re-introduce the missing energy through a compensation term to get the new BRDF expression:
+Kulla et al. propose to re-introduce the missing energy through a compensation term to get a new BRDF expression:
 
 $$
 f_{ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{ (1-E(\boldsymbol{\omega_o})) (1-E(\boldsymbol{\omega_i}))}{\pi (1-E_{avg})} \\\\
