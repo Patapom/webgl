@@ -97,7 +97,7 @@ The goal of my application was to fit new lobes from simulated, empirical data t
     ![MultipleBounces](../images/BRDF/ScatteringOrders.jpg)
 
 	Multiple orders of scattering on a diffuse surface with roughness $\alpha = 0.8$.
-	Lobes are scaled to roughly the same size each time, otherwise their volume collapses to 0 very rapidly.
+	Lobes are scaled to roughly the same size each time, otherwise their volume collapses to 0 very rapidly with each new bounce.
 
 	We see that the diffuse lobes can be pretty "squashed". We get even worse kinds of shapes when dealing with dielectric materials.
 
@@ -152,7 +152,7 @@ The resulting lobe parameters for each simulation and each scattering order are 
 
 Next, I had a lot of fun :rolling_eyes: with Mathematica trying to find a suitable analytical expression that corresponds to my experimental lobes.
 
-Here are the conclusions, straight from 2 years ago (january 2016), I'm not sure my results are accurate or useable:
+Here are the conclusions, straight from 2 years ago (january 2016), I'm not sure my results are accurate or useable anymore (I should have written this page when I was developping it, now it's hard to remember where I left it at):
 
 ---
 
@@ -168,7 +168,7 @@ Where:
 
 * $\sigma$ is the global scale factor
 * $m$ is the importance for the masking/shadowing term, which will be later set to 0 as we will see
-* $G(\mu,\alpha)$ is the [masking/shadowing term for the Phong model](http://graphicrants.blogspot.fr/2013/08/specular-brdf-reference.html) which is actullay that of Beckmann
+* $G(\mu,\alpha)$ is the [masking/shadowing term for the Phong model](http://graphicrants.blogspot.fr/2013/08/specular-brdf-reference.html) which is actually that of Beckmann
 * $\mu_i = \boldsymbol{\omega_i} \cdot \boldsymbol{Z}$ is the cosine of the angle between the incoming direction and the macroscopic surface normal
 * $\mu_o = \boldsymbol{\omega_o} \cdot \boldsymbol{Z}$ is the cosine of the angle between the outgoing direction and the macroscopic surface normal
 * $\alpha$ is the surface roughness
@@ -196,17 +196,17 @@ After fitting each parameter one after another, I noticed that:
 
 ##### Parameters Fitting
  	
-Finally, we obtain the following analytical model for 2nd order scattering of a rough diffuse surface:
+Finally, we obtain the following *generic* analytical model of a rough diffuse surface for **all scattering orders** $S > 1$:
 
 $$ 
-f_2\left( \omega _o, \alpha, \rho \right) = \sigma_2 \left(\rho\right) \frac{2 + \eta\left(\alpha\right)}{2 \pi } \mu^{\eta\left( \alpha \right)} \\\\
+f_S\left( \omega _o, \alpha, \rho \right) = \sigma_S \left(\rho\right) \frac{2 + \eta\left(\alpha\right)}{2 \pi } \mu^{\eta\left( \alpha \right)} \\\\
 \mu = \boldsymbol{\omega_o} \cdot \boldsymbol{Z}
 $$
 
 The exponent $\eta\left(\alpha\right)$ is given as a function of surface roughness by:
  
 $$
- 	\eta\left(\alpha\right) = 2.5958 \alpha - 1.32697 \alpha^2
+\eta\left(\alpha\right) = 2.5958 \alpha - 1.32697 \alpha^2
 $$
  	
 The *generic* scale factor $\sigma$ used for **all scattering orders** is given by:
@@ -217,10 +217,12 @@ $$
 
 Where:
 $$
-	a( \alpha ) =  0.02881326115 - 0.92153748116 \alpha + 6.63272611438 \alpha^2 - 4.595702230 \alpha^3 \\\\
-	b( \alpha ) = -0.09663259042 + 7.21414360220 \alpha - 19.7868451171 \alpha^2 + 11.04205888 \alpha^3 \\\\
-	c( \alpha ) =  0.10935692546 - 10.7904051575 \alpha + 28.5080366763 \alpha^2 - 15.66525827 \alpha^3 \\\\
-	d( \alpha ) = -0.04376425480 + 5.24919600918 \alpha - 13.5827073397 \alpha^2 + 7.348408854 \alpha^3 \\\\
+\begin{align}
+	a( \alpha ) &=  0.02881326115 - 0.92153748116 \alpha + 6.63272611438 \alpha^2 - 4.595702230 \alpha^3 \\\\
+	b( \alpha ) &= -0.09663259042 + 7.21414360220 \alpha - 19.7868451171 \alpha^2 + 11.04205888 \alpha^3 \\\\
+	c( \alpha ) &=  0.10935692546 - 10.7904051575 \alpha + 28.5080366763 \alpha^2 - 15.66525827 \alpha^3 \\\\
+	d( \alpha ) &= -0.04376425480 + 5.24919600918 \alpha - 13.5827073397 \alpha^2 + 7.348408854 \alpha^3 \\\\
+\end{align}
 $$
 
 The flattening factor $\sigma_n$ along the main lobe direction $Z$ is given by:
@@ -231,20 +233,22 @@ $$
 
 Where:
 $$
-	a(\alpha) =  0.9136430 - 1.655480 \alpha + 1.39617 \alpha^2 - 0.320331 \alpha^3 \\\\
-	b(\alpha) =  0.0447239 + 0.624740 \alpha \\\\
-	c(\alpha) = -0.1188440 - 0.973213 \alpha + 0.36902 \alpha^2 \\\\
-	d(\alpha) =  0.1325770 + 0.169750 \alpha \\\\
+\begin{align}
+	a(\alpha) &=  0.9136430 - 1.655480 \alpha + 1.39617 \alpha^2 - 0.320331 \alpha^3 \\\\
+	b(\alpha) &=  0.0447239 + 0.624740 \alpha \\\\
+	c(\alpha) &= -0.1188440 - 0.973213 \alpha + 0.36902 \alpha^2 \\\\
+	d(\alpha) &=  0.1325770 + 0.169750 \alpha \\\\
+\end{align}
 $$
  	
 So the world-space intensity of the fitted lobe is finally obtained by multiplying the lobe-space intensity with the scale factor:
 
 $$ 
- 	f_w\left( \omega_o, \alpha, \rho \right) = L\left( \mu, \sigma_n( \mu, \alpha ) \right) f_2\left( \omega_o, \alpha, \rho \right)
+ f_w\left( \omega_o, \alpha, \rho \right) = L\left( \mu, \sigma_n( \mu, \alpha ) \right) f_2\left( \omega_o, \alpha, \rho \right)
 $$
 
 $$ 	
- 	L\left( \mu, \sigma_n \right) = \frac{1}{ \sqrt{ 1 + \mu^2 \left(\frac{1}{ \sigma_n^2 } - 1 \right) } }
+ L\left( \mu, \sigma_n \right) = \frac{1}{ \sqrt{ 1 + \mu^2 \left(\frac{1}{ \sigma_n^2 } - 1 \right) } }
 $$
  
 <!-- Additionally, the fitted lobe roughness \alpha as a function of surface roughness Subscript[\alpha, s] is given by:
@@ -257,7 +261,7 @@ DAFUQ? Where does that go? Is this for all alphas???
 
 ##### Scale factor for order 2
 
-And the main takeaway here is the global scale factor:
+And the main takeaway here is the global scale factor for scattering order 2:
 
 $$
 \sigma_2\left( \mu, \alpha, \rho \right) = \rho^2 \sigma( \mu, \alpha, \rho ) 
@@ -269,7 +273,7 @@ $$
 Identically, using the same generic parameters as order 2 and fitting the scale factor for order 3, we get:
 
 $$
-	\sigma_3\left( \mu, \alpha, \rho \right) = \rho^3 * (0.363902052363025 * \sigma( \mu, \alpha, \rho )
+\sigma_3\left( \mu, \alpha, \rho \right) = 0.363902052363025 * \left( \rho^3 \sigma( \mu, \alpha, \rho ) \right)
 $$
 
 
@@ -280,7 +284,7 @@ Maybe there is a simple general rule to obtain the factor for any scattering ord
 
 ##### Example Code
 
-All this seems really complex but we eventually give the new code which ends up being "quite simple":
+All this seems really complex but we eventually get the new code which ends up being "quite simple":
 
 ``` C++
 float3	ComputeDiffuseModel( float3 _wsIncomingDirection, float3 _wsOutgoingDirection, float _roughness, float3 _albedo ) {
@@ -343,91 +347,198 @@ The new code is used like this:
 
 ```
 
-The ```ContrastShadow()``` should either return "shadow" in the basic case, or you can use the one I describe in the article about [Color Shadows](../ColoredShadows) to give it a little coloring! :smile:
+The ```ContrastShadow()``` should either return "shadow" in the basic case, or you can use the one I describe in the article about [Color Shadows](../ColoredShadows/#implementation) to give it a little coloring! :smile:
 
 
 ##### Result
 
+You can see below the effect of multiple-scattering on shadows and transition areas when the roughness increases:
+
+![MSBRDFSaturation](../images/BRDF/MSBRDFSaturation.jpg)
 
 
+This is a live demo of what's happening when we increase the roughness:
 
-### Using Heitz's Probabilistic Technique
+![MSBRDFSaturation](../images/BRDF/MSBRDFSaturation.gif)
 
-Unfortunately, I never had the time to finish this project due to the time constraint of working on the production of *Dishonored 2*.
+
+### Conclusions
+
+Regarding this lobe fitting business, you may understandably question the complexity of the computation of the multiple-scattering term considering the low visual impact it's bringing to the table, and I would completely agree with you! :smile:
+
+Unfortunately, I never had the time to finish this project due to the time constraint of working on the production of *Dishonored 2* but I would have loved to continue experimenting, especially re-using Heitz's results instead of casting millions of rays,
+ and fitting better lobe models or even find a much simpler way to add back the energy lost by single-scattering models.
+
+Of course, people didn't stop investigate like I did, especially in large companies like Disney, Dreamworks, Weta or ImageWorks. And what had to happen did happen...
 
 
 ## Energy Compensation
 
-In 2017, Kulla and Conti [^5] re-introduced a computation devised by Kelemen and Szirmay-Kalos [^6] in 2001.
+In their 2017 talk at the now famous [Siggraph's Physically Based Shading in Theory and Practice courses](http://blog.selfshadow.com/publications/s2017-shading-course/),
+ Kulla and Conti [^5] re-introduced a computation devised long ago by Kelemen and Szirmay-Kalos [^6] in 2001.
 
+### The Original Paper
 
-The case of the rough saturated surfaces is the most interesting for us. It appears in the penumbra region simply because:
+Kelemen et al. wrote about coupling the matte (*i.e.* diffuse) and specular parts of the BRDF in section 2.2 of their paper [^6].
 
-* In full shadow, only indirect lighting can be perceived as an almost uniform ambient light (saturated or not)
-* In full sun light, the strong direct lighting completely burns the subtle saturation effect and we perceive the surface as white
+They write the complete BRDF as:
+$$
+f_r(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = f_{r,spec}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) + f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i})
+$$
 
-In the penumbra, on the other hand, we have all the possible transition states between fully burnt-out predominant direct light, down to the fully washed-out ambient indirect light.
-Within that small transition zone of the penumbra, the saturation comes in full effect.
+And claim that, although $f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i})$ is difficult to estimate due to the many scattering events that occur when light is not specularly reflected but rather diffused through the material,
+they can safely wager about the fact that $f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i})$ is:
+
+1. Energy-preserving
+2. Symmetrical
+3. Somehow, the **complement** (that's the operative word here) of the specular $f_{r,spec}(\boldsymbol{\omega_o},\boldsymbol{\omega_i})$ part
+
 
 !!! note ""
-    ![saturation](images/ShadowColor/SaturationEffect.jpg)
+    ![kelemen](../images/BRDF/KelemenResults.jpg)
 
-    The effect of \frac{\rho}{1-\rho}$ with $\rho=$k * (0.9,0.8,0.3)$ for various values of surface reflectance $k$ and a light intensity of 10.<br/>
-	**Top color gradients**: color saturation is enabled. **Bottom color gradients**: color saturation is disabled (*i.e.* regular diffuse lighting model)
-
-
-The figure above shows the standard diffuse lighting equation:
-
-$$
-L_o = L_i \rho_d (\boldsymbol{\omega_i}\cdot\boldsymbol{n})
-$$
-
-With $L_i=10$ the incoming radiance, $\boldsymbol{\omega_i}$ the incoming light direction varying from 0 to more than 90° away from the surface normal $\boldsymbol{n}$.
-
-And finally $\rho_d$ the diffuse [BRDF](BRDF) that we tweaked a little to incorporate our saturation term:
-
-* When we use the regular diffuse BRDF $\rho_d = \frac{\rho}{\pi}$ we get the bottom gradients in the above figure.
-
-* But if we use the new saturated term:
-$$
-\rho_d = \frac{\rho}{2 \pi (1-\rho)}
-$$
-
-    Then there is an additional energy term due to the multiply-scattered energy that is added back to the equation as well as a nice color saturation.
+	I remember being very impressed by the images produced by this paper by the time it was published (yes! I'm old!).<br/>
+	I believe even now there is a very strong sense of "ground truth" emanating from these images.
 
 
-## Implementation
+#### Prototyping the diffuse BRDF
 
-In order to have a physically plausible implementation of the color saturation, we need to make sure the saturation term is energy-conservative, meaning that we can't output more energy than we receive.
-
-As we saw earlier, this is clearly the case for values of $\rho > 0.5$ and we had to introduce a $\frac{1}{2}$ factor in the $\rho_d$ diffuse BRDF to avoid that.
-
-
-### Curve Fitting
-
-
-[Improved Ambient Occlusion](https://drive.google.com/file/d/1SyagcEVplIm2KkRD3WQYSO9O0Iyi1hfy/view)
-
-
-### Energy Compensation
-
-Energy compensation term from the [Image Works](http://blog.selfshadow.com/publications/s2017-shading-course/#course_content) [^1] talk at Siggraph 2017:
-
-We write the classical furnace test as:
+They write the prototype for such an (*isotropic*) BRDF as:
 
 $$
-E(\boldsymbol{\omega_o}) = \int_{\Omega^+} f(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
+f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = k(\lambda).s.r(\mu_o).r(\mu_i) \tag{1}\label{(1)}
 $$
 
-Assuming the material has no absorption (*i.e.* perfectly specular), we expect $E(\boldsymbol{\omega_o}) = 1$ whatever the viewing direction, which is clearly almost never the case with BRDF models that consider only single scattering
-(this is due to the [shadowing/masking](BRDF/BRDF%20Models/#shadowing-masking) that only removes energy without considering the inter-reflections between micro-facets that add energy back).
+Where:
 
-Kulla et al. propose to re-introduce the missing energy through a compensation term to get a new BRDF expression:
+* $k(\lambda)$ is a wavelength-dependent factor (namely, the surface's reflectance in [0,1] for different wavelengths)
+* $s$ is a normalization factor yet to be determined
+* $r(\mu)$ is some unknown "appropriate scalar function", yet to be determined too
+* $\mu_i$ and $\mu_o$ are the $\boldsymbol{\omega_i}\cdot\boldsymbol{n} = cos(\theta_i)$ and $\boldsymbol{\omega_o}\cdot\boldsymbol{n} = cos(\theta_o)$ respectively, $\boldsymbol{n}$ being the surface's normal
+
+
+#### Solving for unknowns
+
+Kelemen et al. continue by writing the albedo (*i.e.* total reflectance for a particular viewing direction) for such a diffuse material:
 
 $$
-f_{ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{ (1-E(\boldsymbol{\omega_o})) (1-E(\boldsymbol{\omega_i}))}{\pi (1-E_{avg})} \\\\
-E_{avg} = \frac{1}{\pi} \int_{\Omega^+} E(\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
+\begin{align}
+a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \mu_i sin(\theta_i) d\theta_i d\phi_i	\\\\
+a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} k(\lambda).s.r(\mu_o) r(\mu_i) \mu_i sin(\theta_i) d\theta_i d\phi_i	\\\\
+a_{diff}(\mu_o) &= k(\lambda).s.r(\mu_o). 2\pi . \int_{0}^{\frac{\pi}{2}} r(\mu_i) \mu_i sin(\theta_i) d\theta_i \tag{2}\label{(2)}
+\end{align}
 $$
+
+!!! note
+    Nowadays, we call this total reflectance integral the *"white furnace test"* as it simply integrates the BRDF against a unit radiance over the entire hemisphere.<br/>
+    The albedo can thus simply be viewed as a measure of *irradiance* against a totally white ambient background and we will now write:
+    
+    $$
+    a_{diff}(\mu_o) = E_{diff}(\mu_o)
+    $$
+    
+    ($E$ being the symbol usually used for the irradiance)
+
+
+Since $E_{diff}(\mu_o) + E_{spec}(\mu_o) \le 1$, we can conclude that necessarily:
+$$
+E_{diff}(\mu_o) \le 1-E_{spec}(\mu_o)
+$$
+
+Moreover, in the perfectly reflecting case where the total albedo $E_{diff}(\mu_o) + E_{spec}(\mu_o) = 1$ and $k(\lambda)=1$ then strictly:
+$$
+E_{diff}(\mu_o) = 1-E_{spec}(\mu_o) \tag{3}\label{(3)}
+$$
+
+Equation $\eqref{(2)}$ shows that the diffuse albedo is proportional to $r(\mu_o)$ and, symmetrically, $r(\mu_o)$ is thus proportional to $E_{diff}(\mu_o) = 1-E_{spec}(\mu_o)$.
+
+The important takeway remark here is that:
+
+$$
+\begin{align}
+	r(\mu_o) &\propto 1-E_{spec}(\mu_o) \\\\
+	r(\mu_i) &\propto 1-E_{spec}(\mu_i) \\\\
+\end{align}
+$$
+
+For the perfectly reflecting case, we can thus rewrite equation $\eqref{(1)}$ as:
+$$
+f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = s.(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))
+$$
+
+Substituting $\eqref{(3)}$ and this new BRDF into $\eqref{(2)}$ we get:
+
+$$
+\begin{align}
+\left[1-E_{spec}(\mu_o)\right] &= s.\left[1-E_{spec}(\mu_o)\right]. 2\pi . \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i sin(\theta_i) d\theta_i \\\\
+s &= \frac{1}{2\pi \left[ \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i sin(\theta_i) d\theta_i \right]} \\\\
+s &= \frac{1}{\pi - E_{spec}^{avg} } \\\\
+\end{align}
+$$
+
+Where $E_{spec}^{avg} = \int_{\Omega^+} E_{spec}(\mu_i) \mu_i d\omega_i$ represents the specular albedo averaged over all possible view directions on the hemisphere.
+
+Finally we write:
+$$
+f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} \tag{4}\label{(4)}
+$$
+
+
+#### Proof of concept
+
+Armed with this new expression for the diffuse BRDF, what happens if we integrate against a unit radiance over the entire hemisphere (*i.e.* the white furnace test again)?
+
+$$
+\begin{align}
+E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
+E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
+E_{diff}(\mu_o) &= \frac{(1-E_{spec}(\mu_o))}{\pi - E_{spec}^{avg}} . \left[ 2\pi. \int_0^{\frac{\pi}{2}} (1-E_{spec}(\mu_i)) cos(\theta_i) sin(\theta_i) d\theta_i \right]	\\\\
+E_{diff}(\mu_o) &= \frac{(1-E_{spec}(\mu_o))}{\pi - E_{spec}^{avg}} . \left[ \pi - E_{spec}^{avg} \right]	\\\\
+E_{diff}(\mu_o) &= 1-E_{spec}(\mu_o)	\\\\
+\end{align}
+$$
+
+We see that $E_{diff}(\mu_o)$ ends up being **the exact complement** of $E_{spec}(\mu_o)$!
+
+So Kelemen et al. already had the key in 2001 but they apparently failed to notice the importance of their result (or did they? :smile:).
+
+
+### The Revised Usage
+
+After all, isn't that result what we're looking for when looking to compute the multiple-scattering term? Missing energy due to a single-scattering BRDF term that is too simple?
+
+This is indeed exactly what Kulla et al. very cleverly noticed in their new view of the problem!
+
+Let $E_{diff}(\mu_o)$ get rewritten as $E_{ms}(\mu_o)$ instead and we get:
+$$
+E_{ms}(\mu_o) = 1 - E(\mu_o)
+$$
+
+With $E_{ms}(\mu_o)$ the irradiance from the multiply-scattered BRDF and $E(\mu_o)$ the irradiance from our classical single-scattered BRDF.
+
+And there you have it:
+
+$$
+\begin{align}
+E_{ms}(\mu_o) &= 1 - E(\mu_o) \\\\
+E_{ms}(\mu_o) &= 1 - \left[ \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_r(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi \right]	\\\\
+E_{ms}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
+\end{align}
+$$
+
+And we have our new expression for the multiple-scattering BRDF:
+$$
+f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E(\mu_o)).(1-E(\mu_i))}{\pi - E_{avg}} \tag{5}\label{(5)}
+$$
+
+
+$E_{ms}(\mu_o)$ is now the complement of the single-scattering BRDF $E_{ss}(\mu_o)$!
+
+
+### Applications to existing BRDF models
+
+!!! todo
+
 
 
 ## References

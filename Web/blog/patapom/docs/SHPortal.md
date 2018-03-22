@@ -1,6 +1,7 @@
 ﻿
-In the early 2000's, people like Ravi Ramamoorthi and Peter-Pike Sloan introduced a new powerful and amazing tool to the Computer Graphics society: Spherical Harmonics (or SH).<br />
-Although Spherical Harmonics have always been around for quite some time, for example in the excellent ["Predicting Reflectance Functions from Complex Surfaces"](https://cseweb.ucsd.edu/~ravir/6998/papers/siggraph-rebuild.pdf) 1992 paper from Westin et al. (and well before that in quantum physics!), they only piqued the public interest since their introduction as an efficient way of creating realistic and interactive indirect lighting rendering via Pre-computed Radiance Transfer (PRT).
+In the early 2000's, people like Ravi Ramamoorthi[^2] and Peter-Pike Sloan[^4] introduced a new powerful and amazing tool to the Computer Graphics society: Spherical Harmonics (or SH).<br />
+Although Spherical Harmonics have always been around for quite some time, for example in the excellent 1992 paper from Westin et al. [^1] (and well before that in quantum physics!),
+ they only piqued the public interest since their introduction as an efficient way of creating realistic and interactive indirect lighting rendering via Pre-computed Radiance Transfer (PRT).
 
 
 ## What are Spherical Harmonics? ##
@@ -15,7 +16,7 @@ In computer graphics, we're using them as a tool to quickly and easily encode or
 We use a specific set of spherical harmonics, denoted $Y^m_l(\theta,\phi)$ called Laplace's spherical harmonics.
 
 SH have interesting properties regarding their orthogonality, parity, symmetry and rotation that I will not cover here (cf. the wikipedia page for more info) as this page only is an overview.
-An excellent source of information is [Spherical Harmonics Lighting: the Gritty Details](http://silviojemma.com/public/papers/lighting/spherical-harmonic-lighting.pdf) by Robin Green that actually covers the practical use of SH for Computer Graphics, it's a well-explained extension of the original work done by Peter-Pike Sloan about Pre-computed Radiance Transfer (PRT).
+An excellent source of information is "Spherical Harmonics Lighting: the Gritty Details" by Robin Green [^5] that actually covers the practical use of SH for Computer Graphics, it's a well-explained extension of the original work done by Peter-Pike Sloan about Pre-computed Radiance Transfer (PRT).
 
 I will rather quickly talk about how to construct the SH coefficients and how to encode / decode / convolve signals using SH.
 
@@ -48,8 +49,8 @@ In fact, if we used an infinite sum of SH coefficients, we could encode or decod
 
 It is common in real-time computer graphics to use only order 2 (9 coefficients) or order 3 (16 coefficients) at most, each coefficient being a RGB float3 triplet. SH are often used to encode irradiance, which is generally spatially varying pretty smoothly. Although it varies at higher frequency than irradiance, it is also possible to encode the radiance into SH.<br />
 
-Actually, both radiance and irradiance are related in terms of SH, as explained by [this great 2001 paper](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) from Ramamoorthi and Hanrahan.<br />
-It was shortly followed by another seminal paper called ["An Efficient Representation for Irradiance Environment Maps"](https://cseweb.ucsd.edu/~ravir/papers/envmap/envmap.pdf) that extends on the first paper and shows that order 2 SH (9 coefficients) is often enough to properly represent the irradiance field surrounding an object since additional order disappear very quickly. We will come back to these papers later as I will show an extension on this irradiance estimate to introduce the Ambient Occlusion term.
+Actually, both radiance and irradiance are related in terms of SH, as explained by [this great 2001 paper](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) from Ramamoorthi and Hanrahan[^2].<br />
+It was shortly followed by another seminal paper called "An Efficient Representation for Irradiance Environment Maps"[^3] that extends on the first paper and shows that order 2 SH (9 coefficients) is often enough to properly represent the irradiance field surrounding an object since additional order disappear very quickly. We will come back to these papers later as I will show an extension on this irradiance estimate to introduce the Ambient Occlusion term.
 
 
 !!! note
@@ -85,7 +86,7 @@ $$
 <br />
 
 
-Here is a code snippet (source Robin Green's "gritty details") about how to build the SH functions:
+Here is a code snippet (source Robin Green's "gritty details"[^5]) about how to build the SH functions:
 
 ``` C++
  // Renormalisation constant for SH function
@@ -162,10 +163,9 @@ $$
    Y^{-1}_2 = \frac{1}{2}\sqrt{\frac{15}{\pi}}yz & \quad m = -1\\\\
    Y^{0}_2 = \frac{1}{4}\sqrt{\frac{5}{\pi}}(3z^2-1) & \quad m = 0\\\\
    Y^{1}_2 = \frac{1}{2}\sqrt{\frac{15}{\pi}}xz & \quad m = 1\\\\
-   Y^{2}_2 = \frac{1}{4}\sqrt{\frac{15}{\pi}}(x^2-y^2) & \quad m = 2\\\\
+   Y^{2}_2 = \frac{1}{4}\sqrt{\frac{15}{\pi}} (x^2 - y^2)& \quad m = 2\\\\
 \end{cases}
 $$
-
 
 Where:
 $$
@@ -333,7 +333,7 @@ Where:
 * $\lfloor (\mathbf\omega_i\cdot\mathbf n)\rfloor$ represents the dot product clamped over the upper hemisphere
 
 Assuming you have a SH representation of the surrounding radiance, for example coming from a cube map, then it is easy to analytically compute the SH coefficients for the clamped cosine.<br />
-This is exactly the purpose of the 2001 paper by Ramamoorthi et al. that we will discuss [below](SHPortal#about-distant-radiance-and-irradiance-environments)
+This is exactly the purpose of the 2001 paper by Ramamoorthi et al.[^2] that we will discuss [below](SHPortal#about-distant-radiance-and-irradiance-environments)
 
 
 #### Pre-computed Radiance Transfer Example ####
@@ -397,6 +397,7 @@ $$
 $$
 
 Then:<br />
+
 $$
 C_i \; = \; \displaystyle\sum_{j=0}^{N^2} A_i \; \mathbf{M_{ij}}
 $$
@@ -543,7 +544,7 @@ Here is the HLSL version of that code cleaned up for only 9 coefficients:
 
 ## About Distant Radiance and Irradiance Environments ##
 
-So let's delve deeper into Ramamoorthi's paper that establishes the relationship between radiance and irradiance in terms of SH coefficients.<br />
+So let's delve deeper into Ramamoorthi's paper[^2] that establishes the relationship between radiance and irradiance in terms of SH coefficients.<br />
 
 ### Estimating the lambertian BRDF SH coefficients ###
 Ramamoorthi states that irradiance $E(\mathbf n )$ reflected by a diffuse Lambertian surface is written:
@@ -762,6 +763,7 @@ For the rest of the discussion, we'll let $t=\cos(\theta_{AO})$.<br />
 <big>**--- Order 0 ---**</big><br />
 
 Carrying the integration of (9) for order 0 gives us:
+
 $$
 \begin{equation}
 A_0(\theta_{AO}) = \, 2\pi \sqrt{\frac{1}{4\pi}} \int\limits_t^1 P_0(u) P_1(u) \; \mathrm{du}\\\\
@@ -772,6 +774,7 @@ A_0(\theta_{AO}) = \, 2\pi \sqrt{\frac{1}{4\pi}} \int\limits_t^1 P_0(u) P_1(u) \
 $$
 
 Thus:
+
 $$
 \hat{A_0}'(\theta_{AO}) = \sqrt{4\pi} \, \left[\sqrt{\frac{\pi}{4}} \left(1 - t^2\right)\right] = \pi \left(1-t^2\right)
 $$
@@ -779,6 +782,7 @@ $$
 <big>**--- Order 1 ---**</big><br />
 
 Carrying the integration of (9) for order 1 gives us:
+
 $$
 \begin{equation}
 A_1(\theta_{AO}) = \, 2\pi \sqrt{\frac{3}{4\pi}} \int\limits_t^1 P_1(u) P_1(u) \; \mathrm{du}\\\\
@@ -796,6 +800,7 @@ $$
 <big>**--- Order 2 ---**</big><br />
 
 Carrying the integration of (9) for order 2 gives us:
+
 $$
 \begin{equation}
 A_2(\theta_{AO}) = \, 2\pi \sqrt{\frac{5}{4\pi}} \int\limits_t^1 P_2(u) P_1(u) \; \mathrm{du}\\\\
@@ -807,6 +812,7 @@ A_2(\theta_{AO}) = \, 2\pi \sqrt{\frac{5}{4\pi}} \int\limits_t^1 P_2(u) P_1(u) \
 $$
 
 Thus:
+
 $$
 \hat{A_2}'(\theta_{AO}) = \sqrt{\frac{4\pi}{5}} \, \left(\sqrt{\frac{5\pi}{4}} \left[\frac{3}{4}\left(1-t^4\right) - \frac{1}{2}\left(1-t^2\right)\right]\right) = \frac{\pi}{4} \left[3\left(1-t^4\right)-2\left(1-t^2\right)\right]
 $$
@@ -822,6 +828,7 @@ The Red, Green and Blue dots are the values analytically computed for orders 0, 
 
 
 It is interesting to note a few things about the Red, Green and Blue coefficients:
+
 * They are not at all negligible
 * They don't simply vanish proportionally to the AO factor as a simple multiplication would imply
 * Their relative importance changes with the AO value: we can see the blue coefficient rises up before decreasing again, indicating an increase in the importance of 2nd order SH terms
@@ -922,7 +929,7 @@ Finally, we can write the new and improved HLSL code using a few extra instructi
  }
 ``` 
 
-Here is a demonstration of the new result as a side-by-side comparison of a simple sphere illuminated by the Ennis environment: on the left I'm simply doing AO*irradiance while on the right I'm using the new irradiance estimate accounting for AO.
+Here is a demonstration of the new result as a side-by-side comparison of a simple sphere illuminated by the Ennis environment: on the left I'm simply doing AO*irradiance while on the right I'm using the new irradiance estimate accounting for the AO-guided aperture angle.
 
 ![File:IrradianceAOSphereDemo.gif](images/SH/IrradianceAOSphereDemo.gif)
 
@@ -980,12 +987,12 @@ So we need to somehow account for all of these indications to use the best possi
 
 ## Precious References ##
 
-* (1992) ["Predicting Reflectance Functions from Complex Surfaces"](https://cseweb.ucsd.edu/~ravir/6998/papers/siggraph-rebuild.pdf) Stephen Westin et al.
-* (2001) ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) Ravi Ramamoorthi and Path Hanrahan
-* (2001) ["An Efficient Representation for Irradiance Environment Maps"](https://cseweb.ucsd.edu/~ravir/papers/envmap/envmap.pdf) Ravi Ramamoorthi and Path Hanrahan
-* (2002) ["Precomputed Radiance Transfer for Real-Time Rendering in Dynamic, Low-Frequency Lighting Environments"](http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Sloan02.pdf) Peter-Pike Sloan et al.
-* (2003) ["Spherical Harmonics Lighting: the Gritty Details"](http://silviojemma.com/public/papers/lighting/spherical-harmonic-lighting.pdf) Robin Green
-* (2006) ["Code Generation and Factoring for Fast Evaluation of Low-order Spherical Harmonic Products and Squares"](http://research.microsoft.com/en-us/um/people/johnsny/papers/shtriple_fixed.pdf) John Snyder
-* (2008) ["Stupid Spherical Harmonics Tricks"](http://www.ppsloan.org/publications/StupidSH36.pdf) Peter-Pike Sloan et al.
-* (2010) ["Adding Real-Time, Point-Based Global Illumination to Video Games: Lessons Learned"](http://cgg.mff.cuni.cz/~jaroslav/gicourse2010/giai2010-05-michael_bunnell-slides.pdf) by Michael Bunnel
+[^1]: (1992) ["Predicting Reflectance Functions from Complex Surfaces"](https://cseweb.ucsd.edu/~ravir/6998/papers/siggraph-rebuild.pdf) Stephen Westin et al.
+[^2]: (2001) ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) Ravi Ramamoorthi and Pat Hanrahan
+[^3]: (2001) ["An Efficient Representation for Irradiance Environment Maps"](https://cseweb.ucsd.edu/~ravir/papers/envmap/envmap.pdf) Ravi Ramamoorthi and Pat Hanrahan
+[^4]: (2002) ["Precomputed Radiance Transfer for Real-Time Rendering in Dynamic, Low-Frequency Lighting Environments"](http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Sloan02.pdf) Peter-Pike Sloan et al.
+[^5]: (2003) ["Spherical Harmonics Lighting: the Gritty Details"](http://silviojemma.com/public/papers/lighting/spherical-harmonic-lighting.pdf) Robin Green
+[^6]: (2006) ["Code Generation and Factoring for Fast Evaluation of Low-order Spherical Harmonic Products and Squares"](http://research.microsoft.com/en-us/um/people/johnsny/papers/shtriple_fixed.pdf) John Snyder
+[^7]: (2008) ["Stupid Spherical Harmonics Tricks"](http://www.ppsloan.org/publications/StupidSH36.pdf) Peter-Pike Sloan et al.
+[^8]: (2010) ["Adding Real-Time, Point-Based Global Illumination to Video Games: Lessons Learned"](http://cgg.mff.cuni.cz/~jaroslav/gicourse2010/giai2010-05-michael_bunnell-slides.pdf) by Michael Bunnel
 

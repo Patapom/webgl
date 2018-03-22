@@ -38,9 +38,11 @@ A simple explanation is that, assuming the surface/volume has an absorption albe
 Thus, we have a [geometric series](http://mathworld.wolfram.com/GeometricSeries.html) and an ideally reflecting rough surface should give us:
 
 $$
- L_o \propto L_i [\rho + \rho^2 + \rho^3 ...  + \rho^N ...]\\\\
- L_o \propto L_i \sum_{i=1}^\infty{\rho^i} \\\\
- L_o \propto L_i \left(\frac{\rho}{1-\rho}\right)
+\begin{align}
+ L_o & \propto L_i [\rho + \rho^2 + \rho^3 ...  + \rho^N ...]\\\\
+ L_o & \propto L_i \sum_{i=1}^\infty{\rho^i} \\\\
+ L_o & \propto L_i \left(\frac{\rho}{1-\rho}\right)
+ \end{align}
 $$
 
 This equation is, of course, entirely incorrect because it doesn't ensure energy conservation if $\rho > \frac{1}{2}$, as can be seen in this plot.
@@ -155,34 +157,14 @@ float	ContrastShadow( float _shadow, float _LdotN ) {
 
 ## Results
 
+You can see below the effect of multiple-scattering on shadows and transition areas when the roughness increases:
+
+![MSBRDFSaturation](images/BRDF/MSBRDFSaturation.jpg)
 
 
-### Curve Fitting
+This is a live demo of what's happening when we increase the roughness:
 
-
-[Improved Ambient Occlusion](https://drive.google.com/file/d/1SyagcEVplIm2KkRD3WQYSO9O0Iyi1hfy/view)
-
-
-### Energy Compensation
-
-Energy compensation term from the [Image Works](http://blog.selfshadow.com/publications/s2017-shading-course/#course_content) [^1] talk at Siggraph 2017:
-
-We write the classical furnace test as:
-
-$$
-E(\boldsymbol{\omega_o}) = \int_{\Omega^+} f(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
-$$
-
-Assuming the material has no absorption (*i.e.* perfectly specular), we expect $E(\boldsymbol{\omega_o}) = 1$ whatever the viewing direction, which is clearly almost never the case with BRDF models that consider only single scattering
-(this is due to the [shadowing/masking](BRDF/BRDF%20Models/#shadowing-masking) that only removes energy without considering the inter-reflections between micro-facets that add energy back).
-
-Kulla et al. propose to re-introduce the missing energy through a compensation term to get a new BRDF expression:
-
-$$
-f_{ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{ (1-E(\boldsymbol{\omega_o})) (1-E(\boldsymbol{\omega_i}))}{\pi (1-E_{avg})} \\\\
-E_{avg} = \frac{1}{\pi} \int_{\Omega^+} E(\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
-$$
-
+![MSBRDFSaturation](images/BRDF/MSBRDFSaturation.gif)
 
 
 ## Art Tutorials
@@ -207,4 +189,4 @@ Pinterest with many interesting slides:
 
 ## References
 
-[^1]: Kulla, C. Conty, A. 2017 ["Revisiting Physically Based Shading at Imageworks"](http://blog.selfshadow.com/publications/s2017-shading-course/imageworks/s2017_pbs_imageworks_slides.pdf)
+[^1]: 
