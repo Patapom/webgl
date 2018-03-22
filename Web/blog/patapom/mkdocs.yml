@@ -12,8 +12,8 @@ pages:
          - Personnal Study: BRDF/BRDF Study.md
          - Multiple-Scattering BRDF: BRDF/MSBRDF.md
     - Lighting:
-         - Colored Shadow Borders: ColoredShadows.md
-         - Probe-Based Lighting in Dishonored 2: DishoProbeBased.md
+         - Colored Penumbra: ColoredShadows.md
+         - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
     - Colorimetry:
          - Color Spaces: Colorimetry/ColorSpace.md
          - Color Profiles: Colorimetry/ColorProfile.md
@@ -24,6 +24,7 @@ pages:
         - Solid Angle of an Orthogonally-Projected Surface Element: OrthoSolidAngle.md
         - The Cross-Product: CrossProduct.md
     - Useful Stuff: help.md
+#<Private>
 
 
 theme:
@@ -42,7 +43,7 @@ extra:
     - type: 'github'
       link: 'https://github.com/patapom'
     - type: 'twitter'
-      link: 'https://twitter.com/patapom1'
+      link: 'https://twitter.com/Patapom2'
     - type: 'linkedin'
       link: 'https://www.linkedin.com/in/beno%C3%AEt-mayaux-30491a127/'
 
@@ -51,13 +52,36 @@ google_analytics:
   - 'UA-34588959-1'
   - 'auto'
 
+# Extensions
+# voir https://squidfunk.github.io/mkdocs-material/getting-started/#extensions
 markdown_extensions:
-  - admonition
-  - codehilite
-  - footnotes
-  - 'pymdownx.emoji'
-  - 'pymdownx.arithmatex'
-  - 'pymdownx.smartsymbols'
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.keys
+  - mdx_flex_video.mdx_flex_video
+
 
 extra_javascript:
   - 'javascripts/extra.js'

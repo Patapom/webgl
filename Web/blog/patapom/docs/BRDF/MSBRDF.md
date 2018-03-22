@@ -526,13 +526,10 @@ E_{ms}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,ms}(\boldsymbol{\ome
 \end{align}
 $$
 
-And we have our new expression for the multiple-scattering BRDF:
+And we have our new expression for the (ideally reflecting) multiple-scattering BRDF:
 $$
 f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E(\mu_o)).(1-E(\mu_i))}{\pi - E_{avg}} \tag{5}\label{(5)}
 $$
-
-
-$E_{ms}(\mu_o)$ is now the complement of the single-scattering BRDF $E_{ss}(\mu_o)$!
 
 
 ### Applications to existing BRDF models
