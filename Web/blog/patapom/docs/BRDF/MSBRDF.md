@@ -362,7 +362,7 @@ This is a live demo of what's happening when we increase the roughness:
 ![MSBRDFSaturation](../images/BRDF/MSBRDFSaturation.gif)
 
 
-### Conclusions
+### Conclusion
 
 Regarding this lobe fitting business, you may understandably question the complexity of the computation of the multiple-scattering term considering the low visual impact it's bringing to the table, and I would completely agree with you! :smile:
 
@@ -398,7 +398,7 @@ they can safely wager about the fact that $f_{r,diff}(\boldsymbol{\omega_o},\bol
     ![kelemen](../images/BRDF/KelemenResults.jpg)
 
 	I remember being very impressed by the images produced by this paper by the time it was published (yes! I'm old!).<br/>
-	I believe even now there is a very strong sense of "ground truth" emanating from these images.
+	I believe even now there is a very strong "ground truth" flavor emanating from these images.
 
 
 #### Prototyping the diffuse BRDF
@@ -505,9 +505,9 @@ So Kelemen et al. already had the key in 2001 but they apparently failed to noti
 
 ### The Revised Usage
 
-After all, isn't that result what we're looking for when looking to compute the multiple-scattering term? Missing energy due to a single-scattering BRDF term that is too simple?
+After all, isn't that result what we're looking for when looking to compute the multiple-scattering term? Missing energy due to a single-scattering BRDF term that is often too simple?
 
-This is indeed exactly what Kulla et al. very cleverly noticed in their new view of the problem!
+This is indeed exactly what Kulla et al. very cleverly noticed in their new way of viewing of the problem!
 
 Let $E_{diff}(\mu_o)$ get rewritten as $E_{ms}(\mu_o)$ instead and we get:
 $$
@@ -534,8 +534,41 @@ $$
 
 ### Applications to existing BRDF models
 
-!!! todo
+We start by pre-computing the "complement albedo table" for all possible viewing angle $\theta_o$ and all roughness values $\alpha$ for the specular BRDF:
 
+$$
+1 - E(\mu_o,\alpha) = 1 - \int_{\Omega^+} f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha).(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
+$$
+
+#### GGX Specular
+
+We use the very common GGX normal distribution and Smith GGX shadowing/masking term:
+
+$$
+\begin{align}
+f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha) &= F( \boldsymbol{\omega_h}, F_0 ) \\\\
+ &* \left[\frac{1}{\boldsymbol{\omega_i} \cdot \boldsymbol{n} + \sqrt{ \alpha^2 + (1-\alpha^2) (\boldsymbol{\omega_i} \cdot \boldsymbol{n})^2} }\right] \\\\
+ &* \left[\frac{1}{\boldsymbol{\omega_o} \cdot \boldsymbol{n} + \sqrt{ \alpha^2 + (1-\alpha^2) (\boldsymbol{\omega_o} \cdot \boldsymbol{n})^2} }\right] \\\\
+ &* \left[\frac{\alpha^2}{ \pi \left( (\boldsymbol{\omega_h} \cdot \boldsymbol{n})^2 . (\alpha^2 - 1) + 1 \right)^2 }\right] \\\\
+\end{align}
+$$
+
+With $F_0 = 1 \Rightarrow F( \boldsymbol{\omega_h}, F_0 ) = 1$ at the moment (*i.e.* perfectly reflective case).
+$\boldsymbol{\omega_h}$ is the normalized half-vector.
+
+You can see the resulting table below:
+
+![AlbedoComplement](../images/BRDF/AlbedoComplement.jpg)
+
+!!! warning
+    Obviously, don't use this awful JPG image directly! :smile:
+	Use [this 128x128 table of floats](MSBRDF_E128x128.float) instead! (I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough)
+
+Armed with this table, we can compute the perfectly reflective 100% white metal BRDF case:
+
+
+
+### With varying Fresnel
 
 
 ## References

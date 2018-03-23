@@ -99,16 +99,38 @@ $$
 ### Specularity
 ![File:BRDFPartsSpecular.jpg|thumb|right](../images/BRDF/BRDFPartsSpecular.jpg)
 
-This "simple" model makes the assumption a macroscopic surface is composed of many perfectly specular microscopic facets, a certain amount of them having their normal $m$ aligned with $h$, making them good candidates for specular reflection and adding their contribution to the outgoing radiance. This distribution of normals in the microfacets is given by the $D(\theta_h)$ also called *Normal Distribution Function* or **NDF**.
+This "simple" model makes the assumption a macroscopic surface is composed of many perfectly specular microscopic facets, a certain amount of them having their normal $m$ aligned with $h$,
+ making them good candidates for specular reflection and adding their contribution to the outgoing radiance. This distribution of normals in the microfacets is given by the $D(\theta_h)$ also called *Normal Distribution Function* or **NDF**.
 
 ![File:Microfacets.jpg|800px](../images/BRDF/Microfacets.jpg)
 
 The NDF is here to represent the specularity of the BRDF but also the retro-reflection at glancing angles.
-There are many models of NDF, the most well known being the Blinn-Phong model $D_\mathrm{phong}(\theta_r) = \frac{2+n}{2\pi} \cos\theta_h^n$ where n is the specular power of the Phong lobe.
+There are many models of NDF, the most well known being the Blinn-Phong model:
+$$
+D_\mathrm{phong}(\theta_r) = \frac{2+n}{2\pi} \cos\left(\theta_h\right)^n
+$$
 
-We can also notice the Beckmann distribution $D_\mathrm{beckmann}(\theta_h) = \frac{\exp{\left(-\tan^2(\theta_h)/m^2\right)}}{\pi m^2 \cos^4(\theta_h)}$ where *m* is the Root Mean Square (rms) slope of the surface microfacets (the roughness of the material).
+Where $n$ is the specular power of the Phong lobe.
 
-Another interesting model is the Trowbridge-Reitz distribution $D_\mathrm{TR}(\theta_h) = \frac{\alpha_\mathrm{tr}^2}{\pi(\alpha_\mathrm{tr}^2.\cos(\theta_h)^2 + sin(\theta_h)^2)}$
+We can also note the Beckmann distribution:
+
+$$
+D_\mathrm{beckmann}(\theta_h) = \frac{e^{\frac{-\tan^2(\theta_h)}{m^2}}}{\pi m^2 \cos^4(\theta_h)}
+$$
+
+Where $m$ is the Root Mean Square (rms) slope of the surface microfacets (the roughness of the material).
+
+Another interesting model is the Trowbridge-Reitz distribution:
+
+$$
+D_\mathrm{TR}(\theta_h) = \frac{\alpha^2}{\pi(\alpha^2.\cos(\theta_h)^2 + sin(\theta_h)^2)}
+$$
+
+Where $\alpha$ is the roughness of the material.
+
+!!! warning
+    This is **NOT** the expression for the GGX distribution that uses an exponent 2 for the denominator (cf. right below)
+
 
 Most models fail to accurately represent specularity due to "short tails" as can be seen in the figure below:
 
@@ -118,7 +140,7 @@ Most models fail to accurately represent specularity due to "short tails" as can
 Disney uses an interesting variation of the Trowbridge-Reitz distribution that helps to compensate for the short tail problem:
 
 $$
-D_\mathrm{generalizedTR}(\theta_h) = \frac{\alpha_\mathrm{tr}^2}{\pi(\alpha_\mathrm{tr}^2.\cos(\theta_h)^2 + sin(\theta_h)^2)^\gamma}
+D_\mathrm{generalizedTR}(\theta_h) = \frac{\alpha^2}{\pi(\alpha^2.\cos(\theta_h)^2 + sin(\theta_h)^2)^\gamma}
 $$
 
 ![File:GeneralizedTrowbridge.jpg|600px](../images/BRDF/GeneralizedTrowbridge.jpg)

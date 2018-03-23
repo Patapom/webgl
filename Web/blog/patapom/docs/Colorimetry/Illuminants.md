@@ -18,6 +18,7 @@ The thermal radiation from a black body is energy converted electrodynamically f
    When an object is visually white, it is emitting a substantial fraction as ultraviolet radiation.
 
 In terms of wavelength (*λ*), Planck's law is written:
+
 $$
 B_\lambda(T) =\frac{2 hc^2}{\lambda^5}\frac{1}{ e^{\frac{hc}{\lambda k_\mathrm{B}T}} - 1}
 $$

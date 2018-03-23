@@ -20,6 +20,8 @@ Intuitively you can imagine the saturation is coming from the many scattering ev
 
 ![Skin](images/ShadowColor/SaturationInTheMiddle.jpg)
 
+![Skin](images/ShadowColor/SubSurfaceScattering.jpg)
+
 
 ## More Generally
 

@@ -63,10 +63,13 @@ $\left | \frac{\partial \mathbf{p}}{\partial x} \times \frac{\partial \mathbf{p}
 Which looks kinda nice! Integrating where it is definite (i.e. with x and y in the unit circle) $\int_0^1\int_0^1 \frac{1}{\sqrt{1-x^2-y^2}} dx \, dy = \frac{\pi}{2}$ which is a quarter of the entire hemisphere's solid angle $2\pi$, so we're good!
 
 Except the primitive of this expression is a bit of nightmare after all, but this is our final result:
+
 $$
- A(x,y) = \int_0^y \int_0^x \frac{1}{\sqrt{1-a^2-b^2}} da \, db \\\\
-        = y \tan ^{-1}\left(\frac{x}{\sqrt{-x^2-y^2+1}}\right) + x \tan ^{-1}\left(\frac{y}{\sqrt{-x^2-y^2+1}}\right) \\\\
-		+\frac{1}{2} \left(\tan ^{-1}\left(\frac{-x-y^2+1}{y \sqrt{-x^2-y^2+1}}\right)-\tan ^{-1}\left(\frac{x-y^2+1}{y \sqrt{-x^2-y^2+1}}\right)\right) \quad \quad \quad (2)
+\begin{align}
+ A(x,y) &= \int_0^y \int_0^x \frac{1}{\sqrt{1-a^2-b^2}} da \, db \\\\
+        &= y \tan ^{-1}\left(\frac{x}{\sqrt{-x^2-y^2+1}}\right) + x \tan ^{-1}\left(\frac{y}{\sqrt{-x^2-y^2+1}}\right) \\\\
+		&+ \frac{1}{2} \left(\tan ^{-1}\left(\frac{1-x-y^2}{y \sqrt{-x^2-y^2+1}}\right)-\tan ^{-1}\left(\frac{1+x-y^2}{y \sqrt{-x^2-y^2+1}}\right)\right)	\tag{2}\label{(2)}
+\end{align}
 $$
 
 I tried to further out the simplification of the last 2 atan terms since a difference of atan gives a single atan but it turns out it shows some precision issues.
