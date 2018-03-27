@@ -23,6 +23,8 @@ pages:
     - Miscellaneous:
         - Solid Angle of an Orthogonally-Projected Surface Element: OrthoSolidAngle.md
         - The Cross-Product: CrossProduct.md
+        - Importance Sampling: ImportanceSampling.md
+        - Notes: Notes.md
     - Useful Stuff: help.md
 #<Private>
 
