@@ -13,20 +13,25 @@ pages:
          - Multiple-Scattering BRDF: BRDF/MSBRDF.md
     - Lighting:
          - Colored Penumbra: ColoredShadows.md
-         - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
     - Colorimetry:
          - Color Spaces: Colorimetry/ColorSpace.md
          - Color Profiles: Colorimetry/ColorProfile.md
          - Illuminants: Colorimetry/Illuminants.md
          - Transforms: Colorimetry/ColorTransforms.md
     - Spherical Harmonics: SHPortal.md
-    - Miscellaneous:
-        - Solid Angle of an Orthogonally-Projected Surface Element: OrthoSolidAngle.md
-        - The Cross-Product: CrossProduct.md
-        - Importance Sampling: ImportanceSampling.md
-        - Notes: Notes.md
-    - Useful Stuff: help.md
+    - Misc. Math:
+        - Solid Angle of an Orthogonally-Projected Surface Element: Math/OrthoSolidAngle.md
+        - The Cross-Product: Math/CrossProduct.md
+        - Another Way of Viewing the Integration: Math/Integration.md
 #<Private>
+#    - Miscellaneous:
+#        - Importance Sampling: Math/ImportanceSampling.md
+#        - Notes: Notes.md
+#    - Useful Stuff: help.md
+#   - Lighting:
+#        - Colored Penumbra: ColoredShadows.md
+#        - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
+#</Private>
 
 
 theme:

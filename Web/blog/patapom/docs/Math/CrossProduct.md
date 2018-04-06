@@ -4,7 +4,7 @@
 
 It's usually taught to you in 6th grade where you are told its 2D definition first:
 
-![images/CrossProduct/Cross2D.jpg](images/CrossProduct/Cross2D.jpg)
+![images/CrossProduct/Cross2D.jpg](../images/CrossProduct/Cross2D.jpg)
 
 $$
 \boldsymbol{u} = ( u_x, u_y, 0 ) ~~~~~~~~~~ \boldsymbol{v} = ( v_x, v_y, 0 ) ~~~~~~~~~~ \boldsymbol{w}= \boldsymbol{u} \times \boldsymbol{v} = (0, 0, u_x  v_y - u_y  v_x )
@@ -50,7 +50,7 @@ With $\boldsymbol{n}=( v_y, -v_x, 0 )$
 
 I chose the symbol $\boldsymbol{n}$ on purpose, to show that this vector is actually the **normal** vector to our original $\boldsymbol{v}$ vector:
 
-![NormalVector.jpg](images/CrossProduct/Cross2DNormal.jpg)
+![NormalVector.jpg](../images/CrossProduct/Cross2DNormal.jpg)
 
 We know that $\boldsymbol{u} \cdot \boldsymbol{n} = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{n}\Vert cos(\alpha')$ and, from the figure we can see that $\alpha' = \alpha-\frac{\pi}{2}$ and thus,
  indeed, $cos(\alpha') = cos(\alpha-\frac{\pi}{2}) = sin(\alpha)$ and we find back the original expression:
@@ -72,7 +72,7 @@ As the dot product measures the alignment of 2 vectors (*i.e.* the alignment bei
 
 In 3 dimensions, the arbitrary nature of the operations you are told to remember is at its maximum!
 
-![Cross3D.jpg](images/CrossProduct/Cross3D.jpg)
+![Cross3D.jpg](../images/CrossProduct/Cross3D.jpg)
 
 
 Indeed, if you have:
@@ -114,7 +114,7 @@ $\boldsymbol{n_{xy}} = \begin{cases}v_y\\\\-v_x\end{cases}$
 
 Each little dot product is actually measuring **how much 2D sub-vectors are orthogonal from each other along each axis**, each in their own 2D sub-space XY, YZ, ZX.
 
-![Cross3D-SubSpaces.jpg](images/CrossProduct/Cross3D-SubSpaces.jpg)
+![Cross3D-SubSpaces.jpg](../images/CrossProduct/Cross3D-SubSpaces.jpg)
 
 
 * The X coordinate equals how much the 2D vectors are orthogonal from each other in the complementary 2D sub-space YZ
