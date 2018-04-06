@@ -261,7 +261,6 @@ It's quite easy to notice that for any odd dimension $N=2k+1$, the number of pos
 
 ## Only special odd dimensions
 
+According to [wikipedia](https://en.wikipedia.org/wiki/Seven-dimensional_cross_product), the next space where a cross product is available is in 7D!
 
 
-
-[7 dimensions](https://en.wikipedia.org/wiki/Seven-dimensional_cross_product)
