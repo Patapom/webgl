@@ -154,11 +154,12 @@ vector resulting from the cross product construction is indeed orthogonal to its
 
 So we gathered interesting information so far:
 
-1. The cross product is actually a collection of dot $N$ products, $N$ being the amount of dimensions of our space
+1. The cross product is actually a collection of $N$ dot products, $N$ being the amount of dimensions of our space
 2. Each dot product is performed between the original vector $\boldsymbol{u}$ and a "normal vector" $\boldsymbol{n}$ that is derived from the original vector $\boldsymbol{v}$ by permutations and optional sign changes of the components of $\boldsymbol{v}$
-3. The $N$ dot products from point 2. are performed between vectors of dimension $N-1$, each of these vectors $\boldsymbol{n_i}$ and $\boldsymbol{v_i}$ being expressed in the sub-space $i \in [1,N]$ excluding the dimension $i$ itself
+3. The permutation and sign change stays the same for the $N$ sub-space normal vectors
+4. The $N$ dot products from point 2. are performed between vectors of dimension $N-1$, each of these vectors $\boldsymbol{n_i}$ and $\boldsymbol{v_i}$ being expressed in the sub-space $i \in [1,N]$ excluding the dimension $i$ itself
  (*e.g.* $\boldsymbol{n_0}=\boldsymbol{n_{yz}}$ in dimension 3 is a combination of components from axes $Y$ and $Z$, excluding axis $X$)
-4. Dotting the vector $\boldsymbol{w}$ resulting from the cross product with either one of the base vectors $\boldsymbol{u}$ and $\boldsymbol{v}$ must yield 0
+5. Dotting the vector $\boldsymbol{w}$ resulting from the cross product with either one of the base vectors $\boldsymbol{u}$ and $\boldsymbol{v}$ must yield 0
 
 Assuming these rules apply for any dimension, then...
 
@@ -167,7 +168,7 @@ Assuming these rules apply for any dimension, then...
 
 From point 2., we can write $\boldsymbol{n} \cdot \boldsymbol{v} = 0$.
 
-In order for this to be possible, we use point 3. to notice that we **must have sub-vectors of even dimension** for terms coupling and canceling to occur!
+In order for this to be possible, we use point 4. to notice that we **must have sub-vectors of even dimension** for terms coupling and canceling to occur!
 
 Indeed, for example in 4 dimensions, we would build our cross product as:
 
@@ -192,7 +193,7 @@ $$
 v_x.? + v_y.? + v_z.? = 0
 $$
 
-Simply because we need an even amount of terms for that to be possible.
+Simply because we need an even amount of terms for that to be possible (*i.e.* so that an even amount of + and - terms cancel each other).
 
 !!! note
     This leads to the very interesting remark that **cross products only exist for odd dimensions** 3, 5, 7 and so on.
@@ -213,13 +214,29 @@ $$
 \end{cases}
 $$
 
-Selecting the simple case $\boldsymbol{v_{xyzw}} \cdot \boldsymbol{n_{xyzw}} = 0$ implies the construction of the normal vector to satisfy:
+
+### Permutations
+
+Selecting the simple case $\boldsymbol{u_{xyzw}} \cdot \boldsymbol{n_{xyzw}}$, we first notice from point 2. and 4. that $\boldsymbol{n_{xyzw}}$ needs to be a [derangement](https://en.wikipedia.org/wiki/Derangement) 
+of the $xyzw$ indices to ensure that no component from $\boldsymbol{u}$ gets multiplied by the same component index from $\boldsymbol{n} = derangement\left(\boldsymbol{v}\right)$.
+
+The amount of possible derangements in 4 dimensions, noted $!4$, is 9:
+
+$$
+\begin{align}
+(yxwz) (ywxz) (yzxw) \\\\
+(zxwy) (zwxy) (zwyx) \\\\
+(wxyz) (wzxy) (wzyx) \\\\
+\end{align}
+$$
+
+We can further reduce the amount of possibilities by remembering that $\boldsymbol{v_{xyzw}} \cdot \boldsymbol{n_{xyzw}} = 0$, implying the construction of the normal vector to satisfy:
 
 $$
 \boldsymbol{v_{xyzw}} \cdot \boldsymbol{n_{xyzw}} = v_x.? + v_y.? + v_z.? + v_w.? = 0
 $$
 
-And this can only happen in the following cases:
+And this can only happen in the following *"mirror"* cases:
 
 $$
 \boldsymbol{n_{xyzw}} =
@@ -229,34 +246,74 @@ $$
 \pm v_w \\\\
 \mp v_z
 \end{cases}
-$$
-
-$$
+\quad \text{or} \quad 
 \boldsymbol{n_{xyzw}} =
 \begin{cases}
 \pm v_z \\\\
-\mp v_w \\\\
-\pm v_x \\\\
+\pm v_w \\\\
+\mp v_x \\\\
 \mp v_y
 \end{cases}
-$$
-
-$$
+\quad \text{or} \quad 
 \boldsymbol{n_{xyzw}} =
 \begin{cases}
 \pm v_w \\\\
-\mp v_z \\\\
-\pm v_y \\\\
+\pm v_z \\\\
+\mp v_y \\\\
 \mp v_x
 \end{cases}
 $$
 
+This is because if you decide to couple $x$ with $z$, then you necessarily need to couple $z$ with $x$ in mirror, with a negative sign to make both terms cancel each other.<br/>
+Moreover, coupling $x$ with $z$ also forces the mirror coupling of $y$ with $w$...
 
-It's quite easy to notice that for any odd dimension $N=2k+1$, the number of possible combinations for constructing a normal vector is equal to $(2k-1) . 2^k$.
+As for the signs coupling, with 4D vectors you only have the following mirror choices for the choice $\boldsymbol{n_{xyzw}} = \boldsymbol{v_{yxwz}}$:
+
+$$
++-+- \\\\
+-+-+ \\\\
++--+ \\\\
+-++-
+$$
+
+
+It's now quite easy to notice that for any odd dimension $N=2k+1$, the number of possible combinations for constructing a normal vector is equal to $(2k-1) . 2^k$.
 
 --> The term $2k-1$ is due to the number of possible swaps of even sub-space dimensions (*i.e.* $2k$) without including your own dimension (*i.e.* in 3D, $x$ can use $y$ and $z$ but not itself, so $-1$).
 
---> The term $2^k$ is the amount of sign binary permutations (so $2^x$) for each pair (so $\frac{2k}{2} = k$ as exponent)
+--> The term $2^k$ is the amount of binary sign permutations (so $2^x$) for each pair (so $\frac{2k}{2} = k$ as exponent)
+
+
+### Finding the Right One
+
+So all in all, for 5D vectors, we saw that we can choose among $(2*2-1) . 2^2 = 12$ possible ways to rewrite the vector $\boldsymbol{v_{xyzw}}$.
+
+All we need now is to enforce point 5. to guarantee the orthogonality of the constructed vector.
+
+So we write the final expression:
+
+$$
+\boldsymbol{u} \cdot (\boldsymbol{u} \times \boldsymbol{v}) = \boldsymbol{v} \cdot (\boldsymbol{u} \times \boldsymbol{v}) = \boldsymbol{0}
+$$
+
+This expression can be developped into a pretty nightmarish result, for example using the combination $\boldsymbol{n_{xyzw}} = (v_x,-v_y,v_z,-v_w)$ and for the 5D vectors $\boldsymbol{u_{xyzwt}}$ and $\boldsymbol{v_{xyzwt}}$:
+
+$$
+\begin{align}
+\boldsymbol{u} \cdot (\boldsymbol{u} \times \boldsymbol{v}) 
+&= u_x.u_y.v_z - u_x.u_z.v_y + u_x.u_w.v_z + u_x.u_z.v_w \\\\
+&+ u_y.u_z.v_w - u_y.u_w.v_z + u_y.u_t.v_x + u_y.u_x.v_t \\\\
+&+ u_z.u_w.v_t - u_z.u_t.v_w + u_z.u_x.v_y + u_z.u_y.v_x \\\\
+&+ u_w.u_t.v_x - u_w.u_x.v_t + u_w.u_y.v_z + u_w.u_z.v_y \\\\
+&+ u_t.u_x.v_y - u_t.u_y.v_x + u_t.u_z.v_w + u_t.u_w.v_z \\\\
+\end{align}
+$$
+
+Focusing on the single term $u_x.u_y.v_z$ we easily see that it cannot be found again, either as a positive or negative quantity, and is thus *not cancelled*.<br/>
+The combination $\boldsymbol{n_{xyzw}} = (v_x,-v_y,v_z,-v_w)$ is thus not a good candidate for creating the 5D cross product operator.
+
+I wrote a simple program that tries all possible combinations and accumulates $uuv$ triplets as positive and negative quantities. If the resulting quantity is 0 then the combination is marked as valid for the cross product.
+
 
 
 ## Only special odd dimensions
