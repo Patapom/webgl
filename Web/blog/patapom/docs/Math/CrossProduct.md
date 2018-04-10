@@ -10,7 +10,7 @@ $$
 \boldsymbol{u} = ( u_x, u_y, 0 ) ~~~~~~~~~~ \boldsymbol{v} = ( v_x, v_y, 0 ) ~~~~~~~~~~ \boldsymbol{w}= \boldsymbol{u} \times \boldsymbol{v} = (0, 0, u_x  v_y - u_y  v_x )
 $$
 
-You are also told that $\Vert\boldsymbol{w}\Vert = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{v}\Vert sin(\alpha)$ and that the resulting vector $\boldsymbol{w}$ is orthogonal to its base constituents $\boldsymbol{u}$ and $\boldsymbol{v}$.
+You are also told that $\Vert\boldsymbol{w}\Vert = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{v}\Vert \sin(\alpha)$ and that the resulting vector $\boldsymbol{w}$ is orthogonal to its base constituents $\boldsymbol{u}$ and $\boldsymbol{v}$.
 
 Then everyone in the classroom starts doing some strange gestures with their fingers to understand which way the vector should point to, something about the "right hand rule", clockwise rotation, counter-clockwise rotation, etc.
 
@@ -25,7 +25,7 @@ The [history section of the Wikipedia page](https://en.wikipedia.org/wiki/Cross_
 Obviously, you start imagining the volume of a tetrahedron, some parallelograms come to mind, the [wedge product](https://en.wikipedia.org/wiki/Exterior_algebra), areas, volumes, tensors, group theory and whatnots, etc.
 (By the way, I encourage you to read the very interesting article [^1] by Nathan Reed about the Grassman Algebra that makes a nice echo to what I am writing here) (and he published it pretty much the same day I finished writing this :smile:)
 
-And you're no closer to an idea than when you started... I won't pretend I will provide a brilliant explanation of "why the cross product" either, just adding oil to the thought process here.
+But you're no closer to an idea than when you started... I won't pretend I will provide a brilliant explanation of "why the cross product" either, just adding oil to the thought process here.
 
 
 ## Factorizing the Tools
@@ -53,11 +53,11 @@ I chose the symbol $\boldsymbol{n}$ on purpose, to show that this vector is actu
 
 ![NormalVector.jpg](../images/CrossProduct/Cross2DNormal.jpg)
 
-We know that $\boldsymbol{u} \cdot \boldsymbol{n} = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{n}\Vert cos(\alpha')$ and, from the figure we can see that $\alpha' = \alpha-\frac{\pi}{2}$ and thus,
- indeed, $cos(\alpha') = cos(\alpha-\frac{\pi}{2}) = sin(\alpha)$ and we find back the original expression:
+We know that $\boldsymbol{u} \cdot \boldsymbol{n} = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{n}\Vert \cos(\alpha')$ and, from the figure we can see that $\alpha' = \alpha-\frac{\pi}{2}$ and thus,
+ indeed, $\cos(\alpha') = \cos(\alpha-\frac{\pi}{2}) = \sin(\alpha)$ and we find back the original expression:
 
 $$
-\Vert\boldsymbol{w}\Vert = u_x  v_y - u_y  v_x = \boldsymbol{u} \cdot \boldsymbol{n} = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{n}\Vert cos(\alpha') = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{v}\Vert sin(\alpha)
+\Vert\boldsymbol{w}\Vert = u_x  v_y - u_y  v_x = \boldsymbol{u} \cdot \boldsymbol{n} = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{n}\Vert \cos(\alpha') = \Vert\boldsymbol{u}\Vert \Vert\boldsymbol{v}\Vert \sin(\alpha)
 $$
 
 
@@ -166,6 +166,12 @@ So we gathered interesting information so far:
 
 <br/>
 Assuming these rules apply for any dimension, let's try and build a 4D cross-product!
+
+
+!!! note
+	For dimensions > 3, we will drop the scalar notation of the individual components of vector $\boldsymbol{u_{xyz}} = \left( u_x, u_y, u_z \right)$ in favor of the notation $u_0$, $u_1$, $u_2 \dots u_n$
+
+	And the vector notation $\boldsymbol{u_{xyz}}$ will be rewritten $\boldsymbol{u_{012}}$
 
 
 ### Odd Dimensions
@@ -321,7 +327,7 @@ The combination $\boldsymbol{n_{0123}} = (v_1,-v_0,v_3,-v_2)$ is thus not a good
 
 I wrote a simple program that tries all possible combinations and accumulates $uuv$ triplets as positive and negative quantities. If all the resulting factors for each triplet are 0 then the combination is marked as valid for the cross product.
 
-???- "Code for finding a 5D Cross Product"
+???- "Code for finding a 5D Cross Product (C#)"
     ``` C++
 
 	void	TestCross5D() {
@@ -449,12 +455,12 @@ I wrote a simple program that tries all possible combinations and accumulates $u
 Unfortunately, this code returns **no valid solution** so, unless I made a mistake, it seems that there is no 4D combination of component and sign swaps that creates an algebra that induces the cross-product operator.
 
 
-## Only special odd dimensions
+## Let's try 7 dimensions then
 
 According to [wikipedia](https://en.wikipedia.org/wiki/Seven-dimensional_cross_product), the next space where a cross product is available is in 7D so I'm expecting to find solutions with this new code
 that checks the $5!! \cdot 2^3 = 120$ possible indices permutations for 6D sub-space vectors:
 
-???- "Code for finding a 7D Cross Product"
+???- "Code for finding a 7D Cross Product (C#)"
 	``` C++
 	void	TestCross7D() {
 		// Manual creation of the 5*3 possible valid derangements
@@ -648,7 +654,271 @@ $$
 We can verify the terms indeed cancel each other...
 
 
-Anti-commutativity?
+## Only special odd dimensions
+
+We can generalize the previous programs for any odd dimension:
+
+???- "Generic Code for Finding a N-Dimensional Cross Product (C#)"
+	``` C++
+
+	void	TestCrossGeneric() {
+
+		List< Tuple< int, int > >[]	allSolutions = new List<Tuple<int, int>>[(21-3) / 2];
+		int[]						totalValidDerangementsCounts = new int[(21-3) / 2];
+
+		// Try all possible odd dimensions
+		for ( int N=3; N < 21; N+=2 ) {
+
+			// Recursively generate all possible derangements
+			int[][]	derangements = null;
+			int[][]	coupless = null;
+			int[]	originalOrder = new int[N-1];
+			for ( int i=0; i < N-1; i++ )
+				originalOrder[i] = i;
+			RecurseGenerateDerangements( originalOrder, out derangements, out coupless );
+
+			totalValidDerangementsCounts[(N-3) / 2] = derangements.Length;
+
+			int[,]	permutations = new int[N,N-1];
+			for ( int d=0; d < N; d++ ) {
+				for ( int x=0; x < N-1; x++ ) {
+					permutations[d,x] = (d+1 + x) % N;
+				}
+			}
+
+			int		signBitsCount = (N-1) / 2;
+			int		totalSignsCombinations = 1 << signBitsCount;
+			int[]	signs = new int[N-1];
+
+			List< Tuple<int,int> >	solutionsU = new List<Tuple<int, int>>();
+			List< Tuple<int,int> >	solutionsV = new List<Tuple<int, int>>();
+			List< Tuple<int,int> >	solutions = new List<Tuple<int, int>>();
+
+			// Try all possible derangements
+			for ( int derangementIndex=0; derangementIndex < derangements.Length; derangementIndex++ ) {
+				int[]	derangement = derangements[derangementIndex];
+				int[]	couples = coupless[derangementIndex];
+
+				// Try all possible sign combinations
+				for ( int signCombination=0; signCombination < totalSignsCombinations; signCombination++ ) {
+
+					// Build signs for each component
+					for ( int componentIndex=0; componentIndex < N-1; componentIndex++ ) {
+						int	bitIndex = Math.Abs( couples[componentIndex] ) - 1;
+						int	signValue = (signCombination & (1 << bitIndex)) != 0 ? -1 : 1;
+							signValue *= couples[componentIndex] > 0 ? 1 : -1;
+						signs[componentIndex] = signValue;
+					}
+
+					// Estimate each line of w.(u x v)
+					int[,,]	sumTripletsU = new int[N,N,N];
+					int[,,]	sumTripletsV = new int[N,N,N];
+					for ( int d=0; d < N; d++ ) {
+						for ( int x=0; x < N-1; x++ ) {
+							int	index_w = d;
+							int	index_u = permutations[d,x];
+							int	index_v = permutations[d,derangement[x]];
+							int	sign = signs[x];
+							AddTripletU( sumTripletsU, index_w, index_u, index_v, sign );
+							AddTripletV( sumTripletsV, index_w, index_u, index_v, sign );
+						}
+					}
+
+					// Check if the sum only contains zeroes
+					bool	allZeroesU = true;
+					bool	allZeroesV = true;
+					int		totalTriplets = N*N*N;
+					for ( int j=0; j < totalTriplets; j++ ) {
+						int	Z = j;
+						int	X = Z / (N*N);
+							Z -= N*N * X;
+						int	Y = Z / N;
+							Z -= N * Y;
+
+						int	sumU = sumTripletsU[X,Y,Z];
+						int	sumV = sumTripletsV[X,Y,Z];
+						if ( sumU != 0 ) {
+							allZeroesU = false;
+						}
+						if ( sumV != 0 ) {
+							allZeroesV = false;
+						}
+					}
+					if ( allZeroesU && allZeroesV ) {
+						solutions.Add( new Tuple<int,int>( derangementIndex, signCombination ) );
+					} else if ( allZeroesU ) {
+						solutionsU.Add( new Tuple<int,int>( derangementIndex, signCombination ) );
+					} else if ( allZeroesV ) {
+						solutionsV.Add( new Tuple<int,int>( derangementIndex, signCombination ) );
+					}
+				}
+			}
+	
+			allSolutions[(N-3) / 2] = solutions;
+		}
+	}
+
+	void	AddTripletU( int[,,] _sumTriplets, int _u0, int _u1, int _v, int _sign ) {
+		if ( _u0 == _u1 || _u1 == _v ) throw new Exception(  "Can't have identical indices!" );
+		_sumTriplets[_u0, _u1, _v] += _sign;
+		_sumTriplets[_u1, _u0, _v] += _sign;
+	}
+	void	AddTripletV( int[,,] _sumTriplets, int _v0, int _u, int _v1, int _sign ) {
+		if ( _v0 == _u || _u == _v1 ) throw new Exception(  "Can't have identical indices!" );
+		_sumTriplets[_v0, _u, _v1] += _sign;
+		_sumTriplets[_v1, _u, _v0] += _sign;
+	}
+
+	void	RecurseGenerateDerangements( int[] _sequence, out int[][] _derangements, out int[][] _coupless ) {
+		if ( _sequence.Length == 2 ) {
+			// The only sensible choice...
+			_derangements = new int[][] { new int[2] { _sequence[1], _sequence[0] } };
+			_coupless = new int[][] { new int[2] { 1, -1 } };
+			return;
+		}
+
+		int				N = _sequence.Length;
+		List< int[] >	derangements = new List<int[]>();
+		List< int[] >	coupless = new List<int[]>();
+		for ( int i=1; i < N; i++ ) {
+
+			// Build the original sub-sequence containing the remaining terms (i.e. all terms except the terms at index 0 and i)
+			int[]	originalSubSequence = new int[N-2];
+			for ( int j=1; j <= N-2; j++ ) {
+				originalSubSequence[j-1] = j < i ? _sequence[j] : _sequence[j+1];	// Skip i^th term
+			}
+			int[][]	subSequences, subCoupless;
+			RecurseGenerateDerangements( originalSubSequence, out subSequences, out subCoupless );
+
+			// Insert the sub-sequences back
+			for ( int subSequenceIndex=0; subSequenceIndex < subSequences.Length; subSequenceIndex++ ) {
+				int[]	subSequence = subSequences[subSequenceIndex];
+				int[]	subCouples = subCoupless[subSequenceIndex];
+
+				int[]	derangement = new int[N];
+				int[]	couples = new int[N];
+
+				// Initial derangement is always between the first term of the sequence and any other term
+				derangement[0] = _sequence[i];
+				derangement[i] = _sequence[0];
+				couples[0] = 1;		// First, positive couple
+				couples[i] = -1;	// First, negative couple
+
+				// Insert remaining terms
+				for ( int j=1; j <= N-2; j++ ) {
+					derangement[j < i ? j : j+1] = subSequence[j-1];
+					couples[j < i ? j : j+1] = subCouples[j-1] < 0 ? subCouples[j-1] - 1 : 1 + subCouples[j-1];
+				}
+
+				// Store new combination
+				derangements.Add( derangement );
+				coupless.Add( couples );
+			}
+		}
+
+		_derangements = derangements.ToArray();
+		_coupless = coupless.ToArray();
+	}
+
+	```
+
+<br/>
+It's not optimized at all and you start feeling it when reaching 13 dimensions because the amount of valid derangements grows like crazy...
+
+| Dimension  |  Derangements  |  Solutions |
+| :----------: | :-----: | :----------: |
+|  3 | 1 | 1 |
+|  5 | 3 | 0 |
+|  7 | 15 | 2 |
+|  9 | 105 | 0 |
+|  11 | 945 | 0 |
+|  13 | 10,395 | 8 |
+|  15 | 135,135 | 16 |
+|  17 | 2,027,025 | 0 |
+|  19 | 34,459,425 | Computer Died |
+
+I was kind of expecting solutions in 15D so that would match the algebra of quaternions, octonions, sedenions, etc(?) and indeed there are
+ but, strangely enough I wasn't prepared for finding 8 solutions in 13D... :thinking:
+
+
+### Solutions
+
+I give the solutions below in case you're interested. It's in the output form of my search program as a 2-tuple (derangement combination index, sign bits combination):
+
+???- "Solutions for 13D:"
+	(2307, 0)<br/>
+	(2307, 26)
+
+	(2405, 0)<br/>
+	(2405, 26)	<--
+
+	(7989, 0)<br/>
+	(7989, 26)	<--
+
+	(8089, 0)<br/>
+	(8089, 26)	<-- Always the same bit combinations 26!
+
+	Interestingly enough, we notice that $2307 + 8089 = 10,396 = \#derangements+1$  and that $2405 + 7989 = 10,394 = \#derangements-1$
+	so these derangement combinations must be mirrors of each other...
+
+???- "Solutions for 15D:"
+	(25467, 0)<br/>
+	(25467, 8)		<--<br/>
+	(25467, 50)		<--<br/>
+	(25467, 58)		<--
+
+	(26405, 0)<br/>
+	(26405, 8)		<--<br/>
+	(26405, 50)		<--<br/>
+	(26405, 58)		<--
+
+	(108729, 0)<br/>
+	(108729, 8)		<--<br/>
+	(108729, 50)	<--<br/>
+	(108729, 58)	<--
+
+	(109669, 0)<br/>
+	(109669, 8)		<--<br/>
+	(109669, 50)	<--<br/>
+	(109669, 58)	<-- Always the same bit combinations!
+
+	Same as in 13D: we notice that $25467 + 109669 = 135,136 = \#derangements+1$  and that $26405 + 108729 = 135,134 = \#derangements-1$
+	and these derangement combinations must also be mirrors of each other...
+
+
+### Remarks
+
+It would seem the amount of solutions for each valid dimension is somewhat "doubling" each time, and if we look closely, we notice that there really are *only 4 solutions* both in 13D
+ and in 15D corresponding to mirror derangements, so technically we only have 2 *distinct* derangement solutions.</br>
+The rest are just sign variations working for each one of these 2 solutions.</br>
+
+So in 13D and in 15D there should really be **only 2 solutions**, but 13D offers 2 sign variations on each one, while 15D offers 4 sign variations.
+
+Going back to 7D, looking back at the exact same derangement mirroring we notice there is only 1 true solution and 1 sign variation.
+
+So maybe the actual progression is something expanding on this scheme:
+
+| Dimension  |  Derangements  | Actual Solutions | Mirror Solutions | Sign Variations | Total Solutions = Mirror Solutions * Sign Variations | 
+| :----------: | :-----: | :----------: | :----------: | :----------: | :----------: |
+|  3 | 1 | 1 | 1 | 1 | 1 |
+|  7 | 15 | 1 | 2 | 1 | 2 |
+|  13 | 10,395 | 2 | 4 | 2 | 8 |
+|  15 | 135,135 | 2 | 4 | 4 | 16 |
+
+
+But in which way? Will the next valid dimension have 4 actual solutions and 4 sign variations to start with? Or maybe there will still be 2 actual solutions but 8 sign variations?
+Maybe both grow in parallel in a strange fashion? Argh. I'm dying to understand the logic behind all this but enough! Time to get back to our good old reality: 4 dimensions! :smile:
+
+
+## Anti-commutativity
+
+As a final note, for each of the solutions found in all the dimensions where a cross-product-generating algebra exists,
+ it would seem that the anti-commutativity property of the cross product (*i.e.* $\boldsymbol{u} \times \boldsymbol{v} = -\boldsymbol{v} \times \boldsymbol{u}$) is always a direct consequence of the algebra.
+ 
+I couldn't find a dimension (up until 15D anyway) with a commutative solution but, unless we verify for all possible cases or deal with a terrifying amount of hair-pulling algebra,
+ there's no way to really be sure
+(and that's the kind of research subject I know people spent a good part of their life looking into so I won't linger there, I already spent much too much time on this!)...
+
 
 ## References
 
