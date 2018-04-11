@@ -414,7 +414,7 @@ Where:
 * $k(\lambda)$ is a wavelength-dependent factor (namely, the surface's reflectance in [0,1] for different wavelengths)
 * $s$ is a normalization factor yet to be determined
 * $r(\mu)$ is some unknown "appropriate scalar function", yet to be determined too
-* $\mu_i$ and $\mu_o$ are the $\boldsymbol{\omega_i}\cdot\boldsymbol{n} = cos(\theta_i)$ and $\boldsymbol{\omega_o}\cdot\boldsymbol{n} = cos(\theta_o)$ respectively, $\boldsymbol{n}$ being the surface's normal
+* $\mu_i$ and $\mu_o$ are the $\boldsymbol{\omega_i}\cdot\boldsymbol{n} = \cos(\theta_i)$ and $\boldsymbol{\omega_o}\cdot\boldsymbol{n} = \cos(\theta_o)$ respectively, $\boldsymbol{n}$ being the surface's normal
 
 
 #### Solving for unknowns
@@ -423,9 +423,9 @@ Kelemen et al. continue by writing the albedo (*i.e.* total reflectance for a pa
 
 $$
 \begin{align}
-a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \mu_i sin(\theta_i) d\theta_i d\phi_i	\\\\
-a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} k(\lambda).s.r(\mu_o) r(\mu_i) \mu_i sin(\theta_i) d\theta_i d\phi_i	\\\\
-a_{diff}(\mu_o) &= k(\lambda).s.r(\mu_o). 2\pi . \int_{0}^{\frac{\pi}{2}} r(\mu_i) \mu_i sin(\theta_i) d\theta_i \tag{2}\label{(2)}
+a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \mu_i \sin(\theta_i) d\theta_i d\phi_i	\\\\
+a_{diff}(\mu_o) &= \int_{0}^{2\pi} \int_{0}^{\frac{\pi}{2}} k(\lambda).s.r(\mu_o) r(\mu_i) \mu_i \sin(\theta_i) d\theta_i d\phi_i	\\\\
+a_{diff}(\mu_o) &= k(\lambda).s.r(\mu_o). 2\pi . \int_{0}^{\frac{\pi}{2}} r(\mu_i) \mu_i \sin(\theta_i) d\theta_i \tag{2}\label{(2)}
 \end{align}
 $$
 
@@ -470,17 +470,29 @@ Substituting $\eqref{(3)}$ and this new BRDF into $\eqref{(2)}$ we get:
 
 $$
 \begin{align}
-\left[1-E_{spec}(\mu_o)\right] &= s.\left[1-E_{spec}(\mu_o)\right]. 2\pi . \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i sin(\theta_i) d\theta_i \\\\
-s &= \frac{1}{2\pi \left[ \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i sin(\theta_i) d\theta_i \right]} \\\\
+\left[1-E_{spec}(\mu_o)\right] &= s.\left[1-E_{spec}(\mu_o)\right]. 2\pi . \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i \sin(\theta_i) d\theta_i \\\\
+s &= \frac{1}{2\pi \left[ \int_{0}^{\frac{\pi}{2}} \left[1-E_{spec}(\mu_i)\right] \mu_i \sin(\theta_i) d\theta_i \right]} \\\\
 s &= \frac{1}{\pi - E_{spec}^{avg} } \\\\
 \end{align}
 $$
 
-Where $E_{spec}^{avg} = \int_{\Omega^+} E_{spec}(\mu_i) \mu_i d\omega_i$ represents the specular albedo averaged over all possible view directions on the hemisphere.
+Where the specular albedo averaged over all possible view directions on the hemisphere is represented by:
+
+$$
+E_{spec}^{avg} = \int_{\Omega^+} E_{spec}(\mu_i) \mu_i d\omega_i = 2\pi \int_0^1 E_{spec}(\mu_i) \mu_i d\mu_i \tag{4}\label{(4)}
+$$
+
+!!! warning
+	Notice that in the Kelemen and Kulla notations for $f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i})$, they factorized the $\pi$ out of the denominator
+	so they write it as $\pi \left( 1 - E_{spec}^{avg} \right)$ and they have $E_{spec}^{avg} = 2 \int_0^1 E_{spec}(\mu_i) \mu_i d\mu_i$ instead but I find that highly
+	disturbing so I didn't follow their example (I like to imagine the $E_{spec}^{avg}$ integral converging to a maximum of $\pi$ instead of obfuscating that fact for
+	the sake of a "nicer way of writing the result").
+<br/>
+
 
 Finally we write:
 $$
-f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} \tag{4}\label{(4)}
+f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} \tag{5}\label{(5)}
 $$
 
 
@@ -490,10 +502,10 @@ Armed with this new expression for the diffuse BRDF, what happens if we integrat
 
 $$
 \begin{align}
-E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
-E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
-E_{diff}(\mu_o) &= \frac{(1-E_{spec}(\mu_o))}{\pi - E_{spec}^{avg}} . \left[ 2\pi. \int_0^{\frac{\pi}{2}} (1-E_{spec}(\mu_i)) cos(\theta_i) sin(\theta_i) d\theta_i \right]	\\\\
-E_{diff}(\mu_o) &= \frac{(1-E_{spec}(\mu_o))}{\pi - E_{spec}^{avg}} . \left[ \pi - E_{spec}^{avg} \right]	\\\\
+E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \cos(\theta_i) \sin(\theta_i) d\theta_i d\phi	\\\\
+E_{diff}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  \frac{(1-E_{spec}(\mu_o)).(1-E_{spec}(\mu_i))}{\pi - E_{spec}^{avg}} \cos(\theta_i) \sin(\theta_i) d\theta_i d\phi	\\\\
+E_{diff}(\mu_o) &= \frac{1-E_{spec}(\mu_o)}{\pi - E_{spec}^{avg}} . \left[ 2\pi. \int_0^{\frac{\pi}{2}} (1-E_{spec}(\mu_i)) \cos(\theta_i) \sin(\theta_i) d\theta_i \right]	\\\\
+E_{diff}(\mu_o) &= \frac{1-E_{spec}(\mu_o)}{\pi - E_{spec}^{avg}} . \left[ \pi - E_{spec}^{avg} \right]	\\\\
 E_{diff}(\mu_o) &= 1-E_{spec}(\mu_o)	\\\\
 \end{align}
 $$
@@ -521,14 +533,14 @@ And there you have it:
 $$
 \begin{align}
 E_{ms}(\mu_o) &= 1 - E(\mu_o) \\\\
-E_{ms}(\mu_o) &= 1 - \left[ \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_r(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi \right]	\\\\
-E_{ms}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) cos(\theta_i) sin(\theta_i) d\theta_i d\phi	\\\\
+E_{ms}(\mu_o) &= 1 - \left[ \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_r(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \cos(\theta_i) \sin(\theta_i) d\theta_i d\phi \right]	\\\\
+E_{ms}(\mu_o) &= \int_0^{2\pi} \int_0^{\frac{\pi}{2}}  f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) \cos(\theta_i) \sin(\theta_i) d\theta_i d\phi	\\\\
 \end{align}
 $$
 
 And we have our new expression for the (ideally reflecting) multiple-scattering BRDF:
 $$
-f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E(\mu_o)).(1-E(\mu_i))}{\pi - E_{avg}} \tag{5}\label{(5)}
+f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E(\mu_o)).(1-E(\mu_i))}{\pi - E_{avg}} \tag{6}\label{(6)}
 $$
 
 
@@ -542,7 +554,7 @@ $$
 
 #### GGX Specular
 
-We use the very common GGX normal distribution and Smith GGX shadowing/masking term:
+We use the (now) very common GGX normal distribution and Smith GGX shadowing/masking term:
 
 $$
 \begin{align}
@@ -553,8 +565,21 @@ f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha) &= F( \boldsymbol{\ome
 \end{align}
 $$
 
-With $F_0 = 1 \Rightarrow F( \boldsymbol{\omega_h}, F_0 ) = 1$ at the moment (*i.e.* perfectly reflective case).
+With $F_0 = 1 \Rightarrow F( \boldsymbol{\omega_h}, F_0 ) = 1$ at the moment (*i.e.* perfectly reflective case).<br/>
 $\boldsymbol{\omega_h}$ is the normalized half-vector.
+
+Rewritten in terms of $\mu$ we have:
+
+$$
+\begin{align}
+f_r( \mu_o, \mu_i, \alpha) &= F( \mu_h, F_0 ) \\\\
+ &* \left[ \frac{1}{ \mu_i + \sqrt{ \alpha^2 + (1-\alpha^2) \cdot \mu_i^2 } }\right] \\\\
+ &* \left[ \frac{1}{ \mu_o + \sqrt{ \alpha^2 + (1-\alpha^2) \cdot \mu_o^2 } }\right] \\\\
+ &* \left[ \frac{\alpha^2}{ \pi \left( \mu_h^2 . (\alpha^2 - 1) + 1 \right)^2 }\right] \\\\
+\end{align}
+$$
+
+With $\mu_h(\mu_o, \mu_i, \phi) = \boldsymbol{\omega_h} \cdot \boldsymbol{n} = \frac{ \mu_o + \mu_i } { \sqrt{ 2 \left( 1 + \mu_o \mu_i + (1-\mu_o^2)(1-\mu_i^2) \cos(\phi) \right) } }$ and $\phi$ is the azimutal angle between $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$.
 
 You can see the resulting table below:
 
@@ -562,20 +587,56 @@ You can see the resulting table below:
 
 !!! warning
     Obviously, don't use this awful JPG image directly! :smile:
-	Use [this 128x128 table of floats](MSBRDF_E128x128.float) instead! (I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough)
+	Use [this 128x128 table](MSBRDF_E128x128.csv) instead! (I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough).
 
-Armed with this table, we can compute the perfectly reflective 100% white metal BRDF case:
+	The 1st float is $\mu = \cos(\theta)$ of the incident or outgoing ray direction, the 2nd float is the roughness $alpha$ and the 3rd float is $E\left( \mu, \alpha \right)$ (caution, not $1-E$!)
 
 
+#### Average Irradiance
 
-### With varying Fresnel
+Armed with this table, we can obtain the average irradiance table that only depends on roughness by computing $\eqref{(4)}$:
+
+$$
+E_{avg}\left( \alpha \right) = 2\pi \int_0^1 E(\mu_i,\alpha)\mu_i d\mu_i
+$$
 
 ![Eavg](../images/BRDF/Eavg.png)
 
 
 !!! info
-    You can download [this 32x1 table of floats](MSBRDF_Eavg32.float) representing the $E_{avg}$ for different values of roughness.
+    You can download [this table](MSBRDF_Eavg128.csv) representing the $E_{avg}$ for different values of roughness.
 
+	The 1st float is the roughness $alpha$ and the 2nd float is $E_{avg}\left( \alpha \right)$
+
+
+#### Final Check
+
+We quickly check the energy is conserved by ensuring that for all roughness values of $\alpha \in [0,1]$ we have:
+
+$$
+\int_{\Omega_+} \left[ \int_{\Omega_+} \left( f_{r,ggx}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right) + f_{r,ms}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right) \right)
+(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
+(\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o = \pi
+$$
+
+!!! quote ""
+	![CheckConvservation](../images/BRDF/MSBRDFCheck.png)
+
+	Gray curve is the GGX specular BRDF, blue curve is the "energy compensation BRDF", red curve is their sum that always yield $\pi$, thus ensuring the conservation of energy.
+
+<br/>
+We also quickly notice that the multiple scattering BRDF term becomes preponderant over the single scattering term when $\alpha > 0.8$, so for very rough materials where shadowing and masking are playing a major
+ role in energy loss.
+
+
+### The case of perfectly reflective rough metal
+
+Remembering that we fixed the Fresnel term to be $F( \boldsymbol{\omega_h}, F_0 ) = 1$, the tables we just calculated can only give us the perfectly reflective 100% white metal BRDF case:
+
+
+
+
+### With varying Fresnel
 
 
 ## References

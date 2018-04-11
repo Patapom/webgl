@@ -27,9 +27,11 @@ It is well-known to graphics programmers that computing the cross product of the
 Integrating this operation (cross product and norm computation) over an interval $[a,b]\in\mathbb{R}^2$ yields:
 
 $$
-A(x,y) = \int_0^y \int_0^x \left | \frac{\partial \mathbf{p}}{\partial x} \times \frac{\partial \mathbf{p}}{\partial y} \right | \, da \, db \\\\
-= \int_0^y \int_0^x \left (1+a^2+b^2 \right )^{-\frac{3}{2}} \, da \, db \\\\
-= \left | atan( \frac{xy}{\sqrt{1+x^2+y^2}} ) \right | \quad \quad \quad (1)
+\begin{align}
+A(x,y)	&= \int_0^y \int_0^x \left | \frac{\partial \mathbf{p}}{\partial x} \times \frac{\partial \mathbf{p}}{\partial y} \right | \, da \, db \\\\
+		&= \int_0^y \int_0^x \left (1+a^2+b^2 \right )^{-\frac{3}{2}} \, da \, db \\\\
+		&= \left | atan( \frac{xy}{\sqrt{1+x^2+y^2}} ) \right | \quad \quad \quad (1)
+\end{align}
 $$
 
 
@@ -67,8 +69,8 @@ Except the primitive of this expression is a bit of nightmare after all, but thi
 $$
 \begin{align}
  A(x,y) &= \int_0^y \int_0^x \frac{1}{\sqrt{1-a^2-b^2}} da \, db \\\\
-        &= y \tan ^{-1}\left(\frac{x}{\sqrt{-x^2-y^2+1}}\right) + x \tan ^{-1}\left(\frac{y}{\sqrt{-x^2-y^2+1}}\right) \\\\
-		&+ \frac{1}{2} \left(\tan ^{-1}\left(\frac{1-x-y^2}{y \sqrt{-x^2-y^2+1}}\right)-\tan ^{-1}\left(\frac{1+x-y^2}{y \sqrt{-x^2-y^2+1}}\right)\right)	\tag{2}\label{(2)}
+        &= y \cdot \tan ^{-1}\left(\frac{x}{\sqrt{1-x^2-y^2}}\right) + x \cdot \tan ^{-1}\left(\frac{y}{\sqrt{1-x^2-y^2}}\right) \\\\
+		&+ \frac{1}{2} \left(\tan ^{-1}\left(\frac{1-x-y^2}{y \sqrt{1-x^2-y^2}}\right)-\tan ^{-1}\left(\frac{1+x-y^2}{y \sqrt{1-x^2-y^2}}\right)\right)	\tag{2}\label{(2)}
 \end{align}
 $$
 
