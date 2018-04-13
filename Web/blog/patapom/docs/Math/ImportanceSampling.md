@@ -4,6 +4,8 @@
 
 On pose $t = cos2\left(\theta\right)$ du coup: $dt = -2.sin\left(\theta\right).cos\left(\theta\right)$
 
+Parler du Jacobien, Walter 07.
+
 
 ## Metropolis Hastings
 

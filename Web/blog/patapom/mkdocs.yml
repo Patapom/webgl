@@ -69,7 +69,7 @@ markdown_extensions:
   - markdown.extensions.footnotes
   - markdown.extensions.meta
   - markdown.extensions.toc:
-      permalink: true
+      permalink: false
   - pymdownx.arithmatex
   - pymdownx.betterem:
       smart_enable: all
