@@ -10,7 +10,10 @@ pages:
          - Definition: BRDF/BRDF Definition.md
          - Models: BRDF/BRDF Models.md
          - Personnal Study: BRDF/BRDF Study.md
-         - Multiple-Scattering BRDF: BRDF/MSBRDF.md
+         - Multiple-Scattering BRDF:
+             - Problem: BRDF/MSBRDF.md
+             - Brute Force Processing: BRDF/MSBRDFBruteForce.md
+             - Energy Compensation: BRDF/MSBRDFEnergyCompensation.md
     - Lighting:
          - Colored Penumbra: ColoredShadows.md
     - Colorimetry:
