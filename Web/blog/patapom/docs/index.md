@@ -20,6 +20,10 @@ I :heart: every light-related phenomenon, from emission to scattering, interacti
 ![caustics](images/Bio/Caustics.jpg)
 
 
+# Talk
+
+[Revision Demoparty 2018 - HBIL](http://patapom.com/Temp/HBIL Revision 2018.pptx)
+
 
 # Papers
 

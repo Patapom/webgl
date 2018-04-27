@@ -570,6 +570,13 @@ Armed with this table, we can compute the perfectly reflective 100% white metal 
 
 ### With varying Fresnel
 
+![Eavg](../images/BRDF/Eavg.png)
+
+
+!!! info
+    You can download [this 32x1 table of floats](MSBRDF_Eavg32.float) representing the $E_{avg}$ for different values of roughness.
+
+
 
 ## References
 
