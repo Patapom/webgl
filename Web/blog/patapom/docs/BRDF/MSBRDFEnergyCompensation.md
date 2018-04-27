@@ -171,12 +171,6 @@ $$
 
 ## Applications to existing BRDF models
 
-We start by pre-computing the "complement albedo table" for all possible viewing angle $\theta_o$ and all roughness values $\alpha$ for the specular BRDF:
-
-$$
-1 - E(\mu_o,\alpha) = 1 - \int_{\Omega^+} f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha).(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
-$$
-
 ### GGX Specular Model
 
 We use the (now) very common GGX normal distribution and Smith GGX shadowing/masking term:
@@ -190,29 +184,42 @@ f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha) &= F( \boldsymbol{\ome
 \end{align}
 $$
 
-With $F_0 = 1 \Rightarrow F( \boldsymbol{\omega_i} \cdot \boldsymbol{\omega_h}, F_0 ) = 1$ at the moment (*i.e.* perfectly reflective case).<br/>
-$\boldsymbol{\omega_h}$ is the normalized half-vector.
+With $F_0$ the reflectance at normal incidence, $\alpha \in [0,1]$ the surface roughness and $\boldsymbol{\omega_h}$ the normalized half-vector.
 
 Rewritten in terms of $\mu$ we have:
 
 $$
 \begin{align}
-f_r( \mu_o, \mu_i, \alpha) &= F( \boldsymbol{\omega_i} \cdot \boldsymbol{\omega_h}, F_0 ) \\\\
+f_r( \mu_o, \mu_i, \alpha) &= F( \mu_d, F_0 ) \\\\
  &* \left[ \frac{1}{ \mu_i + \sqrt{ \alpha^2 + (1-\alpha^2) \cdot \mu_i^2 } }\right] \\\\
  &* \left[ \frac{1}{ \mu_o + \sqrt{ \alpha^2 + (1-\alpha^2) \cdot \mu_o^2 } }\right] \\\\
  &* \left[ \frac{\alpha^2}{ \pi \left( \mu_h^2 . (\alpha^2 - 1) + 1 \right)^2 }\right] \\\\
 \end{align}
 $$
 
-With $\mu_h(\mu_o, \mu_i, \phi) = \boldsymbol{\omega_h} \cdot \boldsymbol{n} = \frac{ \mu_o + \mu_i } { \sqrt{ 2 \left( 1 + \mu_o \mu_i + (1-\mu_o^2)(1-\mu_i^2) \cos(\phi) \right) } }$ and $\phi$ is the azimutal angle between $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$.
+With:
+
+* $\mu_d = \boldsymbol{\omega_i} \cdot \boldsymbol{\omega_h}$ the cosine of the angle between the light and the half vector
+* $\mu_h(\mu_o, \mu_i, \phi) = \boldsymbol{\omega_h} \cdot \boldsymbol{n} = \frac{ \mu_o + \mu_i } { \sqrt{ 2 \left( 1 + \mu_o \mu_i + (1-\mu_o^2)(1-\mu_i^2) \cos(\phi) \right) } }$
+* $\phi$ the azimutal angle between $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$.
+
+
+#### Irradiance Table
+
+With $F_0 = 1 \Rightarrow F( \mu_d, F_0 ) = 1$ at the moment (*i.e.* perfectly reflective case),
+ we pre-compute the "complement albedo table" for all possible viewing angle $\mu_o=\cos(\theta_o)$ and all roughness values $\alpha$ for the specular BRDF:
+
+$$
+1 - E(\mu_o,\alpha) = 1 - \int_{\Omega^+} f_r(\boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha).(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i
+$$
 
 You can see the resulting table below:
 
 ![AlbedoComplement](../images/BRDF/AlbedoComplementGGX.png)
 
 !!! warning
-    Obviously, don't use this awful image directly! :smile:
-	Use [this 128x128 table](MSBRDF_E128x128.csv) instead! (I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough).
+    Obviously, don't use this awful image directly but [this 128x128 table](MSBRDF_E128x128.csv) instead! :smile:
+	(I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough).
 
 	The 1st float is $\mu = \cos(\theta)$ of the incident or outgoing ray direction, the 2nd float is the roughness $\alpha$ and the 3rd float is $E\left( \mu, \alpha \right)$ (caution, not $1-E$!)
 
@@ -229,9 +236,10 @@ $$
 
 
 !!! info
-    You can download [this table](MSBRDF_Eavg128.csv) representing the $E_{avg}$ for different values of roughness.
-
+    You can download [this table](MSBRDF_Eavg128.csv) representing the $E_{avg}$ for different values of roughness.<br/>
 	The 1st float is the roughness $\alpha$ and the 2nd float is $E_{avg}\left( \alpha \right)$
+
+	Alternatively, you can use the following analytical fit: $E_{avg}(\alpha) = \pi - 0.446898 \cdot \alpha - 5.72019 \cdot \alpha^2 + 6.61848 \cdot \alpha^3 - 2.41727 \cdot \alpha^4$
 
 
 #### Energy Conservation Check
@@ -256,7 +264,7 @@ We also quickly notice that the multiple scattering BRDF term becomes prepondera
 
 #### The case of perfectly reflective rough metal
 
-Remembering that we fixed the Fresnel term to be $F( \boldsymbol{\omega_h}, F_0 ) = 1$, the tables we just calculated can only give us the perfectly reflective 100% white metal BRDF case:
+Remembering that we fixed the Fresnel term to be $F( \mu_d, F_0 ) = 1$, the tables we just calculated can only give us the perfectly reflective 100% white metal BRDF case:
 
 
 !!! todo
@@ -286,7 +294,8 @@ f_r( \theta_o, \phi_o, \theta_i, \phi_i, \sigma) &= \frac{\rho}{\pi} \left[ A + 
 \end{align}
 $$
 
-$\sigma \in [0,\frac{\pi}{2}]$ is the standard angle deviation for the micro-facets' slope distribution and represents the roughness of the surface. Note that $\sigma = 0$ falls back to the standard Lambertian reflection.
+With $\rho$ the surface reflectance and $\sigma \in [0,\frac{\pi}{2}]$ the standard angle deviation for the micro-facets' slope distribution that represents the roughness of the surface.
+Note that $\sigma = 0$ falls back to the standard Lambertian reflection.
 
 You can find below a simple HLSL implementation for the Oren-Nayar diffuse model:
 
@@ -337,7 +346,7 @@ You can find below a simple HLSL implementation for the Oren-Nayar diffuse model
 
 #### Irradiance Table
 
-Once again, we compute the irradiance table $E(\mu_o,\alpha)$ using the Oren-Nayar BRDF model, with $\sigma = \frac{\pi}{2} * \alpha$ and we obtain the following table:
+Once again, keeping $\rho = 1$ at the moment (i.e. perfectly reflective case), we compute the irradiance table $E(\mu_o,\alpha)$ using the Oren-Nayar BRDF model, with $\sigma = \frac{\pi}{2} * \alpha$ and we obtain the following table:
 
 ![AlbedoComplement](../images/BRDF/AlbedoComplementOrenNayar.png)
 
@@ -380,7 +389,36 @@ $$
 
 ## With varying Fresnel
 
+Up until this point we have made 2 important assumptions regarding the BRDFs we have seen:
 
+* The Fresnel reflectance $F( \mu_d, F_0 ) = 1$ for the GGX BRDF
+* The diffuse reflectance $\rho = 1$ for the Oren-Nayar BRDF.
+
+What this means is that the total irradiance that is lost when the light hits the micro-surface multiple times, which is $\pi - E_{avg}$, is entirely redistributed into the multiple-scattering term.
+
+
+Obviously, all the tiny micro-facets composing the microscopic surface stop being perfect mirrors when the $F_0$ term is not 1 anymore:
+ some of the incoming energy gets reflected off the surface (in green), and the remaining energy gets refracted below the surface (in blue).
+
+![Fresnel](../images/BRDF/BRDFMicroFacetFresnel.png)
+
+
+We are thus looking for a factor $k \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - k$ should be applied to the diffuse part.
+
+
+## Integrating Hemispherical Ambient Lighting
+
+Si on a une ambient light sous forme de SH, on a toutes les infos pour toute l'hémisphère. Que ressort-il de la MSBRDF dans ce cas?
+
+!!! todo
+	**TODO**
+
+## Integrating Area Lighting
+
+Si on a une area light, on a une certaine couverture de l'angle solide. Que ressort-il de la MSBRDF dans ce cas?
+
+!!! todo
+	**TODO**
 
 
 ## References

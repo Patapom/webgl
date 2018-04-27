@@ -1,0 +1,23 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <line x1="100" y1="60" x2="150" y2="60"/>
+%  <line x1="125" y1="60" x2="125" y2="90" arr2="h44"/>
+%  <rect x="100" y="56" w="50" h="4" li="none" ha="3"/>
+%  <line x1="125" y1="60" x2="150" y2="84" arr2="h44" lc="red"/>
+%  <line x1="125" y1="60" x2="115" y2="33" arr2="h44" lc="darkturquoise"/>
+%  <line x1="125" y1="60" x2="100" y2="84" arr2="h44" lc="green"/>
+%  <star x="125" y="60"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(153.07, 172.91)(0,0)
+  \put(0,0){\includegraphics{BRDFmicroFacetFresnel.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(153.07, 172.91)(0,0)
+  \put(0,0){\includegraphics{BRDFmicroFacetFresnel}}
+  \end{picture}%
+\fi
+\end{figure}
