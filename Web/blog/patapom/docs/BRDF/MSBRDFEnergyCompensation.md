@@ -20,7 +20,7 @@ they can safely wager about the fact that $f_{r,diff}(\boldsymbol{\omega_o},\bol
 
 
 !!! note ""
-    ![kelemen](../images/BRDF/KelemenResults.jpg)
+    ![kelemen](./images/KelemenResults.jpg)
 
 	I remember being very impressed by the images produced by this paper by the time it was published (yes! I'm old!).<br/>
 	I believe even now there is a very strong "ground truth" flavor emanating from these images.
@@ -215,7 +215,7 @@ $$
 
 You can see the resulting table below:
 
-![AlbedoComplement](../images/BRDF/AlbedoComplementGGX.png)
+![AlbedoComplement](./images/AlbedoComplementGGX.png)
 
 !!! warning
     Obviously, don't use this awful image directly but [this 128x128 table](MSBRDF_E128x128.csv) instead! :smile:
@@ -232,7 +232,7 @@ $$
 E_{avg}\left( \alpha \right) = 2\pi \int_0^1 E(\mu_i,\alpha)\mu_i d\mu_i
 $$
 
-![Eavg](../images/BRDF/Eavg.png)
+![Eavg](./images/Eavg.png)
 
 
 !!! info
@@ -253,7 +253,7 @@ $$
 $$
 
 !!! quote ""
-	![CheckConvservation](../images/BRDF/MSBRDFCheck.png)
+	![CheckConvservation](./images/MSBRDFCheck.png)
 
 	Gray curve is the GGX specular BRDF, blue curve is the "energy compensation BRDF", red curve is their sum that always yield $\pi$, thus ensuring the conservation of energy.
 
@@ -348,7 +348,7 @@ You can find below a simple HLSL implementation for the Oren-Nayar diffuse model
 
 Once again, keeping $\rho = 1$ at the moment (i.e. perfectly reflective case), we compute the irradiance table $E(\mu_o,\alpha)$ using the Oren-Nayar BRDF model, with $\sigma = \frac{\pi}{2} * \alpha$ and we obtain the following table:
 
-![AlbedoComplement](../images/BRDF/AlbedoComplementOrenNayar.png)
+![AlbedoComplement](./images/AlbedoComplementOrenNayar.png)
 
 
 !!! info
@@ -359,7 +359,7 @@ Once again, keeping $\rho = 1$ at the moment (i.e. perfectly reflective case), w
 
 And again, we can obtain the average irradiance table that only depends on roughness:
 
-![Eavg](../images/BRDF/EavgOrenNayar.png)
+![Eavg](./images/EavgOrenNayar.png)
 
 
 !!! info
@@ -379,7 +379,7 @@ $$
 $$
 
 !!! quote ""
-	![CheckConvservation](../images/BRDF/MSBRDFOrenNayarCheck.png)
+	![CheckConvservation](./images/MSBRDFOrenNayarCheck.png)
 
 	Gray curve is the Oren-Nayar diffuse BRDF, blue curve is the "energy compensation BRDF", red curve is their sum that always yield $\pi$, thus ensuring the conservation of energy.
 
@@ -387,7 +387,7 @@ $$
 
 
 
-## With varying Fresnel
+## With varying Specular Fresnel
 
 Up until this point we have made 2 important assumptions regarding the BRDFs we have seen:
 
@@ -400,10 +400,36 @@ What this means is that the total irradiance that is lost when the light hits th
 Obviously, all the tiny micro-facets composing the microscopic surface stop being perfect mirrors when the $F_0$ term is not 1 anymore:
  some of the incoming energy gets reflected off the surface (in green), and the remaining energy gets refracted below the surface (in blue).
 
-![Fresnel](../images/BRDF/BRDFMicroFacetFresnel.png)
+![Fresnel](./images/BRDFMicroFacetFresnel.png)
 
 
 We are thus looking for a factor $k \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - k$ should be applied to the diffuse part.
+
+
+
+!!! note
+	I verified that the dielectric and metallic Fresnel expressions almost match for all possible $F_0$ so the provided expression works regardless of the nature of the material.
+
+![Fresnel](./images/FresnelComparison.gif)
+
+
+
+## With varying Diffuse Albedo
+
+Now focusing on varying the diffuse reflectance $\rho$ for the Oren-Nayar BRDF, once again using my heavy-duty micro-facet ray-tracer to simulate the total irradiance outgoing the micro-surface
+ for various values of incident angle, surface roughness and albedo, I performed the white furnace integration for scattering orders from 2 to 6.
+ 
+!!! note
+	The white furnace from experimental data differs quite a lot from the one we got from the analytical Oren-Nayar integral I must say.
+	(but I think that's to be expected from an approximate model and an empirical simulation?)
+
+By cheating a little and knowing full well I could be expecting a polynomial of the form $f(\rho)=a_n \cdot \rho^n$, with $n$ the scattering order, I obtain a very good fit indeed as can be seen below
+ where each curve represents white the furnace integral as a function of surface albedo $\rho$, the red curve is the polynomial fit for the scattering order:
+
+![Fresnel](./images/WhiteFurnaceDiffuse_Fitting.gif)
+
+
+
 
 
 ## Integrating Hemispherical Ambient Lighting

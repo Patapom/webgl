@@ -1,6 +1,6 @@
 ﻿## Definition of the BRDF ##
 
-![File:NylonBRDF.jpg|thumb|right|600px|](../images/BRDF/NylonBRDF.jpg)
+![File:NylonBRDF.jpg|thumb|right|600px|](./images/NylonBRDF.jpg)
 
 "The BRDF of nylon viewed in the [Disney BRDF Explorer](http://www.disneyanimation.com/technology/brdf.html)"
 The cyan line represents the incoming light direction, the red peanut object is the amount of light reflected in the corresponding direction.
@@ -44,10 +44,10 @@ And since we're considering a single CCD sensor element or a single photo-recept
 * We only perceive that flux in a single location, hence the "per square meter". We need the flux flowing through an infinitesimal piece of surface (at least, the area of a rod or a cone, or the area of a single CCD sensor element).
 * We only perceive that flux in a single direction, hence the "per steradian". We need the flux flowing through an infinitesimal piece of the whole sphere of directions (or at least the solid angle $d\omega$ covered by the cone or single CCD sensor element as shown in the figure below).
 
-![File:Steradian.jpg](../images/BRDF/Steradian.jpg)
+![File:Steradian.jpg](./images/Steradian.jpg)
 
 So the radiance is this: the amount of photons per seconds flowing along a ray of solid angle $d\omega$ and reaching a small surface $dA$. And that's what is stored in the pixels of an image.
-![File:HDRCubeMap.jpg|thumb|right|](../images/BRDF/HDRCubeMap.jpg "An example of HDR cube map taken from [www.pauldebevec.com/](http://www.pauldebevec.com/)")
+![File:HDRCubeMap.jpg|thumb|right|](./images/HDRCubeMap.jpg "An example of HDR cube map taken from [www.pauldebevec.com/](http://www.pauldebevec.com/)")
 
 
 A good source of radiance is one of those HDR cube maps used for Image Based Lighting (IBL): each texel of the cube map represents a piece of the photon flux reaching the point at the center of the cube map. It encodes the entire light field around an object and if you use the cube map well, your object can seamlessly integrate into the real environment where the cube map photograph was taken (thanks to our dear [Paul Debevec](http://www.pauldebevec.com/)) (ever noticed how movies before 1999 had poor CGI? And since his paper on HDR probes, it's a real orgy! :smile:).
@@ -69,7 +69,7 @@ For importance estimates, it's the opposite.
 
 Also note that we use vectors pointing *toward* the view or the light.
 
-![File:Vectors.png|300px](../images/BRDF/Vectors.png)
+![File:Vectors.png|300px](./images/Vectors.png)
 
 ###Irradiance###
 The integration of radiance arriving at a surface element $dA$, times $n.\omega_i$ yields the irradiance ($W.m^{-2}$):
@@ -106,7 +106,7 @@ For example:
 * Many materials have a *specular peak*: a strong reflection of photons that tend to bounce off the surface almost in the direction perfectly symmetrical to the incoming direction (your average mirror does that).
 * Also, many rough materials imply a *Fresnel peak*: a strong reflection of photons that arrive at the surface with glancing angles (fabrics are a good example of Fresnel effect)
 
-![File:SpecFresnel.jpg](../images/BRDF/SpecFresnel.jpg)
+![File:SpecFresnel.jpg](./images/SpecFresnel.jpg)
 
 That makes us realize the BRDF actually needs to be **inside** the integral and become dependent on the incoming direction $\omega_i$ as well!
 
