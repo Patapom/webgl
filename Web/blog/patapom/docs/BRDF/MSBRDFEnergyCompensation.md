@@ -387,7 +387,7 @@ $$
 
 
 
-## With varying Specular Fresnel
+## Dealing with Varying Reflectances
 
 Up until this point we have made 2 important assumptions regarding the BRDFs we have seen:
 
@@ -396,11 +396,33 @@ Up until this point we have made 2 important assumptions regarding the BRDFs we 
 
 What this means is that the total irradiance that is lost when the light hits the micro-surface multiple times, which is $\pi - E_{avg}$, is entirely redistributed into the multiple-scattering term.
 
+Obviously, with real life materials the light gets more or less transmitted through the surface and continues its path:
 
-Obviously, all the tiny micro-facets composing the microscopic surface stop being perfect mirrors when the $F_0$ term is not 1 anymore:
+* For metals, most of the photons get absorbed, transformed into electrons and they never exit the surface as photons again (or maybe super weakened as infrared? Not sure about that).
+* For dielectrics:
+	* If the material has a crystaline structure then photons just don't interact with it unless they have sufficient energy to change the orbits of electrons (that's quantum mechanic domain here)
+	* For regular materials though (or crystals with impurities), it's a mixture of scattering and absorption events not unlike what happens in a participating medium but here the medium density
+	is extremely high and extinction happens very quickly.
+	<br/> Nevertheless after many scattering events, the photons adopt a rather isotropic distribution (hence the mainly diffuse aspect of reflected light)
+	and some of it may exit the surface again, maybe at the same location it entered the surface (the BRDF hypothesis) but more plausibly at a nearby location (the BSSRDF hypothesis), and possibly even
+	through the surface (i.e. translucency)
+
+
+In order to apply the multiple-scattering part of the BRDF, we need to know how much is actually redistributed in reflection depending on the reflectance associated to the BRDF, be it the Fresnel reflectance
+ for the specular BRDFs, or the diffuse reflectance for the diffuse BRDFs.
+
+
+### Varying the Fresnel Reflectance $F_0$
+
+Obviously, when the $F_0$ term is not 1 anymore then the tiny micro-facets composing the microscopic surface stop being perfect mirrors:
  some of the incoming energy gets reflected off the surface (in green), and the remaining energy gets refracted below the surface (in blue).
 
-![Fresnel](./images/BRDFMicroFacetFresnel.png)
+!!! quote ""
+	![Fresnel](./images/BRDFMicroFacetFresnel.png)
+
+	The macroscopic result of combining many micro-facets gives a certain amount of the incoming energy that gets reflected (in green), and a certain amount gets transmitted (in blue).<br/>
+	BRDF models provide a way of estimating the reflected and refracted amounts of energy based on a statistical analysis of the properties of idealized micro-surfaces.<br/>
+	**Inset:** The ideal micro-facet mirror configuration, with a perfect reflection direction (in green) and perfect refraction direction (in blue).
 
 
 We are thus looking for a factor $k \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - k$ should be applied to the diffuse part.
@@ -414,22 +436,76 @@ We are thus looking for a factor $k \in [0,1]$ that will be applied to the multi
 
 
 
-## With varying Diffuse Albedo
+### Varying Diffuse Reflectance $\rho$
 
-Now focusing on varying the diffuse reflectance $\rho$ for the Oren-Nayar BRDF, once again using my heavy-duty micro-facet ray-tracer to simulate the total irradiance outgoing the micro-surface
+Identically to Fresnel reflectance,  when the diffuse reflectance term $\rho$ is not 1 anymore then the tiny micro-facets composing the microscopic surface stop being perfect lambert reflectors:
+ some of the incoming energy gets reflected off the surface (in green), and the remaining energy gets absorbed by the surface (in blue).
+
+
+!!! quote ""
+	![Fresnel](./images/BRDFMicroFacetDiffuse.png)
+
+	Identical to the specular case, the diffuse macro-surface reflects and transmits a certain amount of the energy it receives.<br/>
+	**Inset:** The ideal micro-facet lambert reflector configuration, with a perfectly lambertian probability of reflecting the incoming energy (in green) and a simplified absorption model where the energy simply "disappears" (in blue).
+
+
+Once again using my heavy-duty micro-facet ray-tracer to simulate the total irradiance outgoing the micro-surface
  for various values of incident angle, surface roughness and albedo, I performed the white furnace integration for scattering orders from 2 to 6.
  
 !!! note
 	The white furnace from experimental data differs quite a lot from the one we got from the analytical Oren-Nayar integral I must say.
 	(but I think that's to be expected from an approximate model and an empirical simulation?)
+	Anyway, we will assume 
 
-By cheating a little and knowing full well I could be expecting a polynomial of the form $f(\rho)=a_n \cdot \rho^n$, with $n$ the scattering order, I obtain a very good fit indeed as can be seen below
- where each curve represents white the furnace integral as a function of surface albedo $\rho$, the red curve is the polynomial fit for the scattering order:
+
+So basically what I have is the experimental data that allows me to compute this expression for each scattering order:
+
+$$
+E_{avg,order}(\rho) = 
+\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right)
+(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
+(\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
+$$
+
+
+By cheating a little and knowing full well we should expect a polynomial of the form $f(\rho)=a_n \cdot \rho^n$, with $n$ the scattering order, we obtain an excellent fit indeed,
+ as can be seen below where each curve represents the white furnace integral as a function of surface albedo $\rho$, the red curve is the polynomial fit for the scattering order:
 
 ![Fresnel](./images/WhiteFurnaceDiffuse_Fitting.gif)
 
 
+By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot k^n$ where $a_1$ is the initial factor and $k$ the factor to apply to the diffuse reflectance
+so that it matches our experimental data.
 
+After fitting, we obtain the following result:
+
+$$
+\begin{align}
+a_1 &= 8.85852\\\\
+k &= 0.28425
+\end{align}
+$$
+
+We can then match our experimental data with the final function that gives the amplitude of the white furnace energy for each scattering order $n > 1$:
+
+$$
+\begin{align}
+a_n(\rho) &= a_1 \hat{\rho}^n \\\\
+\hat{\rho} &= k \rho
+\end{align}
+$$
+
+We are interested in the sum of all the amplitudes over all the scattering orders:
+
+$$
+\sum_{n=2}^{\infty}{a_n(\rho)} = 1
+$$
+
+Since $\hat{\rho} < 1$ then we are dealing with a [well-behaved geometric series](https://en.wikipedia.org/wiki/Geometric_progression#Infinite_geometric_series) that can be simplified into:
+
+$$
+\sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{\rho}^2}{1 - \hat{\rho}}
+$$
 
 
 ## Integrating Hemispherical Ambient Lighting
