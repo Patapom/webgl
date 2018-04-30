@@ -462,7 +462,7 @@ So basically what I have is the experimental data that allows me to compute this
 
 $$
 E_{avg,order}(\rho) = 
-\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right)
+\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right)
 (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
 (\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
 $$
@@ -474,38 +474,56 @@ By cheating a little and knowing full well we should expect a polynomial of the 
 ![Fresnel](./images/WhiteFurnaceDiffuse_Fitting.gif)
 
 
-By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot k^n$ where $a_1$ is the initial factor and $k$ the factor to apply to the diffuse reflectance
+By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \tau^n$ where $a_1$ is the initial factor and $\tau$ the factor to apply to the diffuse reflectance
 so that it matches our experimental data.
 
-After fitting, we obtain the following result:
+After fitting, we first obtain the value for tau:
 
 $$
-\begin{align}
-a_1 &= 8.85852\\\\
-k &= 0.28425
-\end{align}
+\tau = 0.284304
 $$
 
-We can then match our experimental data with the final function that gives the amplitude of the white furnace energy for each scattering order $n > 1$:
+Now we are looking for the global factor $a_1$.
+We have:
 
 $$
 \begin{align}
 a_n(\rho) &= a_1 \hat{\rho}^n \\\\
-\hat{\rho} &= k \rho
+\hat{\rho} &= \tau \rho
 \end{align}
 $$
 
-We are interested in the sum of all the amplitudes over all the scattering orders:
+And we are interested in the sum of all the amplitudes over all the scattering orders to sum to 1 when $\rho=1$:
 
 $$
-\sum_{n=2}^{\infty}{a_n(\rho)} = 1
+\sum_{n=2}^{\infty}{a_n(1)} = \sum_{n=2}^{\infty}{a_1 \tau^n} = 1
 $$
 
 Since $\hat{\rho} < 1$ then we are dealing with a [well-behaved geometric series](https://en.wikipedia.org/wiki/Geometric_progression#Infinite_geometric_series) that can be simplified into:
 
 $$
-\sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{\rho}^2}{1 - \hat{\rho}}
+\sum_{n=2}^{\infty}{a_1 \tau^n} = a_1 \frac{\tau^2}{1 - \tau} = 1\\\\
+a_1 = \frac{1 - \tau}{\tau^2} = 8.85447
 $$
+
+We see that we have a nice fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \cdot \hat{\rho}^n$:
+
+![Fresnel](./images/MSBRDFOrenNayarWhiteFurnaceFitting.png)
+
+
+And the final factor to apply to the Oren-Nayar multiple scattering BRDF is thus:
+
+$$
+F_{ms}(\rho) = a_1 \frac{\hat{\rho}^2}{1-\hat{\rho}}
+$$
+
+This gives this pretty uninteresting function:
+
+![Fresnel](./images/MSBRDFOrenNayarFactor.png)
+
+
+**TODO: IMAGES!**
+
 
 
 ## Integrating Hemispherical Ambient Lighting
