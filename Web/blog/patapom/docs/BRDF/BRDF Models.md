@@ -4,7 +4,7 @@ Before we delve into the mysteries of materials modeling, you should get yoursel
 
 The idea is to center the hemisphere of directions about the half vector $h=\frac{\omega_i+\omega_o}{\left \Vert \omega_i+\omega_o \right \|}$ as shown in the figure below:
 
-![File:BRDFChangeOfVariable.jpg|600px](../images/BRDF/BRDFChangeOfVariable.jpg)
+![File:BRDFChangeOfVariable.jpg|600px](./images/BRDFChangeOfVariable.jpg)
 
 This may seem daunting at first but it's quite easy to visualize with time: just imagine you're only dealing with the half vector and the incoming light vector:
 
@@ -13,7 +13,7 @@ This may seem daunting at first but it's quite easy to visualize with time: just
 
 Here's an attempt at a figure showing the change of variables:
 
-![File:VariableChange.jpg](../images/BRDF/VariableChange.jpg)
+![File:VariableChange.jpg](./images/VariableChange.jpg)
 
 We see that the inconvenience of this change is that, as soon as we get away from the normal direction, a part of the new hemisphere stands below the material's surface (represented by the yellow perimeter). It's especially true for grazing angles when $h$ is at 90° off of the $n$ axis: half of the hemisphere stands below the surface!
 
@@ -23,7 +23,7 @@ The main advantage though, is when the materials are isotropic then $\phi_h$ has
 ## BRDF from Actual Materials
 
 !!! note
-    ![File:MERL100.jpg|thumb|right|400px|](../images/BRDF/MERL100.jpg)
+    ![File:MERL100.jpg|thumb|right|400px|](./images/MERL100.jpg)
     The "MERL 100": 100 materials whose BRDFs have been measured and stored for academic research. 50 of these materials are considered "smooth" (e.g. metals and plastics) while the remaining 50 are considered "rough" (e.g. fabrics).
 
 
@@ -42,7 +42,7 @@ Indeed, one way of viewing a 3D MERL table is to consider a stack of 180 slices 
 
 This is what the slices look like when we make $\phi_d$ change from 0 to 90°:
 
-![File:ImageSlicePhiD.jpg](../images/BRDF/ImageSlicePhiD.jpg)
+![File:ImageSlicePhiD.jpg](./images/ImageSlicePhiD.jpg)
 
 
 We can immediately notice the most interesting slice is the one at $\phi_d = \frac{\pi}{2}$. We also can assume the other slices are just a warping of this unique, characteristic slice but we'll come back to that later.
@@ -54,12 +54,12 @@ So, from now on we're going to ignore the other slices and only concentrate on t
 
 Here is what the "MERL 100" look like when viewing only their characteristic slices:
 
-![File:MERL100Slices.jpg](../images/BRDF/MERL100Slices.jpg)
+![File:MERL100Slices.jpg](./images/MERL100Slices.jpg)
 
 
 Now let's have a closer look at one of these slices:
 
-![File:MaterialSliceCharacteristics.jpg|800px](../images/BRDF/MaterialSliceCharacteristics.jpg)
+![File:MaterialSliceCharacteristics.jpg|800px](./images/MaterialSliceCharacteristics.jpg)
 
 We're going to use these *characteristic slices* and their important areas a lot in the following section that will treat of analytical models.
 
@@ -97,12 +97,12 @@ $$
 
 
 ### Specularity
-![File:BRDFPartsSpecular.jpg|thumb|right](../images/BRDF/BRDFPartsSpecular.jpg)
+![File:BRDFPartsSpecular.jpg|thumb|right](./images/BRDFPartsSpecular.jpg)
 
 This "simple" model makes the assumption a macroscopic surface is composed of many perfectly specular microscopic facets, a certain amount of them having their normal $m$ aligned with $h$,
  making them good candidates for specular reflection and adding their contribution to the outgoing radiance. This distribution of normals in the microfacets is given by the $D(\theta_h)$ also called *Normal Distribution Function* or **NDF**.
 
-![File:Microfacets.jpg|800px](../images/BRDF/Microfacets.jpg)
+![File:Microfacets.jpg|800px](./images/Microfacets.jpg)
 
 The NDF is here to represent the specularity of the BRDF but also the retro-reflection at glancing angles.
 There are many models of NDF, the most well known being the Blinn-Phong model:
@@ -134,7 +134,7 @@ Where $\alpha$ is the roughness of the material.
 
 Most models fail to accurately represent specularity due to "short tails" as can be seen in the figure below:
 
-![File:ShortTailedSpecular.jpg](../images/BRDF/ShortTailedSpecular.jpg)
+![File:ShortTailedSpecular.jpg](./images/ShortTailedSpecular.jpg)
 
 
 Disney uses an interesting variation of the Trowbridge-Reitz distribution that helps to compensate for the short tail problem:
@@ -143,14 +143,14 @@ $$
 D_\mathrm{generalizedTR}(\theta_h) = \frac{\alpha^2}{\pi(\alpha^2.\cos(\theta_h)^2 + sin(\theta_h)^2)^\gamma}
 $$
 
-![File:GeneralizedTrowbridge.jpg|600px](../images/BRDF/GeneralizedTrowbridge.jpg)
+![File:GeneralizedTrowbridge.jpg|600px](./images/GeneralizedTrowbridge.jpg)
 
 
 You can find more interesting comparisons of the various NDF in the [talk](http://blog.selfshadow.com/publications/s2012-shading-course/hoffman/s2012_pbs_physics_math_notes.pdf) by Naty Hoffman.
 
 
 ### Fresnel
-![File:BRDFPartsFresnel.jpg|thumb|right](../images/BRDF/BRDFPartsFresnel.jpg)
+![File:BRDFPartsFresnel.jpg|thumb|right](./images/BRDFPartsFresnel.jpg)
 
 The $F(\theta_d)$ term is called the ["Fresnel Reflectance"](http://en.wikipedia.org/wiki/Fresnel_equations) and models the amount of light that will effectively participate to the specular reflection (the rest of the incoming light entering the surface to participate to the diffuse effect).
 
@@ -158,7 +158,7 @@ Notice that $F(\theta_d)$ depends on $\theta_d$ and not $\theta_h$ as we would n
 
 Also notice in the graph below we use $\theta_i$ because the graph was taken from Naty Hoffman's talk at a point where he wasn't yet considering the micro-facet model but the macroscopic model where $\theta_i$ is the offset from the macroscopic surface normal $n$.
 
-![File:Fresnel.jpg|800px](../images/BRDF/Fresnel.jpg)
+![File:Fresnel.jpg|800px](./images/Fresnel.jpg)
 
 
 We immediately notice that:
@@ -180,15 +180,15 @@ $$
 The Fresnel reflection *represents the increase in specular reflection as the light and view vectors move apart and predicts that all smooth surfaces will approach 100% specular reflection at grazing incidence*.
 This is purely theoretical though, because in reality many materials are not perfectly smooth and don't reflect light exactly as predicted by the Fresnel function, as we can see in the figure below where the theoretical Fresnel reflection is compared to the reflection of 100 MERL materials at grazing incidence:
 
-![File:](../images/BRDF/FresnelComparison.jpg)
+![File:](./images/FresnelComparison.jpg)
 
 
 ### Diffuse Part
-![File:BRDFPartsDiffuse.jpg|thumb|right](../images/BRDF/BRDFPartsDiffuse.jpg)
+![File:BRDFPartsDiffuse.jpg|thumb|right](./images/BRDFPartsDiffuse.jpg)
 
 The diffuse part of the equation is modeled by diffuse models like [Lambert](http://en.wikipedia.org/wiki/Lambert%27s_cosine_law), [Oren-Nayar](http://www1.cs.columbia.edu/CAVE/publications/pdfs/Oren_SIGGRAPH94.pdf) or [Hanrahan-Krueger](http://www.irisa.fr/prive/kadi/Lopez/p165-hanrahan.pdf):
 
-![File:DiffuseModels.jpg|600px](../images/BRDF/DiffuseModels.jpg)
+![File:DiffuseModels.jpg|600px](./images/DiffuseModels.jpg)
 
 
 From the micro facet equation (4), we remember the diffuse part is added to the specular part.
@@ -204,7 +204,7 @@ where $n_i$ and $n_t$ are the refraction indices of the incoming and transmitted
 
 Anyway, since the energy on the way in of a diffuse or translucent material gets weighted by the Fresnel term, it's quite reasonable to assume it should be weighted by another kind of "Fresnel term" on the way out. Except this time, the *Fresnel term* actually is some sort of integration of Fresnel reflectance for all the possible directions contributing to the diffuse scattering effect: (TODO)
 
-![File:DiffuseFresnel.jpg|1000px](../images/BRDF/DiffuseFresnel.jpg)
+![File:DiffuseFresnel.jpg|1000px](./images/DiffuseFresnel.jpg)
 
 !!! note
     We know that only a limited cone of angle $\theta_c = \sin^{-1}(n_i/n_t)$ will contain the rays that can come out of a diffuse medium, above that angle there will be total internal reflection.
@@ -213,12 +213,12 @@ Anyway, since the energy on the way in of a diffuse or translucent material gets
 
 We can notice some areas of interest in a typical diffuse material:
 
-![File:DiffuseVariations.jpg](../images/BRDF/DiffuseVariations.jpg)
+![File:DiffuseVariations.jpg](./images/DiffuseVariations.jpg)
 
-![File:DiffuseMainAreas.jpg](../images/BRDF/DiffuseMainAreas.jpg)
+![File:DiffuseMainAreas.jpg](./images/DiffuseMainAreas.jpg)
 
 
-![File:ColorChangingFabric.jpg|thumb|right|](../images/BRDF/ColorChangingFabric.jpg "A fabric that changes its color along with the view angle")
+![File:ColorChangingFabric.jpg|thumb|right|](./images/ColorChangingFabric.jpg "A fabric that changes its color along with the view angle")
 
 * There is this vast, almost uniform, area of colored reflection. This is the actual diffuse color of the material, what we call the diffuse albedo of the surface which is often painted by artists.
 * There is a thin vertical band on the right side that represents grazing-reflection. Possibly of another color than the main diffuse part, as is the case with some fabrics.
@@ -226,28 +226,28 @@ We can notice some areas of interest in a typical diffuse material:
 
 From the plot of retro-reflective response of the MERL 100, we can see that the surge in retro-reflection essentially comes from the roughness of the material:
 
-![File:RoughnessRetroReflection.jpg|600px](../images/BRDF/RoughnessRetroReflection.jpg)
+![File:RoughnessRetroReflection.jpg|600px](./images/RoughnessRetroReflection.jpg)
 
 This is quite normal because roughness is a measure of disorder of the micro-facets on the surface of the material. If roughness is large it means that there is  potentially a large amount of those micro-facets that will be able to reflect light in the direction it originally came from.
 
 
 A very interesting fact I learned from Naty Hoffman's [talk](http://blog.selfshadow.com/publications/s2012-shading-course/hoffman/s2012_pbs_physics_math_notes.pdf) is that, because of free electrons, metals completely absorb photons if they are not reflected specularly: metals have (almost) no diffuse components. It can be clearly seen in the characteristic slices of several metals:
 
-![File:MetalsNoDiffuse.jpg|800px](../images/BRDF/MetalsNoDiffuse.jpg)
+![File:MetalsNoDiffuse.jpg|800px](./images/MetalsNoDiffuse.jpg)
 
 
 Also, we saw that metals have a colored specular component encoded in the $F_0$ Fresnel component, as opposed to dielectric materials which are colorless. This is visible on the specular peak reflecting off a brass sphere:
 
-![File:BrassColoredSpecular.jpg](../images/BRDF/BrassColoredSpecular.jpg)
+![File:BrassColoredSpecular.jpg](./images/BrassColoredSpecular.jpg)
 
 ### Shadowing / Masking
 Finishing with the micro facet model, because the landscape of microfacets is not perfectly flat, some of the micro facets will shadow or mask other facets. This is the geometric factor represented by the $G(\theta_i,\theta_o)$ term.
 
-![File:MicrofacetsShadowingMasking.jpg|800px](../images/BRDF/MicrofacetsShadowingMasking.jpg)
+![File:MicrofacetsShadowingMasking.jpg|800px](./images/MicrofacetsShadowingMasking.jpg)
 
 This geometric factor is usually quite hard to get but is essential to the energy-conservation problem otherwise, the micro-facets model can easily output more energy than came in, especially at glancing angles as shown on the figure below:
 
-![File:ImportantShadowing.jpg](../images/BRDF/ImportantShadowing.jpg)
+![File:ImportantShadowing.jpg](./images/ImportantShadowing.jpg)
 
 The top figure shows a very slant view direction. The micro-facets contributing to the lighting in the view direction (regardless of shadowing) are highlighted in red.
 In the bottom row, the projection of the surface area in the view direction is represented as the green line.

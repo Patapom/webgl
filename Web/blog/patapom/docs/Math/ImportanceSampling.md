@@ -5,6 +5,7 @@
 On pose $t = cos2\left(\theta\right)$ du coup: $dt = -2.sin\left(\theta\right).cos\left(\theta\right)$
 
 Parler du Jacobien, Walter 07.
+http://www.stat.rice.edu/~dobelman/notes_papers/math/Jacobian.pdf
 
 
 ## Metropolis Hastings

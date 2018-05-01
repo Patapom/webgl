@@ -21,7 +21,7 @@ You can find the latest stage of the project from late 2015, early 2016 as I lef
 So I went on writing a small test application that would be using Compute Shaders to cast many rays &mdash; actually **500 million rays** &mdash; on a tiny patch of rough micro-surface (the size of the patch is not relevant, only the distribution of micro-facet slopes is important).
 
 !!! quote ""
-    ![broute](../images/BRDF/SurfaceRayCasting.jpg)
+    ![broute](./images/SurfaceRayCasting.jpg)
 
 	My little simulator, bombarding 500 million rays on a tiny surface patch and accounting for 4 orders of scattering.
 
@@ -40,7 +40,7 @@ Basically, the algorithm when no refraction is involved goes like this:
 
 Here is a view of the resulting histogram bins for the 4th order of scattering over a metallic surface of roughness $\alpha = 0.8$:
 
-![histogram](../images/BRDF/ResultingHistogram.jpg)
+![histogram](./images/ResultingHistogram.jpg)
 
 Each pixel represents a bin for a directional vector with spherical coordinates $(\theta,\phi)$, the image covers the entire upper hemisphere (or lower hemisphere when we are dealing with refraction).
 
@@ -52,15 +52,15 @@ The [Fresnel](BRDF%20Models/#fresnel) term is the same one for all the models.
 
 * Beckmann Model, that follows the classical [Beckmann distribution](https://en.wikipedia.org/wiki/Specular_highlight#Beckmann_distribution)
 
-	![BeckmannLobe](../images/BRDF/LobeBeckmann.jpg)
+	![BeckmannLobe](./images/LobeBeckmann.jpg)
 
 * GGX Model, that follows the [GGX distribution](http://www.cs.cornell.edu/~srm/publications/EGSR07-btdf.pdf) described by Walter et al. [^2]
 
-	![GGXLobe](../images/BRDF/LobeGGX.jpg)
+	![GGXLobe](./images/LobeGGX.jpg)
 
 * Modified Phong (isotropic and anisotropic), that follows the classical [Phong distribution](https://en.wikipedia.org/wiki/Phong_reflection_model)
 
-	![PhongLobe](../images/BRDF/LobePhong.jpg)
+	![PhongLobe](./images/LobePhong.jpg)
 
 
 !!! note
@@ -73,7 +73,7 @@ The goal of my application was to fit new lobes from simulated, empirical data t
  set of shapes that could come out from multiple bounces of light, as can be seen in this image:
 
 !!! quote ""
-    ![MultipleBounces](../images/BRDF/ScatteringOrders.jpg)
+    ![MultipleBounces](./images/ScatteringOrders.jpg)
 
 	Multiple orders of scattering on a diffuse surface with roughness $\alpha = 0.8$.
 	Lobes are scaled to roughly the same size each time, otherwise their volume collapses to 0 very rapidly with each new bounce.
@@ -115,12 +115,12 @@ That is why I wrote an automation tool to let it work during the night...
 I wrote an automation form that allows to configure a "simulation session":
 
 !!! quote ""
-    ![broute](../images/BRDF/SurfaceRayCastingAutomation.jpg)
+    ![broute](./images/SurfaceRayCastingAutomation.jpg)
 
 
 You need to specify how many sampling directions you need and the parameters of the surface (*i.e.* its roughness, whether it's a metal, a dielectric or a diffuse material, its albedo or $F_0$ fresnel term) and let it run.
 
-![automation](../images/BRDF/Automation.gif)
+![automation](./images/Automation.gif)
 
 It's interactive in the sense you can see what it's doing in real-time, you can pause, stop, restart, redo one specific direction you are not satisfied with, etc.
 
@@ -333,12 +333,12 @@ The ```ContrastShadow()``` should either return "shadow" in the basic case, or y
 
 You can see below the effect of multiple-scattering on shadows and transition areas when the roughness increases:
 
-![MSBRDFSaturation](../images/BRDF/MSBRDFSaturation.jpg)
+![MSBRDFSaturation](./images/MSBRDFSaturation.jpg)
 
 
 This is a live demo of what's happening when we increase the roughness:
 
-![MSBRDFSaturation](../images/BRDF/MSBRDFSaturation.gif)
+![MSBRDFSaturation](./images/MSBRDFSaturation.gif)
 
 
 ## Conclusion

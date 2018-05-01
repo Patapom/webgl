@@ -1,0 +1,28 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <circle x="125" y="72" d="24" lc="green"/>
+%  <line x1="125" y1="60" x2="125" y2="90" arr2="h44"/>
+%  <line x1="125" y1="60" x2="150" y2="84" arr2="h44" lc="red"/>
+%  <star x="125" y="60"/>
+%  <arc x="125" y="60" d="8" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <arc x="125" y="60" d="14" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <arc x="125" y="60" d="20" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <arc x="125" y="60" d="26" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <arc x="125" y="60" d="32" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <arc x="125" y="60" d="38" a1="3.14159" a2="6.28319" li="dash" lw="0.50" lc="darkturquoise"/>
+%  <line x1="100" y1="60" x2="150" y2="60"/>
+%  <rect x="100" y="56" w="50" h="4" li="none" ha="3"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(153.07, 150.24)(0,0)
+  \put(0,0){\includegraphics{BRDFmicroFacetDiffuse.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(153.07, 150.24)(0,0)
+  \put(0,0){\includegraphics{BRDFmicroFacetDiffuse}}
+  \end{picture}%
+\fi
+\end{figure}

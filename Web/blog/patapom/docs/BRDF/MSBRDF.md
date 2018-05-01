@@ -5,14 +5,14 @@ In 2014 and 2015, many groundbreaking papers from Heitz et al. [^1] [^2] [^3] [^
 
 With this new micro-flakes model and adequate phase functions, Heitz et al. began to reflect (haha) on the re-introduction of the energy lost with classical BRDF models because of shadowing and masking.
 
-![shadowing/masking](../images/BRDF/MicrofacetsShadowingMasking.jpg)
+![shadowing/masking](./images/MicrofacetsShadowingMasking.jpg)
 
 Indeed, although the shadowing term correctly prevents a micro-surface element to be directly lit by a light source, the masking on the other hand is incorrectly removing lighting that, in the real world, would otherwise be indirectly perceived by reflection.
 
 Suffice it to say that classical BRDF models up until 2014 were *single-scattering* models, while in reality, light bounces of the micro-structures of a surface/volume and is re-injected multiple times, showing a new gain in energy: real-world BRDFs are *multiple-scattering* models.
 
 !!! quote ""
-    ![shadowing/masking](../images/BRDF/MSBRDF.jpg)
+    ![shadowing/masking](./images/MSBRDF.jpg)
 
 	(Source: "Multiple-Scattering Microfacet BSDFs with the Smith Model" [^4])
 
@@ -21,7 +21,7 @@ Suffice it to say that classical BRDF models up until 2014 were *single-scatteri
 
 I first considered the problem with a brute-force solution where I simulated many rays hitting a micro-surface and analyzing the resulting lobes.
 
-I got a somewhat complicated diffuse lobe model for multiple-scattering that I give at the end of this section:
+I got a somewhat complicated diffuse lobe model expression for multiple-scattering that I give at the end of this section:
 
 
 **[Multiple-Scattering by Simulation](MSBRDFBruteForce)**
