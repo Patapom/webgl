@@ -268,7 +268,7 @@ Remembering that we fixed the Fresnel term to be $F( \mu_d, F_0 ) = 1$, the tabl
 
 
 !!! todo
-	**TODO**
+	**TODO: IMAGES!**
 
 
 ### Oren-Nayar Diffuse Model
@@ -424,15 +424,124 @@ Obviously, when the $F_0$ term is not 1 anymore then the tiny micro-facets compo
 	BRDF models provide a way of estimating the reflected and refracted amounts of energy based on a statistical analysis of the properties of idealized micro-surfaces.<br/>
 	**Inset:** The ideal micro-facet mirror configuration, with a perfect reflection direction (in green) and perfect refraction direction (in blue).
 
+<br/>
+We are thus looking for a factor $f(F_0) \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - f(F_0)$ times the MSBRDF term should be redistributed
+ to the part below the specular interface (*e.g.* the diffuse BRDF).
 
-We are thus looking for a factor $k \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - k$ should be applied to the diffuse part.
-
-
+In order to compute such a factor I used my [heavy-duty micro-facet ray-tracer](MSBRDFBruteForce) to simulate the total irradiance outgoing the micro-surface
+ for various values of incident angle, surface roughness and $F_0$.
 
 !!! note
-	I verified that the dielectric and metallic Fresnel expressions almost match for all possible $F_0$ so the provided expression works regardless of the nature of the material.
+	I verified that the dielectric and metallic Fresnel expressions almost match for all possible $F_0$ so the provided expression works regardless of the nature of the material,
+	as can be seen below where the blue curve is the "Artist-Friendly Metal Fresnel" formulation by Ole Gulbrandsen[^5] and the red curve is the classical dielectric Fresnel formulation
+	given by Cook & Torrance[^6].<br/>
+	We see the curves almost completely match as long as the grazing angle reflectance $F_{90}=1$. The dielectric formulation is obviously prefered for low values of $F_0 < 0.2$:
 
-![Fresnel](./images/FresnelComparison.gif)
+	![Fresnel](./images/FresnelComparison.gif)
+
+
+Then, I performed the white furnace integration for scattering orders from 2 to 6.
+So basically what we have is the experimental data that allows us to compute this expression for each scattering order:
+
+$$
+E_{avg,order}(\rho) = 
+\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right)
+(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
+(\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
+$$
+
+ 
+!!! note
+	The white furnace from experimental data (in red, rescaled by a factor 2.1 to match) differs quite a lot from the one we got from the analytical GGX integral (in blue).
+	Despite the factor 2.1 in amplitude, the shape of the experimental white furnace test is similar to the one from the analytical GGX integral but not quite the same,
+	I believe that is expected because I used a Beckmann distribution for the simulation heightfield[^7] and not a Smith distribution.
+	
+	![Fresnel](./images/WhiteFurnaceDiscrepancyGGX.png)
+
+	Anyway, we will assume the anaytical formulation behaves in the same manner as the experimental data even though the resulting shapes and amplitudes don't quite match...
+	We are essentially interested in the relative relationships between various scattering orders rather than the absolute magnitude of the results.
+
+	In any case, the total energy is conserved and the sum of experimental white furnace tests for each order > 2 is the exact complement of the single-scattered order 1,
+	 their sum yielding the constant radiated energy $\pi$.
+	
+	![Fresnel](./images/WhiteFurnaceConservationGGX.png)
+
+<br/>
+For each scattering order, we are looking for a polynomial of the form $a_n(F_0) = a_n \cdot F_0^{n'}$, with $n'$ a variation on the scattering order.
+
+It's not as easy as with a diffuse BRDF because $F_0$ is not a linear value used by the Fresnel equation but is instead converted into an index of refraction (IOR) given by:
+
+$$
+IOR(F_0) = \frac{1+\sqrt{F_0}}{1-\sqrt{F_0}}
+$$
+
+And indeed, by using the expression:
+
+$$
+a_n(F_0) = a_n \cdot \left(\sqrt{F_0}\right)^{n^2}
+$$
+
+We obtain quite a good fit as can be seen below where each curve represents the white furnace integral as a function of specular reflectance $F_0$, the red curve is the polynomial fit for the scattering order:
+
+![Fresnel](./images/WhiteFurnaceGGX_Fitting.gif)
+
+
+By cheating a little more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \left(\sqrt{\tau}\right)^{n^2}$ where $a_1$ is the initial factor and $\tau < 1$ the
+ factor to apply to the specular reflectance so that it matches our experimental data.
+
+After fitting, we indeed obtain the value for $\tau$:
+
+$$
+\tau = 0.5701186887948128
+$$
+
+We then obtain the following complicated power series that we require to sum to 1:
+
+$$
+\sum_{n=2}^{\infty}{ a_1 \cdot \left(\sqrt{\tau}\right)^{n^2}} = 1
+$$
+
+It seems such series are special kinds of functions called [Jacobi theta functions](https://en.wikipedia.org/wiki/Theta_function) and especially the Jacobi elliptic $θ_3(z,q)$ function with the specific value $θ_3(0,\sqrt{\tau})$.
+
+Fortunately, with $\sqrt{\tau} < 1$, the series converges and we can write:
+
+$$
+\begin{align}
+\sum_{n=2}^{\infty}{ a_1 \cdot \sqrt{\tau}^{n^2}} &= 1 \\\\
+a_1 \cdot \left( \frac{\theta_3(0,\sqrt{\tau}) - 1}{2} - \sqrt{\tau} \right) &= 1 \\\\
+\end{align}
+$$
+
+And thus:
+
+$$
+\begin{align}
+a_1 &= \frac{2}{\theta_3(0,\sqrt{\tau}) - 1 - 2 \sqrt{\tau}} \\\\
+a1 &= 0.41689949289258743
+\end{align}
+$$
+
+
+We see that we have a somewhat okay fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \left(\sqrt{\tau F_0}\right)^{n^2}$:
+
+![Fresnel](./images/MSBRDFGGXWhiteFurnaceFitting.gif)
+
+
+Our remaining issue is to compute the $\theta_3\left(0,\sqrt{\tau F_0}\right)$ function for various values of $F_0$. Fortunately, the theta function is very smooth and can be easily fitted using regular low-order polynomials.
+
+
+And the final factor to apply to the GGX multiple scattering BRDF is thus:
+
+$$
+\begin{align}
+F_{ms}(\rho) &= \sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{F_0}^{\frac{n^2}{2}}}{1-\hat{\rho}} \\\\
+\hat{F_0} &= \tau \cdot F_0
+\end{align}
+$$
+
+Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in diffuse color due to its non-linear nature:
+
+![Fresnel](./images/MSBRDFOrenNayarFactor.png)
 
 
 
@@ -449,32 +558,24 @@ Identically to Fresnel reflectance,  when the diffuse reflectance term $\rho$ is
 	**Inset:** The ideal micro-facet lambert reflector configuration, with a perfectly lambertian probability of reflecting the incoming energy (in green) and a simplified absorption model where the energy simply "disappears" (in blue).
 
 
-Once again using my heavy-duty micro-facet ray-tracer to simulate the total irradiance outgoing the micro-surface
- for various values of incident angle, surface roughness and albedo, I performed the white furnace integration for scattering orders from 2 to 6.
+This time, my heavy-duty micro-facet ray-tracer used various values of incident angle, surface roughness and *albedo*, and I performed the white furnace integration for scattering orders from 2 to 6.
  
 !!! note
-	The white furnace from experimental data differs quite a lot from the one we got from the analytical Oren-Nayar integral I must say.
-	(but I think that's to be expected from an approximate model and an empirical simulation?)
-	Anyway, we will assume 
+	Once again, the white furnace from experimental data (in red) differs from the one we got from the analytical Oren-Nayar integral (in blue) by a factor 1.17 and not quite the same shape,
+	but I guess that's to be expected from an approximate model and an empirical simulation?
+	
+	![Fresnel](./images/WhiteFurnaceDiscrepancyOrenNayar.png)
+
+	Anyway, we will assume once again the anaytical formulation behaves in the same manner as the experimental data even though the resulting shapes and amplitudes don't quite match...
 
 
-So basically what I have is the experimental data that allows me to compute this expression for each scattering order:
-
-$$
-E_{avg,order}(\rho) = 
-\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right)
-(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
-(\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
-$$
-
-
-By cheating a little and knowing full well we should expect a polynomial of the form $f(\rho)=a_n \cdot \rho^n$, with $n$ the scattering order, we obtain an excellent fit indeed,
+By cheating a little and knowing full well we should expect a polynomial of the form $a_n(\rho) = a_n \cdot \rho^n$, with $n$ the scattering order, we obtain an excellent fit indeed,
  as can be seen below where each curve represents the white furnace integral as a function of surface albedo $\rho$, the red curve is the polynomial fit for the scattering order:
 
 ![Fresnel](./images/WhiteFurnaceDiffuse_Fitting.gif)
 
 
-By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \tau^n$ where $a_1$ is the initial factor and $\tau$ the factor to apply to the diffuse reflectance
+By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \tau^n$ where $a_1$ is the initial factor and $\tau < 1$ the factor to apply to the diffuse reflectance
 so that it matches our experimental data.
 
 After fitting, we first obtain the value for tau:
@@ -483,30 +584,20 @@ $$
 \tau = 0.284304
 $$
 
-Now we are looking for the global factor $a_1$.
-We have:
-
-$$
-\begin{align}
-a_n(\rho) &= a_1 \hat{\rho}^n \\\\
-\hat{\rho} &= \tau \rho
-\end{align}
-$$
-
-And we are interested in the sum of all the amplitudes over all the scattering orders to sum to 1 when $\rho=1$:
+Now we are looking for the global factor $a_1$ so that the sum of all the amplitudes over all the scattering orders to sum to 1 when $\rho=1$:
 
 $$
 \sum_{n=2}^{\infty}{a_n(1)} = \sum_{n=2}^{\infty}{a_1 \tau^n} = 1
 $$
 
-Since $\hat{\rho} < 1$ then we are dealing with a [well-behaved geometric series](https://en.wikipedia.org/wiki/Geometric_progression#Infinite_geometric_series) that can be simplified into:
+Since $\tau < 1$ we are dealing with a [well-behaved geometric series](https://en.wikipedia.org/wiki/Geometric_progression#Infinite_geometric_series) that can be simplified into:
 
 $$
 \sum_{n=2}^{\infty}{a_1 \tau^n} = a_1 \frac{\tau^2}{1 - \tau} = 1\\\\
 a_1 = \frac{1 - \tau}{\tau^2} = 8.85447
 $$
 
-We see that we have a nice fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \cdot \hat{\rho}^n$:
+We see that we have a nice fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \left(\tau \rho\right)^n$:
 
 ![Fresnel](./images/MSBRDFOrenNayarWhiteFurnaceFitting.png)
 
@@ -514,21 +605,27 @@ We see that we have a nice fit to the white furnace tests for each order using o
 And the final factor to apply to the Oren-Nayar multiple scattering BRDF is thus:
 
 $$
-F_{ms}(\rho) = a_1 \frac{\hat{\rho}^2}{1-\hat{\rho}}
+\begin{align}
+F_{ms}(\rho) &= \sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{\rho}^2}{1-\hat{\rho}} \\\\
+\hat{\rho} &= \tau \cdot \rho
+\end{align}
 $$
 
-This gives this pretty uninteresting function:
+Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in diffuse color due to its non-linear nature:
 
 ![Fresnel](./images/MSBRDFOrenNayarFactor.png)
 
 
-**TODO: IMAGES!**
+!!! todo
+	**TODO: IMAGES!**
 
 
 
 ## Integrating Hemispherical Ambient Lighting
 
 Si on a une ambient light sous forme de SH, on a toutes les infos pour toute l'hémisphère. Que ressort-il de la MSBRDF dans ce cas?
+
+Idem pour une convolution de specular env map en fait?
 
 !!! todo
 	**TODO**
@@ -547,3 +644,6 @@ Si on a une area light, on a une certaine couverture de l'angle solide. Que ress
 [^2]: Kelemen, C. Szirmay-Kalos, L. 2001 ["A Microfact Based Coupled Specular-Matte BRDF Model with Importance Sampling"](https://pdfs.semanticscholar.org/658b/a4e43402545e5478ea5b8b2cdea3ebe59675.pdf)
 [^3]: Oren, M. Nayar, S. 1992 ["Generalization of the Lambertian Model and Implications for Machine Vision"](http://www1.cs.columbia.edu/CAVE/publications/pdfs/Nayar_IJCV95.pdf)
 [^4]: Oren, M. Nayar, S. 1994 ["Generalization of Lambert's Reflectance Model"](http://www1.cs.columbia.edu/CAVE/publications/pdfs/Oren_SIGGRAPH94.pdf)
+[^5]: Gulbrandsen, O. 2014 ["Artist Friendly Metallic Fresnel"](http://jcgt.org/published/0003/04/03/paper.pdf)
+[^6]: Cook, R. L. Torrance, K. E. 1981 ["A Reflectance Model for Computer Graphics"](http://www.graphics.cornell.edu/~westin/consortium-home/cook-tog.pdf)
+[^7]: Heitz, E. 2014 ["Generating Procedural Beckmann Surfaces"](https://drive.google.com/file/d/0BzvWIdpUpRx_U1NOUjlINmljQzg/view)
