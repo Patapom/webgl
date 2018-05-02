@@ -4,7 +4,7 @@
 
 You will find mostly articles about math and rendering.
 
-I specialize in lighting, from the microscopic [BRDF](BRDF) to the macroscopic interactive indirect lighting simulation in 3D scenes.
+I specialize in lighting, from the microscopic [BRDF](BRDF/BRDF%20Definition/) to the macroscopic interactive indirect lighting simulation in 3D scenes.
 
 ![image](images/dishonored2.jpg)
 
