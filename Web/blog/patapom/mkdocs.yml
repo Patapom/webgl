@@ -13,7 +13,8 @@ pages:
          - Multiple-Scattering BRDF:
              - Problem: BRDF/MSBRDF.md
              - Brute Force Processing: BRDF/MSBRDFBruteForce.md
-             - Energy Compensation: BRDF/MSBRDFEnergyCompensation.md
+             - Energy Compensation Pt. 1: BRDF/MSBRDFEnergyCompensation.md
+             - Energy Compensation Pt. 2: BRDF/MSBRDFEnergyCompensation2.md
     - Lighting:
          - Colored Penumbra: ColoredShadows.md
     - Colorimetry:

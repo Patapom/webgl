@@ -467,7 +467,7 @@ $$
 	![Fresnel](./images/WhiteFurnaceConservationGGX.png)
 
 <br/>
-For each scattering order, we are looking for a polynomial of the form $a_n(F_0) = a_n \cdot F_0^{n'}$, with $n'$ a variation on the scattering order.
+For each scattering order, we are looking for a polynomial of the form $a_n(F_0) = A_n \cdot F_0^{n'}$, with $n'$ a variation on the scattering order and $A_n$ an amplitude factor depending on the order.
 
 It's not as easy as with a diffuse BRDF because $F_0$ is not a linear value used by the Fresnel equation but is instead converted into an index of refraction (IOR) given by:
 
@@ -478,7 +478,7 @@ $$
 And indeed, by using the expression:
 
 $$
-a_n(F_0) = a_n \cdot \left(\sqrt{F_0}\right)^{n^2}
+a_n(F_0) = A_n \cdot \left(\sqrt{F_0}\right)^{n^2}
 $$
 
 We obtain quite a good fit as can be seen below where each curve represents the white furnace integral as a function of specular reflectance $F_0$, the red curve is the polynomial fit for the scattering order:
@@ -486,19 +486,19 @@ We obtain quite a good fit as can be seen below where each curve represents the 
 ![Fresnel](./images/WhiteFurnaceGGX_Fitting.gif)
 
 
-By cheating a little more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \left(\sqrt{\tau}\right)^{n^2}$ where $a_1$ is the initial factor and $\tau < 1$ the
+By cheating a little more, we know the $A_n$ terms should have the form of a decreasing geometric series $A_n = A_1 \cdot \left(\sqrt{\tau}\right)^{n^2}$ where $A_1$ is the initial factor and $\tau < 1$ the
  factor to apply to the specular reflectance so that it matches our experimental data.
 
 After fitting, we indeed obtain the value for $\tau$:
 
 $$
-\tau = 0.5701186887948128
+\tau = 0.45549984771950014
 $$
 
 We then obtain the following complicated power series that we require to sum to 1:
 
 $$
-\sum_{n=2}^{\infty}{ a_1 \cdot \left(\sqrt{\tau}\right)^{n^2}} = 1
+\sum_{n=2}^{\infty}{ A_1 \cdot \left(\sqrt{\tau}\right)^{n^2}} = 1
 $$
 
 It seems such series are special kinds of functions called [Jacobi theta functions](https://en.wikipedia.org/wiki/Theta_function) and especially the Jacobi elliptic $θ_3(z,q)$ function with the specific value $θ_3(0,\sqrt{\tau})$.
@@ -507,8 +507,8 @@ Fortunately, with $\sqrt{\tau} < 1$, the series converges and we can write:
 
 $$
 \begin{align}
-\sum_{n=2}^{\infty}{ a_1 \cdot \sqrt{\tau}^{n^2}} &= 1 \\\\
-a_1 \cdot \left( \frac{\theta_3(0,\sqrt{\tau}) - 1}{2} - \sqrt{\tau} \right) &= 1 \\\\
+\sum_{n=2}^{\infty}{ A_1 \cdot \sqrt{\tau}^{n^2}} &= 1 \\\\
+A_1 \cdot \left( \frac{\theta_3(0,\sqrt{\tau}) - 1}{2} - \sqrt{\tau} \right) &= 1 \\\\
 \end{align}
 $$
 
@@ -516,13 +516,13 @@ And thus:
 
 $$
 \begin{align}
-a_1 &= \frac{2}{\theta_3(0,\sqrt{\tau}) - 1 - 2 \sqrt{\tau}} \\\\
-a1 &= 0.41689949289258743
+A_1 &= \frac{2}{\theta_3(0,\sqrt{\tau}) - 1 - 2 \sqrt{\tau}} \\\\
+A_1 &= 4.193906008161867
 \end{align}
 $$
 
 
-We see that we have a somewhat okay fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \left(\sqrt{\tau F_0}\right)^{n^2}$:
+We see that we have a somewhat okay fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = A_1 \left(\sqrt{\tau F_0}\right)^{n^2}$:
 
 ![Fresnel](./images/MSBRDFGGXWhiteFurnaceFitting.gif)
 
@@ -534,14 +534,14 @@ And the final factor to apply to the GGX multiple scattering BRDF is thus:
 
 $$
 \begin{align}
-F_{ms}(\rho) &= \sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{F_0}^{\frac{n^2}{2}}}{1-\hat{\rho}} \\\\
+F_{ms}(\rho) &= 0.04 \cdot \hat{F_0} + 0.66 \cdot \hat{F_0}^2 + 0.3 \cdot \hat{F_0}^3 \\\\
 \hat{F_0} &= \tau \cdot F_0
 \end{align}
 $$
 
-Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in diffuse color due to its non-linear nature:
+Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in color due to its non-linear nature (blue is the theta function, red is fitting):
 
-![Fresnel](./images/MSBRDFOrenNayarFactor.png)
+![Fresnel](./images/MSBRDFFresnelFactor.png)
 
 
 
@@ -569,35 +569,35 @@ This time, my heavy-duty micro-facet ray-tracer used various values of incident 
 	Anyway, we will assume once again the anaytical formulation behaves in the same manner as the experimental data even though the resulting shapes and amplitudes don't quite match...
 
 
-By cheating a little and knowing full well we should expect a polynomial of the form $a_n(\rho) = a_n \cdot \rho^n$, with $n$ the scattering order, we obtain an excellent fit indeed,
+By cheating a little and knowing full well we should expect a polynomial of the form $a_n(\rho) = A_n \cdot \rho^n$, with $n$ the scattering order, we obtain an excellent fit indeed,
  as can be seen below where each curve represents the white furnace integral as a function of surface albedo $\rho$, the red curve is the polynomial fit for the scattering order:
 
 ![Fresnel](./images/WhiteFurnaceDiffuse_Fitting.gif)
 
 
-By cheating even more, we know the $a_n$ terms should have the form of a decreasing geometric series $a_n = a_1 \cdot \tau^n$ where $a_1$ is the initial factor and $\tau < 1$ the factor to apply to the diffuse reflectance
+By cheating even more, we know the $A_n$ terms should have the form of a decreasing geometric series $A_n = A_1 \cdot \tau^n$ where $A_1$ is the initial factor and $\tau < 1$ the factor to apply to the diffuse reflectance
 so that it matches our experimental data.
 
 After fitting, we first obtain the value for tau:
 
 $$
-\tau = 0.284304
+\tau = 0.28430405702379613
 $$
 
-Now we are looking for the global factor $a_1$ so that the sum of all the amplitudes over all the scattering orders to sum to 1 when $\rho=1$:
+Now we are looking for the global factor $A_1$ so that the sum of all the amplitudes over all the scattering orders to sum to 1 when $\rho=1$:
 
 $$
-\sum_{n=2}^{\infty}{a_n(1)} = \sum_{n=2}^{\infty}{a_1 \tau^n} = 1
+\sum_{n=2}^{\infty}{a_n(1)} = \sum_{n=2}^{\infty}{A_1 \tau^n} = 1
 $$
 
 Since $\tau < 1$ we are dealing with a [well-behaved geometric series](https://en.wikipedia.org/wiki/Geometric_progression#Infinite_geometric_series) that can be simplified into:
 
 $$
-\sum_{n=2}^{\infty}{a_1 \tau^n} = a_1 \frac{\tau^2}{1 - \tau} = 1\\\\
-a_1 = \frac{1 - \tau}{\tau^2} = 8.85447
+\sum_{n=2}^{\infty}{A_1 \tau^n} = A_1 \frac{\tau^2}{1 - \tau} = 1\\\\
+A_1 = \frac{1 - \tau}{\tau^2} = 8.854467355133801
 $$
 
-We see that we have a nice fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = a_1 \left(\tau \rho\right)^n$:
+We see that we have a nice fit to the white furnace tests for each order using our newly-fitted function $a_n(\rho) = A_1 \left(\tau \rho\right)^n$:
 
 ![Fresnel](./images/MSBRDFOrenNayarWhiteFurnaceFitting.png)
 
@@ -606,7 +606,7 @@ And the final factor to apply to the Oren-Nayar multiple scattering BRDF is thus
 
 $$
 \begin{align}
-F_{ms}(\rho) &= \sum_{n=2}^{\infty}{a_1 \hat{\rho}^n} = a_1 \frac{\hat{\rho}^2}{1-\hat{\rho}} \\\\
+F_{ms}(\rho) &= \sum_{n=2}^{\infty}{A_1 \hat{\rho}^n} = A_1 \frac{\hat{\rho}^2}{1-\hat{\rho}} \\\\
 \hat{\rho} &= \tau \cdot \rho
 \end{align}
 $$
@@ -619,23 +619,6 @@ Which gives this pretty uninteresting function that nevertheless makes for a nic
 !!! todo
 	**TODO: IMAGES!**
 
-
-
-## Integrating Hemispherical Ambient Lighting
-
-Si on a une ambient light sous forme de SH, on a toutes les infos pour toute l'hémisphère. Que ressort-il de la MSBRDF dans ce cas?
-
-Idem pour une convolution de specular env map en fait?
-
-!!! todo
-	**TODO**
-
-## Integrating Area Lighting
-
-Si on a une area light, on a une certaine couverture de l'angle solide. Que ressort-il de la MSBRDF dans ce cas?
-
-!!! todo
-	**TODO**
 
 
 ## References
