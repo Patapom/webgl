@@ -169,6 +169,19 @@ f_{r,ms}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) = \frac{(1-E(\mu_o)).(1-E(
 $$
 
 
+
+!!! quote ""
+    ![whiteFurnace](./images/MSBRDFWhiteFurnaceTest.jpg)
+
+	White furnace test without and with energy compensation for various values of surface roughness.</br>
+	(the background environment intensity is 1 while the scene intensity is 0.9 to make sure there is no overshoot in energy reflection).
+
+	***Top Row:*** The classical single-scattering BRDF clearly fails at restituting the entire energy received by the material<br/>
+	***Middle Row:*** The multiple-scattering BRDF term from the energy compensation technique successfully bounces back the entirety of the energy received by the material.<br/>
+	***Bottom Row:*** Difference.
+
+
+
 ## Applications to existing BRDF models
 
 ### GGX Specular Model
@@ -266,9 +279,12 @@ We also quickly notice that the multiple scattering BRDF term becomes prepondera
 
 Remembering that we fixed the Fresnel term to be $F( \mu_d, F_0 ) = 1$, the tables we just calculated can only give us the perfectly reflective 100% white metal BRDF case:
 
+!!! quote ""
+	![MSBRDF GGX F0=100%](./images/MSBRDFGGXFullF0.jpg)
 
-!!! todo
-	**TODO: IMAGES!**
+	***Top Row:*** The classical single-scattering GGX BRDF shows a loss of energy at high roughness<br/>
+	***Middle Row:*** The multiple-scattering BRDF term with the energy compensation technique successfully restores the lost energy.<br/>
+	***Bottom Row:*** Difference.
 
 
 ### Oren-Nayar Diffuse Model
@@ -316,13 +332,9 @@ You can find below a simple HLSL implementation for the Oren-Nayar diffuse model
 			float	LdotN = dot( l, n );
 			float	VdotN = dot( v, n );
 
-			// I realize that this doesn't give cosine phi, we need to divide by sqrt( 1-VdotN*VdotN ) * sqrt( 1-LdotN*LdotN )
-			//	but I couldn't distinguish any difference from the actual formula so I just left that as it is...
-			float	gamma = dot(
-								v - n * VdotN,
-								l - n * LdotN 
-							);
-				
+			float   gamma = dot( v - n * VdotN, l - n * LdotN )
+						  / (sqrt( saturate( 1.0 - VdotN*VdotN ) ) * sqrt( saturate( 1.0 - LdotN*LdotN ) ));
+
 			float rough_sq = _roughness * _roughness;
 			float A = 1.0 - 0.5 * (rough_sq / (rough_sq + 0.33));	// You can replace 0.33 by 0.57 to simulate the missing inter-reflection term, as specified in footnote of page 22 of the 1992 paper
 			float B = 0.45 * (rough_sq / (rough_sq + 0.09));
@@ -384,6 +396,18 @@ $$
 	Gray curve is the Oren-Nayar diffuse BRDF, blue curve is the "energy compensation BRDF", red curve is their sum that always yield $\pi$, thus ensuring the conservation of energy.
 
 <br/>
+
+
+#### The case of perfectly reflective rough diffuse
+
+Remembering that we fixed the diffuse reflectance term to be $\rho = 1$, the tables we just calculated can only give us the perfectly reflective 100% white diffuse BRDF case:
+
+!!! quote ""
+	![MSBRDF Oren-Nayar Rho=100%](./images/MSBRDFOrenNayarFullRho.jpg)
+
+	***Top Row:*** The classical single-scattering Oren-Nayar BRDF shows a loss of energy at high roughness<br/>
+	***Middle Row:*** The multiple-scattering BRDF term with the energy compensation technique successfully restores the lost energy.<br/>
+	***Bottom Row:*** Difference.
 
 
 
@@ -533,12 +557,22 @@ Our remaining issue is to compute the $\theta_3\left(0,\sqrt{\tau F_0}\right)$ f
 And the final factor to apply to the GGX multiple scattering BRDF is thus simply:
 
 $$
-F_{ms}(\rho) = 0.04 \cdot F_0 + 0.66 \cdot F_0^2 + 0.3 \cdot F_0^3
+F_{ms}(F_0) = 0.04 \cdot F_0 + 0.66 \cdot F_0^2 + 0.3 \cdot F_0^3
 $$
 
 Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in color due to its non-linear nature (blue is the theta function, red is fitting):
 
 ![Fresnel](./images/MSBRDFFresnelFactor.png)
+
+
+
+!!! quote ""
+	![MSBRDF GGX Varying F0](./images/MSBRDFGGXVaryingF0.jpg)
+
+	***From Left to Right:*** Varying values of $F_0$ from 0.04 to $F_0_{gold}=\left( 1, 0.765557, 0.336057 \right)$ with constant roughness of 0.5.</br>
+	Previous to last image shows no sturation on $F_0$ (i.e. $F_0$ is used directly as a multiplier for the MS term).</br>
+	Last image on the right shows amplified difference of the saturated colors obtained with the $F_{ms}(F_0)$ discussed above.
+	
 
 
 
@@ -613,8 +647,12 @@ Which gives this pretty uninteresting function that nevertheless makes for a nic
 ![Fresnel](./images/MSBRDFOrenNayarFactor.png)
 
 
-!!! todo
-	**TODO: IMAGES!**
+
+!!! quote ""
+	![MSBRDF Oren-Nayar Varying Rho](./images/MSBRDFOrenNayarVaryingRho.jpg)
+
+	***From Left to Right:*** Varying values of $\rho$ from 0.2 to 1 with constant roughness of 1.</br>
+	Last image on the right shows no sturation on $\rho$ (i.e. $\rho$ is used directly as a multiplier for the MS term instead of using the $F_{ms}(\rho)$ term discussed above).
 
 
 
