@@ -218,7 +218,7 @@ You can see the resulting table below:
 ![AlbedoComplement](./images/AlbedoComplementGGX.png)
 
 !!! warning
-    Obviously, don't use this awful image directly but [this 128x128 table](MSBRDF_E128x128.csv) instead! :smile:
+    Obviously, don't use this awful image directly but [this 128x128 table](MSBRDF_GGX_E128x128.csv) instead! :smile:
 	(I provide a 128x128 version although, as noted by Kulla et al., the function is very smooth and a 32x32 texture is more than enough).
 
 	The 1st float is $\mu = \cos(\theta)$ of the incident or outgoing ray direction, the 2nd float is the roughness $\alpha$ and the 3rd float is $E\left( \mu, \alpha \right)$ (caution, not $1-E$!)
@@ -236,7 +236,7 @@ $$
 
 
 !!! info
-    You can download [this table](MSBRDF_Eavg128.csv) representing the $E_{avg}$ for different values of roughness.<br/>
+    You can download [this table](MSBRDF_GGX_Eavg128.csv) representing the $E_{avg}$ for different values of roughness.<br/>
 	The 1st float is the roughness $\alpha$ and the 2nd float is $E_{avg}\left( \alpha \right)$
 
 	Alternatively, you can use the following analytical fit: $E_{avg}(\alpha) = \pi - 0.446898 \cdot \alpha - 5.72019 \cdot \alpha^2 + 6.61848 \cdot \alpha^3 - 2.41727 \cdot \alpha^4$
@@ -530,13 +530,10 @@ We see that we have a somewhat okay fit to the white furnace tests for each orde
 Our remaining issue is to compute the $\theta_3\left(0,\sqrt{\tau F_0}\right)$ function for various values of $F_0$. Fortunately, the theta function is very smooth and can be easily fitted using regular low-order polynomials.
 
 
-And the final factor to apply to the GGX multiple scattering BRDF is thus:
+And the final factor to apply to the GGX multiple scattering BRDF is thus simply:
 
 $$
-\begin{align}
-F_{ms}(\rho) &= 0.04 \cdot \hat{F_0} + 0.66 \cdot \hat{F_0}^2 + 0.3 \cdot \hat{F_0}^3 \\\\
-\hat{F_0} &= \tau \cdot F_0
-\end{align}
+F_{ms}(\rho) = 0.04 \cdot F_0 + 0.66 \cdot F_0^2 + 0.3 \cdot F_0^3
 $$
 
 Which gives this pretty uninteresting function that nevertheless makes for a nice saturation in color due to its non-linear nature (blue is the theta function, red is fitting):
