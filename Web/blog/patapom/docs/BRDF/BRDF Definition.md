@@ -130,7 +130,7 @@ $$
 From equation (1) we find that:
 
 $$
-dE_i(x,\omega_i) = L_i(x,\omega_i) (n.\omega_i) d\omega_i~~~~~~~~~~~~
+dE_i(x,\omega_i) = L_i(x,\omega_i) (n.\omega_i) d\omega_i
 $$
 (note that we simply removed the integral signs to get this)
 

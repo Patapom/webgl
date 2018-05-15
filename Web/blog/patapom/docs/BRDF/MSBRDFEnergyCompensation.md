@@ -569,7 +569,7 @@ Which gives this pretty uninteresting function that nevertheless makes for a nic
 !!! quote ""
 	![MSBRDF GGX Varying F0](./images/MSBRDFGGXVaryingF0.jpg)
 
-	***From Left to Right:*** Varying values of $F_0$ from 0.04 to $F_0_{gold}=\left( 1, 0.765557, 0.336057 \right)$ with constant roughness of 0.5.</br>
+	***From Left to Right:*** Varying values of $F_0$ from 0.04 to $F_{0_{gold}}=\left( 1, 0.765557, 0.336057 \right)$ with constant roughness of 0.5.</br>
 	Previous to last image shows no sturation on $F_0$ (i.e. $F_0$ is used directly as a multiplier for the MS term).</br>
 	Last image on the right shows amplified difference of the saturated colors obtained with the $F_{ms}(F_0)$ discussed above.
 	
@@ -654,6 +654,180 @@ Which gives this pretty uninteresting function that nevertheless makes for a nic
 	***From Left to Right:*** Varying values of $\rho$ from 0.2 to 1 with constant roughness of 1.</br>
 	Last image on the right shows no sturation on $\rho$ (i.e. $\rho$ is used directly as a multiplier for the MS term instead of using the $F_{ms}(\rho)$ term discussed above).
 
+
+
+## Complete Approximate Model
+
+We can finally put together what we saw into an approximate model that should be good enough for real time game engine (maybe not so much for production-grade rendering :smile:).
+
+For a metal, we can easily obtain the specularly reflected radiance as:
+
+$$
+dL_r(\boldsymbol{\omega_o}) = \left[ f_{r,spec}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) + F_{ms,spec}(F_0) \cdot f_{ms,spec}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right) \right] \cdot dE_i(\boldsymbol{\omega_i})
+$$
+
+Where $dE_i(\boldsymbol{\omega_i}) = L_i(\boldsymbol{\omega_i}) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i$ is the small irradiance element contributed by the projected solid angle $(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i$.
+
+
+As for dielectrics, the expression is a little bit more involved:
+
+$$
+\begin{align}
+dL_r(\boldsymbol{\omega_o})	&= \left[ f_{r,spec}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) + F_{ms,spec}(F_0) \cdot f_{ms,spec}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right) \right] \cdot dE_i(\boldsymbol{\omega_i})	\\\\
+							&+ \left[ f_{r,diff}(\boldsymbol{\omega_o},\boldsymbol{\omega_i}) + F_{ms,diff}(\rho) \cdot f_{ms,diff}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right) \right] \cdot dE_{i_{diff}}(\boldsymbol{\omega_i}) \\\\
+\\\\
+dE_{i_{diff}}(\boldsymbol{\omega_i}) &= \kappa( \boldsymbol{\omega_o}, F_0 ) \cdot dE_i(\boldsymbol{\omega_i})
+\end{align}
+$$
+
+The main issue here is to determine the factor $\kappa( \boldsymbol{\omega_o}, F_0 )$ that gives the ratio of the incoming irradiance that is *not specularly reflected*.
+
+If we remember the assumption originally made by Kelemen in equation $\eqref{(3)}$, we had in the perfectly reflecting case:
+
+$$
+E_{diff}( \boldsymbol{\omega_o} ) = 1 - E_{spec}( \boldsymbol{\omega_o} )
+$$
+
+We know the diffuse irradiance $E_{diff}$ is bounded by the complement to the specular irradiance $E_{spec}$, *i.e.* the diffusely reflected energy is what's left of the energy that hasn't been specularly reflected.
+
+We can thus choose $\kappa( \boldsymbol{\omega_o}, F_0 ) = E_{diff}( \boldsymbol{\omega_o} )$ as our diffuse factor, all we need to find is the expression for $E_{spec}( \boldsymbol{\omega_o} )$ that we can now fully write as:
+
+$$
+\begin{align}
+E_{spec}( \boldsymbol{\omega_o} ) &= \int_{\Omega^+} \left[ f_{r,spec}( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} ) + f_{ms,spec}( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} ) \right] (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i	\\\\
+\\\\
+								  &= \int_{\Omega^+} f_{r,spec}( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} ) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \\\\
+								  &+ \int_{\Omega^+} F_{ms,spec}(F_0) \cdot \frac{(1-E(\boldsymbol{\omega_o}) (1-E(\boldsymbol{\omega_i}))}{\pi - E_{avg}} (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i	\\\\
+\\\\
+								  &= \int_{\Omega^+} f_{r,spec}( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} ) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \\\\
+								  &+ F_{ms,spec}(F_0) \cdot (1-E(\boldsymbol{\omega_o}))	\\\\
+\end{align}
+$$
+
+With $E(\boldsymbol{\omega_o})$ the precomputed GGX irradiance table we saw earlier.
+
+If we make the (wrong) assumption that:
+
+$$
+\begin{align}
+\int_{\Omega^+} f_{r,spec}( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} ) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i &= \int_{\Omega^+} \frac{ F(\theta_d, F_0) \cdot G( \theta_i, \theta_o ) \cdot N( \theta_h ) }{4 \cos(\theta_i) \cos(\theta_o)} (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i	\\\\
+ &\approx \left[ \int_{\Omega^+} F(\theta_d, F_0) (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]  \cdot \left[ \int_{\Omega^+} \frac{ F(\theta_d, 1) \cdot G( \theta_i, \theta_o ) \cdot N( \theta_h ) }{4 \cos(\theta_i) \cos(\theta_o)} (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]	\\\\
+ &\approx F_{avg}(\theta_o, F_0) \cdot E(\boldsymbol{\omega_o})	\\\\
+\end{align}
+$$
+
+Then we finally have:
+
+$$
+\begin{align}
+\kappa( \boldsymbol{\omega_o}, F_0 ) &= 1 - E_{spec}( \boldsymbol{\omega_o} ) \\\\
+&\approx 1 - \left[ F_{avg}(\theta_o, F_0) \cdot E(\boldsymbol{\omega_o}) + F_{ms,spec}(F_0) \cdot (1-E(\boldsymbol{\omega_o})) \right]
+\end{align}
+$$
+
+We can then use the expression for $F_{avg}(\theta_o, F_0)$ given by Kulla & Conty (slide 18) for dielectrics that makes an additional simplification by ignoring the dependance on $\theta_o$:
+
+$$
+F_{avg}(\eta) \approx \frac{\eta - 1}{4.08567 + 1.00071 \cdot \eta}, 1 < \eta < 400
+$$
+
+Where $\eta = \frac{1+\sqrt{F_0}}{1-\sqrt{F_0}}$ is the relative Index Of Refraction (IOR) of the surface.
+
+We can see that:
+
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 0$ when $F_0 \to \infty$ which is the case of metals
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 1$ when $F_0 \to 0$ which is the case of dielectrics
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) = 1$ for perfectly diffuse surfaces
+
+</br>
+
+
+!!! quote ""
+	![MSBRDF Full Dielectric Model](./images/MSBRDFDielectric.jpg)
+
+	The full dielectric model with varying values for the specular roughness $\alpha$ and reflectance $F_0$
+
+
+Here is the code for the full MSBRDF model that you can also find in my [God Complex repository](https://github.com/Patapom/GodComplex/tree/master/Tests/TestMSBRDF) on GitHub.
+
+???- "Full MSBRDF Model Implementation (HLSL)"
+	``` C++
+		static const bool	_enableMultipleScattering = true;
+
+		// ====== Multiple-scattering BRDF computed from energy compensation ======
+		//	_roughness, roughness for the BRDF model (in [0,1])
+		//	_tsNormal, unit surface normal vector (in tangent space)
+		//	_tsView, unit view vector, pointing toward the camera (in tangent space)
+		//	_tsLight, unit light vector, pointing toward the light (in tangent space)
+		//	_Eo, the precomputed 2D table of values for various elevations and roughnesses
+		//	_Eavg, the precomputed 1D tables of total reflectance for various roughnesses
+		//
+		float	MSBRDF( float _roughness, float3 _tsNormal, float3 _tsView, float3 _tsLight, Texture2D<float> _Eo, Texture2D<float> _Eavg ) {
+
+			float	mu_o = saturate( dot( _tsView, _tsNormal ) );
+			float	mu_i = saturate( dot( _tsLight, _tsNormal ) );
+			float	a = _roughness;
+
+			float	E_o = 1.0 - _Eo.SampleLevel( LinearClamp, float2( mu_o, a ), 0.0 );	// 1 - E_o
+			float	E_i = 1.0 - _Eo.SampleLevel( LinearClamp, float2( mu_i, a ), 0.0 );	// 1 - E_i
+			float	E_avg = _Eavg.SampleLevel( LinearClamp, float2( a, 0.5 ), 0.0 );	// E_avg
+
+			return E_o * E_i / max( 0.001, PI - E_avg );
+		}
+
+		// ====== Computes the full dielectric BRDF model ======
+		//	_tsNormal, unit surface normal vector (in tangent space)
+		//	_tsView, unit view vector, pointing toward the camera (in tangent space)
+		//	_tsLight, unit light vector, pointing toward the light (in tangent space)
+		//	_roughnessSpecular, roughness for the GGX specular model (in [0,1])
+		//	_IOR, surface Index Of Refraction for the GGX specular model (in [1,+oo])
+		//	_roughnessDiffuse, roughness for the Oren-Nayar diffuse model (in [0,1])
+		//	_albedo, diffuse albedo for the Oren-Nayar diffuse model (in [0,1])
+		//
+		float3	ComputeBRDF_Full(  float3 _tsNormal, float3 _tsView, float3 _tsLight, float _roughnessSpecular, float3 _IOR, float _roughnessDiffuse, float3 _albedo ) {
+			// Compute specular BRDF
+			float3	F0 = Fresnel_F0FromIOR( _IOR );
+			float3	MSFactor_spec = (_flags & 2) ? F0 * (0.04 + F0 * (0.66 + F0 * 0.3)) : F0;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
+			float3	Favg = FresnelAverage( _IOR );
+
+			float3	BRDF_spec = BRDF_GGX( _tsNormal, _tsView, _tsLight, _roughnessSpecular, _IOR );
+			if ( _enableMultipleScattering ) {
+				BRDF_spec += MSFactor_spec * MSBRDF( _roughnessSpecular, _tsNormal, _tsView, _tsLight, _tex_GGX_Eo, _tex_GGX_Eavg );	// _tex_GGX_Eo, _tex_GGX_Eavg are precomputed textures with the tables given earlier
+			}
+
+			// Compute diffuse contribution
+			float3	BRDF_diff = _albedo * BRDF_OrenNayar( _tsNormal, _tsView, _tsLight, _roughnessDiffuse );
+			if ( _enableMultipleScattering ) {
+				const float	tau = 0.28430405702379613;
+				const float	A1 = (1.0 - tau) / pow2( tau );
+				float3		rho = tau * _albedo;
+				float3		MSFactor_diff = (_flags & 2) ? A1 * pow2( rho ) / (1.0 - rho) : rho;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+
+				BRDF_diff += MSFactor_diff * MSBRDF( _roughnessDiffuse, _tsNormal, _tsView, _tsLight, _tex_OrenNayar_Eo, _tex_OrenNayar_Eavg );	// _tex_OrenNayar_Eo, _tex_OrenNayar_Eavg are precomputed textures with the tables given earlier
+			}
+
+			// Attenuate diffuse contribution
+			float	mu_o = saturate( dot( _tsView, _tsNormal ) );
+			float	a = _roughnessSpecular;
+			float	E_o = _tex_GGX_Eo.SampleLevel( LinearClamp, float2( mu_o, a ), 0.0 );	// Already sampled by MSBRDF earlier, optimize!
+
+			float3	kappa = 1 - (Favg * E_o + MSFactor_spec * (1.0 - E_o));
+
+			return BRDF_spec + kappa * BRDF_diff;
+		}
+
+	```
+
+
+
+## Discussion
+
+We saw interesting improvements on classical BRDF formulations that can be pretty cheap to evaluate, even for game engines.</br>
+Unfortunately, multiple-scattering BRDFs only reveal their true potential when dealing with advanced light sources like area lights or image-based lighting (*i.e.* lights that cover a sufficiently large solid angle),
+otherwise the small contribution of the MS term is quite "lost in the wind" and the cost of sampling 3 (even super low resolution) precomputed textures per pixel and per light can rapidly become prohibitive.
+
+
+That is why we will discuss how the multiple-scattering BRDF can be truly harnessed for a real added benefit in the 2nd part of this series about energy compensation! (coming soon) (hopefully :grinning:)
 
 
 ## References
