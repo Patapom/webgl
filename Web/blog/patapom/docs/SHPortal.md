@@ -6,7 +6,7 @@ Although Spherical Harmonics have always been around for quite some time, for ex
 
 ## What are Spherical Harmonics? ##
 
-!!! quote
+!!! quote ""
     ![SH](images/SH/Spherical_Harmonics.png)
     Visual representations of the first 4 bands of real spherical harmonic functions. Blue portions are regions where the function is positive, and yellow portions represent regions where it is negative.<br />Image created by Iñigo Quilez.
 

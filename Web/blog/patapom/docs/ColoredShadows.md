@@ -161,12 +161,12 @@ float	ContrastShadow( float _shadow, float _LdotN ) {
 
 You can see below the effect of multiple-scattering on shadows and transition areas when the roughness increases:
 
-![MSBRDFSaturation](images/BRDF/MSBRDFSaturation.jpg)
+![MSBRDFSaturation](./BRDF/images/MSBRDFSaturation.jpg)
 
 
 This is a live demo of what's happening when we increase the roughness:
 
-![MSBRDFSaturation](images/BRDF/MSBRDFSaturation.gif)
+![MSBRDFSaturation](./BRDF/images/MSBRDFSaturation.gif)
 
 
 ## Art Tutorials

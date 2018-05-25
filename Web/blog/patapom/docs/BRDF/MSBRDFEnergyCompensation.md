@@ -468,8 +468,8 @@ Then, I performed the white furnace integration for scattering orders from 2 to 
 So basically what we have is the experimental data that allows us to compute this expression for each scattering order:
 
 $$
-E_{avg,order}(\rho) = 
-\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} \right)
+E_{avg,order}(F_0) = 
+\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, F_0 \right)
 (\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
 (\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
 $$
@@ -485,8 +485,8 @@ $$
 	Anyway, we will assume the anaytical formulation behaves in the same manner as the experimental data even though the resulting shapes and amplitudes don't quite match...
 	We are essentially interested in the relative relationships between various scattering orders rather than the absolute magnitude of the results.
 
-	In any case, the total energy is conserved and the sum of experimental white furnace tests for each order > 2 is the exact complement of the single-scattered order 1,
-	 their sum yielding the constant radiated energy $\pi$.
+	In any case, the total energy is conserved and the sum of experimental white furnace tests for each order > 2 (in red) is the exact complement of the single-scattered order 1 (in blue),
+	 their sum yielding the constant radiated energy $\pi$ (in green).
 	
 	![Fresnel](./images/WhiteFurnaceConservationGGX.png)
 
@@ -590,7 +590,15 @@ Identically to Fresnel reflectance,  when the diffuse reflectance term $\rho$ is
 
 
 This time, my heavy-duty micro-facet ray-tracer used various values of incident angle, surface roughness and *albedo*, and I performed the white furnace integration for scattering orders from 2 to 6.
- 
+So basically what we have is the experimental data that allows us to compute this expression for each scattering order:
+
+$$
+E_{avg,order}(\rho) = 
+\int_{\Omega_+} \left[ \int_{\Omega_+} f_{r,order}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \rho \right)
+(\boldsymbol{\omega_i} \cdot \boldsymbol{n}) d\omega_i \right]
+(\boldsymbol{\omega_o} \cdot \boldsymbol{n}) d\omega_o
+$$
+
 !!! note
 	Once again, the white furnace from experimental data (in red) differs from the one we got from the analytical Oren-Nayar integral (in blue) by a factor 1.17 and not quite the same shape,
 	but I guess that's to be expected from an approximate model and an empirical simulation?
@@ -735,9 +743,9 @@ Where $\eta = \frac{1+\sqrt{F_0}}{1-\sqrt{F_0}}$ is the relative Index Of Refrac
 
 We can see that:
 
-* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 0$ when $F_0 \to \infty$ which is the case of metals
-* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 1$ when $F_0 \to 0$ which is the case of dielectrics
-* $\kappa( \boldsymbol{\omega_o}, F_0 ) = 1$ for perfectly diffuse surfaces
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 0$ when $F_0 \to 1$, which is the case of metals
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) \to 1$ when $F_0 \to 0$, which is the case of dielectrics
+* $\kappa( \boldsymbol{\omega_o}, F_0 ) = 1$, for perfectly diffuse surfaces
 
 </br>
 
