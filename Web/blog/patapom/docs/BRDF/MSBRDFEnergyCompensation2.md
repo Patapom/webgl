@@ -27,7 +27,7 @@ Assuming we have a representation of the far field environment given as a set of
 From these coefficients, we can obtain the band-limited directional value of radiance:
 
 $$
-L(\boldsymbol{\omega}) = L_{lm} \cdot Y_{lm}(\boldsymbol{\omega}) ~~~~~ l \in [0,N], m \in [-l,+l]
+L(\boldsymbol{\omega}) = L_{lm} \cdot Y_{lm}(\boldsymbol{\omega}), ~~~~~ l \in [0,N], ~ m \in [-l,+l]
 $$
 
 Where $N$ is the SH order.
@@ -48,13 +48,14 @@ $$
 L_{lm}(\boldsymbol{\omega_o}) = L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) f_{ms}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i
 $$
 
-Now, if we use the energy compensation formulation in the integral, complete with the roughness value $\alpha$, we get:
+
+Now, if we use the energy compensation formulation of the integral, complete with the roughness value $\alpha$, we get:
 
 $$
 \begin{align}
 L_{lm}(\boldsymbol{\omega_o}) &= L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \frac{(1-E(\boldsymbol{\omega_o}, \alpha)).(1-E(\boldsymbol{\omega_i}, \alpha))}{\pi - E_{avg}( \alpha )} \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i \\\\
 							  &= \frac{1 - E(\boldsymbol{\omega_o}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \left( 1 - E(\boldsymbol{\omega_i}, \alpha)) \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i \\\\
-							  &= \frac{1 - E(\boldsymbol{\omega_o}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot L_{lm} \cdot E_{lm}( \alpha ) \\\\
+							  &= \frac{1 - E(\boldsymbol{\omega_o}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot L_{lm} \cdot E_{lm}( \boldsymbol{n}, \alpha ) \\\\
 \end{align}
 $$
 
@@ -64,28 +65,123 @@ We see that the result is quite simple and is nicely split into 3 distinct parts
 </br>
 * $L_{lm}$ are the environment-dependent SH coefficients (think diffuse environment probes here)</br>
 </br>
-* $E_{lm}( \alpha ) = \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \left( 1 - E(\boldsymbol{\omega_i}, \alpha)) \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i$
+* $E_{lm}( \boldsymbol{n}, \alpha ) = \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \left( 1 - E(\boldsymbol{\omega_i}, \alpha)) \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i$
  is certainly the most interesting part of all as it represents the encoding in SH of the MSBRDF response.
- We see that it's both view- and environment-agnostic and can thus be precomputed *once per type of BRDF* (*i.e.* one for GGX, one for Oren-Nayar, etc.) but there is still a dependence on the roughness coefficient $\alpha$ that needs to be worked out.
+ We see that it's both view- and environment-agnostic and can thus be precomputed *once per type of BRDF* (*i.e.* one for GGX, one for Oren-Nayar, etc.)
+  but there is still a dependence on the surface normal orientation $\boldsymbol{n}$ and the roughness coefficient $\alpha$ that needs to be worked out.
 
+
+### Simplification
+
+First, we begin by noticing that due to the isotropic nature of the MSBRDF, no azimuthal dependence exists and as such, only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
+This allows us to rewrite:
+
+$$
+E_l( \boldsymbol{n}, \alpha ) = \int_{\Omega_+} Y_{l0}(\boldsymbol{\omega_i}) \left( 1 - E(\boldsymbol{\omega_i}, \alpha)) \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i
+$$
+
+Furthermore, we could decide to either:
+
+* Perform the integral for all possible values of $\boldsymbol{n}$,
+* Perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the environment light's $L_{lm}$ coefficients to align them on the surface normal,
+* Or simply perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the $E_l( \alpha )$ ZH coefficients to align them on the surface normal.
+
+The 3rd option is obviously much easier and cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as shown in the code below:
+
+??? "Implementation of order 2 ZH coefficients rotation in any direction (HLSL)"
+	``` C++
+
+	// Computes the Ylm coefficients in the requested direction
+	//
+	void	Ylm( float3 _direction, out float _SH[9] ) {
+		const float	c0 = 0.28209479177387814347403972578039;	// 1/2 sqrt(1/pi)
+		const float	c1 = 0.48860251190291992158638462283835;	// 1/2 sqrt(3/pi)
+		const float	c2 = 1.09254843059207907054338570580270;	// 1/2 sqrt(15/pi)
+		const float	c3 = 0.31539156525252000603089369029571;	// 1/4 sqrt(5/pi)
+
+		float	x = _direction.x;
+		float	y = _direction.y;
+		float	z = _direction.z;
+
+		_SH[0] = c0;
+		_SH[1] = c1*y;
+		_SH[2] = c1*z;
+		_SH[3] = c1*x;
+		_SH[4] = c2*x*y;
+		_SH[5] = c2*y*z;
+		_SH[6] = c3*(3.0*z*z - 1.0);
+		_SH[7] = c2*x*z;
+		_SH[8] = 0.5*c2*(x*x - y*y);
+	}
+
+	// Rotate ZH cosine lobe into specific direction
+	// WARNING! _A coefficients MUST already be multiplied by sqrt( 4PI / (2l+1) ) before entering this function!
+	void	RotateZH( float3 _A, float3 _wsDirection, out float _SH[9] ) {
+		Ylm( _wsDirection, _SH );
+		_SH[0] *= _A.x;
+		_SH[1] *= _A.y;
+		_SH[2] *= _A.y;
+		_SH[3] *= _A.y;
+		_SH[4] *= _A.z;
+		_SH[5] *= _A.z;
+		_SH[6] *= _A.z;
+		_SH[7] *= _A.z;
+		_SH[8] *= _A.z;
+	}
+
+	```
+
+
+So overall, we only need to precompute the ZH coefficients for various roughness values for all our BRDFs:
+
+$$
+E_{l}( \alpha ) = 2\pi \int_{0}^{\frac{\pi}{2}} Y_{l0}( \theta_i, 0 ) \left( 1 - E(\cos(\theta_i), \alpha)) \right) \cos(\theta_i) \sin( \theta_i ) d\theta_i
+$$
+
+
+Below we see the appearance of each of the 3 ZH coefficients $E_0( \alpha )$, $E_1( \alpha )$ and $E_2( \alpha )$ in red, green and blue respectively for the GGX and Oren-Nayar MSBRDFs:
+
+![ZH](./images/MSBRDFGGXZH.png)
 
 </br>
-</br>
+
+![ZH](./images/MSBRDFOrenZH.png)
+
+
+### Fitting
+
+We find a very close fit for the GGX coefficients:
+
+$$
+\begin{align}
+	E_{0_{GGX}}(\alpha) &= -0.01792303243636725 \cdot \alpha^{\frac{1}{2}} + 1.0561278339405598 \cdot \alpha^{\frac{3}{2}} - 0.4865495717038784 \cdot \alpha^{\frac{5}{2}} \\\\
+	E_{1_{GGX}}(\alpha) &= -0.06127443169094851 \cdot \alpha^{\frac{1}{2}} + 1.3380225947779523 \cdot \alpha^{\frac{3}{2}} - 0.6195823982255909 \cdot \alpha^{\frac{5}{2}} \\\\
+	E_{2_{GGX}}(\alpha) &= -0.10732852337149004 \cdot \alpha^{\frac{1}{2}} + 0.8686198207608287 \cdot \alpha^{\frac{3}{2}} - 0.3980009298364805 \cdot \alpha^{\frac{5}{2}} \\\\
+\end{align}
+$$
+
+As well as for the Oren-Nayar coefficients:
+
+$$
+\begin{align}
+	E_{0_{oren}}(\alpha) &= -0.0919559140506979 \cdot \alpha^{\frac{1}{2}} + 1.467037714315657 \cdot \alpha^{\frac{3}{2}} - 1.673544888379740 \cdot \alpha^{\frac{5}{2}} + 0.607800523815945 \cdot \alpha^{\frac{7}{2}} \\\\
+	E_{1_{oren}}(\alpha) &= -0.1136684128860008 \cdot \alpha^{\frac{1}{2}} + 1.901273744271233 \cdot \alpha^{\frac{3}{2}} - 2.322322430339633 \cdot \alpha^{\frac{5}{2}} + 0.909815621695672 \cdot \alpha^{\frac{7}{2}} \\\\
+	E_{2_{oren}}(\alpha) &= -0.0412482175221291 \cdot \alpha^{\frac{1}{2}} + 1.093354950053632 \cdot \alpha^{\frac{3}{2}} - 1.417191923789875 \cdot \alpha^{\frac{5}{2}} + 0.581084435989362 \cdot \alpha^{\frac{7}{2}} \\\\
+\end{align}
+$$
+
+
+### Validation
 
 !!! todo
-	Do the coefficients interpolate well with $\alpha$ or do they fluctuate like the demonic beasts they are?
-	Give the SH coefficients for GGX / Oren
-
-
-!!! todo
-	Show the "ground truth" (i.e. many environment rays) against a single SH estimate...
+	Compare the "ground truth" (i.e. many environment rays) against a single SH estimate...
 
 
 
 
 ## Area Lights
 
-In the paper "Real-Time Polygonal-Light Shading with Linearly Transformed Cosines" [^1], Heitz et al. introduced an important tool to represent easily integrable and highly-configurable linear distribution transformations.
+In the paper "Real-Time Polygonal-Light Shading with Linearly Transformed Cosines" [^1], Heitz et al. introduced an important tool to represent easily integrable and configurable linear distribution transformations.
 
 ![LTSD](./images/LTSD.png)
 
@@ -129,7 +225,7 @@ $$
 $$
 
 Where $E(\boldsymbol{P_o})$ is the irradiance over the area of polygon $\boldsymbol{P_o}$.
-Such irradiance has a closed form solution as given by Baum et al. [^3] and grows linearly in time with the amount of edges of the polygon.
+Such irradiance has a closed form solution as given by Baum et al. [^3] and the time cost grows linearly with the amount of edges of the polygon.
 
 Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain using a pre-computed transform $M$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
 
@@ -143,7 +239,7 @@ What this means for us is that, similarly, we will have to pre-compute such matr
 
 
 !!! todo
-	**Fit GGX / Oren MSBRDF**
+	**Fit MSBRDF GGX / Oren MSBRDF**
 
 !!! todo
 	Show the "ground truth" (i.e. many environment rays) against a single precomputed estimate...
