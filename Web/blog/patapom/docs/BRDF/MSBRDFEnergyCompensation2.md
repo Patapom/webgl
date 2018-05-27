@@ -22,7 +22,7 @@ Since we made the assumption that the MSBRDF response to the far field environme
  environment: this is why we will ignore cube map representations traditionnally used for (single scattering) specular reflections and directly use the SH representation of these cube maps.
 
 Assuming we have a representation of the far field environment given as a set of spherical harmonic coefficients $L_{lm}$, Ramamoorthi and Hanrahan [^2] showed that a simple 2nd order representation (*i.e.* 9 coefficients)
- is required to properly recover the irradiance (*i.e.* the integral of the environment's radiance over an entire hemisphere).
+ is enough to properly recover the irradiance (*i.e.* the integral of the environment's radiance over an entire hemisphere).
 
 From these coefficients, we can obtain the band-limited directional value of radiance:
 
@@ -49,7 +49,7 @@ L_{lm}(\boldsymbol{\omega_o}) = L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{
 $$
 
 
-Now, if we use the energy compensation formulation of the integral, complete with the roughness value $\alpha$, we get:
+Now, if we use the energy compensation formulation in the integral, complete with the roughness value $\alpha$, we get:
 
 $$
 \begin{align}
@@ -73,7 +73,7 @@ We see that the result is quite simple and is nicely split into 3 distinct parts
 
 ### Simplification
 
-First, we begin by noticing that due to the isotropic nature of the MSBRDF, no azimuthal dependence exists and as such, only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
+First, we begin by noticing that due to the isotropic nature of the MSBRDF, the MSBRDF is radially symmetric thus only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
 This allows us to rewrite:
 
 $$
@@ -82,9 +82,9 @@ $$
 
 Furthermore, we could decide to either:
 
-* Perform the integral for all possible values of $\boldsymbol{n}$,
-* Perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the environment light's $L_{lm}$ coefficients to align them on the surface normal,
-* Or simply perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the $E_l( \alpha )$ ZH coefficients to align them on the surface normal.
+* Perform the integral for all possible values of $\boldsymbol{n}$ (much too expensive!),
+* Perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the environment light's $L_{lm}$ coefficients to align them on the surface normal (better but still expensive to rotate the SH),
+* Or simply perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the ZH coefficients to align them on the surface normal.
 
 The 3rd option is obviously much easier and cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as shown in the code below:
 
@@ -115,8 +115,9 @@ The 3rd option is obviously much easier and cheaper since ZH coefficients can ea
 	}
 
 	// Rotate ZH cosine lobe into specific direction
-	// WARNING! _A coefficients MUST already be multiplied by sqrt( 4PI / (2l+1) ) before entering this function!
 	void	RotateZH( float3 _A, float3 _wsDirection, out float _SH[9] ) {
+		_A *= float3( 3.5449077018110320545963349666823, 2.0466534158929769769591032497785, 1.5853309190424044053380115060481 );	// Multiply by sqrt( 4 * PI / (2*l+1) ) as by eq. 26 in "On the relationship between radiance and irradiance" by Ramamoorthi
+
 		Ylm( _wsDirection, _SH );
 		_SH[0] *= _A.x;
 		_SH[1] *= _A.y;
@@ -173,10 +174,145 @@ $$
 
 ### Validation
 
-!!! todo
-	Compare the "ground truth" (i.e. many environment rays) against a single SH estimate...
+Here is the comparison for the GGX BRDF with the IOR for gold:
+
+!!! quote ""
+
+	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20GGX.jpg)
+
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	**Top Row:** Ground truth sampling of the GGX MSBRDF.</br>
+	**Middle Row:** A single sample of the GGX MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
+	**Bottom Row:** Difference between the two, amplified 4x.</br>
 
 
+And the comparison for the Oren-Nayar BRDF with a blue reflectance:
+
+!!! quote ""
+
+	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20OrenNayar.jpg)
+
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF.</br>
+	**Middle Row:** A single sample of the Oren-Nayar MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
+	**Bottom Row:** Difference between the two, amplified 4x.</br>
+
+
+The code used for these tests is as follows:
+
+??? " (HLSL)"
+	``` C++
+	float3	EstimateMSIrradiance_SH_GGX( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9], Texture2D<float> _Eo, Texture2D<float> _Eavg ) {
+
+		// Estimate the MSBRDF response in the normal direction
+		const float3x3	fit = float3x3( -0.01792303243636725, 1.0561278339405598, -0.4865495717038784,
+										-0.06127443169094851, 1.3380225947779523, -0.6195823982255909,
+										-0.10732852337149004, 0.8686198207608287, -0.3980009298364805 );
+		float3	roughness = sqrt( _roughness ) * float3( 1, _roughness, _roughness*_roughness );
+		float3	ZH = saturate( mul( fit, roughness ) );
+
+		float	SH[9];
+		RotateZH( ZH, _wsNormal, SH );
+
+		// Estimate MSBRDF irradiance
+		float3	result = 0.0;
+		[unroll]
+		for ( uint i=0; i < 9; i++ )
+			result += SH[i] * _environmentSH[i];
+
+		result = max( 0.0, result );
+
+		// Finish by estimating the view-dependent part
+		float	E_o = _Eo.SampleLevel( LinearClamp, float2( _mu_o, _roughness ), 0.0 );
+		float	E_avg = _Eavg.SampleLevel( LinearClamp, float2( _roughness, 0.5 ), 0.0 );
+
+		result *= (1.0 - E_o) / max( 0.001, PI - E_avg );
+
+		return result;
+	}
+
+	float3	EstimateMSIrradiance_SH_OrenNayar( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9], Texture2D<float> _Eo, Texture2D<float> _Eavg ) {
+
+		// Estimate the MSBRDF response in the normal direction
+		const float3x4	fit = float3x4( -0.0919559140506979, 1.467037714315657, -1.673544888379740, 0.607800523815945,
+										-0.1136684128860008, 1.901273744271233, -2.322322430339633, 0.909815621695672,
+										-0.0412482175221291, 1.093354950053632, -1.417191923789875, 0.581084435989362 );
+		float4	roughness = sqrt( _roughness ) * float4( 1, _roughness, _roughness*_roughness, _roughness*_roughness*_roughness );
+		float3	ZH = saturate( mul( fit, roughness ) );
+
+		float	SH[9];
+		RotateZH( ZH, _wsNormal, SH );
+
+		// Estimate MSBRDF irradiance
+		float3	result = 0.0;
+		[unroll]
+		for ( uint i=0; i < 9; i++ )
+			result += SH[i] * _environmentSH[i];
+
+		result = max( 0.0, result );
+
+		// Finish by estimating the view-dependent part
+		float	E_o = _Eo.SampleLevel( LinearClamp, float2( _mu_o, _roughness ), 0.0 );
+		float	E_avg = _Eavg.SampleLevel( LinearClamp, float2( _roughness, 0.5 ), 0.0 );
+
+		result *= (1.0 - E_o) / max( 0.001, PI - E_avg );
+
+		return result;
+	}
+
+	float3	EstimateMSIrradiance_SH( float3 _wsNormal, float3 _wsReflected, float _mu_o, float _roughnessSpecular, float3 _IOR, float _roughnessDiffuse, float3 _albedo, float3 _environmentSH[9] ) {
+
+		// Estimate specular irradiance
+		float3	F0 = Fresnel_F0FromIOR( _IOR );
+		float3	MSFactor_spec = (_flags & 2) ? F0 * (0.04 + F0 * (0.66 + F0 * 0.3)) : F0;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
+		float3	Favg = FresnelAverage( _IOR );
+
+		float3	E_spec = MSFactor_spec * EstimateMSIrradiance_SH_GGX( _roughnessSpecular, _wsReflected, _mu_o, _environmentSH, _tex_GGX_Eo, _tex_GGX_Eavg );
+
+		// Estimate diffuse irradiance
+		const float	tau = 0.28430405702379613;
+		const float	A1 = (1.0 - tau) / pow2( tau );
+		float3		rho = tau * _albedo;
+		float3		MSFactor_diff = (_flags & 2) ? A1 * pow2( rho ) / (1.0 - rho) : rho;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+
+		float3	E_diff = MSFactor_diff * EstimateMSIrradiance_SH_OrenNayar( _roughnessDiffuse, _wsNormal, _mu_o, _environmentSH, _tex_OrenNayar_Eo, _tex_OrenNayar_Eavg );
+
+		// Attenuate diffuse contribution
+		float	a = _roughnessSpecular;
+		float	E_o = _tex_GGX_Eo.SampleLevel( LinearClamp, float2( _mu_o, a ), 0.0 );	// Already sampled by MSBRDF earlier, optimize!
+
+		float3	kappa = 1 - (Favg * E_o + MSFactor_spec * (1.0 - E_o));
+
+		return E_spec + kappa * E_diff;
+	}
+	```
+
+
+You then simply need to add a single call to "EstimateMSIrradiance_SH( ... )" at the end of your lighting pipeline, like this:
+
+???+ "Retrieving the MSBRDF response from a SH-encoded environment (HLSL)"
+	``` C++
+		// Here:
+		//	wsView is the world-space camera vector pointing toward the camera
+		//	wsNormal is the world-space normal vector
+		//	alphaS is the specular roughness
+		//	IOR is the index of refraction of the surface
+		//	alphaD is the diffuse roughness
+		//	rho is the diffuse reflectance in [0,1]
+		//	envSH is the SH representation of the surrounding environment (my environment values are usually filtered with a Hanning filter with window size 2.8)
+		//
+		#if USE_REFLECTED_VIEW	// I just give that as an idea but I actually get worse results than using the plain normal
+			float3	wsReflectedView = reflect( wsView, wsNormal );
+			float3	wsReflected = normalize( lerp( wsReflectedView, wsNormal, alphaS ) );	// Go more toward prefectly reflected direction when roughness drops to 0
+		#else
+			float3	wsReflected = wsNormal;
+		#endif
+
+		sumIrradiance += EstimateMSIrradiance_SH( wsNormal, wsReflected, saturate( dot( wsView, wsNormal ) ), alphaS, IOR, alphaD, rho, envSH );
+	```
+
+
+The entirety of the project is available at my [God Complex GitHub repository](https://github.com/Patapom/GodComplex/tree/master/Tests/TestMSBRDF).
 
 
 ## Area Lights
@@ -240,6 +376,9 @@ What this means for us is that, similarly, we will have to pre-compute such matr
 
 !!! todo
 	**Fit MSBRDF GGX / Oren MSBRDF**
+
+	Use the fact that our MSBRDFs are isotropic. Should require less coefficients for M!
+
 
 !!! todo
 	Show the "ground truth" (i.e. many environment rays) against a single precomputed estimate...
