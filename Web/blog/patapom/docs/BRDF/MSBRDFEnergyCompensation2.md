@@ -8,7 +8,7 @@ For real time purposes though, 3 texture taps per pixel and per light can be qui
 
 This is why we will focus on light sources that cover an extended area, namely:
 
-* The far field environment, encoded as [SH](../SHPortal)
+* The far field environment, encoded as [Spherical Harmonics](../SHPortal)
 * Area lights, encoded as linearly transformed cosines [^1]
 
 
@@ -86,7 +86,14 @@ Furthermore, we could decide to either:
 * Perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the environment light's $L_{lm}$ coefficients to align them on the surface normal (better but still expensive to rotate the SH),
 * Or simply perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the ZH coefficients to align them on the surface normal.
 
-The 3rd option is obviously much easier and cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as shown in the code below:
+The 3rd option is obviously much cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as given by Sloan [^4]:
+
+$$
+E_{lm}( \boldsymbol{n}, \alpha ) = \sqrt{\frac{4\pi}{2l+1}} E_l( \alpha ) Y_{lm}( \boldsymbol{n} )
+$$
+
+
+You can find the code for the ZH rotation below:
 
 ??? "Implementation of order 2 ZH coefficients rotation in any direction (HLSL)"
 	``` C++
@@ -264,7 +271,7 @@ The code used for these tests is as follows:
 
 		// Estimate specular irradiance
 		float3	F0 = Fresnel_F0FromIOR( _IOR );
-		float3	MSFactor_spec = (_flags & 2) ? F0 * (0.04 + F0 * (0.66 + F0 * 0.3)) : F0;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
+		float3	MSFactor_spec = F0 * (0.04 + F0 * (0.66 + F0 * 0.3));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
 		float3	Favg = FresnelAverage( _IOR );
 
 		float3	E_spec = MSFactor_spec * EstimateMSIrradiance_SH_GGX( _roughnessSpecular, _wsReflected, _mu_o, _environmentSH, _tex_GGX_Eo, _tex_GGX_Eavg );
@@ -273,7 +280,7 @@ The code used for these tests is as follows:
 		const float	tau = 0.28430405702379613;
 		const float	A1 = (1.0 - tau) / pow2( tau );
 		float3		rho = tau * _albedo;
-		float3		MSFactor_diff = (_flags & 2) ? A1 * pow2( rho ) / (1.0 - rho) : rho;	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+		float3		MSFactor_diff = A1 * pow2( rho ) / (1.0 - rho);		// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
 
 		float3	E_diff = MSFactor_diff * EstimateMSIrradiance_SH_OrenNayar( _roughnessDiffuse, _wsNormal, _mu_o, _environmentSH, _tex_OrenNayar_Eo, _tex_OrenNayar_Eavg );
 
@@ -308,7 +315,7 @@ You then simply need to add a single call to "EstimateMSIrradiance_SH( ... )" at
 			float3	wsReflected = wsNormal;
 		#endif
 
-		sumIrradiance += EstimateMSIrradiance_SH( wsNormal, wsReflected, saturate( dot( wsView, wsNormal ) ), alphaS, IOR, alphaD, rho, envSH );
+		sumIrradiance += EstimateMSIrradiance_SH( wsNormal, wsReflected, saturate( -dot( wsView, wsNormal ) ), alphaS, IOR, alphaD, rho, envSH );
 	```
 
 
@@ -371,14 +378,42 @@ Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-
  (because the matrix $M$ is described by 5 values).
 
 
-What this means for us is that, similarly, we will have to pre-compute such matrices for our MSBRDF (which should be pretty accurate due to their low-frequency nature at high roughness)...
+### View-Dependence
 
+We take model on our work for the SH-encoded environment to once again separate the view-dependent part out of the integral:
+
+$$
+\begin{align}
+	L(\boldsymbol{\omega_v}) &= L \cdot \int_{P} f_r( \boldsymbol{\omega_v}, \boldsymbol{\omega_l} ) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
+							 &= L \cdot \int_{P} \frac{(1-E(\boldsymbol{\omega_v}, \alpha)).(1-E(\boldsymbol{\omega_l}, \alpha))}{\pi - E_{avg}( \alpha )} (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
+							 &= L \cdot \frac{1-E(\boldsymbol{\omega_v}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot \int_{P} (1-E(\boldsymbol{\omega_l}, \alpha)) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
+\end{align}
+$$
+
+So the part we need to fit with a clamped-cosine distribution is only this expression:
+
+$$
+D(\boldsymbol{\omega_l}) \approx (1-E(\boldsymbol{\omega_l}, \alpha)) (\boldsymbol{\omega_l} \cdot \boldsymbol{n})
+$$
+
+What this means for us is that, similarly to regular BRDFs, we will have to pre-compute transform matrices for our MSBRDF but also that:
+
+* There is no need to store a 2D table since we factored-out the view-dependent part of the BRDF and only a dependence on roughness $\alpha$ remains
+* Due to the isotropic and smooth nature of the MSBRDF, there shouldn't be a need to handle anisotropy or complicated coefficients so the matrix $M$ should be simpler
+
+
+### Fitting
 
 !!! todo
 	**Fit MSBRDF GGX / Oren MSBRDF**
 
 	Use the fact that our MSBRDFs are isotropic. Should require less coefficients for M!
 
+	Can we also factor out the view-dependent part of regular BRDFs? (i.e. that would be the masking term $\frac{G( \boldsymbol{\omega_v} )}{\boldsymbol{\omega_v} \cdot \boldsymbol{n}}$).
+	Does it yield a smoother, more accurate result?
+
+
+### Validation
 
 !!! todo
 	Show the "ground truth" (i.e. many environment rays) against a single precomputed estimate...
@@ -397,5 +432,5 @@ What this means for us is that, similarly, we will have to pre-compute such matr
 
 [^1]: Heitz, E. Dupuy, J. Hill, S. Neubelt, D. 2016 ["Real-Time Polygonal-Light Shading with Linearly Transformed Cosines"](https://eheitzresearch.wordpress.com/415-2/)
 [^2]: Ramamoorthi, R. Hanrahan, P. 2001 ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) 
-[^3]: Baum, D. R. Rushmeier, H. E. Winget, J. M. 1989 ["Improving radiosity solutions through the use of analytically determined form-factors "](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.466.963) 
-
+[^3]: Baum, D. R. Rushmeier, H. E. Winget, J. M. 1989 ["Improving radiosity solutions through the use of analytically determined form-factors"](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.466.963) 
+[^4]: Sloan, P-P. 2008 ["Stupid Spherical Harmonics Tricks"](https://www.ppsloan.org/publications/StupidSH36.pdf)
