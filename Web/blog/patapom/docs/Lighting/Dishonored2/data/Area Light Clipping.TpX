@@ -1,0 +1,20 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <rect x="61" y="48" w="68" h="41" li="dot" ha="4" fill="gold"/>
+%  <rect x="60" y="20" w="70" h="70"/>
+%  <line x1="21" y1="73" x2="157" y2="21" li="dash"/>
+%  <line x1="37" y1="67" x2="51" y2="99" arr2="h44" li="dash"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(396.85, 235.28)(0,0)
+  \put(0,0){\includegraphics{Area Light Clipping.pdf}}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(396.85, 235.28)(0,0)
+  \put(0,0){\includegraphics{Area Light Clipping}}
+  \end{picture}%
+\fi
+\end{figure}
