@@ -27,6 +27,7 @@ pages:
 #                 - Delaunay Network: Lighting/Dishonored2/IL/Delaunay.md
 #                 - Voronoi Network: Lighting/Dishonored2/IL/Voronoi.md
 #                 - Cube Map Parallax Correction: Lighting/Dishonored2/IL/CubeMapsParallaxCorrection.md
+#                 - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
     - Colorimetry:
          - Color Spaces: Colorimetry/ColorSpace.md
          - Color Profiles: Colorimetry/ColorProfile.md
@@ -37,14 +38,11 @@ pages:
         - Solid Angle of an Orthogonally-Projected Surface Element: Math/OrthoSolidAngle.md
         - The Cross-Product: Math/CrossProduct.md
         - Another Way of Viewing the Integration: Math/Integration.md
-#<Private>
-#    - Miscellaneous:
 #        - Importance Sampling: Math/ImportanceSampling.md
+
+#    - Miscellaneous:
 #        - Notes: Notes.md
 #    - Useful Stuff: help.md
-#   - Lighting:
-#        - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
-#</Private>
 
 
 theme:

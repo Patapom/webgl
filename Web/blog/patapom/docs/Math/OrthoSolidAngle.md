@@ -93,6 +93,52 @@ $dA(x,y) = C + A - D - B$
     * Trying to compute the hemisphere's area using eq. (2) turns out to be converging '''super slowly''': even with a quarter disc split into 10000x10000 pixels, I can only reach 1.5535995614989679...
 
 
+Here is the C# code to compute the solid angle of a pixel of coordinates (X, Y) in an image of size (Width, Height):
+
+``` C++
+
+	double	ComputeSolidAngle( uint _X, uint _Y, uint _width, uint _height ) {
+		double	x0 = 2.0 * _X / _width - 1.0;
+		double	y0 = 2.0 * _Y / _height - 1.0;
+		double	x1 = 2.0 * (_X+1) / _width - 1.0;
+		double	y1 = 2.0 * (_Y+1) / _height - 1.0;
+
+		double	A0, A1, A2, A3;
+		if ( !ComputeArea( x0, y0, out A0 ) )
+			return 0.0;
+		if ( !ComputeArea( x1, y0, out A1 ) )
+			return 0.0;
+		if ( !ComputeArea( x0, y1, out A2 ) )
+			return 0.0;
+		if ( !ComputeArea( x1, y1, out A3 ) )
+			return 0.0;
+
+		double	dA = A3 - A1 - A2 + A0;
+		return Math.Max( 0.0, dA );
+	}
+
+	// y ArcTan[x/Sqrt[1 - x^2 - y^2]] + x ArcTan[y/Sqrt[1 - x^2 - y^2]] + 1/2 (ArcTan[(1 - x - y^2)/(y Sqrt[1 - x^2 - y^2])] - ArcTan[(1 + x - y^2)/(y Sqrt[1 - x^2 - y^2])])
+	bool	ComputeArea( double x, double y, out double _area ) {
+		double	sqRadius = x*x  + y*y;
+		if ( sqRadius > 1.0 ) {
+			// Outside unit circle
+			_area = 0.0;
+			return false;
+		}
+
+		double	rcpCosTheta = 1.0 / Math.Sqrt( 1.0 - sqRadius );
+		if ( double.IsInfinity( rcpCosTheta ) ) {
+			if ( x == 0.0 ) x = 1e-12;
+			if ( y == 0.0 ) y = 1e-12;
+		}
+		_area = y * Math.Atan( x * rcpCosTheta ) + x * Math.Atan( y * rcpCosTheta )
+			+ 0.5 * (Math.Atan( (1 - x - y*y) * rcpCosTheta / y ) - Math.Atan( (1 + x - y*y) * rcpCosTheta / y ));
+
+		return true;
+	}
+``` 
+
+
 ## Example ##
 
 Say you have the normalized expression of a Normal Distribution Function D(x,y) defined in an image of the flattened hemisphere:

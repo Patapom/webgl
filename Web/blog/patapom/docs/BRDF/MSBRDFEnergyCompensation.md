@@ -236,6 +236,8 @@ You can see the resulting table below:
 
 	The 1st float is $\mu = \cos(\theta)$ of the incident or outgoing ray direction, the 2nd float is the roughness $\alpha$ and the 3rd float is $E\left( \mu, \alpha \right)$ (caution, not $1-E$!)
 
+	If you're using the *correlated* Smith Shadowing/Masking function instead of the uncorrelated one described by the BRDF equation above, please use [this table](MSBRDF_GGX_G2_E128x128.csv) instead.
+
 
 #### Average Irradiance
 
@@ -253,6 +255,8 @@ $$
 	The 1st float is the roughness $\alpha$ and the 2nd float is $E_{avg}\left( \alpha \right)$
 
 	Alternatively, you can use the following analytical fit: $E_{avg}(\alpha) = \pi - 0.446898 \cdot \alpha - 5.72019 \cdot \alpha^2 + 6.61848 \cdot \alpha^3 - 2.41727 \cdot \alpha^4$
+
+	If you're using the *correlated* Smith Shadowing/Masking function instead of the uncorrelated one described by the BRDF equation above, please use [this table](MSBRDF_GGX_G2_Eavg128.csv) instead.
 
 
 #### Energy Conservation Check

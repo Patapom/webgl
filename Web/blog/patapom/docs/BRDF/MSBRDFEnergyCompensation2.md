@@ -99,7 +99,7 @@ Now, if we use the energy compensation formulation in the integral, complete wit
 
 $$
 \begin{align}
-L_{lm}(\boldsymbol{\omega_o}) &= L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \frac{(1-E(\boldsymbol{\omega_o}, \alpha)).(1-E(\boldsymbol{\omega_i}, \alpha))}{\pi - E_{avg}( \alpha )} \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i \\\\
+L_{lm}(\boldsymbol{\omega_o}, \alpha) &= L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \frac{(1-E(\boldsymbol{\omega_o}, \alpha)).(1-E(\boldsymbol{\omega_i}, \alpha))}{\pi - E_{avg}( \alpha )} \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i \\\\
 							  &= \frac{1 - E(\boldsymbol{\omega_o}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot L_{lm} \cdot \int_{\Omega_+} Y_{lm}(\boldsymbol{\omega_i}) \left( 1 - E(\boldsymbol{\omega_i}, \alpha)) \right) \left( \boldsymbol{\omega_i} \cdot \boldsymbol{n} \right) d\omega_i \\\\
 							  &= \frac{1 - E(\boldsymbol{\omega_o}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot L_{lm} \cdot E_{lm}( \boldsymbol{n}, \alpha ) \\\\
 \end{align}
@@ -119,7 +119,7 @@ We see that the result is quite simple and is nicely split into 3 distinct parts
 
 ### Simplification
 
-First, we begin by noticing that due to the isotropic nature of the MSBRDF, the MSBRDF is radially symmetric thus only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
+First, we begin by noticing that due to the isotropic nature of the MSBRDF, it is radially symmetric thus only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
 This allows us to rewrite:
 
 $$
@@ -421,7 +421,12 @@ Basically then, all that is required is to transform the vertices of the area li
 
 The essential work of this technique resides in *finding the proper value of the transform matrix* $M$ *depending on our BRDF*.
 Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$ and surface roughness $\alpha$ that they stored into 2 textures
- (because the matrix $M$ is described by 5 values).
+ (because the matrix $M$ is described by 4 values + a magnitude).
+
+
+!!! info
+ 	An interesting fact here is that the 5th value for the LTC, the magnitude, is actually the BRDF's integrated irradiance $E( \boldsymbol{\omega_v}, \alpha )$ which is, once again (!!),
+	 the value given by the pre-integrated BRDF table discussed in the preliminary remarks and in part 1.
 
 
 ### View-Dependence
