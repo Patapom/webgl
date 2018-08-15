@@ -81,8 +81,7 @@ The mip level will be provided by the clipping routine as well as the aperture o
 
 ### Fake Clipping
 
-As I wanted to avoid expensive clipping routines with conditions, my simple idea is whatever the orientation of the rectangular area light,
- I could always transform it into a canonical square that needed to be cut by an arbitrary plane (*i.e.* the current pxixel's surface's plane).
+As I wanted to avoid expensive clipping routines with conditions, my simple idea is that I only had to **shrink** the rectangular area to  make it *look like* it was clipped, but I didn't have to actually do the clipping itself.
 
 I arrived at a compromise that was good enough™ in that it returned an approximately clipped area and, more importantly, a continuous area (*i.e.* no sudden jumps depending on the rectangle's orientation,
  except some "bounces" when the area of the intersected rectangle stops growing, "bounces" and starts shrinking again).
@@ -199,7 +198,7 @@ You can find the complete clipping code below that returns a float4 where:
 	```
 
 Of course, 3 years later, I realize now that I was still in the old mindset where I considered it was better to write a lot of code than a single condition.
-This is not true anymore and copy/pasting this code I found many obvious optimizations I could apply if I ever had to use that code again...
+This is not true anymore and copy/pasting this code I found many obvious optimizations I could apply if I ever had to use it again...
 
 
 ### Computing the Irradiance
