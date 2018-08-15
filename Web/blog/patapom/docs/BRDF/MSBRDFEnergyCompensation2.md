@@ -16,12 +16,58 @@ In this section, we will use the fact that the multiple scattering part of the f
  is involved in the computation of multiply-scattered radiance and we can thus easily make the important assumption that *the overall response of the MSBRDF to a large light source must be low frequency*.
 
 
+## Preliminary Remark
+
+Before tackling the actual lighting problems, just a quick remark on the irradiance tables discussed in part 1: they might seem like a costly additional texture to add to the rendering pipeline
+ but it's important to realize that these textures are probably already present in your PBR renderer! :smile:
+
+Indeed, Brian Karis introduced a now well-known split-sum approximation to the lighting equation for image-based lighting in his 2013 Siggraph presentation[^2]:
+
+[comment]: <> (\frac{1}{N}\sum_{k=1}^N \frac{ L_i(\boldsymbol{l_k}) f(\boldsymbol{l_k},\boldsymbol{v}) \cos( \theta_{\boldsymbol{l_k}} ) } { p_k(\boldsymbol{l_k},\boldsymbol{v}) } )
+[comment]: <> ( \approx \color{#08A}{ \left( \sum_{k=1}^N L_i(\boldsymbol{l_k} \right) } \cdot \color{#F80}{ \left( \sum_{k=1}^N \frac{ f(\boldsymbol{l_k},\boldsymbol{v}) \cos( \theta_{\boldsymbol{l_k}} ) }{ p_k(\boldsymbol{l_k},\boldsymbol{v}) } \right) } )
+
+$$
+\int_{\Omega^+} L_i(\boldsymbol{ \omega_i }) f( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i }, F_0 ) (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) d\omega_i
+ \approx \color{#08A}{ \left( \int_{\Omega^+} L_i(\boldsymbol{ \omega_i }) d\omega_i \right) }
+  \cdot \color{#F80}{ \left( \int_{\Omega^+} f( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i }, F_0 ) (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) d\omega_i \right) }
+$$
+
+The first term (teal) of the right expression represents the pre-convolved environment map, while the second term (orange) represents the pre-integrated BRDF.
+
+
+Karis assumes the BRDF is based on the microfacet model:
+
+$$
+f( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, F_0 ) = \frac{ F(\boldsymbol{\omega_h} \cdot \boldsymbol{\omega_o}, F_0 ) G( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \boldsymbol{n} ) D( \boldsymbol{n} \cdot \boldsymbol{\omega_h} )}{4 (\boldsymbol{n} \cdot \boldsymbol{\omega_i}) (\boldsymbol{n} \cdot \boldsymbol{\omega_o})}
+$$
+
+He further assumes the Fresnel term is Schlick's simplified model:
+
+$$
+F( \boldsymbol{\omega_h} \cdot \boldsymbol{\omega_o}, F_0 ) = F_0 + (1-F_0) \cdot (1 - \boldsymbol{\omega_h} \cdot \boldsymbol{\omega_o})^5
+$$
+
+That allows us to rewrite the orange BRDF integral as:
+
+$$
+\begin{align}
+\color{#F80}{ \int_{\Omega^+} f( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i }, F_0 ) (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) d\omega_i }
+&= F_0 \cdot \color{#080}{ \left( \int_{\Omega^+} f( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i }, 1 ) (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) d\omega_i \right) } \\\\
+&+ (1 - F_0) \cdot \left( \int_{\Omega^+} (1 - \boldsymbol{\omega_h} \cdot \boldsymbol{\omega_o})^5 \cdot f( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i }, 1 ) (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) d\omega_i \right)
+\end{align}
+$$
+
+We see that the integral in green is exactly the irradiance table described in part 1 and if you implemented Karis's method then there's a strong chance you're already sampling this table, although only in the direction of the light.
+
+The multiple-scattering energy compensation method really just requires an additional sample of that table in the view direction... No big deal.
+
+
 ## Far Field Environment
 
 Since we made the assumption that the MSBRDF response to the far field environment is necessarily a low frequency phenomenon, we will only focus our efforts on computing the response of the MSBRDF to a low-frequency encoding of the
  environment: this is why we will ignore cube map representations traditionnally used for (single scattering) specular reflections and directly use the SH representation of these cube maps.
 
-Assuming we have a representation of the far field environment given as a set of spherical harmonic coefficients $L_{lm}$, Ramamoorthi and Hanrahan [^2] showed that a simple 2nd order representation (*i.e.* 9 coefficients)
+Assuming we have a representation of the far field environment given as a set of spherical harmonic coefficients $L_{lm}$, Ramamoorthi and Hanrahan [^3] showed that a simple 2nd order representation (*i.e.* 9 coefficients)
  is enough to properly recover the irradiance (*i.e.* the integral of the environment's radiance over an entire hemisphere).
 
 From these coefficients, we can obtain the band-limited directional value of radiance:
@@ -82,11 +128,11 @@ $$
 
 Furthermore, we could decide to either:
 
-* Perform the integral for all possible values of $\boldsymbol{n}$ (much too expensive!),
+* Perform the integral over all possible values of $\boldsymbol{n}$ (much too expensive!),
 * Perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the environment light's $L_{lm}$ coefficients to align them on the surface normal (better but still expensive to rotate the SH),
 * Or simply perform the integral in a single direction $\boldsymbol{n} = (0,0,1)$ and rotate the ZH coefficients to align them on the surface normal.
 
-The 3rd option is obviously much cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as given by Sloan [^4]:
+The 3rd option is obviously much cheaper since ZH coefficients can easily be rotated into any direction to obtain a full set of SH coefficients, as given by Sloan [^5]:
 
 $$
 E_{lm}( \boldsymbol{n}, \alpha ) = \sqrt{\frac{4\pi}{2l+1}} E_l( \alpha ) Y_{lm}( \boldsymbol{n} )
@@ -368,14 +414,19 @@ $$
 $$
 
 Where $E(\boldsymbol{P_o})$ is the irradiance over the area of polygon $\boldsymbol{P_o}$.
-Such irradiance has a closed form solution as given by Baum et al. [^3] and the time cost grows linearly with the amount of edges of the polygon.
+Such irradiance has a closed form solution as given by Baum et al. [^4] and the time cost grows linearly with the amount of edges of the polygon.
 
 Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain using a pre-computed transform $M$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
 
 
 The essential work of this technique resides in *finding the proper value of the transform matrix* $M$ *depending on our BRDF*.
 Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$ and surface roughness $\alpha$ that they stored into 2 textures
- (because the matrix $M$ is described by 5 values).
+ (because the matrix $M$ is described by 4 values + a magnitude).
+
+
+!!! info
+ 	An interesting fact here is that the 5th value for the LTC, the magnitude, is actually the BRDF's integrated irradiance $E( \boldsymbol{\omega_v}, \alpha )$ which is, once again (!!),
+	 the value given by the pre-integrated BRDF table discussed in the preliminary remarks and in part 1.
 
 
 ### View-Dependence
@@ -431,6 +482,7 @@ What this means for us is that, similarly to regular BRDFs, we will have to pre-
 ## References
 
 [^1]: Heitz, E. Dupuy, J. Hill, S. Neubelt, D. 2016 ["Real-Time Polygonal-Light Shading with Linearly Transformed Cosines"](https://eheitzresearch.wordpress.com/415-2/)
-[^2]: Ramamoorthi, R. Hanrahan, P. 2001 ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) 
-[^3]: Baum, D. R. Rushmeier, H. E. Winget, J. M. 1989 ["Improving radiosity solutions through the use of analytically determined form-factors"](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.466.963) 
-[^4]: Sloan, P-P. 2008 ["Stupid Spherical Harmonics Tricks"](https://www.ppsloan.org/publications/StupidSH36.pdf)
+[^2]: Karis, B. 2013 ["Real Shading in Unreal Engine 4"](https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf) 
+[^3]: Ramamoorthi, R. Hanrahan, P. 2001 ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) 
+[^4]: Baum, D. R. Rushmeier, H. E. Winget, J. M. 1989 ["Improving radiosity solutions through the use of analytically determined form-factors"](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.466.963) 
+[^5]: Sloan, P-P. 2008 ["Stupid Spherical Harmonics Tricks"](https://www.ppsloan.org/publications/StupidSH36.pdf)
