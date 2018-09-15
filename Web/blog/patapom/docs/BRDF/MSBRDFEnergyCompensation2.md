@@ -481,12 +481,17 @@ The entirety of the project is available at my [God Complex GitHub repository](h
 
 ## Area Lights
 
+!!! warning
+	Here, $\boldsymbol{\omega_v}$ and $\boldsymbol{\omega_l}$ respectively replace the vectors $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$ used everywhere else in this dossier
+	due to the choice of the $o$ subscript used by Heitz et al. to denote the original canonical basis.
+
 In the paper "Real-Time Polygonal-Light Shading with Linearly Transformed Cosines" [^1], Heitz et al. introduced an important tool to represent easily integrable and configurable linear distribution transformations.
 
 ![LTSD](./images/LTSD.png)
 
 
-The main idea is to transport difficult integration situations involving an arbitrary distribution $D(\boldsymbol{\omega})$ into a canonical domain where the new *original* distribution $D_o(\boldsymbol{\omega_o})$ is easily characterized.</br>
+The main idea is to transport difficult integration situations involving an arbitrary distribution $D(\boldsymbol{\omega})$ into a canonical domain
+ where the new *original* distribution $D_o(\boldsymbol{\omega_o})$ is easily characterized.
  The paper specially focuses on the clamped cosine distribution $D_o(\boldsymbol{\omega_o}) = \frac{1}{\pi} max( 0, z ),   ~~ \boldsymbol{\omega_o}=(x,y,z)$.
 
 
@@ -514,9 +519,6 @@ $$
 $$
 
 
-Here, $\boldsymbol{\omega_v}$ and $\boldsymbol{\omega_l}$ respectively replace the vectors $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$ used everywhere else in this dossier
- due to the choice of the $o$ subscript used by Heitz et al. to denote the original canonical basis.
-
 
 Next, if we make the assumption that the radiance $L(\boldsymbol{\omega})$ is constant over the entire area light then we can write:
 
@@ -527,17 +529,20 @@ $$
 Where $E(\boldsymbol{P_o})$ is the irradiance over the area of polygon $\boldsymbol{P_o}$.
 Such irradiance has a closed form solution as given by Baum et al. [^4] and the time cost grows linearly with the amount of edges of the polygon.
 
-Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain using a pre-computed transform $M$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
+Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain
+ using a pre-computed transform $M^{-1}$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
 
 
-The essential work of this technique resides in *finding the proper value of the transform matrix* $M$ *depending on our BRDF*.
-Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$ and surface roughness $\alpha$ that they stored into 2 textures
- (because the matrix $M$ is described by 4 values + a magnitude).
+The essential work of this technique resides in *finding the proper value of the transform matrix* $M^{-1}$ *depending on our BRDF*.
+Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$
+ and surface roughness $\alpha$ that they stored into 2 textures (because the matrix $M^{-1}$ is described by 4 values + a magnitude).
 
 
 !!! info
  	An interesting fact here is that the 5th value for the LTC, the magnitude, is actually the BRDF's integrated irradiance $E( \boldsymbol{\omega_v}, \alpha )$ which is, once again (!!),
 	 the value given by the pre-integrated BRDF table discussed in the preliminary remarks and in part 1.
+
+	So we only need a single additionnal texture for storing our 4 LTC coefficients after all...
 
 
 ### View-Dependence
@@ -546,7 +551,7 @@ We take model on our work for the SH-encoded environment to once again separate 
 
 $$
 \begin{align}
-	L(\boldsymbol{\omega_v}) &= L \cdot \int_{P} f_r( \boldsymbol{\omega_v}, \boldsymbol{\omega_l} ) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
+	L(\boldsymbol{\omega_v}) &= L \cdot \int_{P} f_{ms}( \boldsymbol{\omega_v}, \boldsymbol{\omega_l} ) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 							 &= L \cdot \int_{P} \frac{(1-E(\boldsymbol{\omega_v}, \alpha)).(1-E(\boldsymbol{\omega_l}, \alpha))}{\pi - E_{avg}( \alpha )} (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 							 &= L \cdot \frac{1-E(\boldsymbol{\omega_v}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot \int_{P} (1-E(\boldsymbol{\omega_l}, \alpha)) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 \end{align}
@@ -561,7 +566,7 @@ $$
 What this means for us is that, similarly to regular BRDFs, we will have to pre-compute transform matrices for our MSBRDF but also that:
 
 * There is no need to store a 2D table since we factored-out the view-dependent part of the BRDF and only a dependence on roughness $\alpha$ remains
-* Due to the isotropic and smooth nature of the MSBRDF, there shouldn't be a need to handle anisotropy or complicated coefficients so the matrix $M$ should be simpler
+* Due to the isotropic and smooth nature of the MSBRDF, there shouldn't be a need to handle anisotropy or complicated coefficients so the matrix $M^{-1}$ should be simpler
 
 
 ### Fitting
@@ -579,7 +584,7 @@ $$
 M^{-1} = \left( \begin{matrix}
     1 & 0 & 0 \\
     0 & 1 & 0 \\
-    0 & 0 & m33 \\
+    0 & 0 & m33(\alpha) \\
     \end{matrix} \right)
 \end{align}
 $$
@@ -587,13 +592,15 @@ $$
 We need an additional coefficient for the magnitude of the BRDF so all in all, that means we only require 2 coefficients for each value of roughness of the LTC table.
 
 
+!!! info
+    You can download [this table](MSLTC_GGX_64.csv) representing the LTC matrix diagonal coefficient and BRDF magnitude for 64 different values of roughness for the GGX BRDF.<br/>
+    And you can download [this table](MSLTC_OrenNayar_64.csv) representing the LTC matrix diagonal coefficient and BRDF magnitude for 64 different values of roughness for the Oren-Nayar BRDF.<br/>
+
+	The 1st float is the roughness $\alpha$, the 2nd float is $m33({\alpha)}$ and the 3rd float is the magnitude of the BRDF.
+
+
 !!! todo
-	**Fit MSBRDF GGX / Oren MSBRDF**
-
-	Use the fact that our MSBRDFs are isotropic. Should require less coefficients for M!
-
-	Can we also factor out the view-dependent part of regular BRDFs? (i.e. that would be the masking term $\frac{G( \boldsymbol{\omega_v} )}{\boldsymbol{\omega_v} \cdot \boldsymbol{n}}$).
-	Does it yield a smoother, more accurate result?
+	FITTING of these curves
 
 
 ### Validation
