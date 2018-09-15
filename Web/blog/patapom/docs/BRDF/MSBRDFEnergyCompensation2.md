@@ -83,7 +83,7 @@ Where $E_{sun}$ is the Sun's irradiance in $W.m^{-2}$
 	![MSBRDFDirectional.png](./images/MSBRDFDirectional.png)
 
 	Visualization of the effect of the multiple-scattering term over 85% rough diffuse surfaces illuminated by a directional light source.
-	**Left:** Single scattering only., **Right:** Single + Multiple scattering.</br>
+	**Left:** Single scattering only, **Middle:** Single + Multiple scattering, **Right:** Difference x4.
 
 
 ### Code
