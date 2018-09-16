@@ -337,9 +337,9 @@ We find a very close fit for the GGX coefficients:
 
 $$
 \begin{align}
-	E_{0_{GGX}}(\alpha) &= -0.01792303243636725 \cdot \beta + 1.0561278339405598 \cdot \beta^2 - 0.4865495717038784 \cdot \beta^3 \\\\
-	E_{1_{GGX}}(\alpha) &= -0.06127443169094851 \cdot \beta + 1.3380225947779523 \cdot \beta^2 - 0.6195823982255909 \cdot \beta^3 \\\\
-	E_{2_{GGX}}(\alpha) &= -0.10732852337149004 \cdot \beta + 0.8686198207608287 \cdot \beta^2 - 0.3980009298364805 \cdot \beta^3 \\\\
+	E_{0_{GGX}}(\beta) &= -0.01792303243636725 \cdot \beta + 1.0561278339405598 \cdot \beta^2 - 0.4865495717038784 \cdot \beta^3 \\\\
+	E_{1_{GGX}}(\beta) &= -0.06127443169094851 \cdot \beta + 1.3380225947779523 \cdot \beta^2 - 0.6195823982255909 \cdot \beta^3 \\\\
+	E_{2_{GGX}}(\beta) &= -0.10732852337149004 \cdot \beta + 0.8686198207608287 \cdot \beta^2 - 0.3980009298364805 \cdot \beta^3 \\\\
 \end{align}
 $$
 
@@ -347,9 +347,9 @@ As well as for the Oren-Nayar coefficients:
 
 $$
 \begin{align}
-	E_{0_{oren}}(\alpha) &= -0.0919559140506979 \cdot \beta + 1.467037714315657 \cdot \beta^2 - 1.673544888379740 \cdot \beta^3 + 0.607800523815945 \cdot \beta^4 \\\\
-	E_{1_{oren}}(\alpha) &= -0.1136684128860008 \cdot \beta + 1.901273744271233 \cdot \beta^2 - 2.322322430339633 \cdot \beta^3 + 0.909815621695672 \cdot \beta^4 \\\\
-	E_{2_{oren}}(\alpha) &= -0.0412482175221291 \cdot \beta + 1.093354950053632 \cdot \beta^2 - 1.417191923789875 \cdot \beta^3 + 0.581084435989362 \cdot \beta^4 \\\\
+	E_{0_{oren}}(\beta) &= -0.0919559140506979 \cdot \beta + 1.467037714315657 \cdot \beta^2 - 1.673544888379740 \cdot \beta^3 + 0.607800523815945 \cdot \beta^4 \\\\
+	E_{1_{oren}}(\beta) &= -0.1136684128860008 \cdot \beta + 1.901273744271233 \cdot \beta^2 - 2.322322430339633 \cdot \beta^3 + 0.909815621695672 \cdot \beta^4 \\\\
+	E_{2_{oren}}(\beta) &= -0.0412482175221291 \cdot \beta + 1.093354950053632 \cdot \beta^2 - 1.417191923789875 \cdot \beta^3 + 0.581084435989362 \cdot \beta^4 \\\\
 \end{align}
 $$
 

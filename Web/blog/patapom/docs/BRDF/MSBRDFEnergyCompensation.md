@@ -839,7 +839,7 @@ Unfortunately, multiple-scattering BRDFs only reveal their true potential when d
 otherwise the small contribution of the MS term is quite "lost in the wind" and the cost of sampling 3 (even super low resolution) precomputed textures per pixel and per light can rapidly become prohibitive.
 
 
-That is why we will discuss how the multiple-scattering BRDF can be truly harnessed for a real added benefit in the 2nd part of this series about energy compensation! (coming soon) (hopefully :grinning:)
+That is why we will discuss how the multiple-scattering BRDF can be truly harnessed for a real added benefit in the [2nd part](MSBRDFEnergyCompensation2) of this series about energy compensation! (coming soon) (hopefully :grinning:)
 
 
 ## References
