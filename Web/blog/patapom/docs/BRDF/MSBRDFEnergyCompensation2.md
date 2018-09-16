@@ -337,9 +337,9 @@ We find a very close fit for the GGX coefficients:
 
 $$
 \begin{align}
-	E_{0_{GGX}}(\alpha) &= -0.01792303243636725 \cdot \alpha^{\frac{1}{2}} + 1.0561278339405598 \cdot \alpha^{\frac{3}{2}} - 0.4865495717038784 \cdot \alpha^{\frac{5}{2}} \\\\
-	E_{1_{GGX}}(\alpha) &= -0.06127443169094851 \cdot \alpha^{\frac{1}{2}} + 1.3380225947779523 \cdot \alpha^{\frac{3}{2}} - 0.6195823982255909 \cdot \alpha^{\frac{5}{2}} \\\\
-	E_{2_{GGX}}(\alpha) &= -0.10732852337149004 \cdot \alpha^{\frac{1}{2}} + 0.8686198207608287 \cdot \alpha^{\frac{3}{2}} - 0.3980009298364805 \cdot \alpha^{\frac{5}{2}} \\\\
+	E_{0_{GGX}}(\alpha) &= -0.01792303243636725 \cdot \beta + 1.0561278339405598 \cdot \beta^2 - 0.4865495717038784 \cdot \beta^3 \\\\
+	E_{1_{GGX}}(\alpha) &= -0.06127443169094851 \cdot \beta + 1.3380225947779523 \cdot \beta^2 - 0.6195823982255909 \cdot \beta^3 \\\\
+	E_{2_{GGX}}(\alpha) &= -0.10732852337149004 \cdot \beta + 0.8686198207608287 \cdot \beta^2 - 0.3980009298364805 \cdot \beta^3 \\\\
 \end{align}
 $$
 
@@ -347,11 +347,14 @@ As well as for the Oren-Nayar coefficients:
 
 $$
 \begin{align}
-	E_{0_{oren}}(\alpha) &= -0.0919559140506979 \cdot \alpha^{\frac{1}{2}} + 1.467037714315657 \cdot \alpha^{\frac{3}{2}} - 1.673544888379740 \cdot \alpha^{\frac{5}{2}} + 0.607800523815945 \cdot \alpha^{\frac{7}{2}} \\\\
-	E_{1_{oren}}(\alpha) &= -0.1136684128860008 \cdot \alpha^{\frac{1}{2}} + 1.901273744271233 \cdot \alpha^{\frac{3}{2}} - 2.322322430339633 \cdot \alpha^{\frac{5}{2}} + 0.909815621695672 \cdot \alpha^{\frac{7}{2}} \\\\
-	E_{2_{oren}}(\alpha) &= -0.0412482175221291 \cdot \alpha^{\frac{1}{2}} + 1.093354950053632 \cdot \alpha^{\frac{3}{2}} - 1.417191923789875 \cdot \alpha^{\frac{5}{2}} + 0.581084435989362 \cdot \alpha^{\frac{7}{2}} \\\\
+	E_{0_{oren}}(\alpha) &= -0.0919559140506979 \cdot \beta + 1.467037714315657 \cdot \beta^2 - 1.673544888379740 \cdot \beta^3 + 0.607800523815945 \cdot \beta^4 \\\\
+	E_{1_{oren}}(\alpha) &= -0.1136684128860008 \cdot \beta + 1.901273744271233 \cdot \beta^2 - 2.322322430339633 \cdot \beta^3 + 0.909815621695672 \cdot \beta^4 \\\\
+	E_{2_{oren}}(\alpha) &= -0.0412482175221291 \cdot \beta + 1.093354950053632 \cdot \beta^2 - 1.417191923789875 \cdot \beta^3 + 0.581084435989362 \cdot \beta^4 \\\\
 \end{align}
 $$
+
+Note that $\beta = \sqrt{\alpha}$ which is sometimes called the *perceptual roughness*.
+
 
 
 ### Validation
@@ -607,9 +610,30 @@ We need an additional coefficient for the magnitude of the BRDF so all in all, t
 
 	The 1st float is the roughness $\alpha$, the 2nd float is $m33({\alpha)}$ and the 3rd float is the magnitude of the BRDF.
 
+	</br>
 
-!!! todo
-	FITTING of these curves
+	Alternatively, you can use these pretty accurate analytical fits:
+
+	![MSBRDFLTC_AnalyticalFit.png](./images/MSBRDFLTC_AnalyticalFit.png)
+
+	For GGX:
+	$$
+	\begin{align}
+		m_{33}(\beta) &= min\left( 15.2, \frac{ 21.342911007109528 + 93.01620773161568 \cdot \beta^2 }{ 0.4814723396401988 + 143.39682026031764 \cdot \beta^2} \right) \\\\
+		mag(\beta) &= 0.09791431592022058 \cdot \beta - 1.4272852958071647 \cdot \beta^2 + 7.768226052923069 \cdot \beta^3 - 4.475643330561517 \cdot \beta^4 \\\\
+	\end{align}
+	$$
+
+	</br>
+	For Oren-Nayar:
+	$$
+	\begin{align}
+		m_{33}(\beta) &= \frac{ 0.005048402287040277 - 0.014928238738260345 \cdot \beta + 0.027930492034822143 \cdot \beta^2 }{ 0.008420878564907999 - 0.022349996757079705 \cdot \beta + 0.034343673853208634 \cdot \beta^2 } \\\\
+		mag(\beta) &= max\left( 0, 0.2559021427001363 - 2.7944531451217687 \cdot \beta + 8.298513748611509 \cdot \beta^2 - 4.662218902663712 \cdot \beta^3 \right) \\\\
+	\end{align}
+	$$
+
+	Note that $\beta = \sqrt{\alpha}$ which is sometimes called the *perceptual roughness*.
 
 
 ### Validation
