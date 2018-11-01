@@ -365,7 +365,7 @@ Here is the comparison for the GGX BRDF with the IOR for gold:
 
 	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20GGX.jpg)
 
-	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the GGX MSBRDF.</br>
 	**Middle Row:** A single sample of the GGX MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
 	**Bottom Row:** Difference between the two, amplified 4x.</br>
@@ -377,7 +377,7 @@ And the comparison for the Oren-Nayar BRDF with a blue reflectance:
 
 	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20OrenNayar.jpg)
 
-	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF.</br>
 	**Middle Row:** A single sample of the Oren-Nayar MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
 	**Bottom Row:** Difference between the two, amplified 4x.</br>
@@ -646,9 +646,34 @@ Here is the comparison for various materials illuminated by a single area light:
 
 	Comparison of "ground truth" against simplified LTC approximation.</br>
 	**Top-Left:** Single-scattering BRDF model only,</br>
-	**Top-Right:** Ground truth multiple-scattering BRDF model where the energy-compensation MSBRDF is invoked for every ray in the Monte-Carlo integration,</br>
+	**Top-Right:** Ground truth multiple-scattering BRDF model where the energy-compensation MSBRDF is invoked for every ray of the Monte-Carlo integration,</br>
 	**Bottom-Right:** Real time multiple-scattering BRDF where the MSBRDF is approximated by a single call to a simplified LTC distribution,</br>
 	**Bottom-Left:** Difference between the real time and ground truth, amplified 16x.</br>
+
+</br>
+
+Here is the comparison for the GGX BRDF with the IOR for gold:
+
+!!! quote ""
+
+	![MSBRDF Panel LTC - GGX.jpg](./images/MSBRDF%20Panel%20LTC%20-%20GGX.jpg)
+
+	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
+	**Top Row:** Ground truth sampling of the GGX MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>
+	**Middle Row:** A single sample of the GGX MSBRDF is used as well as a LTC representation of the MS term.</br>
+	**Bottom Row:** Difference between the two, amplified 8x.</br>
+
+
+And the comparison for the Oren-Nayar BRDF with a blue reflectance:
+
+!!! quote ""
+
+	![MSBRDF Panel LTC - OrenNayar](./images/MSBRDF%20Panel%20LTC%20-%20OrenNayar.jpg)
+
+	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
+	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>
+	**Middle Row:** A single sample of the Oren-Nayar MSBRDF is used as well as a LTC representation of the MS term.</br>
+	**Bottom Row:** Difference between the two, amplified 16x.</br>
 
 
 ### Code
