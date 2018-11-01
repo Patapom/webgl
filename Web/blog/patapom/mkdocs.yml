@@ -17,17 +17,17 @@ pages:
              - Energy Compensation Pt. 2: BRDF/MSBRDFEnergyCompensation2.md
     - Lighting:
          - Colored Penumbra: Lighting/Colored Penumbra/ColoredShadows.md
-         - Dishonored 2:
-             - Summary: Lighting/Dishonored2/main.md
-             - Albedos Database: Lighting/Dishonored2/Albedos.md
-             - Luminance Adaptation: Lighting/Dishonored2/LuminanceAdaptation.md
-             - Area Lights: Lighting/Dishonored2/AreaLights.md
-#             - Indirect Lighting:
-#                 - Starting Point: Lighting/Dishonored2/IL/Start.md
-#                 - Delaunay Network: Lighting/Dishonored2/IL/Delaunay.md
-#                 - Voronoi Network: Lighting/Dishonored2/IL/Voronoi.md
-#                 - Cube Map Parallax Correction: Lighting/Dishonored2/IL/CubeMapsParallaxCorrection.md
-#                 - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
+#         - Dishonored 2:
+#             - Summary: Lighting/Dishonored2/main.md
+#             - Albedos Database: Lighting/Dishonored2/Albedos.md
+#             - Luminance Adaptation: Lighting/Dishonored2/LuminanceAdaptation.md
+#             - Area Lights: Lighting/Dishonored2/AreaLights.md
+##             - Indirect Lighting:
+##                 - Starting Point: Lighting/Dishonored2/IL/Start.md
+##                 - Delaunay Network: Lighting/Dishonored2/IL/Delaunay.md
+##                 - Voronoi Network: Lighting/Dishonored2/IL/Voronoi.md
+##                 - Cube Map Parallax Correction: Lighting/Dishonored2/IL/CubeMapsParallaxCorrection.md
+##                 - Probe-Based Lighting in Dishonored 2: Dishonored2/DishoProbeBased.md
     - Colorimetry:
          - Color Spaces: Colorimetry/ColorSpace.md
          - Color Profiles: Colorimetry/ColorProfile.md
