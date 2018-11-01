@@ -620,7 +620,7 @@ Ramamoorthi notices that:
 
  * for $l>1, \; odd : \quad A_l = 0$
 
- * for $l \; even : \quad A_l = 2\pi\sqrt{\frac{2l+1}{4\pi}} \frac{(-1)^{l/2-1}}{(l+2)(l-1)} \lfloor{\frac{l!}{2^l(l!/2)^2}}\rfloor$ and decreases very rapidly ($A_l \propto l^{-2}$)
+ * for $l \; even : \quad A_l = 2\pi\sqrt{\frac{2l+1}{4\pi}} \frac{(-1)^{l/2-1}}{(l+2)(l-1)} \left(\frac{l!}{2^l(l!/2)^2}\right)$ and decreases very rapidly ($A_l \propto l^{-2}$)
 
 
 ### Rewriting the diffuse reflection in terms of SH ###
