@@ -1,13 +1,11 @@
 ﻿As we saw in the previous part, the energy compensation method can be very efficient at restituting the missing energy from multiple scattering events.
 
-For real time purposes though, 3 texture taps per pixel and per light can be quite expensive, especially if the concerned light source is not covering a large solid angle, in which case the effect of multiple scattering is quite lost
- and isn't really worth the cost.
+For real time purposes though, 3 texture taps per pixel and per light can be quite expensive, especially if the concerned light source is not covering a large solid angle,
+or is not bright enough to be significant, in which case the effect of multiple scattering is quite lost and isn't really worth the cost.
 
-!!! todo
-	Image showing a simple point/directional with and without MS, because I'm not even sure of what I'm writing is actually true! :smile:
+This is why we will focus on light sources that are either quite significant or cover an extended area, namely:
 
-This is why we will focus on light sources that cover an extended area, namely:
-
+* Sun light
 * The far field environment, encoded as [Spherical Harmonics](../SHPortal)
 * Area lights, encoded as linearly transformed cosines [^1]
 
@@ -57,9 +55,140 @@ $$
 \end{align}
 $$
 
-We see that the integral in green is exactly the irradiance table described in part 1 and if you implemented Karis's method then there's a strong chance you're already sampling this table, although only in the direction of the light.
+We see that the integral in green is exactly the irradiance table described in part 1 and if you implemented Karis's method then there's a strong chance you're already sampling this table,
+ although only in the direction of the camera (*i.e.* the tables are accessed using the $\boldsymbol{ \omega_o }$ and roughness $\alpha$ parameters).
 
-The multiple-scattering energy compensation method really just requires an additional sample of that table in the view direction... No big deal.
+The multiple-scattering energy compensation method really just requires an additional sample of that table in the light direction... No big deal.
+
+
+
+## Directional Sun
+
+The directional Sun is an important light source and is the easiest to cover.
+
+We write the reflected radiance from a directional Sun source (*i.e.* a light source that only emits light along an infinitesimally thin direction) as:
+
+$$
+L(\boldsymbol{\omega_o}) = E_{sun} \left( f_r\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right) + f_{ms}\left( \boldsymbol{\omega_o}, \boldsymbol{\omega_i}, \alpha \right) \right) (\boldsymbol{\omega_i} \cdot \boldsymbol{n})
+$$
+
+Where $E_{sun}$ is the Sun's irradiance in $W.m^{-2}$
+
+
+### Result
+
+
+!!! quote ""
+
+	![MSBRDFDirectional.png](./images/MSBRDFDirectional.png)
+
+	Visualization of the effect of the multiple-scattering term over 85% rough diffuse surfaces illuminated by a directional light source.
+	**Left:** Single scattering only, **Middle:** Single + Multiple scattering, **Right:** Difference x4.
+
+
+### Code
+
+
+??? "MS BRDF Term for regular Oren-Nayar + GGX BRDF (HLSL)"
+	``` C++
+	// Assuming n1=1 (air) we get:
+	//	F0 = ((n2 - n1) / (n2 + n1))²
+	//	=> n2 = (1 + sqrt(F0)) / (1 - sqrt(F0))
+	//
+	float3	Fresnel_IORFromF0( float3 _F0 ) {
+		float3	SqrtF0 = sqrt( _F0 );
+		return (1.0 + SqrtF0) / (1.0001 - SqrtF0);
+	}
+
+	// Returns the "average Fresnel" term for dielectrics, as given by Kulla & Conty, slide 18 (http://blog.selfshadow.com/publications/s2017-shading-course/imageworks/s2017_pbs_imageworks_slides.pdf)
+	//	Favg = Integral[Omega+]{ F(µi) µi dwi }
+	//
+	// _IOR, from 1 to 400
+	float3	FresnelAverage( float3 _IOR ) {
+		return (_IOR - 1.0) / (4.08567 + 1.00071 * _IOR);
+	}
+
+	// **NOTE**: This function expects _tex_Eo to be a Texture2DArray where each slice of the array contains the irradiance Eo values for a single BRDF
+	float	SampleIrradiance( float _cosTheta, float _roughness, uint _BRDFIndex ) {
+		return _tex_Eo.SampleLevel( LinearClamp, float3( _cosTheta, _alpha, _BRDFIndex ), 0.0 );
+	}
+
+	// **NOTE**: This function expects _tex_Eavg to be a Texture2D where each line of the texture contains the albedo Eavg values for a single BRDF
+	float	SampleAlbedo( float _alpha, uint _BRDFIndex ) {
+		return _tex_Eavg.SampleLevel( LinearClamp, float2( _alpha, (0.5 + _BRDFIndex) / BRDFS_COUNT ), 0.0 );
+	}
+
+	// Estimates the view-dependent part of the MSBRDF
+	float	MSBRDF_View( float _mu_o, float _roughness, uint _BRDFIndex ) {
+		float	E_o = 1.0 - SampleIrradiance( _mu_o, _roughness, _BRDFIndex );	// 1 - E_o
+		float	E_avg = SampleAlbedo( _roughness, _BRDFIndex );					// E_avg
+		return E_o / max( 0.001, PI - E_avg );
+	}
+
+	// Estimates the full MSBRDF (view- and light-dependent)
+	float	MSBRDF( float _roughness, float3 _tsNormal, float3 _tsView, float3 _tsLight, uint _BRDFIndex ) {
+
+		float	mu_o = saturate( dot( _tsView, _tsNormal ) );
+		float	mu_i = saturate( dot( _tsLight, _tsNormal ) );
+		float	a = _roughness;
+
+		float	E_i = 1.0 - SampleIrradiance( mu_i, a, _BRDFIndex );	// 1 - E_i
+		return E_i * MSBRDF_View( mu_o, a, _BRDFIndex );
+	}
+
+	// Computes the full dielectric BRDF model as described in http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#complete-approximate-model
+	//
+	float3	ComputeBRDF_Full( float3 _tsNormal, float3 _tsView, float3 _tsLight, float _roughnessSpecular, float3 _F0, float _roughnessDiffuse, float3 _rho ) {
+		// Compute specular BRDF
+		float3	MSFactor_spec = _F0 * (0.04 + _F0 * (0.66 + _F0 * 0.3));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
+
+		float3	BRDF_spec = BRDF_GGX( _tsNormal, _tsView, _tsLight, _roughnessSpecular, _F0 );			// Regular BRDF definition for GGX, replace with your own specular BRDF
+				BRDF_spec += MSFactor_spec * MSBRDF( _roughnessSpecular, _tsNormal, _tsView, _tsLight, FGD_BRDF_INDEX_GGX );
+
+		// Compute diffuse contribution
+		const float	tau = 0.28430405702379613;
+		const float	A1 = (1.0 - tau) / pow2( tau );
+		float3	rho = tau * _rho;
+		float3	MSFactor_diff = A1 * pow2( rho ) / (1.0 - rho);	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+
+		float3	BRDF_diff = BRDF_OrenNayar( _tsNormal, _tsView, _tsLight, _roughnessDiffuse, _rho );	// Regular BRDF definition for Oren-Nayar, replace with your own diffuse BRDF
+				BRDF_diff += MSFactor_diff * MSBRDF( _roughnessDiffuse, _tsNormal, _tsView, _tsLight, FGD_BRDF_INDEX_OREN_NAYAR );
+
+		// Attenuate diffuse contribution
+		float	mu_o = saturate( dot( _tsView, _tsNormal ) );
+		float	a = _roughnessSpecular;
+		float	E_o = SampleIrradiance( mu_o, a, FGD_BRDF_INDEX_GGX );	// Already sampled by MSBRDF earlier, optimize!
+
+		float3	IOR = Fresnel_IORFromF0( _F0 );
+		float3	Favg = FresnelAverage( IOR );
+		float3	kappa = 1 - (Favg * E_o + MSFactor_spec * (1.0 - E_o));
+
+		return BRDF_spec + kappa * BRDF_diff;
+	}
+	```
+
+You then simply need to add a single call to "ComputeBRDF_Full( ... )" when estimating the directional light (or any simple light model really), like this:
+
+???+ "Retrieving the MSBRDF response for a simple directional light (HLSL)"
+	``` C++
+	// Here:
+	//	tsView is the tangent-space camera vector pointing toward the camera
+	//	tsLight is the tangent-space light vector pointing toward the light
+	//	alphaS is the specular roughness
+	//	F0 is the Fresnel reflection factor at normal incidence
+	//	alphaD is the diffuse roughness
+	//	rho is the diffuse reflectance in [0,1]
+	//
+
+	// Sample incoming projected irradiance
+	float	LdotN = saturate( tsLight.z );
+	float3	Ei = SUN_IRRADIANCE;	// Sun irradiance in W/m² (or lux if you're using illuminance)
+			Ei *= LdotN;			// Projected irradiance
+
+	// Compute reflected radiance
+	float3	Lo = Ei * ComputeBRDF_Full( float3( 0, 0, 1 ), tsView, tsLight, alphaS, F0, alphaD, rho );
+	```
+
 
 
 ## Far Field Environment
@@ -208,9 +337,9 @@ We find a very close fit for the GGX coefficients:
 
 $$
 \begin{align}
-	E_{0_{GGX}}(\alpha) &= -0.01792303243636725 \cdot \alpha^{\frac{1}{2}} + 1.0561278339405598 \cdot \alpha^{\frac{3}{2}} - 0.4865495717038784 \cdot \alpha^{\frac{5}{2}} \\\\
-	E_{1_{GGX}}(\alpha) &= -0.06127443169094851 \cdot \alpha^{\frac{1}{2}} + 1.3380225947779523 \cdot \alpha^{\frac{3}{2}} - 0.6195823982255909 \cdot \alpha^{\frac{5}{2}} \\\\
-	E_{2_{GGX}}(\alpha) &= -0.10732852337149004 \cdot \alpha^{\frac{1}{2}} + 0.8686198207608287 \cdot \alpha^{\frac{3}{2}} - 0.3980009298364805 \cdot \alpha^{\frac{5}{2}} \\\\
+	E_{0_{GGX}}(\beta) &= -0.01792303243636725 \cdot \beta + 1.0561278339405598 \cdot \beta^2 - 0.4865495717038784 \cdot \beta^3 \\\\
+	E_{1_{GGX}}(\beta) &= -0.06127443169094851 \cdot \beta + 1.3380225947779523 \cdot \beta^2 - 0.6195823982255909 \cdot \beta^3 \\\\
+	E_{2_{GGX}}(\beta) &= -0.10732852337149004 \cdot \beta + 0.8686198207608287 \cdot \beta^2 - 0.3980009298364805 \cdot \beta^3 \\\\
 \end{align}
 $$
 
@@ -218,11 +347,14 @@ As well as for the Oren-Nayar coefficients:
 
 $$
 \begin{align}
-	E_{0_{oren}}(\alpha) &= -0.0919559140506979 \cdot \alpha^{\frac{1}{2}} + 1.467037714315657 \cdot \alpha^{\frac{3}{2}} - 1.673544888379740 \cdot \alpha^{\frac{5}{2}} + 0.607800523815945 \cdot \alpha^{\frac{7}{2}} \\\\
-	E_{1_{oren}}(\alpha) &= -0.1136684128860008 \cdot \alpha^{\frac{1}{2}} + 1.901273744271233 \cdot \alpha^{\frac{3}{2}} - 2.322322430339633 \cdot \alpha^{\frac{5}{2}} + 0.909815621695672 \cdot \alpha^{\frac{7}{2}} \\\\
-	E_{2_{oren}}(\alpha) &= -0.0412482175221291 \cdot \alpha^{\frac{1}{2}} + 1.093354950053632 \cdot \alpha^{\frac{3}{2}} - 1.417191923789875 \cdot \alpha^{\frac{5}{2}} + 0.581084435989362 \cdot \alpha^{\frac{7}{2}} \\\\
+	E_{0_{oren}}(\beta) &= -0.0919559140506979 \cdot \beta + 1.467037714315657 \cdot \beta^2 - 1.673544888379740 \cdot \beta^3 + 0.607800523815945 \cdot \beta^4 \\\\
+	E_{1_{oren}}(\beta) &= -0.1136684128860008 \cdot \beta + 1.901273744271233 \cdot \beta^2 - 2.322322430339633 \cdot \beta^3 + 0.909815621695672 \cdot \beta^4 \\\\
+	E_{2_{oren}}(\beta) &= -0.0412482175221291 \cdot \beta + 1.093354950053632 \cdot \beta^2 - 1.417191923789875 \cdot \beta^3 + 0.581084435989362 \cdot \beta^4 \\\\
 \end{align}
 $$
+
+Note that $\beta = \sqrt{\alpha}$ which is sometimes called the *perceptual roughness*.
+
 
 
 ### Validation
@@ -233,7 +365,7 @@ Here is the comparison for the GGX BRDF with the IOR for gold:
 
 	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20GGX.jpg)
 
-	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the GGX MSBRDF.</br>
 	**Middle Row:** A single sample of the GGX MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
 	**Bottom Row:** Difference between the two, amplified 4x.</br>
@@ -245,17 +377,38 @@ And the comparison for the Oren-Nayar BRDF with a blue reflectance:
 
 	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20OrenNayar.jpg)
 
-	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of roughness from 0.25 to 1. Only the multiple-scattering component is shown.</br>
+	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF.</br>
 	**Middle Row:** A single sample of the Oren-Nayar MSBRDF is used as well as a 2nd order SH representation of the environment (*i.e.* 9 coefficients).</br>
 	**Bottom Row:** Difference between the two, amplified 4x.</br>
 
 
+### Code
+
 The code used for these tests is as follows:
 
-??? " (HLSL)"
+??? "MS BRDF Term for an SH-encoded Environment (HLSL)"
 	``` C++
-	float3	EstimateMSIrradiance_SH_GGX( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9], Texture2D<float> _Eo, Texture2D<float> _Eavg ) {
+	float3	EstimateMSIrradiance_SH( float _roughness, float3 _wsNormal, float _mu_o, float3 _ZH, float3 _environmentSH[9], uint _BRDFIndex ) {
+		float	SH[9];
+		RotateZH( _ZH, _wsNormal, SH );
+
+		// Estimate MSBRDF irradiance
+		float3	result = 0.0;
+		[unroll]
+		for ( uint i=0; i < 9; i++ )
+			result += SH[i] * _environmentSH[i];
+
+		result = max( 0.0, result );
+
+		// Finish by estimating the view-dependent part
+		result *= MSBRDF_View( _mu_o, _roughness, _BRDFIndex );
+
+		return result;
+	}
+
+
+	float3	EstimateMSIrradiance_SH_GGX( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9] ) {
 
 		// Estimate the MSBRDF response in the normal direction
 		const float3x3	fit = float3x3( -0.01792303243636725, 1.0561278339405598, -0.4865495717038784,
@@ -264,27 +417,10 @@ The code used for these tests is as follows:
 		float3	roughness = sqrt( _roughness ) * float3( 1, _roughness, _roughness*_roughness );
 		float3	ZH = saturate( mul( fit, roughness ) );
 
-		float	SH[9];
-		RotateZH( ZH, _wsNormal, SH );
-
-		// Estimate MSBRDF irradiance
-		float3	result = 0.0;
-		[unroll]
-		for ( uint i=0; i < 9; i++ )
-			result += SH[i] * _environmentSH[i];
-
-		result = max( 0.0, result );
-
-		// Finish by estimating the view-dependent part
-		float	E_o = _Eo.SampleLevel( LinearClamp, float2( _mu_o, _roughness ), 0.0 );
-		float	E_avg = _Eavg.SampleLevel( LinearClamp, float2( _roughness, 0.5 ), 0.0 );
-
-		result *= (1.0 - E_o) / max( 0.001, PI - E_avg );
-
-		return result;
+		return EstimateMSIrradiance_SH( _roughness, _wsNormal, _mu_o, ZH, _environmentSH, FGD_BRDF_INDEX_GGX );
 	}
 
-	float3	EstimateMSIrradiance_SH_OrenNayar( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9], Texture2D<float> _Eo, Texture2D<float> _Eavg ) {
+	float3	EstimateMSIrradiance_SH_OrenNayar( float _roughness, float3 _wsNormal, float _mu_o, float3 _environmentSH[9] ) {
 
 		// Estimate the MSBRDF response in the normal direction
 		const float3x4	fit = float3x4( -0.0919559140506979, 1.467037714315657, -1.673544888379740, 0.607800523815945,
@@ -293,47 +429,40 @@ The code used for these tests is as follows:
 		float4	roughness = sqrt( _roughness ) * float4( 1, _roughness, _roughness*_roughness, _roughness*_roughness*_roughness );
 		float3	ZH = saturate( mul( fit, roughness ) );
 
-		float	SH[9];
-		RotateZH( ZH, _wsNormal, SH );
-
-		// Estimate MSBRDF irradiance
-		float3	result = 0.0;
-		[unroll]
-		for ( uint i=0; i < 9; i++ )
-			result += SH[i] * _environmentSH[i];
-
-		result = max( 0.0, result );
-
-		// Finish by estimating the view-dependent part
-		float	E_o = _Eo.SampleLevel( LinearClamp, float2( _mu_o, _roughness ), 0.0 );
-		float	E_avg = _Eavg.SampleLevel( LinearClamp, float2( _roughness, 0.5 ), 0.0 );
-
-		result *= (1.0 - E_o) / max( 0.001, PI - E_avg );
-
-		return result;
+		return EstimateMSIrradiance_SH( _roughness, _wsNormal, _mu_o, ZH, _environmentSH, FGD_BRDF_INDEX_OREN_NAYAR );
 	}
 
-	float3	EstimateMSIrradiance_SH( float3 _wsNormal, float3 _wsReflected, float _mu_o, float _roughnessSpecular, float3 _IOR, float _roughnessDiffuse, float3 _albedo, float3 _environmentSH[9] ) {
+	// Computes the SH-encoded environment MS term response for both diffuse and specular BRDFs
+	//	_wsNormal, the surface normal along which to estimate the diffuse SH component
+	//	_wsReflected, the surface normal along which to estimate the specular SH component (should generally be the surface normal)
+	//	_mu_o, cosine of the view vector with the normal (i.e. N.V)
+	//	_roughnessSpecular, surface specular roughness
+	//	_F0, the Fresnel reflection factor at normal incidence
+	//	_roughnessDiffuse, surface diffuse roughness
+	//	_rho, the diffuse reflectance factor
+	//	_environmentSH, the 9 SH coefficients representing the encoding of the environment
+	//
+	float3	EstimateMSIrradiance_SH_Full( float3 _wsNormal, float3 _wsReflected, float _mu_o, float _roughnessSpecular, float3 _F0, float _roughnessDiffuse, float3 _albedo, float3 _environmentSH[9] ) {
 
 		// Estimate specular irradiance
-		float3	F0 = Fresnel_F0FromIOR( _IOR );
-		float3	MSFactor_spec = F0 * (0.04 + F0 * (0.66 + F0 * 0.3));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
-		float3	Favg = FresnelAverage( _IOR );
+		float3	MSFactor_spec = _F0 * (0.04 + _F0 * (0.66 + _F0 * 0.3));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
 
-		float3	E_spec = MSFactor_spec * EstimateMSIrradiance_SH_GGX( _roughnessSpecular, _wsReflected, _mu_o, _environmentSH, _tex_GGX_Eo, _tex_GGX_Eavg );
+		float3	E_spec = MSFactor_spec * EstimateMSIrradiance_SH_GGX( _roughnessSpecular, _wsReflected, _mu_o, _environmentSH );
 
 		// Estimate diffuse irradiance
 		const float	tau = 0.28430405702379613;
 		const float	A1 = (1.0 - tau) / pow2( tau );
 		float3		rho = tau * _albedo;
-		float3		MSFactor_diff = A1 * pow2( rho ) / (1.0 - rho);		// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+		float3		MSFactor_diff = A1 * pow2( rho ) / (1.0 - rho);	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
 
-		float3	E_diff = MSFactor_diff * EstimateMSIrradiance_SH_OrenNayar( _roughnessDiffuse, _wsNormal, _mu_o, _environmentSH, _tex_OrenNayar_Eo, _tex_OrenNayar_Eavg );
+		float3	E_diff = MSFactor_diff * EstimateMSIrradiance_SH_OrenNayar( _roughnessDiffuse, _wsNormal, _mu_o, _environmentSH );
 
 		// Attenuate diffuse contribution
 		float	a = _roughnessSpecular;
-		float	E_o = _tex_GGX_Eo.SampleLevel( LinearClamp, float2( _mu_o, a ), 0.0 );	// Already sampled by MSBRDF earlier, optimize!
+		float	E_o = SampleIrradiance( _mu_o, a, FGD_BRDF_INDEX_GGX );	// Already sampled by MSBRDF earlier, optimize!
 
+		float3	IOR = Fresnel_IORFromF0( _F0 );
+		float3	Favg = FresnelAverage( IOR );
 		float3	kappa = 1 - (Favg * E_o + MSFactor_spec * (1.0 - E_o));
 
 		return E_spec + kappa * E_diff;
@@ -341,7 +470,7 @@ The code used for these tests is as follows:
 	```
 
 
-You then simply need to add a single call to "EstimateMSIrradiance_SH( ... )" at the end of your lighting pipeline, like this:
+You then simply need to add a single call to "EstimateMSIrradiance_SH_Full( ... )" at the end of your lighting pipeline, like this:
 
 ???+ "Retrieving the MSBRDF response from a SH-encoded environment (HLSL)"
 	``` C++
@@ -349,33 +478,30 @@ You then simply need to add a single call to "EstimateMSIrradiance_SH( ... )" at
 		//	wsView is the world-space camera vector pointing toward the camera
 		//	wsNormal is the world-space normal vector
 		//	alphaS is the specular roughness
-		//	IOR is the index of refraction of the surface
+		//	F0 is the Fresnel reflection factor at normal incidence
 		//	alphaD is the diffuse roughness
 		//	rho is the diffuse reflectance in [0,1]
 		//	envSH is the SH representation of the surrounding environment (my environment values are usually filtered with a Hanning filter with window size 2.8)
 		//
-		#if USE_REFLECTED_VIEW	// I just give that as an idea but I actually get worse results than using the plain normal
-			float3	wsReflectedView = reflect( wsView, wsNormal );
-			float3	wsReflected = normalize( lerp( wsReflectedView, wsNormal, alphaS ) );	// Go more toward prefectly reflected direction when roughness drops to 0
-		#else
-			float3	wsReflected = wsNormal;
-		#endif
+		float3	wsReflected = wsNormal;	// You could try and find a better direction, like some interpolation between normal and reflected ray depending on surface's roughness maybe?
 
-		sumIrradiance += EstimateMSIrradiance_SH( wsNormal, wsReflected, saturate( -dot( wsView, wsNormal ) ), alphaS, IOR, alphaD, rho, envSH );
+		sumIrradiance += EstimateMSIrradiance_SH_Full( wsNormal, wsReflected, saturate( -dot( wsView, wsNormal ) ), alphaS, F0, alphaD, rho, envSH );
 	```
 
 
-The entirety of the project is available at my [God Complex GitHub repository](https://github.com/Patapom/GodComplex/tree/master/Tests/TestMSBRDF).
-
-
 ## Area Lights
+
+!!! warning
+	Here, $\boldsymbol{\omega_v}$ and $\boldsymbol{\omega_l}$ respectively replace the vectors $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$ used everywhere else in this dossier
+	due to the choice of the $o$ subscript used by Heitz et al. to denote the original canonical basis.
 
 In the paper "Real-Time Polygonal-Light Shading with Linearly Transformed Cosines" [^1], Heitz et al. introduced an important tool to represent easily integrable and configurable linear distribution transformations.
 
 ![LTSD](./images/LTSD.png)
 
 
-The main idea is to transport difficult integration situations involving an arbitrary distribution $D(\boldsymbol{\omega})$ into a canonical domain where the new *original* distribution $D_o(\boldsymbol{\omega_o})$ is easily characterized.</br>
+The main idea is to transport difficult integration situations involving an arbitrary distribution $D(\boldsymbol{\omega})$ into a canonical domain
+ where the new *original* distribution $D_o(\boldsymbol{\omega_o})$ is easily characterized.
  The paper specially focuses on the clamped cosine distribution $D_o(\boldsymbol{\omega_o}) = \frac{1}{\pi} max( 0, z ),   ~~ \boldsymbol{\omega_o}=(x,y,z)$.
 
 
@@ -403,9 +529,6 @@ $$
 $$
 
 
-Here, $\boldsymbol{\omega_v}$ and $\boldsymbol{\omega_l}$ respectively replace the vectors $\boldsymbol{\omega_o}$ and $\boldsymbol{\omega_i}$ used everywhere else in this dossier
- due to the choice of the $o$ subscript used by Heitz et al. to denote the canonical basis.
-
 
 Next, if we make the assumption that the radiance $L(\boldsymbol{\omega})$ is constant over the entire area light then we can write:
 
@@ -416,17 +539,20 @@ $$
 Where $E(\boldsymbol{P_o})$ is the irradiance over the area of polygon $\boldsymbol{P_o}$.
 Such irradiance has a closed form solution as given by Baum et al. [^4] and the time cost grows linearly with the amount of edges of the polygon.
 
-Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain using a pre-computed transform $M$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
+Basically then, all that is required is to transform the vertices of the area light polygon $\boldsymbol{P}$ into the canonical domain
+ using a pre-computed transform $M^{-1}$ so that $\boldsymbol{P_o} = M^{-1} \boldsymbol{P}$, then use the analytical expression for the irradiance.
 
 
-The essential work of this technique resides in *finding the proper value of the transform matrix* $M$ *depending on our BRDF*.
-Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$ and surface roughness $\alpha$ that they stored into 2 textures
- (because the matrix $M$ is described by 4 values + a magnitude).
+The essential work of this technique resides in *finding the proper value of the transform matrix* $M^{-1}$ *depending on our BRDF*.
+Heitz et al. provide the [source code](https://eheitzresearch.wordpress.com/415-2/) they used to fit the GGX BRDF for various values of elevation $\cos(\theta_o)$
+ and surface roughness $\alpha$ that they stored into 2 textures (because the matrix $M^{-1}$ is described by 4 values + a magnitude).
 
 
 !!! info
  	An interesting fact here is that the 5th value for the LTC, the magnitude, is actually the BRDF's integrated irradiance $E( \boldsymbol{\omega_v}, \alpha )$ which is, once again (!!),
 	 the value given by the pre-integrated BRDF table discussed in the preliminary remarks and in part 1.
+
+	So we only need a single additionnal texture for storing our 4 LTC coefficients after all...
 
 
 ### View-Dependence
@@ -435,7 +561,7 @@ We take model on our work for the SH-encoded environment to once again separate 
 
 $$
 \begin{align}
-	L(\boldsymbol{\omega_v}) &= L \cdot \int_{P} f_r( \boldsymbol{\omega_v}, \boldsymbol{\omega_l} ) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
+	L(\boldsymbol{\omega_v}) &= L \cdot \int_{P} f_{ms}( \boldsymbol{\omega_v}, \boldsymbol{\omega_l} ) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 							 &= L \cdot \int_{P} \frac{(1-E(\boldsymbol{\omega_v}, \alpha)).(1-E(\boldsymbol{\omega_l}, \alpha))}{\pi - E_{avg}( \alpha )} (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 							 &= L \cdot \frac{1-E(\boldsymbol{\omega_v}, \alpha)}{\pi - E_{avg}( \alpha )} \cdot \int_{P} (1-E(\boldsymbol{\omega_l}, \alpha)) (\boldsymbol{\omega_l} \cdot \boldsymbol{n}) d\omega_l \\\\
 \end{align}
@@ -450,33 +576,229 @@ $$
 What this means for us is that, similarly to regular BRDFs, we will have to pre-compute transform matrices for our MSBRDF but also that:
 
 * There is no need to store a 2D table since we factored-out the view-dependent part of the BRDF and only a dependence on roughness $\alpha$ remains
-* Due to the isotropic and smooth nature of the MSBRDF, there shouldn't be a need to handle anisotropy or complicated coefficients so the matrix $M$ should be simpler
+* Due to the isotropic and smooth nature of the MSBRDF, there shouldn't be a need to handle anisotropy or complicated coefficients so the matrix $M^{-1}$ should be simpler
 
 
 ### Fitting
 
-!!! todo
-	**Fit MSBRDF GGX / Oren MSBRDF**
+Using a modified version of my [LTC Table Fitter](https://github.com/Patapom/GodComplex/tree/master/Tools/LTCTableGenerator) (a C# version of the fitter code from S.Hill & E.Heitz),
+ I managed to fit the GGX & Oren-Nayar MSBRDF.
 
-	Use the fact that our MSBRDFs are isotropic. Should require less coefficients for M!
+![MSBRDF_LTC_Fit.png](./images/MSBRDF_LTC_Fit.png)
 
-	Can we also factor out the view-dependent part of regular BRDFs? (i.e. that would be the masking term $\frac{G( \boldsymbol{\omega_v} )}{\boldsymbol{\omega_v} \cdot \boldsymbol{n}}$).
-	Does it yield a smoother, more accurate result?
+
+As expected, the fitting is very smooth and only a *single* coefficient along the diagonal for the $M^{-1}$ matrix is required:
+
+$$
+\begin{align}
+M^{-1} = \left( \begin{matrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & m33(\alpha) \\
+    \end{matrix} \right)
+\end{align}
+$$
+
+We need an additional coefficient for the magnitude of the BRDF so all in all, that means we only require 2 coefficients for each value of roughness of the LTC table.
+
+
+!!! info
+    You can download the tables representing the LTC matrix diagonal coefficient and BRDF magnitude for 64 different values of roughness
+
+	* For the [GGX BRDF](MSLTC_GGX_64.csv) 
+	* For the [Oren-Nayar BRDF](MSLTC_OrenNayar_64.csv) 
+
+	The 1st float is the roughness $\alpha$, the 2nd float is $m33({\alpha)}$ and the 3rd float is the magnitude of the BRDF.
+
+	</br>
+
+	Alternatively, you can use these pretty accurate analytical fits:
+
+	![MSBRDFLTC_AnalyticalFit.png](./images/MSBRDFLTC_AnalyticalFit.png)
+
+	For GGX:
+	$$
+	\begin{align}
+		m_{33}(\beta) &= min\left( 15.2, \frac{ 21.342911007109528 + 93.01620773161568 \cdot \beta^2 }{ 0.4814723396401988 + 143.39682026031764 \cdot \beta^2} \right) \\\\
+		mag(\beta) &= 0.09791431592022058 \cdot \beta - 1.4272852958071647 \cdot \beta^2 + 7.768226052923069 \cdot \beta^3 - 4.475643330561517 \cdot \beta^4 \\\\
+	\end{align}
+	$$
+
+	</br>
+	For Oren-Nayar:
+	$$
+	\begin{align}
+		m_{33}(\beta) &= \frac{ 0.005048402287040277 - 0.014928238738260345 \cdot \beta + 0.027930492034822143 \cdot \beta^2 }{ 0.008420878564907999 - 0.022349996757079705 \cdot \beta + 0.034343673853208634 \cdot \beta^2 } \\\\
+		mag(\beta) &= max\left( 0, 0.2559021427001363 - 2.7944531451217687 \cdot \beta + 8.298513748611509 \cdot \beta^2 - 4.662218902663712 \cdot \beta^3 \right) \\\\
+	\end{align}
+	$$
+
+	Note that $\beta = \sqrt{\alpha}$ which is sometimes called the *perceptual roughness*.
 
 
 ### Validation
 
-!!! todo
-	Show the "ground truth" (i.e. many environment rays) against a single precomputed estimate...
+Here is the comparison for various materials illuminated by a single area light:
+
+!!! quote ""
+
+	![MSBRDFLTC.png](./images/MSBRDFLTC.png)
+
+	Comparison of "ground truth" against simplified LTC approximation.</br>
+	**Top-Left:** Single-scattering BRDF model only,</br>
+	**Top-Right:** Ground truth multiple-scattering BRDF model where the energy-compensation MSBRDF is invoked for every ray of the Monte-Carlo integration,</br>
+	**Bottom-Right:** Real time multiple-scattering BRDF where the MSBRDF is approximated by a single call to a simplified LTC distribution,</br>
+	**Bottom-Left:** Difference between the real time and ground truth, amplified 16x.</br>
+
+</br>
+
+Here is the comparison for the GGX BRDF with the IOR for gold:
+
+!!! quote ""
+
+	![MSBRDF Panel LTC - GGX.jpg](./images/MSBRDF%20Panel%20LTC%20-%20GGX.jpg)
+
+	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
+	**Top Row:** Ground truth sampling of the GGX MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>
+	**Middle Row:** A single sample of the GGX MSBRDF is used as well as a LTC representation of the MS term.</br>
+	**Bottom Row:** Difference between the two, amplified 8x.</br>
 
 
+And the comparison for the Oren-Nayar BRDF with a blue reflectance:
+
+!!! quote ""
+
+	![MSBRDF Panel LTC - OrenNayar](./images/MSBRDF%20Panel%20LTC%20-%20OrenNayar.jpg)
+
+	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
+	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>
+	**Middle Row:** A single sample of the Oren-Nayar MSBRDF is used as well as a LTC representation of the MS term.</br>
+	**Bottom Row:** Difference between the two, amplified 16x.</br>
 
 
-## Simulation de Clear-Coated Diffuse Surface
+### Code
 
-!!! todo
-	**TODO**
-	Pour voir si mon approximation tient la route...
+The code used for using the LTC tables is as follows:
+
+??? "MS BRDF Term for a Rectangular Area Light (HLSL)"
+	``` C++
+	// Multiple-Scattering Table Fetch
+	// **NOTE**: This function expects _tex_MS_LTC to be a Texture2D where each line of the texture contains the couple { m22, magnitude } for a single BRDF
+	// Texture contains XY = { m22, magnitude }, a single coefficient of the isotropic M^-1 matrix + the BRDF's magnitude
+	//
+	float3x3	MSLTCSampleMatrix( float _alpha, uint _BRDFIndex, out float _magnitude ) {
+		float2		UV = float2( _alpha, (0.5 + _BRDFIndex) / LTC_BRDFS_COUNT );
+		float2		coeffs = _tex_MS_LTC.SampleLevel( LinearClamp, UV, 0.0 );
+		_magnitude = coeffs.y;
+
+		float3x3	invM = 0.0;
+					invM._m00_m11 = 1.0;
+					invM._m22 = coeffs.x;
+
+		return invM;
+	}
+
+	// Computes the general LTC MS term for any BRDF
+	//	_tsLightCorners, the 4 corners of the area-light in tangent-space, each corner's position must be relative to the currently lit position
+	//	_mu_o, cosine of the view vector with the normal (i.e. N.V)
+	//	_alpha, surface roughness
+	//	_BRDFIndex, index of the BRDF in the LTC table
+	//
+	float3	EstimateMSIrradiance_LTC( float4x3 _tsLightCorners, float _mu_o, float _alpha, uint _BRDFIndex ) {
+		float		magnitude;
+		float3x3	ltc = MSLTCSampleMatrix( _alpha, _BRDFIndex, magnitude );
+		float4x3	ltcLightCorners = mul( _tsLightCorners, ltc );		// Transform into canonical space where we evaluate the clamped cosine distribution
+
+		float	Ei = magnitude * PolygonIrradiance( ltcLightCorners );	// This calls the rectangular area light LTC evaluation method described by Heitz et al.
+
+		// Apply view-dependence
+		return Ei * MSBRDF_View( _mu_o, _alpha, _BRDFIndex );
+	}
+
+	// Computes the LTC MS term for both diffuse and specular BRDFs
+	//	_tsLightCorners, the 4 corners of the area-light in tangent-space, each corner's position must be relative to the currently lit position
+	//	_mu_o, cosine of the view vector with the normal (i.e. N.V)
+	//	_roughnessSpecular, surface specular roughness
+	//	_F0, the Fresnel reflection factor at normal incidence
+	//	_roughnessDiffuse, surface diffuse roughness
+	//	_rho, the diffuse reflectance factor
+	//
+	float3	EstimateMSIrradiance_LTC_Full( float4x3 _tsLightCorners, float _mu_o, float _roughnessSpecular, float3 _F0, float _roughnessDiffuse, float3 _rho ) {
+
+		// Estimate specular irradiance
+		float3	MSFactor_spec = _F0 * (0.04 + _F0 * (0.66 + _F0 * 0.3));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-the-fresnel-reflectance-f_0f_0
+
+		float3  E_spec = MSFactor_spec * EstimateMSIrradiance_LTC( _tsLightCorners, _mu_o, _roughnessSpecular, LTC_BRDF_INDEX_GGX );
+
+		// Estimate diffuse irradiance
+		const float tau = 0.28430405702379613;
+		const float A1 = (1.0 - tau) / pow2( tau );
+		float3      rho = tau * _rho;
+		float3		MSFactor_diff = A1 * pow2( rho ) / (1.0 - rho);	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#varying-diffuse-reflectance-rhorho
+
+		float3  E_diff = MSFactor_diff * EstimateMSIrradiance_LTC( _tsLightCorners, _mu_o, _roughnessDiffuse, LTC_BRDF_INDEX_OREN_NAYAR );
+
+		// Attenuate diffuse contribution
+		float   a = _roughnessSpecular;
+		float	E_o = SampleIrradiance( _mu_o, a, FGD_BRDF_INDEX_GGX );	// Already sampled by MSBRDF earlier, optimize!
+
+		float3	IOR = Fresnel_IORFromF0( _F0 );
+		float3  Favg = FresnelAverage( IOR );
+		float3  kappa = 1 - (Favg * E_o + MSFactor_spec * (1.0 - E_o));	// From http://patapom.com/blog/BRDF/MSBRDFEnergyCompensation/#complete-approximate-model
+
+		return E_spec + kappa * E_diff;
+	}
+	```
+
+
+You then simply need to add a single call to "EstimateMSIrradiance_LTC_Full( ... )" when estimating the area light, like this:
+
+???+ "Retrieving the MSBRDF response from a SH-encoded environment (HLSL)"
+	``` C++
+	// Here:
+	//	wsPosition is the world-space position of the point we're lighting
+	//	tsView is the tangent-space camera vector pointing toward the camera
+	//	alphaS is the specular roughness
+	//	F0 is the Fresnel reflection factor at normal incidence
+	//	alphaD is the diffuse roughness
+	//	rho is the diffuse reflectance in [0,1]
+	//	_areaLightTransform is a float4x4 matrix with
+	//		row 0 = { AxisX.x, AxisX.y, AxisX.z, AxisX Length }
+	//		row 1 = { AxisY.x, AxisY.y, AxisY.z, AxisY Length }
+	//		row 2 = { AxisZ.x, AxisZ.y, AxisZ.z, AxisZ Length }
+	//		row 3 = { Center Pos.x, Center Pos.y, Center Pos.z, Area Light Area }
+	//
+
+	// Build rectangular area light corners in tangent space
+	float3		lsAreaLightPosition = _areaLightTransform[3].xyz - wsPosition;
+	float4x3    wsLightCorners;
+	wsLightCorners[0] = lsAreaLightPosition + _areaLightTransform[0].w * _areaLightTransform[0].xyz + _areaLightTransform[1].w * _areaLightTransform[1].xyz;
+	wsLightCorners[1] = lsAreaLightPosition + _areaLightTransform[0].w * _areaLightTransform[0].xyz - _areaLightTransform[1].w * _areaLightTransform[1].xyz;
+	wsLightCorners[2] = lsAreaLightPosition - _areaLightTransform[0].w * _areaLightTransform[0].xyz - _areaLightTransform[1].w * _areaLightTransform[1].xyz;
+	wsLightCorners[3] = lsAreaLightPosition - _areaLightTransform[0].w * _areaLightTransform[0].xyz + _areaLightTransform[1].w * _areaLightTransform[1].xyz;
+
+	float4x3    tsLightCorners = mul( wsLightCorners, world2TangentSpace );		// Transform them into tangent-space
+
+	// Compute reflected radiance
+	float3		Li = GetAreaLightRadiance();	// In W/m²/sr
+
+	float3		Lo = Li * EstimateMSIrradiance_LTC_Full( tsLightCorners, saturate( tsView.z ), alphaS, F0, alphaD, rho );
+	```
+
+
+## Conclusion
+
+We saw that the multiple-scattering term is quite significant on rough materials, even when using simple light models like point or directional lights.
+
+Although it can be costly to evaluate the MS term, optimizations can be though of:
+
+* It could be enabled only when the material's roughness goes above a given threshold
+* It could be reserved for important lights only (*i.e.* the strong directional Sun light, the environment ambient term and strong area lights)
+* It could be enabled for lights only if their intensity is strong enough (*i.e* relatively to the adapted relative luminance perceived by the camera, like a candle can be very strong in a dark area)
+
+</br>
+As usual, the entirety of the project is available at my [God Complex GitHub repository](https://github.com/Patapom/GodComplex/tree/master/Tests/TestMSBRDF).
+
 
 
 ## References
