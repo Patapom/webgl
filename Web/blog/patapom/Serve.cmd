@@ -2,4 +2,6 @@
 @REM Runs a local server
 @REM 
 
-mkdocs serve
+@REM mkdocs serve
+
+D:\Workspaces\AI\Python\Anaconda3\Scripts\mkdocs serve
