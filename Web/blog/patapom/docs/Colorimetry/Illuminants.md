@@ -92,7 +92,7 @@ Color Temperatures ([Source](http://www.soultravelmultimedia.com/2010/04/11/what
 	<td style="border-style: solid; border-width: 0" colspan="2"> These temperatures are merely characteristic;<br />considerable variation may be present.
 	</td></tr></table>
 
-![File:color-temperature_small.jpg|303px](../images/Colorimetry/color-temperature_small.jpg)
+![File:color-temperature_small.jpg|303px](../images/Colorimetry/Color-temperature_small.jpg)
 
 </span>
 

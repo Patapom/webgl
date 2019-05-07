@@ -363,7 +363,7 @@ Here is the comparison for the GGX BRDF with the IOR for gold:
 
 !!! quote ""
 
-	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20GGX.jpg)
+	![SHEnv](./images/MSBRDF Panel SHEnv - GGX.jpg)
 
 	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the GGX MSBRDF.</br>
@@ -375,7 +375,7 @@ And the comparison for the Oren-Nayar BRDF with a blue reflectance:
 
 !!! quote ""
 
-	![SHEnv](./images/MSBRDF%20Panel%20SHEnv%20-%20OrenNayar.jpg)
+	![SHEnv](./images/MSBRDF Panel SHEnv - OrenNayar.jpg)
 
 	Comparison of "ground truth" against simplified spherical harmonics environment, for various values of *perceptual roughness* from 0.25 to 1. Only the multiple-scattering component is shown.</br>
 	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF.</br>
@@ -656,7 +656,8 @@ Here is the comparison for the GGX BRDF with the IOR for gold:
 
 !!! quote ""
 
-	![MSBRDF Panel LTC - GGX.jpg](./images/MSBRDF%20Panel%20LTC%20-%20GGX.jpg)
+	![MSBRDF Panel LTC - GGX.jpg](./images/MSBRDF Panel LTC - GGX.jpg)
+	
 
 	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
 	**Top Row:** Ground truth sampling of the GGX MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>
@@ -668,7 +669,7 @@ And the comparison for the Oren-Nayar BRDF with a blue reflectance:
 
 !!! quote ""
 
-	![MSBRDF Panel LTC - OrenNayar](./images/MSBRDF%20Panel%20LTC%20-%20OrenNayar.jpg)
+	![MSBRDF Panel LTC - OrenNayar](./images/MSBRDF Panel LTC - OrenNayar.jpg)
 
 	Comparison of "ground truth" against the simplified LTC model, for various values of *perceptual roughness* from 0.1 to 1.</br>
 	**Top Row:** Ground truth sampling of the Oren-Nayar MSBRDF where each ray of the Monte-Carlo integration estimates the MS term.</br>

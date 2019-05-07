@@ -1,5 +1,5 @@
 ﻿
-Since the paper "Real Shading in Unreal Engine 4" [^1] by Brian Karis, most people have been using pre-integrated illuminance encoded in the mips of cube maps to represent the specular illuminance to feed their BRDF.
+Since the paper "Real Shading in Unreal Engine 4" [^1] by Brian Karis, most people have been the mips of cube maps to pre-integrate the specular illuminance to feed their BRDF for different values of roughness.
 
 You often read something like "a different mip corresponds to some roughness value" but it's generally not very clear how exactly do you tie the mip level and the roughness value of the BRDF?
 
@@ -11,12 +11,12 @@ $$
 
 Where $\alpha$ is the specular roughness (note that Lagarde uses the "linear roughness" or "perceptual roughness" $\alpha_{lin} = \alpha^2$ so $\sqrt{\alpha_{lin}} = \alpha$), $m$ is the mip level and $N$ is the maximum mip level (e.g for a 256x256 cube map, N would be $log_2(256)=8$).
 
-This mapping has the enormous advantage of being very simple, but it is not the optimal one.
+This mapping has the enormous advantage of being very simple, but it may not be the optimal one.
 
 
 ## Stating the problem
 
-Basically, for each mip level, we want a pixel to cover the "most significant footprint of BRDF".
+Basically, for each mip level, we want a pixel to cover the "largest footprint of the BRDF".
 
 In other words, we want the integral of the BRDF to be maximal when summed over the solid angle covered by the pixel.
 
@@ -30,21 +30,26 @@ $$
 We can see that at mip $N$, when there only remains a single pixel, we cover a full face of the cube, that is $d\Omega_p = \frac{2\pi}{3}$.
 
 
-## Equivalent solid angle by a cone
+## Equivalent solid angle over the sphere
 
-The cone covering the same solid angle as a texel from the cube map is determined by the cosine of its half aperture angle:
+The portion of the unit sphere covering the same solid angle as a texel from the cube map is determined by the cosine of the elevation angle:
 
 $$
 d\Omega_c(\mu) = 2\pi (1 - \mu)
 $$
 
-Where $\mu = \cos(\theta)$ and $\theta$ is the cone's half aperture angle.
+Where $\mu = \cos(\theta)$ and $\theta$ is the elevation angle from the pole.
+
+!!! quote ""
+	![cap](./images/SphericalCap.gif)
+
+	The area of the spherical cap C over the unit hemisphere is $2\pi (1 - \cos(\theta))$
 
 
 Posing $d\Omega_p = d\Omega_c$ we get:
 
 $$
-\mu = 1 - \frac{1}{3} 2^{2(m-N)}
+\mu = 1 - \frac{1}{3} 2^{2(m-N)}	 \tag{1}\label{(1)}
 $$
 
 which gives us the cosine of the half aperture angle of the cone covering the same solid angle as a single texel of the cube map at mip $m$.
@@ -91,14 +96,14 @@ $$
 2\pi \int_{1}^{0} D( \mu, \alpha ) \mu \sqrt{1 - \mu^2} d\mu = 1
 $$
 
-More generally, we get the cumulative distribution function:
+More generally, we get the cumulative distribution function (CDF):
 
 $$
 cdf(\mu, \alpha) = 2\pi \int_{1}^{\mu} D( \mu_i, \alpha ) \mu_i \sqrt{1 - \mu_i^2} d\mu_i
 $$
 
 
-## The case of GGX
+### The case of GGX
 
 In the case of the well-known GGX model, the NDF is:
 
@@ -109,19 +114,19 @@ $$
 The indefinite integral of $D$ is given by:
 
 $$
-C( \mu, \alpha) = 2\pi \int \frac{\alpha^2}{\pi ( \mu^2(\alpha^2 - 1) + 1 )^2} \mu \sqrt{1 - \mu^2} d\mu \\\\
-C( \mu, \alpha) = \frac{\alpha^2}{(\alpha^2 - 1) \left( 1 + \mu^2 (\alpha^2 - 1) \right) }
+\hat{D}( \mu, \alpha) = 2\pi \int \frac{\alpha^2}{\pi ( \mu^2(\alpha^2 - 1) + 1 )^2} \mu \sqrt{1 - \mu^2} d\mu \\\\
+\hat{D}( \mu, \alpha) = \frac{\alpha^2}{(\alpha^2 - 1) \left( 1 + \mu^2 (\alpha^2 - 1) \right) }
 $$
 
 The CDF is then given by:
 
 $$
-cdf(\mu, \alpha) = C( 1, \alpha ) - C( \mu, \alpha ) \\\\
+cdf(\mu, \alpha) = \hat{D}( 1, \alpha ) - \hat{D}( \mu, \alpha ) \\\\
 cdf(\mu, \alpha) = \frac{ 1 - \mu^2 }{ 1 + \mu^2 (\alpha^2 - 1) }
 $$
 
 
-### Maximizing the CDF
+## Maximizing the CDF
 
 So for any given mip we have the solid angle $d\Omega_p(m)$ covered by a pixel and incidently, the cosine of the equivalent cone $\mu = 1 - \frac{1}{3} 2^{2(m-N)}$.
 
@@ -130,12 +135,12 @@ We're looking after the roughness that best maximizes the expression of the cdf 
 !!! quote ""
     ![CDF](./images/GGX_CDF_f_roughness.gif)
 
-	CDF as a function of cone angle, for various roughness $\alpha$.
+	CDF as a function of cone angle, for various values of roughness $\alpha$.
 
 
 Obviously, a roughness of 0 *always* satisfies our criterium since the CDF is always 1, for any solid angle.
 
-Instead, we need to cover a certain ratio of the CDF $cdf( \mu, \alpha ) = C$ where $C$ is a constant in the range $[0,1]$.
+Instead, we need to cover a **certain ratio** $C \in [0,1]$ of the CDF so $cdf( \mu, \alpha ) = C$.
 
 
 The ideal solution would be that the CDF covers the largest solid angle $\frac{2\pi}{3}$ for the largest roughness value $\alpha_{max} = 1$ at the largest mip $N$ so we simply need to solve:
@@ -144,7 +149,7 @@ $$
 C = cdf( \mu_{max}, 1 ) = 1 - \mu_{max}^2 = 1 - \frac{1}{3}^2 = \frac{5}{9}
 $$
 
-(remember that earlier we found that at the largest mip, the cone would have an aperture half angle corresponding to $\mu_{max} = \frac{2}{3}$) (I told you it would become significant later!)
+(remember earlier when we found out that at the largest mip, the cone would have an aperture half angle corresponding to $\mu_{max} = \frac{2}{3}$) (I told you it would become significant later!)
 
 This results means that, for every mip level, we're looking for the CDF to cover ~55% of its [0,1] range, as shown in this animation below:
 
@@ -157,25 +162,23 @@ This results means that, for every mip level, we're looking for the CDF to cover
 
 
 
-Now that we know that:
+So now, we know the constant $C$ that can help us find a link between $\alpha$, our surface's roughness and $\mu$, a measure of the solid angle of a pixel of a given mip level:
 
 $$
-C = \frac{ 1 - \mu_{max}^2 }{ 1 + \mu_{max}^2 (\alpha^2 - 1) }
+C = \frac{ 1 - \mu^2 }{ 1 + \mu^2 (\alpha^2 - 1) }	 \tag{2}\label{(2)}
 $$
-
-We can finally find our mapping between mip and roughness.
 
 
 
 ## Mapping mip level to roughness
 
-We know from earlier that:
+We know from $\eqref{(1)}$ earlier that:
 
 $$
 \mu = 1 - \frac{1}{3} 2^{2(m-N)}
 $$
 
-And since it's easy to solve the previous equation for $\alpha$:
+And since it's easy to solve equation $\eqref{(2)}$ for $\alpha$:
 
 $$
 \alpha^2 = \frac{(C-1) (\mu^2-1)}{C\mu^2}
@@ -186,16 +189,16 @@ We now have the procedure to map mip level to roughness.
 
 ## Mapping roughness to mip level
 
-Incidently, $\mu$ as a function of $\alpha$ is given by:
+Again, from $\eqref{(2)}$ we can easily solve for $\mu$:
 
 $$
-\mu^2 = \frac{1-C}{1 + C(\alpha^2 -1)}
+\mu = \sqrt{ \frac{1-C}{1 + C(\alpha^2 -1)} }
 $$
 
-The resulting mip level is obtained by:
+The resulting mip level is then obtained by:
 
 $$
-m = N + \frac{1}{2} \log_2\left( 3 - 3 \sqrt{ \frac{1 - C}{ 1 + C(\alpha^2 - 1) } } \right)
+m = N + \frac{1}{2} \log_2\left( 3 - 3 \mu \right)
 $$
 
 
