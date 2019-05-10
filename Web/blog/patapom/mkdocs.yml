@@ -15,7 +15,7 @@ pages:
              - Brute Force Processing: BRDF/MSBRDFBruteForce.md
              - Energy Compensation Pt. 1: BRDF/MSBRDFEnergyCompensation.md
              - Energy Compensation Pt. 2: BRDF/MSBRDFEnergyCompensation2.md
-         - Cube Map Pre-Integration: BRDF/PreIntegration.md
+         - Cube Map Pre-Integration & Sampling: BRDF/PreIntegration.md
     - Lighting:
          - Colored Penumbra: Lighting/Colored Penumbra/ColoredShadows.md
 #         - Dishonored 2:

@@ -145,10 +145,13 @@ As indicated in the beginning of this page, most real-time applications only use
 These coefficients have analytical expressions that we are now listing below (we dropped the $\theta,\phi$ for conciseness):
 
 **Order $l=0$**
+
 $$
    Y^0_0 = \frac{1}{2}\sqrt{\frac{1}{\pi}}
 $$
+
 **Order $l=1$**
+
 $$
 \begin{cases}
    Y^{-1}_1 = \frac{1}{2}\sqrt{\frac{3}{\pi}}y & \quad m = -1\\\\
@@ -156,7 +159,9 @@ $$
    Y^{1}_1 = \frac{1}{2}\sqrt{\frac{3}{\pi}}x & \quad m = 1\\\\
 \end{cases}
 $$
+
 **Order $l=2$**
+
 $$
 \begin{cases}
    Y^{-2}_2 = \frac{1}{2}\sqrt{\frac{15}{\pi}}xy & \quad m = -2\\\\
