@@ -21,7 +21,7 @@ This mapping has the enormous advantage of being very simple, but it may not be 
 
 ## Stating the problems
 
-Basically, we have 2 main problems:
+Basically, we have 2 main problems when dealing with cube maps:
 
 1. an illuminance pre-integration problem where, for each mip level, we want a pixel of the cube map to cover the "largest footprint of the BRDF".
 2. a luminance estimation problem where we want to minimize the amount of samples to take from the BRDF and the cube map
@@ -31,50 +31,7 @@ Basically, we have 2 main problems:
 
 For this problem, we want a pixel of the cube map to contain the most significant illuminance information for a given roughness value that the BRDF will use.
 
-In other words, we want the integral of the BRDF to be maximal when summed over the solid angle covered by the pixel.
-
-
-As explained by McGuire [^4], we know the *average* solid angle covered by a pixel of the cube map at a given mip level is given by:
-
-$$
-d\Omega_p(m) = \frac{4\pi}{6} 2^{2(m-N)}
-$$
-
-We can see that at mip $N$, when there only remains a single pixel, we cover a full face of the cube, that is $d\Omega_p = \frac{2\pi}{3}$.
-
-
-#### Equivalent solid angle over the sphere
-
-The portion of the unit sphere covering the same solid angle as a texel from the cube map is determined by the cosine of the elevation angle:
-
-$$
-d\Omega_c(\mu) = 2\pi (1 - \mu)
-$$
-
-Where $\mu = \cos(\theta)$ and $\theta$ is the elevation angle from the pole.
-
-!!! quote ""
-	![cap](./images/SphericalCap.gif)
-
-	The area of the spherical cap C over the unit hemisphere is $2\pi (1 - \cos(\theta))$
-
-
-Posing $d\Omega_p = d\Omega_c$ we get:
-
-$$
-\mu = 1 - \frac{1}{3} 2^{2(m-N)}	 \tag{1}\label{(1)}
-$$
-
-which gives us the cosine of the spherical cap angle covering the same solid angle as a single texel of the cube map at mip $m$.
-
-
-We immediately see that at the maximum mip level $m = N$ we get the maximum aperture angle and:
-
-$\mu_{max} = 1 - \frac{1}{3} = \frac{2}{3}$
-
-(this will be important later)
-
-**NOTE**: It's very interesting to notice that this value is independent of the resolution of the cube map and only depends on the solid angle of a single face of the cube.
+In other words, we want the integral of the BRDF to be maximal when summed over the solid angle covered by the pixel and *we want to find the **roughness value** to make it so*.
 
 
 #### Maximizing the BRDF's footprint
@@ -154,6 +111,51 @@ $$
 
 #### Maximizing the CDF
 
+
+As explained by McGuire [^4], we know the *average* solid angle covered by a pixel of the cube map at a given mip level is given by:
+
+$$
+d\Omega_p(m) = \frac{4\pi}{6} 2^{2(m-N)}
+$$
+
+We can see that at mip $N$, when there only remains a single pixel, we cover a full face of the cube, that is $d\Omega_p = \frac{2\pi}{3}$.
+
+
+##### Equivalent solid angle over the sphere
+
+The portion of the unit sphere domain covering the same solid angle as a texel from the cube map is determined by the cosine of the elevation angle:
+
+$$
+d\Omega_c(\mu) = 2\pi (1 - \mu)
+$$
+
+Where $\mu = \cos(\theta)$ and $\theta$ is the elevation angle from the pole.
+
+!!! quote ""
+	![cap](./images/SphericalCap.gif)
+
+	The area of the spherical cap C over the unit hemisphere is $2\pi (1 - \cos(\theta))$
+
+
+Posing $d\Omega_p = d\Omega_c$ we get:
+
+$$
+\mu = 1 - \frac{1}{3} 2^{2(m-N)}	 \tag{1}\label{(1)}
+$$
+
+which gives us the cosine of the spherical cap angle covering the same solid angle as a single texel of the cube map at mip $m$.
+
+
+We immediately see that at the maximum mip level $m = N$ we get the maximum aperture angle and:
+
+$\mu_{max} = 1 - \frac{1}{3} = \frac{2}{3}$    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (this will be important below)
+
+
+**NOTE**: It's very interesting to notice that this value is independent of the resolution of the cube map and only depends on the solid angle of a single face of the cube.
+
+
+##### Finding the roughness
+
 So for any given mip we have the solid angle $d\Omega_p(m)$ covered by a pixel and incidently, the cosine of the equivalent spherical cap $\mu = 1 - \frac{1}{3} 2^{2(m-N)}$.
 
 We're looking after the roughness value $\alpha$ that best maximizes the expression of the CDF for the given pixel footprint/solid angle.
@@ -164,7 +166,7 @@ We're looking after the roughness value $\alpha$ that best maximizes the express
 	CDF as a function of spherical cap angle, for various values of roughness $\alpha$.
 
 
-Obviously, a roughness of 0 *always* satisfies our criterium since the CDF is always 1, for any solid angle.
+Obviously, a roughness value of $\alpha = 0$ *always* satisfies our criterium since the CDF is always 1, for any solid angle.
 
 Instead, we need to cover a **certain ratio** $C \in [0,1]$ of the CDF so $cdf( \mu, \alpha ) = C$.
 
