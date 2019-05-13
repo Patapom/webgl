@@ -44,15 +44,23 @@ But don't forget that after all, you're only computing an integral and that impo
 You can use method from eq. $\eqref{(2)}$ everywhere and still be fine! (although you won't have the fastest integration in the Universe).
 
 
+
 ### 2) Uniform Sampling
 
 This technique is the simplest of all and it's also called the [Riemann sum](https://en.wikipedia.org/wiki/Riemann_sum).
 
 ![Riemann Sum](./images/RiemannSums.png)
 
-This is the most basic way of performing the integration: you simply subdivide the integration domain into $N$ equal intervals, sample the function $N$ times along the interval, and accumulate $f(x) \Delta_x$, the area of each tiny rectangle each time.
+This is the most basic way of performing the integration: you simply subdivide the integration domain into $N$ equal intervals, sample the function regularly along the interval and accumulate the area of each tiny rectangle along the way.
 
-Here, $\Delta_x = \frac{b-a}{N}$ is the size of the base of the tiny rectangles.
+In the long run, with enough samples you get:
+
+$$
+\lim_{N \to \infty} \left( \sum_{i=1}^N f( x_i ) \Delta_x \right) = \int_a^b f(x) dx
+$$
+
+With $x_i = a + \frac{i-1}{N-1} (b - a)$ a regularly-spaced position in the domain $[a,b]$ and $\Delta_x = \frac{b-a}{N}$ the size of the base of the tiny rectangles.
+
 
 **PROS**:
 
@@ -61,6 +69,7 @@ Here, $\Delta_x = \frac{b-a}{N}$ is the size of the base of the tiny rectangles.
 **CONS**:
 
 * Easy to miss tiny features if your interval is not fine enough, in which case you will need a *lot* of samples $N$ to properly cover the domain
+
 
 
 ### 3) Basic Monte-Carlo
@@ -78,11 +87,44 @@ $$
 With $X_i = a + \xi (b-a)$ a *uniformly distributed* random number in the range $[a,b]$ and $\xi$ a *uniformly distributed* random number in the range $[0,1]$ (the number that is commonly returned by any good random function available in most languages).
 
 
+**PROS**:
+
+* Still very simple
+
+**CONS**:
+
+* Still easy to miss tiny features if you're not using enough samples
+* No clear advantage over Riemann
+
+
+
 ### 4) General Monte-Carlo
 
 Still following the explanation in [^1], we can state that the basic Monte-Carlo integration is okay as long as the distribution of the random variable is uniform.
 
-This was the case earlier where we chose $X_i = a + \xi (b-a)$ and so the *probability distribution function* (pdf) is simply $\frac{1}{b-a}$, meaning there is an equal chance to choose a sample anywhere in the integration domain.
+This was the case earlier where we chose $X_i = a + \xi (b-a)$ and so the *probability distribution function* (pdf) for $X_i$ simply was $\frac{1}{b-a}$, meaning there is an equal chance to choose a sample anywhere in the integration domain.
+
+
+Now, if another random variable $X'_i$ follows an arbitrary distribution $pdf( X'_i )$ then the *general Monte-Carlo* integration is given by:
+
+$$
+\int_a^b f(x) dx \approx \sum_{i=1}^N \frac{f( X'_i )}{pdf( X'_i )}
+$$
+
+
+**PROS**:
+
+* Less samples needed due to weighting by $\frac{1}{pdf}$ 
+
+**CONS**:
+
+* Still not certain to cover all important features!
+* More difficult to understand
+* pdf may not readily available
+* Very low-probability samples can have a very large weight because of the division, introducing noise
+
+
+<!--* Sampling the domain is better covered, less risk of missing important features due to the use of the pdf instead of uniform probability-->
 
 
 ### 5) Importance Sampling
