@@ -90,7 +90,7 @@ $$
 D( \mu, \alpha ) = \frac{\alpha^2}{\pi ( \mu^2(\alpha^2 - 1) + 1 )^2}
 $$
 
-The indefinite integral of the PDF is given by:
+The antiderivative of the PDF is given by:
 
 $$
 \begin{align}
@@ -132,7 +132,7 @@ $$
 Where $\mu = \cos(\theta)$ and $\theta$ is the elevation angle from the pole.
 
 !!! quote ""
-	![cap](./images/SphericalCap.gif)
+	![cap](./images/SphericalCap2.png)
 
 	The area of the spherical cap C over the unit hemisphere is $2\pi (1 - \cos(\theta))$
 
