@@ -1,0 +1,327 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11038,        318]
+NotebookOptionsPosition[     10279,        286]
+NotebookOutlinePosition[     10621,        301]
+CellTagsIndexPosition[     10578,        298]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Fresnel Simplification", "Title",
+ CellChangeTimes->{{3.741005305220567*^9, 3.7410053098928347`*^9}}],
+
+Cell[TextData[{
+ "I poorly attempted to simplify the complex Fresnel equation to see if we \
+could use it like the Schlick\[CloseCurlyQuote]s approximation and decompose \
+the FGD integral computation into 2 parts, but this time with the guarantee \
+that FGD = 0 when ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["F", "0"], "=", "0"}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " (",
+ StyleBox["i.e.",
+  FontSlant->"Italic"],
+ " IOR=1)..."
+}], "Text",
+ CellChangeTimes->{{3.7410053137480545`*^9, 3.7410053990279326`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fresnel", "=", 
+   RowBox[{"Function", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"c", ",", "F0"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"ior", "=", 
+       FractionBox[
+        RowBox[{"1", "+", 
+         SqrtBox["F0"]}], 
+        RowBox[{"Max", "[", 
+         RowBox[{"0.0001", ",", 
+          RowBox[{"1", "-", 
+           SqrtBox["F0"]}]}], "]"}]]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"g", "=", 
+       SqrtBox[
+        RowBox[{
+         SuperscriptBox["ior", "2"], "-", "1", "+", 
+         SuperscriptBox["c", "2"]}]]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"a", " ", "=", " ", 
+       RowBox[{"c", "*", 
+        RowBox[{"(", 
+         RowBox[{"g", "-", "c"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"b", "=", 
+       RowBox[{"c", "*", 
+        RowBox[{"(", 
+         RowBox[{"g", "+", "c"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"F", "=", 
+       RowBox[{
+        FractionBox["1", "2"], 
+        FractionBox[
+         SuperscriptBox["a", "2"], 
+         SuperscriptBox["b", "2"]], 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          FractionBox[
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"b", "-", "1"}], ")"}], "2"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"a", "+", "1"}], ")"}], "2"]]}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", "F"}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"fresnel", "[", 
+  RowBox[{
+   RowBox[{"Cos", "[", "1.57", "]"}], ",", "0.04"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7410044991564627`*^9, 3.741004794866377*^9}, {
+  3.7410048977902637`*^9, 3.7410049140281925`*^9}, {3.741004998016996*^9, 
+  3.7410050072905264`*^9}, {3.741005087307103*^9, 3.7410050907462997`*^9}, {
+  3.7410051219840865`*^9, 3.7410051880188637`*^9}}],
+
+Cell[BoxData["0.9953826108932796`"], "Output",
+ CellChangeTimes->{{3.7410047236003003`*^9, 3.741004764389633*^9}, 
+   3.7410047969504957`*^9, 3.741005009251639*^9, 3.741005091493343*^9, {
+   3.741005123650182*^9, 3.741005131518632*^9}, {3.741005178969346*^9, 
+   3.7410051884428883`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"fresnel", "[", 
+      RowBox[{
+       RowBox[{"Cos", "[", "\[Theta]", "]"}], ",", "F0"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Theta]", ",", "0", ",", 
+       FractionBox["\[Pi]", "2"]}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1"}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"F0", ",", "0", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.741004770242968*^9, 3.7410048948660965`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`F0$$ = 1., Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`F0$$], 0, 1}}, Typeset`size$$ = {360., {117., 121.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`F0$19189$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`F0$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`F0$$, $CellContext`F0$19189$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Plot[
+        $CellContext`fresnel[
+         Cos[$CellContext`\[Theta]], $CellContext`F0$$], {$CellContext`\
+\[Theta], 0, Pi/2}, PlotRange -> {0, 1}], 
+      "Specifications" :> {{$CellContext`F0$$, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {162., 169.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.7410050262866135`*^9, 3.7410051381880136`*^9, 
+  3.741005181718503*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fresnel2", "=", 
+   RowBox[{"Function", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"c", ",", "F0"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"ior", "=", 
+       FractionBox[
+        RowBox[{"1", "+", 
+         SqrtBox["F0"]}], 
+        RowBox[{"Max", "[", 
+         RowBox[{"0.0001", ",", 
+          RowBox[{"1", "-", 
+           SqrtBox["F0"]}]}], "]"}]]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"g", "=", 
+       SqrtBox[
+        RowBox[{
+         SuperscriptBox["ior", "2"], "-", "1", "+", 
+         SuperscriptBox["c", "2"]}]]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"a", " ", "=", " ", 
+       RowBox[{"c", "*", 
+        RowBox[{"(", 
+         RowBox[{"g", "-", "c"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"b", "=", 
+       RowBox[{"c", "*", 
+        RowBox[{"(", 
+         RowBox[{"g", "+", "c"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"F", "=", 
+       RowBox[{
+        FractionBox["1", "2"], 
+        FractionBox[
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"a", "+", "1"}], ")"}], "2"], 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"b", "+", "1"}], ")"}], "2"]], 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          FractionBox[
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"b", "-", "1"}], ")"}], "2"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"a", "+", "1"}], ")"}], "2"]]}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", "F"}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"fresnel2", "[", 
+  RowBox[{
+   RowBox[{"Cos", "[", "1.57", "]"}], ",", "0.04"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7410044991564627`*^9, 3.741004794866377*^9}, {
+   3.7410048977902637`*^9, 3.7410049140281925`*^9}, {3.741004998016996*^9, 
+   3.7410050072905264`*^9}, {3.741005087307103*^9, 3.7410050907462997`*^9}, {
+   3.7410051219840865`*^9, 3.741005219365657*^9}, 3.741005265107273*^9}],
+
+Cell[BoxData["0.9982199944383229`"], "Output",
+ CellChangeTimes->{3.7410052197876806`*^9, 3.741005265701307*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"fresnel2", "[", 
+      RowBox[{
+       RowBox[{"Cos", "[", "\[Theta]", "]"}], ",", "F0"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Theta]", ",", "0", ",", 
+       FractionBox["\[Pi]", "2"]}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "10"}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"F0", ",", "0", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.741004770242968*^9, 3.7410048948660965`*^9}, {
+  3.741005234375515*^9, 3.7410052439920654`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`F0$$ = 1., Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`F0$$], 0, 1}}, Typeset`size$$ = {360., {118., 122.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`F0$24737$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`F0$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`F0$$, $CellContext`F0$24737$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Plot[
+        $CellContext`fresnel2[
+         Cos[$CellContext`\[Theta]], $CellContext`F0$$], {$CellContext`\
+\[Theta], 0, Pi/2}, PlotRange -> {0, 10}], 
+      "Specifications" :> {{$CellContext`F0$$, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {163., 170.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.741005235651588*^9, 3.7410052443480854`*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{767, 853},
+WindowMargins->{{Automatic, 568}, {69, Automatic}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 107, 1, 101, "Title"],
+Cell[690, 25, 546, 15, 68, "Text"],
+Cell[CellGroupData[{
+Cell[1261, 44, 1893, 52, 280, "Input"],
+Cell[3157, 98, 288, 4, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3482, 107, 583, 16, 73, "Input"],
+Cell[4068, 125, 1667, 35, 348, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5772, 165, 2044, 56, 280, "Input"],
+Cell[7819, 223, 112, 1, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7968, 229, 636, 17, 73, "Input"],
+Cell[8607, 248, 1644, 34, 350, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

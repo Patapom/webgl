@@ -39,7 +39,7 @@ pages:
         - Solid Angle of an Orthogonally-Projected Surface Element: Math/OrthoSolidAngle.md
         - The Cross-Product: Math/CrossProduct.md
         - Another Way of Viewing the Integration: Math/Integration.md
-#        - Importance Sampling: Math/ImportanceSampling.md
+        - Importance Sampling: Math/ImportanceSampling.md
 
 #    - Miscellaneous:
 #        - Notes: Notes.md
