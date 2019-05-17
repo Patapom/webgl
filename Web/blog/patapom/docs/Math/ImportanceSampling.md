@@ -10,11 +10,11 @@ We immediately state that all these methods are *equivalent*:
 
 $$
 \begin{align}
-	&\int_a^b f(x) dx													\tag{1}\label{(1)}	\\\\
-	&\approx \frac{b-a}{N} \sum_i^N f(a + (i-1) \frac{ (b-a) }{N} )		\tag{2}\label{(2)}	\\\\
-	&\approx \frac{b-a}{N} \sum_i^N f( X_i )							\tag{3}\label{(3)}	\\\\
-	&\approx \frac{1}{N} \sum_i^N \frac{f( X_i' )}{pdf( X_i' )}			\tag{4}\label{(4)}	\\\\
-	&\approx \frac{1}{N} \sum_i^N \frac{f( X_i'' )}{pdf( X_i'' )}		\tag{5}\label{(5)}	\\\\
+	&\int_a^b f(x) dx														\tag{1}\label{(1)}	\\\\
+	&\approx \frac{b-a}{N} \sum_{i=1}^N f(a + \frac{ i-1 }{N} (b-a) )		\tag{2}\label{(2)}	\\\\
+	&\approx \frac{b-a}{N} \sum_{i=1}^N f( X_i )							\tag{3}\label{(3)}	\\\\
+	&\approx \frac{1}{N} \sum_{i=1}^N \frac{f( X_i' )}{pdf( X_i' )}			\tag{4}\label{(4)}	\\\\
+	&\approx \frac{1}{N} \sum_{i=1}^N \frac{f( X_i'' )}{pdf( X_i'' )}		\tag{5}\label{(5)}	\\\\
 \end{align}
 $$
 
@@ -23,9 +23,9 @@ Where:
 
 * Equation $\eqref{(1)}$ is the actual integration we wish to perform
 * Equation $\eqref{(2)}$ is the approximation of the integral using uniform sampling
-* Equation $\eqref{(3)}$ is the approximation of the integral using basic Monte-Carlo sampling
-* Equation $\eqref{(4)}$ is the approximation of the integral using Monte-Carlo sampling with weighting by the probability density function (pdf)
-* Equation $\eqref{(5)}$ is the approximation of the integral using uniform weights and importance sampling
+* Equation $\eqref{(3)}$ is the approximation of the integral using *basic* Monte-Carlo sampling
+* Equation $\eqref{(4)}$ is the approximation of the integral using *general* Monte-Carlo sampling with weighting by the probability density function (pdf)
+* Equation $\eqref{(5)}$ is the approximation of the integral using importance sampling
 
 
 **NOTE**: Be careful of the $X_i$, $X'_i$ and $X''_i$ that are random variables that each follow a different distribution, as will be explained below.
@@ -45,7 +45,7 @@ Most of the time, though, $f(x)$ is either unknown (e.g. you only have a black b
 For all theses cases, you have no other choice than doing a **numerical integration**, that is sampling your function at various places over its domain and apply some magic. That's what the methods described below are for.
 
 But don't forget that after all, you're only computing an integral and that importance sampling and other advanced methods designed for reducing variance are only there to *optimize* the computation. You don't need them if you don't like them.
-You can use method from eq. $\eqref{(2)}$ everywhere and still be fine! (although you won't have the fastest integration in the Universe).
+You can use method from eq. $\eqref{(2)}$ everywhere and still be fine! (although you won't have the fastest integration in the Universe, nor the most precise).
 
 
 
@@ -63,7 +63,7 @@ $$
 \lim_{N \to \infty} \left( \sum_{i=1}^N f( x_i ) \Delta_x \right) = \int_a^b f(x) dx
 $$
 
-With $x_i = a + \frac{i-1}{N-1} (b - a)$ a regularly-spaced position in the domain $[a,b]$ and $\Delta_x = \frac{b-a}{N}$ the size of the base of the tiny rectangles.
+With $x_i = a + \frac{i-1}{N} (b - a)$ a regularly-spaced position in the domain $[a,b]$ and $\Delta_x = \frac{b-a}{N}$ the size of the base of the tiny rectangles.
 
 
 **PROS**:
@@ -72,7 +72,7 @@ With $x_i = a + \frac{i-1}{N-1} (b - a)$ a regularly-spaced position in the doma
 
 **CONS**:
 
-* Easy to miss tiny features if your interval is not fine enough, in which case you will need a *lot* of samples $N$ to properly cover the domain
+* Easy to miss tiny features if your interval is not fine enough, in which case you will need *lots* of samples $N$ to properly cover the domain
 
 
 
@@ -106,7 +106,7 @@ With $X_i = a + \xi (b-a)$ a *uniformly distributed* random number in the range 
 
 Still following the explanation in [^1], we can state that the basic Monte-Carlo integration is okay as long as the distribution of the random variable is uniform.
 
-This was the case earlier where we chose $X_i = a + \xi (b-a)$ and so the *probability distribution function* (pdf) for $X_i$ simply was $\frac{1}{b-a}$, meaning there is an equal chance to choose a sample anywhere in the integration domain.
+This was the case earlier where we chose $X_i = a + \xi (b-a)$ and the *probability distribution function* (pdf) for $X_i$ simply was $\frac{1}{b-a}$, meaning there is an equal chance to choose a sample anywhere in the integration domain.
 
 
 Now, if we use another random variable $X'_i$ following an arbitrary distribution $pdf( X'_i )$ then the *general Monte-Carlo* integration is given by:
@@ -120,10 +120,10 @@ So what does it bring us? Okay, it gives more weight to less probable samples so
 
 ![PDF](./images/samplespdf.png)
 
-Well, to be honest, it doesn't bring anything in the balance to accelerate or increase the quality of the integration. The only thing it does really is *ensuring that whatever the distribution of random samples $X'_i$, 
+Well, to be honest, it doesn't bring anything in the balance to accelerate or increase the quality of the integration. The only thing it does really, is *ensuring that whatever the distribution of random samples $X'_i$, 
 they are all accounted for in the integral at their "just value" in order to avoid any bias*.
 
-Basically, the division by the pdf simply tries to balance the samples so you end up *as if you had chosen a uniform distribution*.
+Basically, the division by the pdf simply tries to balance the samples so you end up with the *same scenario than if you had chosen a uniform distribution*.
 
 So what's the point of doing that then?
 
@@ -138,17 +138,17 @@ So what's the point of doing that then?
 * More difficult to understand
 * Still not certain to cover all important features!
 * pdf may not be readily available
-* Very low-probability samples can have a very large weight because of the division, introducing noise
+* Very low-probability samples can have a very large weight, introducing noise (because of the division)
 * Halving noise requires 4 times more samples
 
 
 ### 5) Importance Sampling
 
-So all in all, what we've been doing until now is praying to pick the best random samples but that's not an effective way to choose random samples, isn't it?
+So all in all, what we've been doing until now is praying to pick the best random samples but that's not an effective way to choose random samples, is it?
 
 That's where importance sampling comes into play: choose the best samples!
 
-As elegantly put in [^2], Monte-Carlo integration is a stochastic process so even though we may know the pdf of a function, we cannot *choose* to place the samples where we deem they are more important than others,
+As elegantly put in [^2], Monte-Carlo integration is a stochastic process so even though we may know the pdf of a function, we cannot *choose* to place the samples where we deem it would be more interesting,
 otherwise we would bias the sampling and we would get an incorrect value for the integral.
 
 Instead, we still must draw random numbers from our uniform random numbers generator and *bend* the distribution to make it draw more samples in the places that are more important (i.e. where the pdf is higher).
@@ -185,21 +185,20 @@ Then we **invert** the CDF so a uniform random number $\xi \in [0,1]$ gets mappe
 
 	![CDF_GGX](./images/IS_CDF_GGX_Inverted.png)
 
-	The amazingly well done inversion of the cdf using a rotation + a flip of the above figure!
+	The amazingly well done inversion of the cdf using a rotation + a flip of the above figure! :grin:
+	<br/>
+	You enter a random number $\xi \in [0,1]$ and it returns the value for $\theta$ to use in the GGX equation...
 
 
 This effectively gives us our random value $X''_i$ from eq. $\eqref{(5)}$ that will help us to *target* our samples to the areas where they will be the most useful.
 
 
-Basically, the integral is the same as the general Monte-Carlo formulation because this **is** the general Monte-Carlo formulation,
+Basically, the integral is the same as the general Monte-Carlo formulation in eq. $\eqref{(4)}$ because this **is** the general Monte-Carlo formulation,
 except we used a *tailored pdf* to target a specific distribution that will bring more samples to the interesting areas:
 
 $$
 \lim_{N \to \infty} \left( \frac{1}{N} \sum_{i=1}^N \frac{f( X''_i )}{pdf( X''_i )} \right) = \int_a^b f(x) dx
 $$
-
-
-**NOTE**: And interesting and important take away point in choosing a cdf for importance sampling is that you don't *have to* choose the exact pdf of your function, you just need to use a *good enough match*.
 
 
 **PROS**:
@@ -210,6 +209,90 @@ $$
 
 * More difficult to understand
 * pdf may not be readily available for all functions
+
+
+#### Notes on Importance Sampling
+
+
+##### No need to be exact
+
+An interesting and important take away point in choosing a pdf for importance sampling is that you don't *have to* choose the *exact* pdf of your function, you just need to use a *good enough match* as shown below:
+
+![GoodEnoughPDF](./images/GoodEnoughPDF.png)
+
+
+##### How to read BRDF integrals with pdf?
+
+From eq. $\eqref{(5)}$ and the note above, we see that the division by the pdf implies that the pdf matches the shape of the function that we're integrating:
+
+$$
+pdf( X''_i ) \propto f( X''_i )
+$$
+
+(here the $\propto$ doesn't mean so much "proportional to" than "similar to")
+
+
+It's especially true when dealing with BRDF's because we usually choose one of the terms of the BRDF, the Normal Distribution Function (NDF), as a good approximation for the pdf.
+
+!!! note
+	The NDF is itself a distribution that integrates to 1 over the domain of the upper hemisphere above our surface so it's perfect for the job, and that's certainly no coincidence as we will see below in the chapter talking about how designing your own BRDF:
+	
+	$$
+	\int_0^{2\pi} \int_0^{\frac{\pi}{2}} D( \theta ) \cos( \theta ) \sin( \theta ) d\theta d\phi = 1
+	$$
+
+
+What this means for us is that Monte-Carlo integration of our BRDF using one of the terms, $D$, of the BRDF as pdf will make the $D$ disappear.
+
+
+Basically if your BRDF expression is something of the sort:
+
+$$
+f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) = D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cdot g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
+$$
+
+Where:
+
+* $\boldsymbol{ \omega_i }$ is the unit incoming vector
+* $\boldsymbol{ \omega_o }$ is the unit outgoing vector
+* $f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is the BRDF
+* $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } )$ is normal distribution function
+* $g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } )$ is the remaining expression of the BRDF (possibily involving shadowing/masking, Fresnel, etc.)
+
+
+Then a Monte-Carlo integration using $D$ as pdf will give:
+
+$$
+r = \frac{1}{N} \sum_{i=1}^N \frac{ f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) }{ D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) } = 
+\frac{1}{N} \sum_{i=1}^N g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
+$$
+
+Here, $r$ is the result of the integration and $L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is some additional term that gets involved in the integration and composed with the BRDF (e.g. lighting).
+
+The result is that the NDF term $D$ disappears altogether from the sum expression, but make no mistake, it's still there and what we're really computing is this:
+
+$$
+r = \int f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
+$$
+
+
+Why am I mentioning this? Well, because I spent quite a lot of time wondering if the $D$ term should be included in the cube-map pre-integration step as described in [^4] eq. (7) because Karis's expression for the split-sum approximation
+is quite confusing:
+
+![SplitSumMess](./images/EpicSplitSumApproximation.png)
+
+Here it really *seems* like the first term simply sums the incoming radiance without accounting for anything else, but where the roughness of the surface would be taken into account then?
+
+Turns out the directions to use to sample the incoming light are biased with a cdf involving the BRDF's $D$ term as we said, and the actual expression that is evaluated really is this:
+
+$$
+\frac{1}{N} \sum_{k=1}^N \frac{ L_i( \boldsymbol{l}_k ) f( \boldsymbol{l}_k, \boldsymbol{v} ) \cos( \theta_{\boldsymbol{l}_k} ) }{ p( \boldsymbol{l}_k, \boldsymbol{v} ) }
+\approx \left( \sum_{k=1}^N \frac{ L_i( \boldsymbol{l}_k ) p( \boldsymbol{l}_k, \boldsymbol{v} ) } { p( \boldsymbol{l}_k, \boldsymbol{v} ) } \right)
+\left( \sum_{k=1}^N \frac{ f( \boldsymbol{l}_k, \boldsymbol{v} ) \cos( \theta_{\boldsymbol{l}_k} ) }{ p( \boldsymbol{l}_k, \boldsymbol{v} ) } \right)
+$$
+
+Here, $p( \boldsymbol{l}_k, \boldsymbol{v} )$ is the integration pdf as well as the normal distribution function that is used to weigh the cube map's incoming radiance.
+Since it's both at the numerator and the denominator, it's understandable it was omitted but it's not immediately obvious and I think it's worth mentionning after all...
 
 
 ## Some Practical Examples
@@ -301,13 +384,13 @@ In the case of the Cook-Torrance micro-facet model and the specific case where t
 
 $$
 \begin{align}
-N_{GGX}( \theta, \alpha ) = \frac{\alpha^2}{\pi ( \cos(\theta) (\alpha^2-1) + 1 )^2}	&\\\\
-\int_0^{2\pi} \int_0^{\frac{\pi}{2}} N_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta d\phi &= 1
+D_{GGX}( \theta, \alpha ) = \frac{\alpha^2}{\pi ( \cos^2(\theta) (\alpha^2-1) + 1 )^2}	&\\\\
+\int_0^{2\pi} \int_0^{\frac{\pi}{2}} D_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta d\phi &= 1
 \end{align}
 $$
 
 Here, we use the spherical coordinates $\theta$ and $\phi$ that express the direction of the unit vector $\boldsymbol{\omega_i}$ on the hemisphere.
-The cartesian coordinates of $\boldsymbol{\omega_i}$ are given by:
+The cartesian coordinates for $\boldsymbol{\omega_i}$ are given by:
 
 $$
 \boldsymbol{\omega_i} = 
@@ -322,10 +405,10 @@ $$
 We can then very conveniently use that NDF, along with the cosine weight as the pdf for our integration:
 
 $$
-pdf_{GGX}( \theta, \phi ) = N_{GGX}( \theta, \alpha ) \cos( \theta )
+pdf_{GGX}( \theta, \phi ) = D_{GGX}( \theta, \alpha ) \cos( \theta )
 $$
 
-Slight problem though, we're integrating on a 2D domain!
+Slight problem though, we're integrating over a 2D domain!
 
 Gasp!
 
@@ -366,7 +449,9 @@ It means that the probability to have a sample in the direction given by $\phi$ 
 of having a sample along the direction $\theta$ *knowing* we already have a sample along the angle $\phi$.
 
 Or the reverse, the product of the probabilty $P(\theta)$ of having a sample along the angle $\theta$ times the probability $P(\phi | \theta)$
-of having a sample along the direction $\phi$ *knowing* we already have a sample along the angle $\theta$, that also leads to the same joint probability (by the way, that's the base for Bayes theorem).
+of having a sample along the direction $\phi$ *knowing* we already have a sample along the angle $\theta$.
+
+Both lead to the same joint probability and by the way, that's the base for the famous Bayes' theorem.
 
 
 As we saw earlier, the cdf is given by:
@@ -389,11 +474,10 @@ Conducting the integration over the entire domain for *all* dimensions *but one*
 
 $$
 \begin{align}
-P( \bar{\theta} ) &= \int_0^{2\pi} \int_0^{\bar{\theta}} pdf( \theta, \phi ) \sin( \theta ) d\theta d\phi	\qquad \text{or}	\\
-P( \bar{\phi} ) &= \int_0^{\frac{\pi}{2}} \int_0^{\bar{\phi}} pdf( \theta, \phi ) \sin( \theta ) d\phi d\theta	\\
+P( \theta ) &= \int_0^{2\pi} pdf( \theta, \phi ) \sin( \theta ) d\phi	\qquad \text{or}	\\
+P( \phi ) &= \int_0^{\frac{\pi}{2}} pdf( \theta, \phi ) \sin( \theta ) d\theta	\\
 \end{align}
 $$
-
 
 
 #### Back to GGX
@@ -401,18 +485,18 @@ $$
 Let's rewrite the cdf using the GGX pdf we saw earlier:
 
 $$
-cdf( \bar{\theta}, \bar{\phi} ) = \int_0^{\bar{\phi}} \int_0^{\bar{\theta}} N_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta d\phi
+cdf( \bar{\theta}, \bar{\phi} ) = \int_0^{\bar{\phi}} \int_0^{\bar{\theta}} D_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta d\phi
 $$
 
 
-Conveniently enough, we only have a dependency on $\theta$ and, as explained in Tobias Alexander Franke's blog post [^3], we could simply choose to integrate of the entire $\phi \in [0,2\pi]$ domain to obtain the marginal probability distribution function $pdf(\bar{\theta})$:
+Conveniently enough, we only have a dependency on $\theta$ and, as explained in Tobias Alexander Franke's blog post [^3], we could simply choose to integrate of the entire $\phi \in [0,2\pi]$ domain to obtain the marginal probability distribution function $pdf(\theta)$:
 
 $$
 \begin{align}
-pdf(\bar{\theta} ) &= \int_0^{2\pi} {pdf}_{GGX}( \theta, \phi ) d\phi  \\\\
-pdf(\bar{\theta} ) &= \int_0^{2\pi} N_{GGX}( \theta, \alpha ) \cos( \theta ) d\phi  \\\\
-pdf(\bar{\theta} ) &= (2\pi) N_{GGX}( \theta, \alpha ) \cos( \theta ) \\\\
-pdf(\bar{\theta} ) &= (2\pi) {pdf}_{GGX}( \bar{\theta}, \bar{\phi} ) \\\\
+pdf(\theta ) &= \int_0^{2\pi} {pdf}_{GGX}( \theta, \phi ) d\phi  \\\\
+pdf(\theta ) &= \int_0^{2\pi} D_{GGX}( \theta, \alpha ) \cos( \theta ) d\phi  \\\\
+pdf(\theta ) &= 2\pi \; D_{GGX}( \theta, \alpha ) \cos( \theta ) \\\\
+pdf(\theta ) &= 2\pi \Bigl( {pdf}_{GGX}( \theta, \phi ) \Bigr) \\\\
 \end{align}
 $$
 
@@ -428,7 +512,7 @@ $$
 And we get:
 
 $$
-pdf( \phi | \theta ) = \frac{ {pdf}_{GGX}( \bar{\theta}, \bar{\phi} ) } { (2\pi) {pdf}_{GGX}( \bar{\theta}, \bar{\phi} ) } = \frac{1}{2\pi}
+pdf( \phi | \theta ) = \frac{ {pdf}_{GGX}( \theta, \phi ) } { 2\pi \Bigl( {pdf}_{GGX}( \theta, \phi ) \Bigr) } = \frac{1}{2\pi}
 $$
 
 
@@ -438,7 +522,7 @@ Now that we know the expressions for $pdf( \theta )$ and $pdf( \phi | \theta )$,
 
 $$
 \begin{align}
-cdf( \bar{\theta} ) &= 2\pi \int_0^{\bar{\theta}} N_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta \\
+cdf( \bar{\theta} ) &= 2\pi \int_0^{\bar{\theta}} D_{GGX}( \theta, \alpha ) \cos( \theta ) \sin( \theta ) d\theta \\
 cdf( \bar{\theta} ) &= \frac{ 1 - \cos^2( \bar{\theta} ) } { (\alpha^2 - 1) \cos^2( \bar{\theta} ) + 1 }
 \end{align}
 $$
@@ -456,9 +540,7 @@ $$
 ##### Inverting the cdf
 
 If we pose that $\{ cdf( \bar{\theta} ), cdf( \bar{\phi} | \bar{\theta} ) \} = \{ \xi_0, \xi_1 \}$ where $\{ \xi_0, \xi_1 \} \in [0,1]$ is a set of 2 uniformly-distributed random variables
-then it's simple enough to invert the expressions to find values for $\phi$ and $\theta$.
-
-We get:
+then it's simple enough to solve the expressions and find values for $\bar{\phi}$ and $\bar{\theta}$:
 
 $$
 \begin{align}
@@ -476,13 +558,10 @@ Where $\theta_h$ is the angle between the normal and the half vector and $J( \th
 Wait a minute! What the hell is this damn Jacombian doing here? (and what the hell is a Jacobian anyway?)
 
 
-#### The Jacobian Menace
+##### The Jacobian Menace
 
 -->
 
-
-
-@TODO: When to know if the pdf is included in the integration?
 
 
 
@@ -491,19 +570,59 @@ Wait a minute! What the hell is this damn Jacombian doing here? (and what the he
 @TODO: Show 2 examples of lighting integration, with and without importance sampling
 
 
-## Stratified Sampling & Low-Discrepancy Sequences
+## Additional Discussions
+
+### Why is Monte-Carlo working?
+
+It's often refered as a neat little trick, and indeed Monte-Carlo integration resides in exploiting the definition of the [Expected Value](https://en.wikipedia.org/wiki/Expected_value) in the continuous case:
+
+$$
+\hat{G} = E[g(x)] = \int_{\mathbb{R}} g(x) p(x) dx		\qquad \tag{6}\label{(6)}
+$$
+
+Remember that the Expected Value is actually the mean value of a continuous function defined over $\mathbb{R}$, the integral simply means we're going to sum the function $g(x)$ weighted by the probability density fuction $p(x)$ at each location.
+The result will simply be the *average value of the function* $\hat{G}$.
+
+
+Writing the expected value of the Monte-Carlo summation gives us:
+
+$$
+\begin{align}
+E\left[ \frac{1}{N} \sum_{i=1}^N \frac{f( X_i )}{p( X_i )} \right] &= \frac{1}{N} \sum_{i=1}^N E\left[ \frac{f( X_i )}{p( X_i )} \right]	\\
+&= \frac{1}{N} \sum_{i=1}^N \int_{\Omega} \frac{f(x)}{p(x)} p(x) dx \\
+&= \frac{1}{N} \sum_{i=1}^N \int_{\Omega} f(x) dx \\
+&= \int_{\Omega} f(x) dx \\
+\end{align}
+$$
+
+So by by posing $g(x) = \frac{f(x)}{p(x)}$ and operating a substitution of $\eqref{(6)}$ into the 1st line, we end up with the result we're looking for: the proper integral of $f(x)$.
+
+
+### Stratified Sampling & Low-Discrepancy Sequences
 
 Halton, van der Corput, Hammersley, Fibonnaci, etc.
 
 
-## Multiple Importance Sampling
+### Multiple Importance Sampling
+
+
 
 
 ### Creating your own BRDF
 
-Cosine-Weighted
+On a vu que les BRDF sont essentiellement basées sur une distribution des normales qui doit fondamentalement s'intégrer à 1 sur tout le domaine de définition (l'hémisphère supérieur)
 
-On pose $t = cos2\left(\theta\right)$ du coup: $dt = -2.sin\left(\theta\right).cos\left(\theta\right)$
+
+On pose $t = cos^2\left(\theta\right)$ du coup: $dt = -2.sin\left(\theta\right).cos\left(\theta\right)$
+
+ca permet de voir qu'on a le cos²(theta) gratos lors de l'intégration puisque sin(theta) cos(theta) sont forcément dans l'intégrale en sphérique...
+
+
+
+@TODO: When to know if the pdf is included in the integration?
+
+ ==> On utilise généralement la NDF comme pdf d'intégration, donc si on divise par cette pdf, ça veut dire que la NDF est au numérateur aussi et qu'elle fait donc partie de l'intégrande!
+
 
 Parler du Jacobien, Walter 07.
 http://www.stat.rice.edu/~dobelman/notes_papers/math/Jacobian.pdf
@@ -514,7 +633,7 @@ Quand on importance sample la direction de H, la réflexion de V ou L renvoie so
 
 
 
-## Metropolis Hastings
+### Metropolis Hastings
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Metropolis-Hasting is a surprisingly simple way to sample from a density known only up to a constant. Defines a Markov chains whose stationary distribution is the target one. <a href="https://t.co/bUuHRASizo">https://t.co/bUuHRASizo</a> <a href="https://t.co/OnhhQ5X10l">pic.twitter.com/OnhhQ5X10l</a></p>&mdash; Gabriel Peyré (@gabrielpeyre) <a href="https://twitter.com/gabrielpeyre/status/977819766290309120?ref_src=twsrc%5Etfw">March 25, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -523,7 +642,7 @@ Quand on importance sample la direction de H, la réflexion de V ou L renvoie so
 
 
 
-## Quick Word
+## Conclusion
 
 I'm one of those guys that "get things quickly but need a lot of explaining", and probabilities and importance sampling have been a real struggle for me.
 Moreover, I have a tendency to forget things very easily and very quickly so these blog posts are not so much made to advertise stuff at the face of the world,
@@ -534,4 +653,6 @@ I hope this post is useful as it gathers (hopefully) clear information from all 
 
 [^1]: Scratch a pixel [Monte Carlo Integration](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/monte-carlo-integration)
 [^2]: Scratch a pixel [Importance Sampling](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/variance-reduction-methods)
-[^3]: Franke, T. A. [Notes on Importance Sampling](https://www.tobias-franke.eu/log/2014/03/30/notes_on_importance_sampling.html)
+[^3]: 2014 Franke, T. A. [Notes on Importance Sampling](https://www.tobias-franke.eu/log/2014/03/30/notes_on_importance_sampling.html)
+[^4]: 2013 Karis, B. [Real Shading in Unreal Engine 4](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf)
+[^5]: 1997 Veach, E. ["Robust Monte Carlo Methods for Light Transport Simulation, Chapter 9"](https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf)
