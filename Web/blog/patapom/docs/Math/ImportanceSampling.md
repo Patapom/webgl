@@ -600,7 +600,72 @@ So by by posing $g(x) = \frac{f(x)}{p(x)}$ and operating a substitution of $\eqr
 
 ### Stratified Sampling & Low-Discrepancy Sequences
 
-Halton, van der Corput, Hammersley, Fibonnaci, etc.
+With importance sampling, we saw that we could bend a uniform distribution into any other pdf of our choice, preferably one that looks like the function we're integrating.
+
+But it doesn't guarantee in any way that our random samples will be nicely layed out: even if our random number generator follows a uniform distribution, there's nothing preventing it from e.g. generating a million times the same number.
+Such bias would be sooner or later corrected as to make the distribution uniform again, but random means random and however improbable, this scenario *could* theoretically happen.
+
+Everyone who played a bit with the traditional C function **rand()** could witness first hand that the values it generated were far from well layed out in the domain.
+In the figure below we see the points tend to be clumped together and don't really cover the plane very well:
+
+![Clumping](./images/RandClumping.png)
+
+
+So we'd like a better coverage of the plane but without introducing bias in the distribution that must remain uniform.
+
+
+#### Stratified Sampling
+
+The simplest solution is to use [stratified sampling](https://en.wikipedia.org/wiki/Stratified_sampling):
+subdivide your N-dimensional uniform domain into uniform pieces, and use the random number to jitter a position within each sub-domain:
+
+!!! quote ""
+
+	![StratifiedSampling.png](./images/StratifiedSampling.png)
+
+	Image from [http://www.pbr-book.org Chapter 7.3](http://www.pbr-book.org/3ed-2018/Sampling_and_Reconstruction/Stratified_Sampling.html)
+
+
+
+#### Low-Discrepancy Sequences
+
+It's clear in the figure above demonstrating stratified sampling that unfortunately, it doesn't prevent points clustering even though it strongyly reduces their occurrences.
+
+Instead, we could use alternatives to the uniform sampling represented in figure 7.18 (b) above that would be less regular. These are called low-discrepancy sequences of points (the discrepancy is the gap between 2 sequential points).
+
+The most well-known sequence types are:
+
+* [van der Corput](https://en.wikipedia.org/wiki/Van_der_Corput_sequence)
+
+	![vanDerCorput.png](./images/vanDerCorput.png)
+
+* [Halton Sequence](https://en.wikipedia.org/wiki/Halton_sequence)
+
+	![Halton.png](./images/Halton.png)
+
+* [Hammersley Set](https://en.wikipedia.org/wiki/Low-discrepancy_sequence#Hammersley_set)
+
+	![Halton.png](./images/Hammersley.png)
+
+* [Sobol Sequence](https://en.wikipedia.org/wiki/Sobol_sequence)
+
+	![Halton.png](./images/Sobol.png)
+
+* [Golden Ratio Sequence](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
+
+	![Halton.png](./images/GoldenRatio.png)
+
+* [Weyl Sequence](https://en.wikipedia.org/wiki/Weyl_sequence)
+
+	![Halton.png](./images/Weyl.png)
+
+	Also available as a ShaderToy [here](https://www.shadertoy.com/view/4dtBWH)
+
+
+Each are more or less difficult to construct and have their own sets of advantages and inconvenients.
+
+You can check various ways of constructing such sequences by reading the excellent posts [^6], [^7] and the wikipedia page [here](https://en.wikipedia.org/wiki/Low-discrepancy_sequence#Construction_of_low-discrepancy_sequences).
+
 
 
 ### Multiple Importance Sampling
@@ -656,3 +721,5 @@ I hope this post is useful as it gathers (hopefully) clear information from all 
 [^3]: 2014 Franke, T. A. [Notes on Importance Sampling](https://www.tobias-franke.eu/log/2014/03/30/notes_on_importance_sampling.html)
 [^4]: 2013 Karis, B. [Real Shading in Unreal Engine 4](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf)
 [^5]: 1997 Veach, E. ["Robust Monte Carlo Methods for Light Transport Simulation, Chapter 9"](https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf)
+[^6]: 2018 Roberts, M. [The Unreasonable Effectiveness of Quasirandom Sequences](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
+[^7]: 2018 Roberts, M. [A simple method to construct isotropic quasirandom blue noise point sequences](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
