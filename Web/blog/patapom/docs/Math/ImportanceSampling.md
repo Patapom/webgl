@@ -25,7 +25,7 @@ Where:
 * Equation $\eqref{(2)}$ is the approximation of the integral using uniform sampling
 * Equation $\eqref{(3)}$ is the approximation of the integral using *basic* Monte-Carlo sampling
 * Equation $\eqref{(4)}$ is the approximation of the integral using *general* Monte-Carlo sampling with weighting by the probability density function (pdf)
-* Equation $\eqref{(5)}$ is the approximation of the integral using importance sampling
+* Equation $\eqref{(5)}$ is the approximation of the integral using importance sampling (and yes, it's exactly the same as expression $\eqref{(4)}$)
 
 
 **NOTE**: Be careful of the $X_i$, $X'_i$ and $X''_i$ that are random variables that each follow a different distribution, as will be explained below.
@@ -40,12 +40,13 @@ Sometimes, it's possible that your function $f(x)$ is simple or chosen explicitl
 If that's the case then great! You don't need any of the other methods to estimate the integral!
 
 
-Most of the time, though, $f(x)$ is either unknown (e.g. you only have a black box that returns an output value for any input value), ill-determined or complex (e.g. most BRDFs), subject to external constraints that you have no control over (e.g. lighting).
+Most of the time, though, $f(x)$ is either unknown (e.g. you only have a black box that returns an output value for any input value), ill-determined or complex (e.g. most BRDFs), subject to external constraints that you have no control over (e.g. lighting, environment, materials, etc.).
 
 For all theses cases, you have no other choice than doing a **numerical integration**, that is sampling your function at various places over its domain and apply some magic. That's what the methods described below are for.
 
-But don't forget that after all, you're only computing an integral and that importance sampling and other advanced methods designed for reducing variance are only there to *optimize* the computation. You don't need them if you don't like them.
-You can use method from eq. $\eqref{(2)}$ everywhere and still be fine! (although you won't have the fastest integration in the Universe, nor the most precise).
+But don't forget that after all, you're only computing an integral and that importance sampling and other "advanced" methods designed for reducing errors/imprecision/noise/variance are only there to *optimize* the computation.
+You don't need them if you don't like them.
+You can use method from eq. $\eqref{(2)}$ everywhere and still be perfectly fine! (although you won't have the fastest integration in the Universe, nor the most precise).
 
 
 
@@ -139,7 +140,7 @@ So what's the point of doing that then?
 * Still not certain to cover all important features!
 * pdf may not be readily available
 * Very low-probability samples can have a very large weight, introducing noise (because of the division)
-* Halving noise requires 4 times more samples
+* Halving noise artefacts requires 4 times more samples
 
 
 ### 5) Importance Sampling
@@ -147,6 +148,7 @@ So what's the point of doing that then?
 So all in all, what we've been doing until now is praying to pick the best random samples but that's not an effective way to choose random samples, is it?
 
 That's where importance sampling comes into play: choose the best samples!
+But this can only happen if we have an *idea* about the shape of the function we're integrating, *i.e.* if we know the shape of its pdf.
 
 As elegantly put in [^2], Monte-Carlo integration is a stochastic process so even though we may know the pdf of a function, we cannot *choose* to place the samples where we deem it would be more interesting,
 otherwise we would bias the sampling and we would get an incorrect value for the integral.
@@ -154,7 +156,7 @@ otherwise we would bias the sampling and we would get an incorrect value for the
 Instead, we still must draw random numbers from our uniform random numbers generator and *bend* the distribution to make it draw more samples in the places that are more important (i.e. where the pdf is higher).
 
 
-As a matter of fact, bending a distribution from uniform to any pdf is pretty easy by using the cumulative distribution function (cdf) which is given by this definition:
+As a matter of fact, bending a uniform distribution into any pdf is pretty easy by using the cumulative distribution function (cdf) which is given by this definition:
 
 $$
 \begin{align}
@@ -163,7 +165,7 @@ cdf( x ) &= P( X \le x )	\qquad \text{Probability that} X \text{ is less than } 
 \end{align}
 $$
 
-Also by definition, the cdf over the entire domain of the pdf sums to 1 (since the sum of the probabilities of all events should be 1):
+Also by definition, the cdf over the entire domain of the pdf sums to 1 (since the sum of the probabilities of all possibles events to happen over the entire domain must be 1):
 
 $$cdf = \int_{-\infty}^{+\infty} pdf( t ) dt = 1$$
 
@@ -208,20 +210,20 @@ $$
 **CONS**:
 
 * More difficult to understand
-* pdf may not be readily available for all functions
+* Must have an idea about the shape of the pdf of the the function to integration
 
 
-#### Notes on Importance Sampling
+## Notes on Importance Sampling
 
 
-##### No need to be exact
+### No need to be exact
 
 An interesting and important take away point in choosing a pdf for importance sampling is that you don't *have to* choose the *exact* pdf of your function, you just need to use a *good enough match* as shown below:
 
 ![GoodEnoughPDF](./images/GoodEnoughPDF.png)
 
 
-##### How to read BRDF integrals with pdf?
+### How to read BRDF integrals with pdf?
 
 From eq. $\eqref{(5)}$ and the note above, we see that the division by the pdf implies that the pdf matches the shape of the function that we're integrating:
 
@@ -235,7 +237,7 @@ $$
 It's especially true when dealing with BRDF's because we usually choose one of the terms of the BRDF, the Normal Distribution Function (NDF), as a good approximation for the pdf.
 
 !!! note
-	The NDF is itself a distribution that integrates to 1 over the domain of the upper hemisphere above our surface so it's perfect for the job, and that's certainly no coincidence as we will see below in the chapter talking about how designing your own BRDF:
+	The NDF is itself a distribution that integrates to 1 over the domain of the upper hemisphere above our surface so it's perfect for the job, and that's certainly no coincidence: <!-- as we will see below in the chapter talking about how designing your own BRDF:-->
 	
 	$$
 	\int_0^{2\pi} \int_0^{\frac{\pi}{2}} D( \theta ) \cos( \theta ) \sin( \theta ) d\theta d\phi = 1
@@ -260,19 +262,19 @@ Where:
 * $g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } )$ is the remaining expression of the BRDF (possibily involving shadowing/masking, Fresnel, etc.)
 
 
-Then a Monte-Carlo integration using $D$ as pdf will give:
+Then a Monte-Carlo integration using $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } )$ as pdf will give:
 
 $$
-r = \frac{1}{N} \sum_{i=1}^N \frac{ f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) }{ D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) } = 
+r = \frac{1}{N} \sum_{i=1}^N \frac{ f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) }{ D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) } = 
 \frac{1}{N} \sum_{i=1}^N g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
 $$
 
-Here, $r$ is the result of the integration and $L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is some additional term that gets involved in the integration and composed with the BRDF (e.g. lighting).
+Here, $r$ is the result of the integration, $\boldsymbol{ n }$ is the surface normal and $L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is some additional term that gets involved in the integration and composed with the BRDF (e.g. lighting).
 
-The result is that the NDF term $D$ disappears altogether from the sum expression, but make no mistake, it's still there and what we're really computing is this:
+The result is that the NDF term $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } )$ disappears altogether from the sum expression, but make no mistake, it's still there and what we're really computing is this:
 
 $$
-r = \int f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
+r = \int f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
 $$
 
 
@@ -307,13 +309,13 @@ Here the function we wish to integrate is shown in red and is $f(x)=\sin(x)$. It
 
 Then we choose samples from 2 distributions:
 
-* A uniform distribution ${pdf}_0(X_i) = \frac{1}{\frac{\pi}{2}} = \frac{2}{\pi}$ shown in green
-* Another distribution ${pdf}_1(X_i) = \frac{8 x}{\pi^2}$ shown in blue that will attempt to match $f(X_i)$ a bit better
+* A uniform distribution ${pdf}_0(x) = \frac{1}{\frac{\pi}{2}} = \frac{2}{\pi}$ shown in green
+* Another distribution ${pdf}_1(x) = \frac{8 x}{\pi^2}$ shown in blue that will attempt to match $f(x)$ a bit better
 
 
 #### Uniform pdf
 
-In the case of ${pdf}_0$ the cdf is simply ${cdf}_0(X_i) = \int_0^{X_i} {pdf}_0( X_i ) dx = \frac{2}{\pi} X_i$.
+In the case of ${pdf}_0$ the cdf is simply ${cdf}_0(X_i) = \int_0^{X_i} {pdf}_0( x ) dx = \frac{2}{\pi} X_i$.
 
 Now to invert the CDF we pose $\xi = {cdf}_0( X_i )$ then finding $X_i$ from $\xi$ is easy and is given by $X_i = \frac{\pi}{2} \xi$, with $\xi \in [0,1]$ a uniformly distributed random number.
 
@@ -325,14 +327,14 @@ $$
 
 #### Tailored pdf
 
-In the case of ${pdf}_1$ the cdf is ${cdf}_1(X_i) = \int_0^{X_i} {pdf}_1( X_i ) dx = \frac{4}{\pi^2} X_i^2$.
+In the case of ${pdf}_1$ the cdf is ${cdf}_1(X_i) = \int_0^{X_i} {pdf}_1( x ) dx = \frac{4}{\pi^2} X_i^2$.
 
 Now to invert the CDF we pose $\xi = {cdf}_1( X_i )$ then finding $X_i$ from $\xi$ is easy and is given by $X_i = \frac{\pi}{2} \sqrt{ \xi }$, with $\xi \in [0,1]$ a uniformly distributed random number.
 
 And the Monte-Carlo sum will write:
 
 $$
-\int_0^\frac{\pi}{2} f(x) dx \approx \frac{1}{N} \sum_{i=1}^N \frac{ f( X_i ) }{ {pdf}_1( X_i ) } = \frac{1}{N} \sum_{i=1}^N \frac{\sin( X_i ) \pi^2} {8 X_i}
+\int_0^\frac{\pi}{2} f(x) dx \approx \frac{1}{N} \sum_{i=1}^N \frac{ f( X_i ) }{ {pdf}_1( X_i ) } = \frac{\pi^2}{8 N} \sum_{i=1}^N \frac{\sin( X_i )}{X_i}
 $$
 
 #### Results of the race
@@ -373,9 +375,10 @@ $$
 
 Each sample's direction $\boldsymbol{\omega_{i_k}}$ should be chosen according to a pdf that matches the integrand as closely as possible.
 
-We often don't have any control over the incoming radiance (for example, in the case of a distant environment by a cube map, we don't know what's in the pixels beforehand!) so there's not much to do on this front.
+We often don't have any control over the incoming radiance (for example, in the case of a distant environment by a cube map, we don't know what's in the pixels beforehand!) so there's not much to do on this front (unless we start importance/stratify sampling the environment map as done in [^8] or [^9]).
 
 For the BRDF though, we could choose a pdf that resembles the overall shape of the function.
+
 
 #### Using the Normal Distribution Function as pdf
 
@@ -504,7 +507,7 @@ From what we saw earlier:
 
 $$
 \begin{align}
-pdf( \theta, \phi ) &= pdf( \phi | \theta ) \cdot pdf( \theta )	\qquad \text{so}	\\
+pdf( \theta, \phi ) &= pdf( \phi | \theta ) \cdot pdf( \theta )	\qquad \text{so}	\\\\
 pdf( \phi | \theta ) &= \frac{pdf( \theta, \phi )}{pdf( \theta )}
 \end{align}
 $$
@@ -567,7 +570,11 @@ Wait a minute! What the hell is this damn Jacombian doing here? (and what the he
 
 #### Result
 
-@TODO: Show 2 examples of lighting integration, with and without importance sampling
+Here is a comparison of 2 renderings from [^10], both using 64 samples per pixel. The top row shows standard uniform sampling while the bottom row uses importance sampling.
+
+
+![ImportanceSamplingDemo.png](./images/ImportanceSamplingDemo.png)
+
 
 
 ## Additional Discussions
@@ -577,11 +584,11 @@ Wait a minute! What the hell is this damn Jacombian doing here? (and what the he
 It's often refered as a neat little trick, and indeed Monte-Carlo integration resides in exploiting the definition of the [Expected Value](https://en.wikipedia.org/wiki/Expected_value) in the continuous case:
 
 $$
-\hat{G} = E[g(x)] = \int_{\mathbb{R}} g(x) p(x) dx		\qquad \tag{6}\label{(6)}
+\hat{G} = E[g(x)] = \int_{\mathbb{R}} p(x) g(x) dx		\qquad \tag{6}\label{(6)}
 $$
 
 Remember that the Expected Value is actually the mean value of a continuous function defined over $\mathbb{R}$, the integral simply means we're going to sum the function $g(x)$ weighted by the probability density fuction $p(x)$ at each location.
-The result will simply be the *average value of the function* $\hat{G}$.
+The result will simply be the *average value of the function* $g(x)$.
 
 
 Writing the expected value of the Monte-Carlo summation gives us:
@@ -670,8 +677,156 @@ You can check various ways of constructing such sequences by reading the excelle
 
 ### Multiple Importance Sampling
 
+We saw earlier how choosing the appropriate pdf could improve the quality of the integration, but we based our choice of pdf solely on the normal distribution function part of the BRDF.
+Unfortunately, when integrating luminance it's not only the BRDF but also the incoming light that exhibits high frequencies or discontinuous areas that are difficult to sample (this is called *variance*, when dealing with probabilities).
+
+For example, imagine there is a single tiny spot emitting light in the surroundings of the point we're computing the lighting for. Then we can affirm that it would be really wasteful to generate sampling directions that do not point exactly toward that spot.
+
+#### Using a single sampling strategy
+
+That's the situation depicted in the following image where a single strategy is used each time to sample either the BRDF or the light source, resulting in various noisy artefacts depending on whether the light source is tiny, or the roughness of the surface is low (only 4 samples per pixel are used in this image).
+
+![SingleImportanceSampling](./images/SingleImportanceSampling.png)
+
+We can see that there is noise (i.e. *high variance*) when:
+
+* We sample following the pdf given by the BRDF and the roughness is high
+	* There's very low probability to choose a direction that can hit a very small light source
+	* This case is illustrated by the noise in the bottom-left corner of image (a)
+* We sample following the pdf given by the light source and the roughness is low
+	* There's very low probability to choose a direction that is aligned with the direction of principal reflection of the BRDF
+	* This case is illustrated by the noise in the top-right corner of image (b)
 
 
+In a general manner, when the quantity to integrate is complex and the variance can come from several sources (e.g. BRDF *and* lighting), it would be interesting to have a strategy to **combine** the pdf's of the various sources into a single pdf that would be
+ good enough to accomodate all the sources.
+
+That's where **Multiple Importance Sampling (MIS)** comes into play.
+
+
+#### Using multiple sampling strategies
+
+We can imagine lots of ways to combine pdf's like multiplying them together, adding them, having a weighted sum, combining them through various functions, etc. as long as the resulting pdf remains *unbiased*.
+
+This has been well studied by Veach in his 1997 thesis [^5] that is often quoted as reference.
+
+The idea is to choose samples according to different strategies $i$ (e.g. BRDF or light source are 2 strategies) and assigning weights $w_i( x )$ for each strategy:
+
+$$
+\hat{F} = \sum_{i=1}^{n} \sum_{j=1}^{n_i} w_i( X_{i,j} ) \frac{ f( X_{i,j} ) }{ n_i \, p( X_{i,j} ) }
+$$
+
+In this expression:
+
+* $n$ is the number of strategies
+* $n_i$ is the number of *samples* used for the strategy #$i$
+* $w_i(x)$ is the weight to give to the sample (note that the weights all sum to one $\sum_{i=1}^n w_i( x ) = 1$ for all $f(x) \neq 0$)
+
+
+#### Optimal combination heuristic
+
+Veach showed that a particularly simple heuristic, the **power heuristic** was optimal:
+
+$$
+w_i( x ) = \frac{ \left( n_i \,  p_i(x) \right)^{\beta} }{ \sum_{k=1}^{n} \left( n_k \, p_k(x) \right)^{\beta} }
+$$
+
+Where $\beta$ is an arbitrary constant.
+Note that the particular case of the power heuristic for $\beta = 1$ is called the **balanced heuristic**.
+
+
+We can see this combination as a weighted sum of the probabilities of each sample, seen from the point of view of all the different strategies.
+
+For example, when dealing with the 2 strategies of sampling the BRDF *or* the light, each sampling direction has a given probability in the eye of each strategy:
+
+* Imagine a sampling direction exactly in the principal reflection direction of the BRDF $X_{brdf}$ that will have a strong probability $p_{brdf}( X_{brdf} )$ in the eye of the BRDF; but if there's no light in that particular direction then the same sample will have a low probability $p_{light}( X_{brdf} )$ in the eye of the light.
+* Reciprocally, a sampling direction exactly in the direction of a light $X_{light}$ that will have a strong probability $p_{light}( X_{light} )$ in the eye of the light; but if the BRDF is very low in that particular direction then the same sample will have a low probability $p_{brdf}( X_{light} )$ in the eye of the BRDF
+
+Nevertheless, assuming the number of samples $n_{brdf} = n_{light}$ and the probabilities are approximately equal, then we should obtain approximately the same weights when using the heuristic:
+
+$$
+\begin{align}
+w_{brdf}( X_{brdf} ) &= \frac{ \left( n_{brdf} \, p_{brdf}(X_{brdf}) \right)^{\beta} }{ \left( n_{brdf} \, p_{brdf}(X_{brdf}) \right)^{\beta} + \left( n_{light} \, p_{light}(X_{brdf}) \right)^{\beta} }	\\
+w_{light}( X_{light} ) &= \frac{ \left( n_{light} \, p_{light}(X_{light}) \right)^{\beta} }{ \left( n_{brdf} \, p_{brdf}(X_{light}) \right)^{\beta} + \left( n_{light} \, p_{light}(X_{light}) \right)^{\beta} }	\qquad \text{and}\\\\
+w_{brdf}( X_{brdf} ) &\approx w_{light}( X_{light} )
+\end{align}
+$$
+
+
+Below we can see the improvement of using the various heuristics to evaluate the samples (still using 4 samples per pixel):
+
+![MultipleImportanceSampling](./images/MultipleImportanceSampling.png)
+
+
+The image below shows an illustration of the weights given to each sampling strategy. Red means sampling the BRDF and green means sampling the light.
+
+![MultipleImportanceSamplingWeights](./images/MultipleImportanceSamplingWeights.png)
+
+
+#### Pseudo-Code
+
+Below is a pseudo-code for implementing MIS:
+
+???+ "Multiple Importance Sampling Pseudo-Code"
+	``` C++
+
+	// We show how to use importance sampling for 3 sampling strategies and a constant power beta=2
+	// We use 1 sample per strategy (so n_i = 1 and doesn't show in the pdf)
+	//
+	// Note that the code simplifies a lot when using the balanced heuristic with BETA = 1
+	//
+	const float	BETA = 2.0
+
+	result = 0
+	for ( sampleIndex in [1,N] ) {
+
+		////////////////////////////////////////////////////////////////
+		// Take a sample using strategy #1
+		X = GetSample( p1[sampleIndex] )
+		pdf1 = p1[sampleIndex]	// Also = p1[X]
+
+		// Estimate the pdf of the sample for all the other strategies
+		pdf2 = p2[X]
+		pdf3 = p3[X]
+
+		// Combine the pdf's
+		combinedPDF = pow( pdf1, BETA ) + pow( pdf2, BETA ) + pow( pdf3, BETA )
+		result += pow( pdf1, BETA ) * f( X ) / (combinedPDF * pdf1)
+
+
+		////////////////////////////////////////////////////////////////
+		// Take a sample using strategy #2
+		X = GetSample( p2[sampleIndex] )
+		pdf2 = p2[sampleIndex]	// Also = p2[X]
+
+		// Estimate the pdf of the sample for all the other strategies
+		pdf1 = p1[X]
+		pdf3 = p3[X]
+
+		// Combine the pdf's
+		combinedPDF = pow( pdf1, BETA ) + pow( pdf2, BETA ) + pow( pdf3, BETA )
+		result += pow( pdf2, BETA ) * f( X ) / (combinedPDF * pdf2)
+
+
+		////////////////////////////////////////////////////////////////
+		// Take a sample using strategy #3
+		X = GetSample( p3[sampleIndex] )
+		pdf3 = p3[sampleIndex]	// Also = p3[X]
+
+		// Estimate the pdf of the sample for all the other strategies
+		pdf1 = p1[X]
+		pdf2 = p2[X]
+
+		// Combine the pdf's
+		combinedPDF = pow( pdf1, BETA ) + pow( pdf2, BETA ) + pow( pdf3, BETA )
+		result += pow( pdf3, BETA ) * f( X ) / (combinedPDF * pdf3)
+	}
+
+	return result / (3*N);	// The constant 3 comes from the fact we're using 3 strategies here 
+
+	```
+
+<!--
 
 ### Creating your own BRDF
 
@@ -697,7 +852,6 @@ Quand on importance sample la direction de H, la réflexion de V ou L renvoie so
  ==> Ne peut-on pas bias l'importance sampling de manière à ne générer que des rayons sur l'hémisphère positif, mais avec la même distribution??
 
 
-
 ### Metropolis Hastings
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Metropolis-Hasting is a surprisingly simple way to sample from a density known only up to a constant. Defines a Markov chains whose stationary distribution is the target one. <a href="https://t.co/bUuHRASizo">https://t.co/bUuHRASizo</a> <a href="https://t.co/OnhhQ5X10l">pic.twitter.com/OnhhQ5X10l</a></p>&mdash; Gabriel Peyré (@gabrielpeyre) <a href="https://twitter.com/gabrielpeyre/status/977819766290309120?ref_src=twsrc%5Etfw">March 25, 2018</a></blockquote>
@@ -706,15 +860,24 @@ Quand on importance sample la direction de H, la réflexion de V ou L renvoie so
 [wikipedia](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm)
 
 
+ -->
+
 
 ## Conclusion
 
-I'm one of those guys that "get things quickly but need a lot of explaining", and probabilities and importance sampling have been a real struggle for me.
+I hope this post is useful and not too redundant with the many posts about importance sampling that can be found across the web; I really tried to gather clear information (hopefully) from all around in an attempt at clarifying what I find to be difficult concepts.
+
+Personally, the *epiphany* came to me when I understood the fact that we only need *good enough* pdf's to improve the quality of Monte-Carlo integration, that's why I insisted quite a bit about that.
+
+
+Unfortunately, I'm one of those guys that "get things quickly but need a ***lot*** of explaining", and probabilities and importance sampling have always been a real struggle for me.
 Moreover, I have a tendency to forget things very easily and very quickly so these blog posts are not so much made to advertise stuff at the face of the world,
 as they're a good way for me to remember information in my own words so I don't have to struggle as much the next time... :sweat_smile:
 
-I hope this post is useful as it gathers (hopefully) clear information from all around in an attempt at clarifying what I find to be difficult concepts.
+I hope this post will serve its purpose (as usual, it's much too long :expressionless:).
 
+
+## References
 
 [^1]: Scratch a pixel [Monte Carlo Integration](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/monte-carlo-integration)
 [^2]: Scratch a pixel [Importance Sampling](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/variance-reduction-methods)
@@ -723,3 +886,6 @@ I hope this post is useful as it gathers (hopefully) clear information from all 
 [^5]: 1997 Veach, E. ["Robust Monte Carlo Methods for Light Transport Simulation, Chapter 9"](https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf)
 [^6]: 2018 Roberts, M. [The Unreasonable Effectiveness of Quasirandom Sequences](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
 [^7]: 2018 Roberts, M. [A simple method to construct isotropic quasirandom blue noise point sequences](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
+[^8]: 2004 Mei, X. Jaeger, M. Hu, B. [An Effective Stratified Sampling Scheme for Environment Maps with Median Cut Method](http://www.cs.albany.edu/~xmei/resource/pdf/sampling.pdf)
+[^9]: 2014 Agarwal, S. Ramamoorthi, R. Belongie, S. Jensen, H. W. [Structured Importance Sampling of Environment Maps](https://vision.cornell.edu/se3/wp-content/uploads/2014/09/54_structured.pdf)
+[^10]: 2015 Jiayin, C. [Sampling microfacet BRDF](https://agraphicsguy.wordpress.com/2015/11/01/sampling-microfacet-brdf/)
