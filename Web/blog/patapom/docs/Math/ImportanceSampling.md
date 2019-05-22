@@ -588,7 +588,7 @@ $$
 $$
 
 Remember that the Expected Value is actually the mean value of a continuous function defined over $\mathbb{R}$, the integral simply means we're going to sum the function $g(x)$ weighted by the probability density fuction $p(x)$ at each location.
-The result will simply be the *average value of the function* $g(x)$.
+The result will simply be the *average value $\hat{G}$ of the function* $g(x)$.
 
 
 Writing the expected value of the Monte-Carlo summation gives us:
@@ -613,7 +613,7 @@ But it doesn't guarantee in any way that our random samples will be nicely layed
 Such bias would be sooner or later corrected as to make the distribution uniform again, but random means random and however improbable, this scenario *could* theoretically happen.
 
 Everyone who played a bit with the traditional C function **rand()** could witness first hand that the values it generated were far from well layed out in the domain.
-In the figure below we see the points tend to be clumped together and don't really cover the plane very well:
+In the figure below showing a 2D example, we see the points tend to be clumped together and don't really cover the plane very well:
 
 ![Clumping](./images/RandClumping.png)
 
@@ -688,14 +688,14 @@ That's the situation depicted in the following image where a single strategy is 
 
 ![SingleImportanceSampling](./images/SingleImportanceSampling.png)
 
-We can see that there is noise (i.e. *high variance*) when:
+We can see that there is noise (i.e. *high variance*) whenever:
 
 * We sample following the pdf given by the BRDF and the roughness is high
 	* There's very low probability to choose a direction that can hit a very small light source
-	* This case is illustrated by the noise in the bottom-left corner of image (a)
+	* This case is illustrated by the noise in the bottom-left corner of image (a) above
 * We sample following the pdf given by the light source and the roughness is low
 	* There's very low probability to choose a direction that is aligned with the direction of principal reflection of the BRDF
-	* This case is illustrated by the noise in the top-right corner of image (b)
+	* This case is illustrated by the noise in the top-right corner of image (b) above
 
 
 In a general manner, when the quantity to integrate is complex and the variance can come from several sources (e.g. BRDF *and* lighting), it would be interesting to have a strategy to **combine** the pdf's of the various sources into a single pdf that would be
@@ -710,7 +710,7 @@ We can imagine lots of ways to combine pdf's like multiplying them together, add
 
 This has been well studied by Veach in his 1997 thesis [^5] that is often quoted as reference.
 
-The idea is to choose samples according to different strategies $i$ (e.g. BRDF or light source are 2 strategies) and assigning weights $w_i( x )$ for each strategy:
+The idea is to choose samples according to different strategies $i$ (e.g. BRDF or light source are 2 strategies in our previous example) and assigning weights $w_i( x )$ for each strategy:
 
 $$
 \hat{F} = \sum_{i=1}^{n} \sum_{j=1}^{n_i} w_i( X_{i,j} ) \frac{ f( X_{i,j} ) }{ n_i \, p( X_{i,j} ) }
@@ -720,12 +720,12 @@ In this expression:
 
 * $n$ is the number of strategies
 * $n_i$ is the number of *samples* used for the strategy #$i$
-* $w_i(x)$ is the weight to give to the sample (note that the weights all sum to one $\sum_{i=1}^n w_i( x ) = 1$ for all $f(x) \neq 0$)
+* $w_i(x)$ is the weight to give to the sample (note that the weights must all sum to one $\sum_{i=1}^n w_i( x ) = 1$ for all $f(x) \neq 0$)
 
 
 #### Optimal combination heuristic
 
-Veach showed that a particularly simple heuristic, the **power heuristic** was optimal:
+Veach showed that a particularly simple heuristic, the **power heuristic** was an optimal choice:
 
 $$
 w_i( x ) = \frac{ \left( n_i \,  p_i(x) \right)^{\beta} }{ \sum_{k=1}^{n} \left( n_k \, p_k(x) \right)^{\beta} }
@@ -735,14 +735,14 @@ Where $\beta$ is an arbitrary constant.
 Note that the particular case of the power heuristic for $\beta = 1$ is called the **balanced heuristic**.
 
 
-We can see this combination as a weighted sum of the probabilities of each sample, seen from the point of view of all the different strategies.
+We can take this combination as a weighted sum of the probabilities of each sample, seen from the point of view of all the different strategies.
 
 For example, when dealing with the 2 strategies of sampling the BRDF *or* the light, each sampling direction has a given probability in the eye of each strategy:
 
 * Imagine a sampling direction exactly in the principal reflection direction of the BRDF $X_{brdf}$ that will have a strong probability $p_{brdf}( X_{brdf} )$ in the eye of the BRDF; but if there's no light in that particular direction then the same sample will have a low probability $p_{light}( X_{brdf} )$ in the eye of the light.
 * Reciprocally, a sampling direction exactly in the direction of a light $X_{light}$ that will have a strong probability $p_{light}( X_{light} )$ in the eye of the light; but if the BRDF is very low in that particular direction then the same sample will have a low probability $p_{brdf}( X_{light} )$ in the eye of the BRDF
 
-Nevertheless, assuming the number of samples $n_{brdf} = n_{light}$ and the probabilities are approximately equal, then we should obtain approximately the same weights when using the heuristic:
+Nevertheless, assuming the number of samples $n_{brdf} = n_{light}$ and the probabilities are approximately equal (*i.e.* $p_{brdf}( X_{brdf} ) \approx p_{light}( X_{light} )$ and $p_{brdf}( X_{light} ) \approx p_{light}( X_{brdf} )$), then we should obtain approximately the same weights when using the heuristic:
 
 $$
 \begin{align}
@@ -865,7 +865,7 @@ Quand on importance sample la direction de H, la réflexion de V ou L renvoie so
 
 ## Conclusion
 
-I hope this post is useful and not too redundant with the many posts about importance sampling that can be found across the web; I really tried to gather clear information (hopefully) from all around in an attempt at clarifying what I find to be difficult concepts.
+I hope this post is useful and not too redundant with the many posts about importance sampling that can be found across the web; I really tried to gather (hopefully) clear and digest information from all around in an attempt at clarifying what I find to be difficult concepts.
 
 Personally, the *epiphany* came to me when I understood the fact that we only need *good enough* pdf's to improve the quality of Monte-Carlo integration, that's why I insisted quite a bit about that.
 
