@@ -39,8 +39,8 @@ In other words, we want the integral of the BRDF to be maximal when summed over 
 Note that we're dealing with the Cook-Torrance microfacet specular BRDF model here:
 
 $$
-\rho( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i } ) = \frac{ F( \boldsymbol{ \omega_o } \cdot \boldsymbol{h}, F_0 ) G( \boldsymbol{ \omega_i } \cdot \boldsymbol{n}, \boldsymbol{ \omega_o } \cdot \boldsymbol{n}, \alpha ) D( \boldsymbol{ \omega_h } \cdot \boldsymbol{n}, \alpha )}
-{4 (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) (\boldsymbol{ \omega_o } \cdot \cdot \boldsymbol{n})}
+\rho( \boldsymbol{ \omega_o }, \boldsymbol{ \omega_i } ) = \frac{ F( \boldsymbol{ \omega_o } \cdot \boldsymbol{ \omega_h }, F_0 ) G( \boldsymbol{ \omega_i } \cdot \boldsymbol{n}, \boldsymbol{ \omega_o } \cdot \boldsymbol{n}, \alpha ) D( \boldsymbol{ \omega_h } \cdot \boldsymbol{n}, \alpha )}
+{4 (\boldsymbol{ \omega_i } \cdot \boldsymbol{n}) (\boldsymbol{ \omega_o } \cdot \boldsymbol{n})}
 $$
 
 Where:
@@ -57,16 +57,9 @@ Ignoring the Fresnel coefficient $F$ that is factored out of the pre-integration
 we can focus on the normal distribution function $D( \cos(\theta), \alpha )$ for which we know that, by definition:
 
 $$
-\begin{align}
-pdf( \theta, \phi ) &= pdf( \theta ) = D( \cos(\theta), \alpha ) \cos(\theta) \\\\
-\int_{\Omega^+} pdf( \boldsymbol{\omega} ) d\omega &= \int_{0}^{2\pi} \int_0^{\frac{\pi}{2}} pdf( \theta ) \sin(\theta) d\theta d\phi = 2\pi \int_{0}^{\frac{\pi}{2}} pdf( \theta ) \sin(\theta) d\theta = 1
-\end{align}
+pdf( \theta, \phi ) = pdf( \theta ) = D( \cos(\theta), \alpha ) \cos(\theta) \\\\
+\int_{0}^{2\pi} \int_0^{\frac{\pi}{2}} pdf( \theta ) \sin(\theta) d\theta d\phi = 2\pi \int_{0}^{\frac{\pi}{2}} pdf( \theta ) \sin(\theta) d\theta = 1
 $$
-
-Where:
-
-* $\Omega^+$ is the upper-hemisphere domain
-* $\boldsymbol{\omega}$ is a unit direction vector parametrized by the spherical coordinates $\theta$ and $\phi$
 
 
 Or in terms of $\mu = \cos(\theta)$:
@@ -134,7 +127,7 @@ Where $\mu = \cos(\theta)$ and $\theta$ is the elevation angle from the pole.
 !!! quote ""
 	![cap](./images/SphericalCap2.png)
 
-	The area of the spherical cap C over the unit hemisphere is $2\pi (1 - \cos(\theta))$
+	The area of the spherical cap C over the unit hemisphere is $\Omega_S = 2\pi (1 - \cos(\theta))$
 
 
 Posing $d\Omega_p = d\Omega_c$ we get:
@@ -174,7 +167,7 @@ Instead, we need to cover a **certain ratio** $C \in [0,1]$ of the CDF so $cdf( 
 The ideal solution would be that the CDF covers the largest solid angle $\frac{2\pi}{3}$ for the largest roughness value $\alpha_{max} = 1$ at the largest mip $N$ so we simply need to solve:
 
 $$
-C = cdf( \mu_{max}, 1 ) = 1 - \mu_{max}^2 = 1 - \frac{1}{3}^2 = \frac{5}{9}
+C = cdf( \mu_{max}, 1 ) = 1 - \mu_{max}^2 = 1 - \left( \frac{2}{3} \right)^2 = \frac{5}{9}
 $$
 
 (remember earlier when we found out that at the largest mip, the spherical cap would have an angle corresponding to $\mu_{max} = \frac{2}{3}$) (I told you it would become significant later!)
