@@ -400,7 +400,7 @@ $$
 \begin{cases}
 x = \sin(\theta) \cos(\phi) \\\\
 y = \sin(\theta) \sin(\phi) \\\\
-z = \cos(\theta) \\\\
+z = \cos(\theta)
 \end{cases}
 $$
 
@@ -879,13 +879,13 @@ I hope this post will serve its purpose (as usual, it's much too long :expressio
 
 ## References
 
-[^1]: Scratch a pixel [Monte Carlo Integration](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/monte-carlo-integration)
-[^2]: Scratch a pixel [Importance Sampling](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/variance-reduction-methods)
-[^3]: 2014 Franke, T. A. [Notes on Importance Sampling](https://www.tobias-franke.eu/log/2014/03/30/notes_on_importance_sampling.html)
-[^4]: 2013 Karis, B. [Real Shading in Unreal Engine 4](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf)
+[^1]: Scratch a pixel ["Monte Carlo Integration"](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/monte-carlo-integration)
+[^2]: Scratch a pixel ["Importance Sampling"](https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/monte-carlo-methods-in-practice/variance-reduction-methods)
+[^3]: 2014 Franke, T. A. ["Notes on Importance Sampling"](https://www.tobias-franke.eu/log/2014/03/30/notes_on_importance_sampling.html)
+[^4]: 2013 Karis, B. ["Real Shading in Unreal Engine 4"](https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf)
 [^5]: 1997 Veach, E. ["Robust Monte Carlo Methods for Light Transport Simulation, Chapter 9"](https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf)
-[^6]: 2018 Roberts, M. [The Unreasonable Effectiveness of Quasirandom Sequences](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
-[^7]: 2018 Roberts, M. [A simple method to construct isotropic quasirandom blue noise point sequences](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
-[^8]: 2004 Mei, X. Jaeger, M. Hu, B. [An Effective Stratified Sampling Scheme for Environment Maps with Median Cut Method](http://www.cs.albany.edu/~xmei/resource/pdf/sampling.pdf)
-[^9]: 2014 Agarwal, S. Ramamoorthi, R. Belongie, S. Jensen, H. W. [Structured Importance Sampling of Environment Maps](https://vision.cornell.edu/se3/wp-content/uploads/2014/09/54_structured.pdf)
-[^10]: 2015 Jiayin, C. [Sampling microfacet BRDF](https://agraphicsguy.wordpress.com/2015/11/01/sampling-microfacet-brdf/)
+[^6]: 2018 Roberts, M. ["The Unreasonable Effectiveness of Quasirandom Sequences"](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
+[^7]: 2018 Roberts, M. ["A simple method to construct isotropic quasirandom blue noise point sequences"](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
+[^8]: 2004 Mei, X. Jaeger, M. Hu, B. ["An Effective Stratified Sampling Scheme for Environment Maps with Median Cut Method"](http://www.cs.albany.edu/~xmei/resource/pdf/sampling.pdf)
+[^9]: 2014 Agarwal, S. Ramamoorthi, R. Belongie, S. Jensen, H. W. ["Structured Importance Sampling of Environment Maps"](https://vision.cornell.edu/se3/wp-content/uploads/2014/09/54_structured.pdf)
+[^10]: 2015 Jiayin, C. ["Sampling microfacet BRDF](https://agraphicsguy.wordpress.com/2015/11/01/sampling-microfacet-brdf/)
