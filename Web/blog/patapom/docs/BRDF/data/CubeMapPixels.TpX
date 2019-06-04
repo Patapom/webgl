@@ -1,0 +1,49 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <polygon lw="0.50" fill="burlywood">106,70 112.526,92.4348 107.458,87.5557</polygon>
+%  <polygon lw="0.50" fill="burlywood">106,70 100,90 107.458,87.5557</polygon>
+%  <polygon lc="gray">80,90 100,110 130,100 110,80 80,90</polygon>
+%  <line x1="115" y1="105" x2="90.1118" y2="80.1365" lc="gray"/>
+%  <line x1="122.39" y1="102.39" x2="97.648" y2="77.6677" lc="gray"/>
+%  <line x1="107.325" y1="107.425" x2="82.6406" y2="82.7352" lc="gray"/>
+%  <line x1="90" y1="100" x2="127.403" y2="87.4778" lc="gray"/>
+%  <line x1="95" y1="105" x2="132.471" y2="92.5452" lc="gray"/>
+%  <line x1="85" y1="95" x2="122.401" y2="82.6052" lc="gray"/>
+%  <line x1="110" y1="90" x2="106" y2="70"/>
+%  <polygon lc="gray">130.002,100.016 105.054,75.069 112.72,72.5353 137.408,97.4828</polygon>
+%  <polygon lc="gray">80.0419,90.0115 117.593,77.5378 112.72,72.5353 74.9745,85.074</polygon>
+%  <line x1="101" y1="112" x2="139" y2="99" arr1="h43" arr2="h43"/>
+%  <text x="119" y="107" t="2" h="5"/>
+%  <polygon lw="0.50" fill="darksalmon">100,90 105,95 112.461,92.4348 107.523,87.5622</polygon>
+%  <line x1="106" y1="91" x2="106" y2="70"/>
+%  <star x="105.91" y="70.1669" d="0.5"/>
+%  <text x="101" y="69" t="C" h="5"/>
+%  <group>
+%    <star x="106.021" y="91.0364" d="0.5"/>
+%    <line x1="106.112" y1="90.8695" x2="110.112" y2="89.8695"/>
+%    <star x="110.112" y="89.8695" d="0.5"/>
+%  </group>
+%  <text x="102" y="90" t="A" h="5"/>
+%  <text x="112" y="88" t="B" h="5"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(192.83, 136.29)(0,0)
+  \put(0,0){\includegraphics{CubeMapPixels.pdf}}
+  \put(130.47,116.45){\fontsize{14.23}{17.07}\selectfont 2}
+  \put(79.44,8.73){\fontsize{14.23}{17.07}\selectfont C}
+  \put(82.28,68.26){\fontsize{14.23}{17.07}\selectfont A}
+  \put(110.62,62.59){\fontsize{14.23}{17.07}\selectfont B}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(192.83, 136.29)(0,0)
+  \put(0,0){\includegraphics{CubeMapPixels}}
+  \put(130.47,116.45){\fontsize{14.23}{17.07}\selectfont 2}
+  \put(79.44,8.73){\fontsize{14.23}{17.07}\selectfont C}
+  \put(82.28,68.26){\fontsize{14.23}{17.07}\selectfont A}
+  \put(110.62,62.59){\fontsize{14.23}{17.07}\selectfont B}
+  \end{picture}%
+\fi
+\end{figure}
