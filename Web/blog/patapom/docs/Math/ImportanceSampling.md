@@ -602,7 +602,7 @@ E\left[ \frac{1}{N} \sum_{i=1}^N \frac{f( X_i )}{p( X_i )} \right] &= \frac{1}{N
 \end{align}
 $$
 
-So by by posing $g(x) = \frac{f(x)}{p(x)}$ and operating a substitution of $\eqref{(6)}$ into the 1st line, we end up with the result we're looking for: the proper integral of $f(x)$.
+So by posing $g(x) = \frac{f(x)}{p(x)}$ and operating a substitution of $\eqref{(6)}$ into the 1st line, we end up with the result we're looking for: the proper integral of $f(x)$.
 
 
 ### Stratified Sampling & Low-Discrepancy Sequences

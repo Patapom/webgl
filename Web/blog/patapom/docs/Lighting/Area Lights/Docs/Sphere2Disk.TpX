@@ -1,0 +1,48 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <rect x="101.942" y="74.0393" w="1.6991" h="1.80427" rotdeg="305.758" lw="0.50"/>
+%  <circle x="120" y="50" d="60"/>
+%  <star x="40" y="30"/>
+%  <line x1="40" y1="30" x2="138" y2="100"/>
+%  <line x1="40" y1="30" x2="162" y2="14"/>
+%  <line x1="120" y1="50" x2="116" y2="20" li="dot"/>
+%  <line x1="40" y1="30" x2="120" y2="50"/>
+%  <star x="120" y="50" li="dot"/>
+%  <text x="122" y="49" t="C" h="5" li="dot"/>
+%  <text x="38" y="33" t="" tex="P_m" h="5" li="dot"/>
+%  <text x="107" y="60" t="R" h="5" li="dot"/>
+%  <text x="82" y="36" t="D" h="5" li="dot"/>
+%  <line x1="111.064" y1="80.7533" x2="129.066" y2="18.4155" li="dash" lw="0.50" lc="silver"/>
+%  <text x="116" y="66" t="R&apos;" h="5" li="dot"/>
+%  <text x="38" y="33" t="P" tex="Bisou" h="5" li="dot"/>
+%  <line x1="111.101" y1="80.7098" x2="119.962" y2="49.9126" lc="firebrick"/>
+%  <rect x="117.032" y="49.2295" w="3.00001" h="2.99999" rotdeg="15.4875" lw="0.50" lc="firebrick"/>
+%  <rect x="114.42" y="21.9602" w="1.6991" h="1.80427" rotdeg="262.967" lw="0.50"/>
+%  <line x1="120" y1="50" x2="103.5" y2="75" li="dot"/>
+%  <arc x="39.8227" y="29.994" d="22.499" a1="0.242819" a2="0.616693" lc="firebrick"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(362.83, 255.12)(0,0)
+  \put(0,0){\includegraphics{Sphere2Disk.pdf}}
+  \put(243.78,104.88){\fontsize{14.23}{17.07}\selectfont C}
+  \put(5.67,59.53){\fontsize{14.23}{17.07}\selectfont P_m}
+  \put(201.26,136.06){\fontsize{14.23}{17.07}\selectfont R}
+  \put(130.39,68.03){\fontsize{14.23}{17.07}\selectfont D}
+  \put(226.77,153.07){\fontsize{14.23}{17.07}\selectfont R'}
+  \put(5.67,59.53){\fontsize{14.23}{17.07}\selectfont Bisou}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(362.83, 255.12)(0,0)
+  \put(0,0){\includegraphics{Sphere2Disk}}
+  \put(243.78,104.88){\fontsize{14.23}{17.07}\selectfont C}
+  \put(5.67,59.53){\fontsize{14.23}{17.07}\selectfont P_m}
+  \put(201.26,136.06){\fontsize{14.23}{17.07}\selectfont R}
+  \put(130.39,68.03){\fontsize{14.23}{17.07}\selectfont D}
+  \put(226.77,153.07){\fontsize{14.23}{17.07}\selectfont R'}
+  \put(5.67,59.53){\fontsize{14.23}{17.07}\selectfont Bisou}
+  \end{picture}%
+\fi
+\end{figure}

@@ -68,7 +68,7 @@ $$
 
 The orange term in the expression represents the pre-integrated BRDF, while the term in teal represents the pre-convolved environment map weighed by the normal distribution function (NDF) of the BRDF.
 
-We know by definition that the normal distribution function $D( \cos(\theta), \alpha )$ integrates to 1 (cf. my [article on importance sampling](../../Math/ImportanceSampling/#using-the-normal-distribution-function-as-pdf):
+We know by definition that the normal distribution function $D( \cos(\theta), \alpha )$ integrates to 1 (cf. my [article on importance sampling](../../Math/ImportanceSampling/#using-the-normal-distribution-function-as-pdf)):
 
 $$
 pdf( \theta, \phi ) = pdf( \theta ) = D( \cos(\theta), \alpha ) \cos(\theta) \\\\
@@ -134,7 +134,7 @@ This should make you think of 2 neighbor texels as two cones separated by their 
 
 #### Solid angle of a single texel
 
-We could follow the reasoning of McGuire [^4] and pose the *average* solid angle covered by a pixel of the cube map at a given mip level to be given by:
+We could follow the reasoning of McGuire [^4] and pose the *average* solid angle covered by a pixel of the cube map at a given mip level to be:
 
 $$
 d\Omega_p(m) = \frac{4\pi}{6} 2^{2(m-N)}
@@ -440,6 +440,9 @@ The resulting normalized integral $c = \frac{V}{V_{max}}$ has no analytical solu
 ![LobesPenetrationRatio3D.png](./images/LobesPenetrationRatio3D.png)
 
 
+@TODO: Should we factor in the amount of neighbor cones so we have more penetration due to 6 neighbor cones when roughness is low, and less penetration due to only 4 neighbor cones when roughness is high?
+
+
 We can see the penetration ratio stays in the normalized range [0,1]. The green plane represents the *reference value* of the minimal interpenetration ratio that we can't go below and that occurs, once again,
 at the coarsest mip level when the lobes are separated by a $\theta_0 = \frac{\pi}{2}$ angle and roughness $\alpha = 1$, which is the case of the top right corner of the 3D graph above.
 
@@ -448,34 +451,44 @@ This reference correlation is roughly $c_{ref} = 0.116015$ meaning a 11% penetra
 Next, we will once again enforce that this minimum correlation value stays the same for any value of $\theta_0$.
 
 
-#### Finding the roughness
+#### Mapping mip level to roughness
 
 Using the table, we can easly find a roughness value $\alpha$ for any cone separation angle $\theta_0$ by computing the line of intersection of the graph above and the green plane.
 
-The resulting curve is then cleaned up and easily fitted with the following expression:
-
-$$
-\alpha( \theta_0 ) = \frac{ 2.0049180306939487 \left(\frac{\theta_0}{2}\right) + 0.16116294571043216 \left(\frac{\theta_0}{2}\right)^2 }{ 0.8745098041491965 \left(\frac{\theta_0}{2}\right) }	\tag{5}\label{(5)}
-$$
+The target curve (in blue) is then cleaned up and easily fitted (in red):
 
 ![Angle2Roughness3D.png](./images/Angle2Roughness3D.png)
 
 
-#### Mapping mip level to roughness
+Resulting in the following expression:
 
-By combining equations $\eqref{(1)}$ and $\eqref{(5)}$, we now have a procedure to map mip level to roughness.
+$$
+\begin{align}
+\beta( x ) &= \frac{ 160.3332299994536 - 131.2107114069501 x -  29.133792073234147 x^2 } { 41.83893846650725 +  168.13611151303041 x - 153.7500633778045 x^2 }	\tag{5}\label{(5)} \\\\
+x &= \cos\left( \frac{ \theta_0}{2} \right)^2 = \mu^2 \\\\
+\beta &= \alpha^2
+\end{align}
+$$
+
+**WARNING:** Notice here that we used the **squared cosine of the half angle** as input and that the function returns the **squared roughness**!
+The main reason is that it's easier to fit and we always manipulate the square of the values anyway so it can avoid useless square roots in the shaders.
+
+
+Finally, by combining equations $\eqref{(1)}$ and $\eqref{(5)}$, we now have a procedure to map mip level to roughness.
 
 ![Mip2Roughness3D](./images/Mip2Roughness3D.png)
 
 
 @TODO: CODE!
 
-@TODO: Provide an alternative curve fitting to directly use the cosine $\mu$.
-
 
 #### Mapping roughness to mip level
 
-We simply need to make a table of inverted values that give a cosine value $\mu = \cos( \frac{\theta_0}{2} )$ for any square roughness value $\beta = \alpha^2$ and find a curve fitting.
+We simply need to make a table of inverted values that give a cosine value $\mu^2 = \cos( \frac{\theta_0}{2} )^2$ for any square roughness value $\beta = \alpha^2$ and find a curve fitting.
+
+
+@TODO: Use the analytical inverse instead of doing another fitting! Show that it requires a sqrt...
+
 
 So here is our fitting, in red, over the true curve in blue (not really visible):
 
@@ -485,21 +498,22 @@ The fit curve is given by:
 
 $$
 \begin{align}
-\mu( \beta ) &= \frac{ 88.0319822545192 - 17.229772946310874 \beta^2 }{ 88.0319822545192 + 12.979650695988424 \beta } \\\\
+\mu( \beta )^2 &= \frac{ 5.238881411332154 - 1.5797129260127443 \beta^2 } { 5.238881411332154 + 1.5265349072841383 \beta + 0.6923074066106989 \beta^2}		\tag{6}\label{(6)} \\\\
 \beta &= \alpha^2
 \end{align}
 $$
 
-Once again, the fitting is quite good and the squared error is only 2.199861e-6 and we verify that $\mu( 1 ) \approx \frac{1}{\sqrt{2}}$ so $\theta_0 = 2 \cos^{-1}( \mu( 1 ) ) \approx \frac{\pi}{2}$, the maximum aperture angle at maximum roughness.
+**WARNING:** Notice here that we used once again the **squared roughness** as input and that the function returns the **squared cosine of the half angle**!
+
+Once again, the fitting is quite good and the squared error is only 2.39511e-6 and we verify that $\mu( 1 ) \approx \frac{1}{\sqrt{2}}$ so $\theta_0 = 2 \cos^{-1}( \mu( 1 ) ) \approx \frac{\pi}{2}$, the maximum aperture angle at maximum roughness.
 
 
-The resulting mip level is then obtained by using $\eqref{(2)}$ and we get this result:
+The resulting mip level is then obtained by using $\eqref{(2)}$ and we get:
 
 ![Roughness2Mip3D](./images/Roughness2Mip3D.png)
 
 
-@TODO: code!
-
+@TODO: CODE!
 
 
 
@@ -522,14 +536,24 @@ This is a live demo of what's happening when we increase the roughness:
 
 ## Luminance sampling problem
 
-For our second problem, 
+For the second part of our problem, we actually have many questions:
+
+* When querying the cube map, what's the best way to interpolate pre-integrated illuminance for roughness values that are *not* exactly falling on a mip
+	* What kind of error do we make when we linearly interpolate the mip levels?
+
+* When *building the cube map*, how many samples should we take from mip level $m$ to build the cube map's mip level $m+1$?
+
+* How many samples do we need to properly compute the illuminance integral under a given error?
+	* When the point of view is aligned with the normal (cube map building case)
+	* When the point of view can be anything (general case)
+
+
+
 
 
 ## Conclusion
 
-
-Mapping is very ugly! :D
-
+@TODO!
 
 
 ## References
