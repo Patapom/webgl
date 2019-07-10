@@ -18,8 +18,8 @@ pages:
 #         - Cube Map Pre-Integration & Sampling: BRDF/PreIntegration.md
     - Lighting:
          - Colored Penumbra: Lighting/Colored Penumbra/ColoredShadows.md
-         - Area Lights:
-             - Disk & Spherical Area Lights: Lighting/Area Lights/DiskOptim.md
+##         - Area Lights:
+##             - Disk & Spherical Area Lights: Lighting/Area Lights/DiskOptim.md
 #         - Dishonored 2:
 #             - Summary: Lighting/Dishonored2/main.md
 #             - Albedos Database: Lighting/Dishonored2/Albedos.md

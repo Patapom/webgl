@@ -274,9 +274,9 @@ Our view point is at the coordinate $\boldsymbol{Z}=(0,0,1)$ and in this scenari
 
 $$
 \begin{align}
-\boldsymbol{\Phi(\boldsymbol{x})} &= -\frac{E_0}{2\pi} \sum_{i=1}^N  \frac{ \boldsymbol{u_i} \times \boldsymbol{u_{i+1}} }{ \| \boldsymbol{u_i} \times \boldsymbol{u_{i+1}} \| } \cos^{-1}\left( \boldsymbol{u_i} \cdot \boldsymbol{u_{i+1}} \right)	\\
+\boldsymbol{\Phi(\boldsymbol{x})} &= \frac{E_0}{2\pi} \sum_{i=1}^N  \frac{ \boldsymbol{u_i} \times \boldsymbol{u_{i+1}} }{ \| \boldsymbol{u_i} \times \boldsymbol{u_{i+1}} \| } \cos^{-1}\left( \boldsymbol{u_i} \cdot \boldsymbol{u_{i+1}} \right)	\\
 &\downarrow	\\
-\boldsymbol{\Phi(\boldsymbol{x})} &= -\frac{E_0}{2\pi} \int_{-\pi}^{\pi} \boldsymbol{\tau}(\theta) \theta d\theta
+\boldsymbol{\Phi(\boldsymbol{x})} &= \frac{E_0}{2\pi} \int_{-\pi}^{\pi} \boldsymbol{\tau}(\theta) d\theta
 \end{align}
 $$
 
@@ -370,15 +370,30 @@ Assuming we split the unit circle into 2 symmetrical halves:
 We simply need to write the integral from $-\theta_{max}$ to $\theta_{max}$ for each component of the irradiance vector:
 
 $$
-\boldsymbol{\Phi(\boldsymbol{x})} = -\frac{E_0}{2\sqrt{2}\pi} \left[
+\boldsymbol{\Phi(\boldsymbol{x})} = \frac{E_0}{\sqrt{2}(2\pi)} \left[
 \begin{array} \\
-\int_{-\theta_{max}}^{\theta_{max}} \theta \cos(\theta) d\theta  \\
-\int_{-\theta_{max}}^{\theta_{max}} \theta \sin(\theta) d\theta  \\
-\int_{-\theta_{max}}^{\theta_{max}} \theta d\theta  \\
+\int_{-\theta_{max}}^{\theta_{max}} \cos(\theta) d\theta  \\
+\int_{-\theta_{max}}^{\theta_{max}} \sin(\theta) d\theta  \\
+\int_{-\theta_{max}}^{\theta_{max}} d\theta  \\
 \end{array}
 \right]
 $$
 
+And finally:
+
+$$
+\boldsymbol{\Phi(\boldsymbol{x})} = \frac{E_0}{\sqrt{2}(2\pi)} \left[
+\begin{array} \\
+2 \sin(\theta_{max})  \\
+0  \\
+2 \theta_{max} \\
+\end{array}
+\right]
+$$
+
+We can see that the symmetric parts along the orthogonal direction vanish and that the integral nicely gives a vector equal to $(0,0,2\pi)$ when $\theta_{max} = \pi$ (*i.e.* the entire circle is covered).
+
+Note that when $\theta_{max} = \pi$, $\| \boldsymbol{\Phi(\boldsymbol{x})} \| = \frac{E_0}{\sqrt{2}}$ and the scaling by $\frac{1}{\sqrt{2}}$ is due to the fact we're observing the disk from a point $\boldsymbol{Z}$ one unit above the plane.
 
 
 ### Clipping is also easy
