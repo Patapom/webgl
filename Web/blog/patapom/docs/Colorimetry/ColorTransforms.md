@@ -1,11 +1,11 @@
-﻿As seen in the [Color Space](ColorSpace) page, it's important to understand the difference between [Absolute (or device-independent) Color Space](ColorSpace/#absolute-color-space)
+﻿As seen in the [Color Space](../ColorSpace) page, it's important to understand the difference between [Absolute (or device-independent) Color Space](../ColorSpace/#absolute-color-space)
  (*.e.g.* CIEXYZ, CIExyY, CIELAB) and device-dependent colors spaces (*e.g.* RGB, HSL, HSB, HSV).
 
-For example, it makes sense to convert from a device-dependent [RGB](ColorSpace/#rgb) space to a [HSL](ColorSpace/#hsl-and-hsv) space since, even though they are both device-dependent, they are defined in the same "dependent space".
+For example, it makes sense to convert from a device-dependent [RGB](../ColorSpace/#rgb) space to a [HSL](../ColorSpace/#hsl-and-hsv) space since, even though they are both device-dependent, they are defined in the same "dependent space".
 
-Also, it makes sense to convert from 2 device-independent spaces like [CIEXYZ](ColorSpace/#cie-xyz) and [CIELAB](ColorSpace/#cie-lab).
+Also, it makes sense to convert from 2 device-independent spaces like [CIEXYZ](../ColorSpace/#cie-xyz) and [CIELAB](../ColorSpace/#cie-lab).
 
-Most importantly, *the conversions between device-dependent color spaces and device-independent color spaces* must **always** be accompanied by a [Color Profile](ColorProfile) that appropriately describes the *dependence to the device*.
+Most importantly, *the conversions between device-dependent color spaces and device-independent color spaces* must **always** be accompanied by a [Color Profile](../ColorProfile) that appropriately describes the *dependence to the device*.
 
 ![File:ColorConversions.png|center](../images/Colorimetry/ColorConversions.png)
 
@@ -184,9 +184,9 @@ $$
 ###XYZ / Lab###
 (Source: [http://www.easyrgb.com](http://www.easyrgb.com))
 
-Remember that [CIE L\*a\*b\*](ColorSpace/#cie-lab) is device-independent but needs a [white point](Illuminants/#white-point) reference nevertheless.
+Remember that [CIE L\*a\*b\*](../ColorSpace/#cie-lab) is device-independent but needs a [white point](../Illuminants/#white-point) reference nevertheless.
 
-Here, the [D65 illuminant](Illuminants/#white-points-of-standard-illuminants) is used.
+Here, the [D65 illuminant](../Illuminants/#white-points-of-standard-illuminants) is used.
 
 ####XYZ &rarr; L\*a\*b\*
 
@@ -247,7 +247,7 @@ Here, the [D65 illuminant](Illuminants/#white-points-of-standard-illuminants) is
 ###RGB (in sRGB) / XYZ###
 (Source: [http://www.easyrgb.com](http://www.easyrgb.com))
 
-Please refer to the [sRGB color profile](ColorProfile/#srgb) specification to understand the pseudo-gamma correction in the following routines.
+Please refer to the [sRGB color profile](../ColorProfile/#srgb) specification to understand the pseudo-gamma correction in the following routines.
 
 ####RGB &rarr; XYZ####
 * Input: RGB in [0,1] with sRGB gamma profile
@@ -462,13 +462,13 @@ $$
 ## Dealing with Generic Color Profiles
 
 ###XYZ Matrices###
-When dealing with standard profiles like [sRGB](ColorProfile/#srgb), [Adobe RGB](ColorProfile/#adobe-rgb) or [ProPhoto RGB](ColorProfile/#prophoto)
- you are given the [chromaticities](ColorSpace/#cie-xyy) of Red, Green, Blue and the one for the [White Point](Illuminants/#white-point).
+When dealing with standard profiles like [sRGB](../ColorProfile/#srgb), [Adobe RGB](../ColorProfile/#adobe-rgb) or [ProPhoto RGB](../ColorProfile/#prophoto)
+ you are given the [chromaticities](../ColorSpace/#cie-xyy) of Red, Green, Blue and the one for the [White Point](../Illuminants/#white-point).
 
 Also, when opening PNG file you can encounter the **cHRM** chunk that describes the same chromaticities. You then need to transform these 4 2D values into a 3x3 matrix to convert the RGB value to and from the XYZ master space.
 
 
-First of all, remembering our basic [CIEXYZ](ColorSpace/#cie-xyz) and [CIExyY](ColorSpace/#cie-xyy) conversions, let's enumerate what we know:
+First of all, remembering our basic [CIEXYZ](../ColorSpace/#cie-xyz) and [CIExyY](../ColorSpace/#cie-xyy) conversions, let's enumerate what we know:
 
 * From the chromaticities for Red<br/>
     $$
@@ -491,7 +491,7 @@ First of all, remembering our basic [CIEXYZ](ColorSpace/#cie-xyz) and [CIExyY](C
     $$
 	Y_W = 1
 	$$
-* The complete expression for the White Point (since we have a completely defined $xyY_W$, we can thus easily convert to $XYZ_W$, see [CIE XYZ color space](ColorSpace/#cie-xyz))<br/>
+* The complete expression for the White Point (since we have a completely defined $xyY_W$, we can thus easily convert to $XYZ_W$, see [CIE XYZ color space](../ColorSpace/#cie-xyz))<br/>
     $$
 	XYZ_W
 	$$
@@ -566,4 +566,4 @@ You can find the code to build the $M_{XYZ}$ matrix here: [ColorProfile.cpp](htt
 Decoding true ICC profiles is a little *over the top* for our purpose.
 I never truly had the need for it so I won't be discussing full custom profiles here although you can read the [ICC Profile specs](http://www.color.org/specification/ICC1v43_2010-12.pdf) if you like.
 
-Also, if you really need a complete [CMS](ColorProfile/#color-management), you should download the excellent [Little CMS](http://www.littlecms.com/) by Marti Maria.
+Also, if you really need a complete [CMS](../ColorProfile/#color-management), you should download the excellent [Little CMS](http://www.littlecms.com/) by Marti Maria.

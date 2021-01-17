@@ -15,7 +15,7 @@
 ###d-BRDF###
 
 !!! TODO
-    From [http://www.cs.utah.edu/~premoze/dbrdf/dBRDF.pdf](http://www.cs.utah.edu/~premoze/dbrdf/dBRDF.pdf)
+    From [https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.621.5638&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.621.5638&rep=rep1&type=pdf)
     Requires 1 2D texture for distribution and 1 1D texture for "Fresnel", one for distribution and another for Fresnel...
 
 
@@ -189,5 +189,5 @@ All isolines show $\theta_i = \theta_o \in [0,90]$.
 
 ##References##
 
-[^1]: ["Distribution-based BRDFs"](http://www.cs.utah.edu/~premoze/dbrdf/dBRDF.pdf) Ashikhmin et al. (2007)
+[^1]: ["Distribution-based BRDFs"](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.621.5638&rep=rep1&type=pdf) Ashikhmin et al. (2007)
 

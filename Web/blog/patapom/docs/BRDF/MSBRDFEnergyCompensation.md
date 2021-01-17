@@ -456,7 +456,7 @@ Obviously, when the $F_0$ term is not 1 anymore then the tiny micro-facets compo
 We are thus looking for a factor $f(F_0) \in [0,1]$ that will be applied to the multiple scattering BRDF term, the complement of this factor $1 - f(F_0)$ times the MSBRDF term should be redistributed
  to the part below the specular interface (*e.g.* the diffuse BRDF).
 
-In order to compute such a factor I used my [heavy-duty micro-facet ray-tracer](MSBRDFBruteForce) to simulate the total irradiance outgoing the micro-surface
+In order to compute such a factor I used my [heavy-duty micro-facet ray-tracer](../MSBRDFBruteForce) to simulate the total irradiance outgoing the micro-surface
  for various values of incident angle, surface roughness and $F_0$.
 
 !!! note
@@ -839,7 +839,7 @@ Unfortunately, multiple-scattering BRDFs only reveal their true potential when d
 otherwise the small contribution of the MS term is quite "lost in the wind" and the cost of sampling 3 (even super low resolution) precomputed textures per pixel and per light can rapidly become prohibitive.
 
 
-That is why we will discuss how the multiple-scattering BRDF can be truly harnessed for a real added benefit in the [2nd part](MSBRDFEnergyCompensation2) of this series about energy compensation! (coming soon) (hopefully :grinning:)
+That is why we will discuss how the multiple-scattering BRDF can be truly harnessed for a real added benefit in the [2nd part](../MSBRDFEnergyCompensation2) of this series about energy compensation! (coming soon) (hopefully :grinning:)
 
 
 ## References

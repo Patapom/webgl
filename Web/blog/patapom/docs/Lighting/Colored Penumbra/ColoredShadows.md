@@ -122,7 +122,7 @@ $$
 
 With $L_i=10$ the incoming radiance, $\boldsymbol{\omega_i}$ the incoming light direction varying from 0 to more than 90° away from the surface normal $\boldsymbol{n}$.
 
-And finally $\rho_d$ the diffuse [BRDF](../../BRDF/BRDF%20Definition/) that we tweaked a little to incorporate our saturation term:
+And finally $\rho_d$ the diffuse [BRDF](../../../BRDF/BRDF%20Definition/) that we tweaked a little to incorporate our saturation term:
 
 * When we use the regular diffuse BRDF $\rho_d = \frac{\rho}{\pi}$ we get the bottom gradients in the figure.
 
@@ -141,7 +141,7 @@ In order to have a physically plausible implementation of the color saturation t
 As we saw earlier, this is clearly not the case for values of $\rho > 0.5$ and we had to introduce a $\frac{1}{2}$ factor in the $\rho_d = \frac{\rho}{2 \pi (1-\rho)}$ diffuse BRDF to avoid that.
 
 
-In general, we want a physically correct BRDF term that properly accounts for multiple scattering, this is why I would advise you to read the [MSBRDF page](../../BRDF/MSBRDF) that deals with that exact subject.
+In general, we want a physically correct BRDF term that properly accounts for multiple scattering, this is why I would advise you to read the [MSBRDF page](../../../BRDF/MSBRDF) that deals with that exact subject.
 
 Eventually, we can use the following code to alter the shadow gradient and reveal the multiple-scattering effect early in the terminator band:
 

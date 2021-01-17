@@ -105,7 +105,7 @@ Used for :
 * Spectral characteristics similar to natural light sources
 * Reproducible in the laboratory
 
-The [white point](ColorProfile/#white-point) of an illuminant is the [chromaticity](ColorSpace/#cie-xyy) of a white object under the illuminant.
+The [white point](../Illuminants/#white-point) of an illuminant is the [chromaticity](../ColorSpace/#cie-xyy) of a white object under the illuminant.
 
 
 ###1931 Illuminants###
@@ -265,7 +265,7 @@ The color swatches represent the hue of each white point, calculated with lumina
 </td>
 <td bgcolor="#d1c0a8">
 </td>
-<td style="padding-left:1em;">Horizon Light. <a href="/index.php?title=ICC_profile&amp;action=edit&amp;redlink=1" class="new" title="ICC profile (page does not exist)">ICC profile</a> <a href="/index.php?title=Color_management&amp;action=edit&amp;redlink=1" class="new" title="Color management (page does not exist)">PCS</a>
+<td style="padding-left:1em;">Horizon Light. <a href="../ColorProfile/#icc-profiles" class="new" title="ICC profile (page does not exist)">ICC profile</a> <a href="/index.php?title=Color_management&amp;action=edit&amp;redlink=1" class="new" title="Color management (page does not exist)">PCS</a>
 </td></tr>
 <tr>
 <td align="center">D55
@@ -671,7 +671,7 @@ As explained in a previous section, this is because the value of the constants i
 
 ### Custom Illuminant Computation by Spectral Integration ###
 
-By combining the spectral radiance given by [Planck's law](#black-body), and the spectral power distribution of the [CIE Color Matching Functions](ColorSpace/#color-matching-functions),
+By combining the spectral radiance given by [Planck's law](#black-body), and the spectral power distribution of the [CIE Color Matching Functions](../ColorSpace/#color-matching-functions),
 it's relatively easy to obtain the XYZ values of any white point given its Correlated Color Temperature.
 
 You can find an example code here:

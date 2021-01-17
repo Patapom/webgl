@@ -24,7 +24,7 @@ I first considered the problem with a brute-force solution where I simulated man
 I got a somewhat complicated diffuse lobe model expression for multiple-scattering that I give at the end of this section:
 
 
-**[Multiple-Scattering by Simulation](MSBRDFBruteForce)**
+**[Multiple-Scattering by Simulation](../MSBRDFBruteForce)**
 
 
 ## Energy Compensation
@@ -34,14 +34,14 @@ Then, a much more interesting view came up from Kulla and Conty in a talk[^5] at
 It is discussed in this section:
 
 
-**[Multiple-Scattering by Energy Compensation](MSBRDFEnergyCompensation)**
+**[Multiple-Scattering by Energy Compensation](../MSBRDFEnergyCompensation)**
 
 
 ## References
 
-[^1]: Heitz, E. 2014 ["Understanding the Masking-Shadowing Function in Microfacets-based BRDFs "]()
-[^2]: Heitz, E. Dupuy, J. Crassin, C. Dachsbacher, C. 2014 ["The SGGX Microflake Distribution"]()
-[^3]: Heitz, E. d'Eon, E. 2014 ["Importance Sampling Microfacet-Based BSDFs using the Distribution of Visible Normals"]()
-[^4]: Heitz, E. Hanika, J. d'Eon, E. Dachsbacher, C. 2015 ["Multiple-Scattering Microfacet BSDFs with the Smith Model"]()
+[^1]: Heitz, E. 2014 ["Understanding the Masking-Shadowing Function in Microfacets-based BRDFs "](https://hal.inria.fr/hal-00942452v1/document)
+[^2]: Heitz, E. Dupuy, J. Crassin, C. Dachsbacher, C. 2014 ["The SGGX Microflake Distribution"](https://hal.archives-ouvertes.fr/hal-01500955)
+[^3]: Heitz, E. d'Eon, E. 2014 ["Importance Sampling Microfacet-Based BSDFs using the Distribution of Visible Normals"](https://hal.inria.fr/hal-00996995v1/document)
+[^4]: Heitz, E. Hanika, J. d'Eon, E. Dachsbacher, C. 2015 ["Multiple-Scattering Microfacet BSDFs with the Smith Model"](https://eheitzresearch.wordpress.com/240-2/)
 [^5]: Kulla, C. Conty, A. 2017 ["Revisiting Physically Based Shading at Imageworks"](http://blog.selfshadow.com/publications/s2017-shading-course/imageworks/s2017_pbs_imageworks_slides.pdf)
 

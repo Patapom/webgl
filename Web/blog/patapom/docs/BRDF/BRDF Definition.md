@@ -2,7 +2,7 @@
 
 ![File:NylonBRDF.jpg|thumb|right|600px|](./images/NylonBRDF.jpg)
 
-"The BRDF of nylon viewed in the [Disney BRDF Explorer](http://www.disneyanimation.com/technology/brdf.html)"
+"The BRDF of nylon viewed in the [Disney BRDF Explorer](https://github.com/wdas/brdf)"
 The cyan line represents the incoming light direction, the red peanut object is the amount of light reflected in the corresponding direction.
 
 Almost all the informations gathered here come from the reading and interpretation of the great Siggraph 2012 talk about physically based rendering in movie and game production [^1] but I've also practically read the entire documentation about BRDFs from their first formulation by Nicodemus [^2] in 1977!
@@ -165,7 +165,7 @@ Although positivity and reciprocity are usually quite easy to ensure in physical
 
 ## Next
 
-In the next section, we will list and describe several [analytical models](BRDF Models).
+In the next section, we will list and describe several [analytical models](..\BRDF Models).
 
 	
 ##References##

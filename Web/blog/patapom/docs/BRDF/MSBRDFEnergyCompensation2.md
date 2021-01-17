@@ -6,7 +6,7 @@ or is not bright enough to be significant, in which case the effect of multiple 
 This is why we will focus on light sources that are either quite significant or cover an extended area, namely:
 
 * Sun light
-* The far field environment, encoded as [Spherical Harmonics](../SHPortal)
+* The far field environment, encoded as [Spherical Harmonics](../../SHPortal)
 * Area lights, encoded as linearly transformed cosines [^1]
 
 
@@ -248,7 +248,7 @@ We see that the result is quite simple and is nicely split into 3 distinct parts
 
 ### Simplification
 
-First, we begin by noticing that due to the isotropic nature of the MSBRDF, it must be radially symmetric and thus only the [Zonal Harmonics](../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
+First, we begin by noticing that due to the isotropic nature of the MSBRDF, it must be radially symmetric and thus only the [Zonal Harmonics](../../SHPortal/#estimating-the-lambertian-brdf-sh-coefficients) coefficients should be non zero.
 This allows us to rewrite:
 
 $$

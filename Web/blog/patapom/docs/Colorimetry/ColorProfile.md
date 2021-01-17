@@ -45,7 +45,7 @@ In the terminology of the [International Color Consortium](http://www.color.org)
 
 The connection space can thus be the *Working* or *Reference* color space of the Color Management System.
 
-&nbsp; &nbsp; &nbsp; &nbsp; *Color Space 1 &rarr; PCS ([CIELAB](ColorSpace/#cie-lab) or [CIEXYZ](ColorSpace/#cie-xyz)) &rarr; Color space 2*
+&nbsp; &nbsp; &nbsp; &nbsp; *Color Space 1 &rarr; PCS ([CIELAB](../ColorSpace/#cie-lab) or [CIEXYZ](../ColorSpace/#cie-xyz)) &rarr; Color space 2*
 
  conversions into and out of the PCS are each specified by a profile.
 
@@ -109,9 +109,9 @@ The following image illustrates the [Color Gamut](http://en.wikipedia.org/wiki/G
 ![File:images/Colorimetry/Gamuts.jpg|center](../images/Colorimetry/Gamuts.jpg)
 
 
-You can easily see here that each of these standard profiles are defined as a triangle where each vertex represents the [*chromaticities*](ColorSpace/#cie-xyy) for Red, Green and Blue.
+You can easily see here that each of these standard profiles are defined as a triangle where each vertex represents the [*chromaticities*](../ColorSpace/#cie-xyy) for Red, Green and Blue.
 
-Moreover, there is an additional spot inside the triangle called the [*White Point*](Illuminants/#white-point) (see also the [Illuminants](Illuminants) section).
+Moreover, there is an additional spot inside the triangle called the [*White Point*](../Illuminants/#white-point) (see also the [Illuminants](../Illuminants) section).
 
 The white point is a very important data as it defines the color "white" in image capture, encoding, or reproduction. Depending on the application, different definitions of white are needed to give acceptable results.
 For example, photographs taken indoors may be lit by incandescent lights, which are relatively orange compared to daylight.
@@ -131,13 +131,13 @@ Let's review the different standard profiles by decreasing gamut coverage:
 ####ProPhoto####
 (Source: [http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space](http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space))
 
-The [ProPhoto RGB](http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space) color profile covering 90% of the entire gamut and used by professional photographers. We note the white point is set to [D50](Illuminants/#1963-illuminants) (5000K):
+The [ProPhoto RGB](http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space) color profile covering 90% of the entire gamut and used by professional photographers. We note the white point is set to [D50](../Illuminants/#1963-illuminants-the-d-illuminant) (5000K):
 ![File:CIExy1931_ProPhoto.png|center|400px](../images/Colorimetry/CIExy1931_ProPhoto.png)
 
 The ProPhoto RGB color space, also known as ROMM RGB (Reference Output Medium Metric), is an output referred RGB color space developed by Kodak.
 It offers an especially large gamut designed for use with photographic output in mind.
 
-The ProPhoto RGB color space encompasses over 90% of possible surface colors in the [CIE L\*a\*b\*](ColorSpace/#cie-lab) color space, and 100% of likely occurring real world surface colors
+The ProPhoto RGB color space encompasses over 90% of possible surface colors in the [CIE L\*a\*b\*](../ColorSpace/#cie-lab) color space, and 100% of likely occurring real world surface colors
  making ProPhoto even larger than the [Wide Gamut RGB color space](http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space).
 
 The ProPhoto RGB primaries were also chosen in order to minimize hue rotations associated with non-linear tone scale operations.
@@ -148,7 +148,7 @@ This means that potential color accuracy is wasted for reserving these unnecessa
 When working in color spaces with such a large gamut, it is recommended to **work in 16-bit color depth** to avoid posterization effects.
 This will occur more frequently in 8-bit modes as the gradient steps are much larger.
 
-The white point corresponds to [D50](Illuminants/#1963-illuminants). The chromaticities of the primary colors and the white point are as follows:
+The white point corresponds to [D50](../Illuminants/#1963-illuminants-the-d-illuminant). The chromaticities of the primary colors and the white point are as follows:
 
 | color | x | y |
 | - |- |- |  
@@ -162,7 +162,7 @@ The white point corresponds to [D50](Illuminants/#1963-illuminants). The chromat
 ####Adobe RGB####
 (source: [http://en.wikipedia.org/wiki/Adobe_RGB_color_space](http://en.wikipedia.org/wiki/Adobe_RGB_color_space))
 
-The [Adobe RGB](http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space) color profile covering 50% of the entire gamut and widely used by photographers. We note the white point is set to [D65](Illuminants/#1963-illuminants) (6500K):
+The [Adobe RGB](http://en.wikipedia.org/wiki/ProPhoto_RGB_color_space) color profile covering 50% of the entire gamut and widely used by photographers. We note the white point is set to [D65](../Illuminants/#1963-illuminants-the-d-illuminant) (6500K):
 ![File:CIExy1931_AdobeRGB.png|center|400px](../images/Colorimetry/CIExy1931_AdobeRGB.png)
 
 The Adobe RGB color space encompasses roughly 50% of the visible colors specified by the Lab color space, improving upon the gamut of the sRGB color space primarily in cyan-greens.
@@ -176,7 +176,7 @@ Moreover, the luminance of the monitor should be 160 cd/m2 at the white point, a
 As with sRGB, the RGB component values in Adobe RGB are not proportional to the luminances. Rather, *a gamma of 2.2 is assumed*, without the linear segment near zero that is present in sRGB.
 The precise gamma value is 563 / 256, or 2.19921875.
 
-The white point corresponds to [D65](Illuminants/#1963-illuminants).
+The white point corresponds to [D65](../Illuminants/#1963-illuminants-the-d-illuminant).
 The chromaticities of the primary colors and the white point are as follows:
 
 
@@ -195,7 +195,7 @@ Adobe RGB (1998) color profile specification: [http://www.adobe.com/digitalimag/
 (Source: [http://en.wikipedia.org/wiki/SRGB](http://en.wikipedia.org/wiki/SRGB))
 
 Finally, the image below illustrates the [sRGB](http://en.wikipedia.org/wiki/SRGB) color profile which is the most widely used and documented profile, but also the one covering the least of the gamut (about 35%).
-We note the white point is also set to [D65](Illuminants/#1963-illuminants) (6500K):
+We note the white point is also set to [D65](../Illuminants/#1963-illuminants-the-d-illuminant) (6500K):
 
 ![File:Cie_Chart_with_sRGB_gamut_by_spigget.png|center|400px](../images/Colorimetry/Cie_Chart_with_sRGB_gamut_by_spigget.png)
 (notice how the red and blue end points of the triangle match the ones of the Adobe RGB profile, only the green chromaticity is stretched down)
@@ -221,7 +221,7 @@ sRGB also defines a nonlinear transformation between the intensity of these prim
 The curve is *similar to the gamma response of a CRT display*. It is more important to replicate this curve than the primaries to get correct display of an sRGB image.
 This nonlinear conversion means that sRGB is a reasonably efficient use of the values in an integer-based image file to display human-discernible light levels.
 
-The white point corresponds to [D65](Illuminants/#1963-illuminants).
+The white point corresponds to [D65](../Illuminants/#1963-illuminants-the-d-illuminant).
 The chromaticities of the primary colors and the white point are as follows:
 
 
@@ -329,7 +329,7 @@ So when generating a LUT profile, the profile is likely to pick up some of the p
 XYZ matrices don’t have that problem since they are defined by only 3×3 coordinates in XYZ colorspace, and thus are quite generic by their very nature.
 This is also the reason why we are sticking to color matrices instead of supplying more detailed LUT profiles (besides diskspace usage).
 
-We discuss the maths of to compute a custom XYZ color matrix from 3 chromaticities and the white point [here](ColorTransforms/#xyz-matrices).
+We discuss the maths of to compute a custom XYZ color matrix from 3 chromaticities and the white point [here](../ColorTransforms/#xyz-matrices).
 
 
 As a general rule:
@@ -347,4 +347,4 @@ Thus, color profiles also describe a *luminance calibration* often described in 
 ---
 ##Next
 
-Next, we will discuss of the [Color Illuminants](Illuminants).
+Next, we will discuss of the [Color Illuminants](../Illuminants).

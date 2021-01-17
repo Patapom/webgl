@@ -250,7 +250,7 @@ What this means for us is that Monte-Carlo integration of our BRDF using one of 
 Basically if your BRDF expression is something of the sort:
 
 $$
-f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) = D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cdot g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
+f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) = D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
 $$
 
 Where:
@@ -258,14 +258,14 @@ Where:
 * $\boldsymbol{ \omega_i }$ is the unit incoming vector
 * $\boldsymbol{ \omega_o }$ is the unit outgoing vector
 * $f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is the BRDF
-* $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } )$ is normal distribution function
-* $g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } )$ is the remaining expression of the BRDF (possibily involving shadowing/masking, Fresnel, etc.)
+* $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is normal distribution function
+* $g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )$ is the remaining expression of the BRDF (possibily involving shadowing/masking, Fresnel, etc.)
 
 
 Then a Monte-Carlo integration using $D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } )$ as pdf will give:
 
 $$
-r = \frac{1}{N} \sum_{i=1}^N \frac{ f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) }{ D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_i } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) } = 
+r = \frac{1}{N} \sum_{i=1}^N \frac{ f( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) }{ D( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cos( \boldsymbol{ \omega_i } \cdot \boldsymbol{ n } ) } = 
 \frac{1}{N} \sum_{i=1}^N g( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } ) \cdot L( \boldsymbol{ \omega_i }, \boldsymbol{ \omega_o } )
 $$
 
@@ -886,6 +886,6 @@ I hope this post will serve its purpose (as usual, it's much too long :expressio
 [^5]: 1997 Veach, E. ["Robust Monte Carlo Methods for Light Transport Simulation, Chapter 9"](https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter9.pdf)
 [^6]: 2018 Roberts, M. ["The Unreasonable Effectiveness of Quasirandom Sequences"](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
 [^7]: 2018 Roberts, M. ["A simple method to construct isotropic quasirandom blue noise point sequences"](http://extremelearning.com.au/a-simple-method-to-construct-isotropic-quasirandom-blue-noise-point-sequences/)
-[^8]: 2004 Mei, X. Jaeger, M. Hu, B. ["An Effective Stratified Sampling Scheme for Environment Maps with Median Cut Method"](http://www.cs.albany.edu/~xmei/resource/pdf/sampling.pdf)
+[^8]: 2004 Mei, X. Jaeger, M. Hu, B. ["An Effective Stratified Sampling Scheme for Environment Maps with Median Cut Method"](https://www.researchgate.net/publication/221592189_An_Effective_Stratified_Sampling_Scheme_for_Environment_Maps_with_Median_Cut_Method)
 [^9]: 2014 Agarwal, S. Ramamoorthi, R. Belongie, S. Jensen, H. W. ["Structured Importance Sampling of Environment Maps"](https://vision.cornell.edu/se3/wp-content/uploads/2014/09/54_structured.pdf)
 [^10]: 2015 Jiayin, C. ["Sampling microfacet BRDF](https://agraphicsguy.wordpress.com/2015/11/01/sampling-microfacet-brdf/)

@@ -213,7 +213,7 @@ To implement this integration numerically we can use the naïve pseudo-code:<br 
  }
 ```
 
-A better (and faster!) way to do that would be to use importance sampled Monte Carlo sampling. Please refer to [Robin Green's paper](http://silviojemma.com/public/papers/lighting/spherical-harmonic-lighting.pdf) for details about the technique.<br />
+A better (and faster!) way to do that would be to use importance sampled Monte Carlo sampling. Please refer to [Robin Green's paper](http://www.cse.chalmers.se/~uffe/xjobb/Readings/GlobalIllumination/Spherical%20Harmonic%20Lighting%20-%20the%20gritty%20details.pdf) for details about the technique.<br />
 We first need to generate an arbitrary set of samples on the sphere. We choose the samples so that they are uniformly distributed on the sphere, thus ensuring that each sample carries the same weight that will be $\frac{4\pi}{N}$ where $N$ is the amount of samples:
 
 ``` C++
@@ -354,7 +354,7 @@ Where:<br />
 
 * $L(\boldsymbol{\omega_i})$ is the radiance arriving in incoming direction $\boldsymbol{\omega_i}$
 * $L(\boldsymbol{\omega_o})$ is the radiance leaving in outgoing direction $\boldsymbol{\omega_o}$
-* $f_r( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} )$ is the surface's [BRDF](BRDF)
+* $f_r( \boldsymbol{\omega_o}, \boldsymbol{\omega_i} )$ is the surface's [BRDF](../BRDF/BRDF%20Definition)
 * $\Omega^+$ represents the upper hemisphere of directions (so there is no need for the clamped dot product here!)
 
 
@@ -419,7 +419,7 @@ The main problems are:
 
 So basically, this technique is pretty heavy and shouldn't be used very often, certainly not at every vertex of a scene!
 
-You can find the code to compute the triple-product of 2 sets of SH coefficients in the excellent [2006 paper by John Snyder](http://research.microsoft.com/en-us/um/people/johnsny/papers/shtriple_fixed.pdf).
+You can find the code to compute the triple-product of 2 sets of SH coefficients in the excellent 2006 paper by John Snyder, ["Code Generation and Factoring for Fast Evaluation of Low-order Spherical Harmonic Products and Squares"](https://www.microsoft.com/en-us/research/publication/code-generation-and-factoring-for-fast-evaluation-of-low-order-spherical-harmonic-products-and-squares/).
 
 Here is the HLSL version of that code cleaned up for only 9 coefficients:
 
@@ -860,7 +860,7 @@ E(\theta_n, \phi_n) \; = \; \displaystyle\sum_{l,m} \sqrt{\frac{4\pi}{2l+1}} \, 
 $$
 
 
-And using the [analytical expressions](SHPortal#Analytical-Expressions-for-the-first-SH-Coefficients) for $Y_l^m(\theta_n, \phi_n)$, we can expand the complete expression:<br />
+And using the [analytical expressions](../SHPortal/#analytical-expressions-for-the-first-sh-coefficients) for $Y_l^m(\theta_n, \phi_n)$, we can expand the complete expression:<br />
 
 $E(\mathbf{n}) \, = \, \left( \hat{A'_0}(AO) \; \frac{1}{2}\sqrt{\frac{1}{\pi}} \right) \; L_0^0 \quad +$
 
@@ -996,8 +996,8 @@ So we need to somehow account for all of these indications to use the best possi
 [^2]: (2001) ["On the relationship between radiance and irradiance: determining the illumination from images of a convex Lambertian object"](https://cseweb.ucsd.edu/~ravir/papers/invlamb/josa.pdf) Ravi Ramamoorthi and Pat Hanrahan
 [^3]: (2001) ["An Efficient Representation for Irradiance Environment Maps"](https://cseweb.ucsd.edu/~ravir/papers/envmap/envmap.pdf) Ravi Ramamoorthi and Pat Hanrahan
 [^4]: (2002) ["Precomputed Radiance Transfer for Real-Time Rendering in Dynamic, Low-Frequency Lighting Environments"](http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Sloan02.pdf) Peter-Pike Sloan et al.
-[^5]: (2003) ["Spherical Harmonics Lighting: the Gritty Details"](http://silviojemma.com/public/papers/lighting/spherical-harmonic-lighting.pdf) Robin Green
-[^6]: (2006) ["Code Generation and Factoring for Fast Evaluation of Low-order Spherical Harmonic Products and Squares"](http://research.microsoft.com/en-us/um/people/johnsny/papers/shtriple_fixed.pdf) John Snyder
+[^5]: (2003) ["Spherical Harmonics Lighting: the Gritty Details"](http://www.cse.chalmers.se/~uffe/xjobb/Readings/GlobalIllumination/Spherical%20Harmonic%20Lighting%20-%20the%20gritty%20details.pdf) Robin Green
+[^6]: (2006) ["Code Generation and Factoring for Fast Evaluation of Low-order Spherical Harmonic Products and Squares"](https://www.microsoft.com/en-us/research/publication/code-generation-and-factoring-for-fast-evaluation-of-low-order-spherical-harmonic-products-and-squares/) John Snyder
 [^7]: (2008) ["Stupid Spherical Harmonics Tricks"](http://www.ppsloan.org/publications/StupidSH36.pdf) Peter-Pike Sloan et al.
 [^8]: (2010) ["Adding Real-Time, Point-Based Global Illumination to Video Games: Lessons Learned"](http://cgg.mff.cuni.cz/~jaroslav/gicourse2010/giai2010-05-michael_bunnell-slides.pdf) by Michael Bunnel
 

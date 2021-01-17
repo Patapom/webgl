@@ -10,7 +10,7 @@ I specialize in lighting, from the microscopic [BRDF](BRDF/BRDF%20Definition/) t
 
 ![image](images/dishonored2_2.jpg)
 
-(images from the game *"Dishonored 2"*, [Arkane Studio](https://www.arkane-studios.com/uk/index.php))
+(images from the game *"Dishonored 2"*, [Arkane Studio](https://www.arkane-studios.com/))
 
 
 I :heart: every light-related phenomenon, from emission to scattering, interaction and perception. The beautiful intricacies of matter playing with photons, often in mysterious ways, yielding the most jaw-dropping patterns and colors.

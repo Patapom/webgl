@@ -3,12 +3,12 @@ A color space is the 3-dimensional space in which colors can be represented. 3 d
  but various conventions can be chosen to select each dimension depending on the intended goal (processing, display, accuracy, perception, etc.).
 
 
-Some of the color spaces are [CIE XYZ](ColorSpace/#cie-xyz), [CIE xyY](ColorSpace/#cie-xyy), [CIE LAB](ColorSpace/#cie-lab), [RGB](ColorSpace/#rgb), [HSV, HSL](ColorSpace/#hsl-and-hsv), HSB, [YUV](ColorSpace/#yuv).
+Some of the color spaces are [CIE XYZ](../ColorSpace/#cie-xyz), [CIE xyY](../ColorSpace/#cie-xyy), [CIE LAB](../ColorSpace/#cie-lab), [RGB](../ColorSpace/#rgb), [HSV, HSL](../ColorSpace/#hsl-and-hsv), HSB, [YUV](../ColorSpace/#yuv).
 
 These color spaces can be categorized in different ways:
 
-* *Device independent* or [*Absolute color spaces*](ColorSpace/#absolute-color-space) like XYZ, xyY or Lab
-* [*Device dependent*](ColorSpace/#device-dependent-color-spaces) or *Relative color spaces* like RGB, HSV, HSL, HSB and YUV
+* *Device independent* or [*Absolute color spaces*](../ColorSpace/#absolute-color-space) like XYZ, xyY or Lab
+* [*Device dependent*](../ColorSpace/#device-dependent-color-spaces) or *Relative color spaces* like RGB, HSV, HSL, HSB and YUV
 
 Or:
 
@@ -27,14 +27,14 @@ In color science, there are two meanings of the term absolute color space:
 
 In this section, we concentrate on the second definition.
 
-[CIEXYZ](ColorSpace/#cie-xyz) and [sRGB](ColorProfile/#srgb) are examples of absolute color spaces, as opposed to a generic RGB color space.
+[CIEXYZ](../ColorSpace/#cie-xyz) and [sRGB](../ColorProfile/#srgb) are examples of absolute color spaces, as opposed to a generic RGB color space.
 
 A non-absolute color space can be made absolute by defining its relationship to absolute colorimetric quantities.
 For instance, if the red, green, and blue colors in a monitor are measured exactly, together with other properties of the monitor, then RGB values on that monitor can be considered as absolute.
-The L\*a\*b\* is sometimes referred to as absolute, though it also needs a [white point](Illuminants/#white-point) specification to make it so.
+The L\*a\*b\* is sometimes referred to as absolute, though it also needs a [white point](../Illuminants/#white-point) specification to make it so.
 
-A popular way to make a color space like RGB into an absolute color is to define an [**ICC profile**](ColorProfile/#icc-profile), which contains the attributes of the RGB.
-This is not the only way to express an absolute color, but it is the standard in many industries. RGB colors defined by widely accepted profiles include [sRGB](ColorProfile/#srgb) and [Adobe RGB](ColorProfile#adobe-rgb).
+A popular way to make a color space like RGB into an absolute color is to define an [**ICC profile**](../ColorProfile/#icc-profile), which contains the attributes of the RGB.
+This is not the only way to express an absolute color, but it is the standard in many industries. RGB colors defined by widely accepted profiles include [sRGB](../ColorProfile/#srgb) and [Adobe RGB](../ColorProfile/#adobe-rgb).
 The process of adding an ICC profile to a graphic or document is sometimes called [tagging or embedding](Image_Metadata); tagging therefore marks the absolute meaning of colors in that graphic or document.
 
 ###Conversion###
@@ -44,12 +44,12 @@ There are also likely to be rounding errors, especially if the popular range of 
 One part of the definition of an absolute color space is the viewing conditions. The same color, viewed under different natural or artificial lighting conditions, will look different.
 Those involved professionally with color matching may use viewing rooms, lit by standardized lighting.
 
-Occasionally, there are precise rules for converting between non-absolute color spaces. For example [HSL and HSV](ColorSpace/#hsl-and-hsv) spaces are defined as mappings of RGB.
+Occasionally, there are precise rules for converting between non-absolute color spaces. For example [HSL and HSV](../ColorSpace/#hsl-and-hsv) spaces are defined as mappings of RGB.
 Both are non-absolute, but the conversion between them should maintain the same color.
-However, in general, *converting between two non-absolute color spaces (for example, RGB to CMYK) or between absolute and non-absolute color spaces (for example, RGB to L\*a\*b\*) is almost a meaningless concept without specyfying a [Color Profile](ColorProfile)*.
+However, in general, *converting between two non-absolute color spaces (for example, RGB to CMYK) or between absolute and non-absolute color spaces (for example, RGB to L\*a\*b\*) is almost a meaningless concept without specyfying a [Color Profile](../ColorProfile/)*.
 
 
-See also the [Color Transforms](ColorTransforms) page for helpful formulas transforming from one color space to another.
+See also the [Color Transforms](../ColorTransforms) page for helpful formulas transforming from one color space to another.
 
 
 ##Standard Observer##
@@ -118,11 +118,11 @@ The values of *X*, *Y*, and *Z* are bounded if the intensity spectrum *I*(*&lamb
 
 
 ##Device-Independent Color Spaces##
-These color spaces can also be used as [*Profile Connection Space*](ColorProfile) (PCS).
+These color spaces can also be used as [*Profile Connection Space*](../ColorProfile/) (PCS).
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Color Space 1 &rarr; PCS (CIELAB or CIEXYZ) &rarr; Color space 2;
 
-Conversions into and out of the PCS are each specified by a [color profile](ColorProfile).
+Conversions into and out of the PCS are each specified by a [color profile](../ColorProfile/).
 
 
 ###CIE XYZ###
@@ -188,19 +188,19 @@ $$
 
 ![File:Lab_Colorsphere.jpg|thumb|350px](../images/Colorimetry/Lab_Colorsphere.jpg)
 
-A **Lab color space** is a [color-opponent](http://en.wikipedia.org/wiki/Opponent_process) space with dimension **L** for lightness and **a** and **b** for the color-opponent dimensions, based on nonlinearly compressed [CIE XYZ](ColorSpace/#cie-xyz) color space coordinates.
+A **Lab color space** is a [color-opponent](http://en.wikipedia.org/wiki/Opponent_process) space with dimension **L** for lightness and **a** and **b** for the color-opponent dimensions, based on nonlinearly compressed [CIE XYZ](../ColorSpace/#cie-xyz) color space coordinates.
 
 There are 2 "versions" of the LAB color spaces (both are related in purpose, but differ in implementation):
 
 * The Hunter 1948 (L,a,b) color space version
 * The CIE 1976 (L\*,a\*,b\*) color space version which is now widely used and called CIELAB or even Lab despite the fact the Lab coordinates actually refer to L\*,a\*,b\* coordinates.
 
-The intention of the "Lab" color space is to create a space which can be computed via simple formulas from the [CIE XYZ](ColorSpace/#cie-xyz) space, but is more perceptually uniform than [CIE XYZ](ColorSpace/#cie-xyz).
+The intention of the "Lab" color space is to create a space which can be computed via simple formulas from the [CIE XYZ](../ColorSpace/#cie-xyz) space, but is more perceptually uniform than [CIE XYZ](../ColorSpace/#cie-xyz).
 Perceptually uniform means that a change of the same amount in a color value should produce a change of about the same visual importance.<br/>
-When storing colors in limited precision values, this can improve the reproduction of tones. Lab space is relative to the [white point](Illuminants/#white-point) of the [CIE XYZ](ColorSpace/#cie-xyz) data they were converted from.
-Lab values do not define absolute colors unless the [white point](Illuminants/#white-point) is also specified.
-Often, in practice, the [white point](Illuminants/#white-point) is assumed to follow a standard and is not explicitly stated (e.g., for "absolute colorimetric" [rendering intents](ColorProfile/#rendering-intent) ICC L\*a\*b\* values
- are relative to [CIE standard illuminant D50](ColorProfile/#1963-illuminants), while they are relative to the unprinted substrate for other [rendering intents](ColorProfile/#rendering-intent)).
+When storing colors in limited precision values, this can improve the reproduction of tones. Lab space is relative to the [white point](../Illuminants/#white-point) of the [CIE XYZ](../ColorSpace/#cie-xyz) data they were converted from.
+Lab values do not define absolute colors unless the [white point](../Illuminants/#white-point) is also specified.
+Often, in practice, the [white point](../Illuminants/#white-point) is assumed to follow a standard and is not explicitly stated (e.g., for "absolute colorimetric" [rendering intents](../ColorSpace/#rendering-intent) ICC L\*a\*b\* values
+ are relative to [CIE standard illuminant D50](../Illuminants/#1963-illuminants-the-d-illuminant), while they are relative to the unprinted substrate for other [rendering intents](../ColorSpace/#rendering-intent)).
 
 
 The L\*a\*b\* color space includes all perceivable colors which means that its [gamut](http://en.wikipedia.org/wiki/Gamut) exceeds those of the RGB and CMYK color models.
@@ -223,23 +223,23 @@ You are certainly familiar with the RGB color space. It's the most widely used c
 Also, 3D renderers and shaders exclusively deal with RGB values.
 
 Despite its familiarity, it is not obvious to understand that RGB is **not** a device-independent format but is strongly tainted by the various stages of the color pipeline an image goes through,
-from acquisition to display (see also [Absolute Color Space](ColorSpace/#absolute-color-space)).
+from acquisition to display (see also [Absolute Color Space](../ColorSpace/#absolute-color-space)).
 
 
-Also, RGB represents a limited part of the entire color [gamut](http://en.wikipedia.org/wiki/Gamut) which is represented by the horseshoe chromaticity diagram of the [xyY](ColorSpace/#cie-xyy) color space described earlier.
+Also, RGB represents a limited part of the entire color [gamut](http://en.wikipedia.org/wiki/Gamut) which is represented by the horseshoe chromaticity diagram of the [xyY](../ColorSpace/#cie-xyy) color space described earlier.
 
-It's important to understand that a **RGB color is inherently tied to a [Color Profile](ColorProfile)** and cannot be interpreted as a standalone color.
+It's important to understand that a **RGB color is inherently tied to a [Color Profile](../ColorProfile/)** and cannot be interpreted as a standalone color.
 
 
-To be perfectly accurate, a RGB color should be transformed into the master [XYZ color space](ColorSpace/#cie-xyz) thanks to its color profile data which will then yield a device-independent color.
+To be perfectly accurate, a RGB color should be transformed into the master [XYZ color space](../ColorSpace/#cie-xyz) thanks to its color profile data which will then yield a device-independent color.
 
 Conversely, the device-independent XYZ color can then be transformed back into RGB (or any other device-dependent color space) with maybe some other associated color profile. For example, to be stored to disk or printed out.
 
 
-Transformation of device-dependent colors into XYZ and back again is the role of a [Color Management System](ColorProfile/#color-management), such systems are embedded in various Operating Systems but also in softwares like Adobe Photoshop.
+Transformation of device-dependent colors into XYZ and back again is the role of a [Color Management System](../ColorProfile/#color-management), such systems are embedded in various Operating Systems but also in softwares like Adobe Photoshop.
 
 
-You can find various transform operations from device-dependent color spaces to XYZ here : [Color Transforms](ColorTransforms)
+You can find various transform operations from device-dependent color spaces to XYZ here : [Color Transforms](../ColorTransforms)
 
 
 ###HSL and HSV###
@@ -264,7 +264,7 @@ Note that while "hue" in HSL and HSV refers to the same attribute, their definit
 Because **HSL and HSV are simple transformations of device-dependent RGB models**, the physical colors they define depend on the colors of the red, green, and blue primaries of the device or of the particular RGB space, and on the gamma correction used to represent the amounts of those primaries.
 Each unique RGB device therefore has unique HSL and HSV spaces to accompany it, and numerical HSL or HSV values describe a different color for each basis RGB space.
 
-Please refer to the [Color Transforms](ColorTransforms) page for useful transformations between color spaces.
+Please refer to the [Color Transforms](../ColorTransforms) page for useful transformations between color spaces.
 
 
 ###YUV###
@@ -288,7 +288,7 @@ When the gamut of source color space exceeds that of the destination, saturated 
 ###Absolute Colorimetric###
 Absolute colorimetry and relative colorimetry actually use the same table but differ in the adjustment for the white point media.
 If the output device has a much larger gamut than the source profile, i.e., all the colors in the source can be represented in the output, using the absolute colorimetry rendering intent would "ideally" (ignoring noise, precision, etc.)
-give an exact output of the specified [CIELAB](ColorSpace/#cie-lab) values.
+give an exact output of the specified [CIELAB](../ColorSpace/#cie-lab) values.
 
 Perceptually, the colors may appear incorrect, but instrument measurements of the resulting output would match the source.
 Colors outside of the proof print system's possible color are mapped to the boundary of the color gamut.
@@ -349,14 +349,14 @@ According to the Photoshop definition:
 ##Difference between Color Space and Color Profile
 
 !!! warning
-    It's fundamental not to confuse the RGB Color Spaces described earlier, with the **Color Profiles** like [sRGB](ColorProfile/#srgb) or [Adobe RGB](ColorProfile/#adobe-rgb).
+    It's fundamental not to confuse the RGB Color Spaces described earlier, with the **Color Profiles** like [sRGB](../ColorProfile/#srgb) or [Adobe RGB](../ColorProfile/#adobe-rgb).
 
-    The color profiles describe how to map a RGB value to the entire [gamut](http://en.wikipedia.org/wiki/Gamut) of [chromaticities](ColorSpace/#cie-xyy) and how to interpret the luminance (e.g. linear or gamma-corrected).
+    The color profiles describe how to map a RGB value to the entire [gamut](http://en.wikipedia.org/wiki/Gamut) of [chromaticities](../ColorSpace/#cie-xyy) and how to interpret the luminance (e.g. linear or gamma-corrected).
 
 
 ##Next
 
-Next, we will discuss of the very important notion of [Color Profiles](ColorProfile).
+Next, we will discuss of the very important notion of [Color Profiles](../ColorProfile/).
 
 ---
 

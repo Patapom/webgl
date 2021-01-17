@@ -37,7 +37,7 @@ The 90x90x180 values represent the 3 dimensions of the BRDF table, each dimensio
 As discussed earlier, since we're considering *isotropic* materials, there is no need to store values in 4 dimensions and the $\phi_h$ can be safely ignored, thus saving a lot of room!
 
 
-I wanted to speak of actual materials and especially of the [Disney BRDF Viewer](http://www.disneyanimation.com/technology/brdf.html) first because they introduce a very interesting way of viewing the data present in the MERL BRDF tables.
+I wanted to speak of actual materials and especially of the [Disney BRDF Viewer](https://github.com/wdas/brdf) first because they introduce a very interesting way of viewing the data present in the MERL BRDF tables.
 Indeed, one way of viewing a 3D MERL table is to consider a stack of 180 slices (along $\phi_d$), each slice being 90x90 (along $\theta_d$ and $\theta_h$).
 
 This is what the slices look like when we make $\phi_d$ change from 0 to 90°:
@@ -70,20 +70,20 @@ There are many (!!) available models:
 
 * [Phong](http://www.cs.northwestern.edu/~ago820/cs395/Papers/Phong_1975.pdf) (1975)
 * [Blinn-Phong](http://research.microsoft.com/apps/pubs/default.aspx?id=73852) (1977)
-* [Cook-Torrance](http://www.ann.jussieu.fr/~frey/papers/scivi/Cook%20R.L.,%20A%20reflectance%20model%20for%20computer%20graphics.pdf) (1981)
+* [Cook-Torrance](https://inst.eecs.berkeley.edu/~cs283/fa10/lectures/cookpaper.pdf) (1981)
 * [Ward](http://radsite.lbl.gov/radiance/papers/sg92/paper.html) (1992)
 * [Oren-Nayar](http://www1.cs.columbia.edu/CAVE/publications/pdfs/Oren_SIGGRAPH94.pdf) (1994)
-* [Schlick](http://www.cs.virginia.edu/~jdl/bib/appearance/analytic%20models/schlick94b.pdf) (1994)
+* [Schlick](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.2297&rep=rep1&type=pdf) (1994)
 * [Modified-Phong](http://www.cs.princeton.edu/courses/archive/fall03/cs526/papers/lafortune94.pdf) (Lafortune 1994)
 * [Lafortune](http://www.graphics.cornell.edu/pubs/1997/LFTG97.pdf) (1997)
-* [Neumann-Neumann](http://sirkan.iit.bme.hu/~szirmay/brdf6.pdf) (1999)
-* [Albedo pump-up](http://sirkan.iit.bme.hu/~szirmay/pump3.pdf) (Neumann-Neumann 1999)
-* [Ashikhmin-Shirley](http://www.cs.utah.edu/~michael/brdfs/jgtbrdf.pdf) (2000)
-* [Kelemen](http://www.hungrycat.hu/microfacet.pdf) (2001)
+* [Neumann-Neumann](http://cg.iit.bme.hu/~szirmay/brdf6.pdf) (1999)
+* [Albedo pump-up](https://cg.iit.bme.hu/~szirmay/pump3.pdf) (Neumann-Neumann 1999)
+* [Ashikhmin-Shirley](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.18.4504&rep=rep1&type=pdf) (2000)
+* [Kelemen](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.21.6585&rep=rep1&type=pdf) (2001)
 * [Halfway Vector Disk](http://graphics.stanford.edu/~boulos/papers/brdftog.pdf) (Edwards 2006)
 * [GGX](http://www.cs.cornell.edu/~srm/publications/EGSR07-btdf.pdf) (Walter 2007)
-* [BRDF](http://www.cs.utah.edu/~premoze/dbrdf Distribution-based) (Ashikmin 2007)
-* [Kurt](http://www.siggraph.org/publications/newsletter/volume-44-number-1/an-anisotropic-brdf-model-for-fitting-and-monte-carlo-rendering) (2010)
+* [BRDF](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.621.5638&rep=rep1&type=pdf Distribution-based) (Ashikmin 2007)
+* [Kurt](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.232.5253&rep=rep1&type=pdf) (2010)
 * etc.
 
 
@@ -170,7 +170,7 @@ We immediately notice that:
 * Finally, we can notice (actually, I didn't notice that at all, I read it in one of the lectures :smile:) that smooth materials generally have a Fresnel reflectance $F_0 < 0.5$ while rough materials have a $F_0 > 0.5$.
 
 
-The expressions for the [Fresnel reflectance](http://en.wikipedia.org/wiki/Fresnel_equations#Definitions_and_power_equations) are quite complicated and deal with complex numbers to account for light polarity, but thanks to a simplification by [Schlick](http://www.cs.virginia.edu/~jdl/bib/appearance/analytic%20models/schlick94b.pdf) (in the same paper where he described his BRDF model!), it can be written:
+The expressions for the [Fresnel reflectance](http://en.wikipedia.org/wiki/Fresnel_equations#Definitions_and_power_equations) are quite complicated and deal with complex numbers to account for light polarity, but thanks to a simplification by [Schlick](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.2297&rep=rep1&type=pdf) (in the same paper where he described his BRDF model!), it can be written:
 
 $$
 F(\theta_d) = F_0 + (1 - F_0) (1 - \cos \theta_d)^5~~~~~~~~~\mbox{(5)}
@@ -308,7 +308,7 @@ So we would need to actually shoot several rays to account for complex materials
 
 ## Next
 
-In the [next section](BRDF Study), we will discuss about a (failed) attempt at modeling all the slices of the MERL Database from a single characteristic slice.
+In the [next section](..\BRDF Study), we will discuss about a (failed) attempt at modeling all the slices of the MERL Database from a single characteristic slice.
 
 
 ##References##
@@ -317,5 +317,5 @@ In the [next section](BRDF Study), we will discuss about a (failed) attempt at m
 
 [^2]: ["Reflection from Layered Surfaces due to Subsurface Scattering"](http://www.irisa.fr/prive/kadi/Lopez/p165-hanrahan.pdf) Hanrahan and Krueger (1993)
 
-[^3]: ["GPU-Based Importance Sampling"](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch20.html) Colbert et al. GPU Gems 3 (2007)
+[^3]: ["GPU-Based Importance Sampling"](https://developer.nvidia.com/gpugems/gpugems3/part-iii-rendering/chapter-20-gpu-based-importance-sampling) Colbert et al. GPU Gems 3 (2007)
 

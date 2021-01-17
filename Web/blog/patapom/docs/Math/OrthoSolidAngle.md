@@ -146,7 +146,7 @@ Say you have the normalized expression of a Normal Distribution Function D(x,y) 
 ![File:Fabric_weave_NDF_normalized.png|300px](../images/OrthoSolidAngle/Fabric_weave_NDF_normalized.png)
 
 
-And you want to compute the shadowing/masking term as given by [https://hal.inria.fr/hal-01168516v2/document Dupuy et al](https://hal.inria.fr/hal-01168516v2/document Dupuy et al) eq. 3:
+And you want to compute the shadowing/masking term as given by Dupuy et al in ["Extracting Microfacet-based BRDF Parameters from Arbitrary Materials with Power Iterations"](https://www.semanticscholar.org/paper/Extracting-Microfacet%E2%80%90based-BRDF-Parameters-from-Dupuy-Heitz/d82ed38d9085c3d8b3d9fff6dd21c72355e2d70c) eq. 3:
 
 $G(\mathbf{k}) = \frac{cos \theta_k}{\int_{\Omega_+}{\mathbf{k}\mathbf{h} \, D(\mathbf{h}}) \, d\omega_h}$
 

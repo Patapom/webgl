@@ -47,8 +47,8 @@ Each pixel represents a bin for a directional vector with spherical coordinates 
 
 ### Lobe Model
 
-I went on and implemented several micro-facet lobe models, a model being the [NDF](BRDF%20Models/#specularity) and [masking/shadowing](BRDF%20Models/#shadowing-masking) terms.
-The [Fresnel](BRDF%20Models/#fresnel) term is the same one for all the models.
+I went on and implemented several micro-facet lobe models, a model being the [NDF](../BRDF%20Models/#specularity) and [masking/shadowing](../BRDF%20Models/#shadowing-masking) terms.
+The [Fresnel](../BRDF%20Models/#fresnel) term is the same one for all the models.
 
 * Beckmann Model, that follows the classical [Beckmann distribution](https://en.wikipedia.org/wiki/Specular_highlight#Beckmann_distribution)
 
@@ -326,7 +326,7 @@ The new code is used like this:
 
 ```
 
-The ```ContrastShadow()``` should either return "shadow" in the basic case, or you can use the one I describe in the article about [Colored Shadows](../ColoredShadows/#implementation) to give it a little coloring! :smile:
+The ```ContrastShadow()``` should either return "shadow" in the basic case, or you can use the one I describe in the article about [Colored Shadows](../../Lighting/Colored%20Penumbra/ColoredShadows/#implementation) to give it a little coloring! :smile:
 
 
 #### Result
@@ -348,13 +348,13 @@ Regarding this lobe fitting business, you may understandably question the comple
 Unfortunately, I never had the time to finish this project due to the time constraint of working on the production of *Dishonored 2* but I would have loved to continue experimenting, especially re-using Heitz's results instead of casting millions of rays,
  and fitting better lobe models or even find a much simpler way to add back the energy lost by single-scattering models.
 
-Of course, people didn't stop investigate like I did, especially in large companies like Disney, Dreamworks, Weta or ImageWorks. And what had to happen did [happen](MSBRDFEnergyCompensation)...
+Of course, people didn't stop investigate like I did, especially in large companies like Disney, Dreamworks, Weta or ImageWorks. And what had to happen did [happen](../MSBRDFEnergyCompensation)...
 
 
 
 ## References
 
-[^1]: Heitz, E. Hanika, J. d'Eon, E. Dachsbacher, C. 2015 ["Multiple-Scattering Microfacet BSDFs with the Smith Model"]()
+[^1]: Heitz, E. Hanika, J. d'Eon, E. Dachsbacher, C. 2015 ["Multiple-Scattering Microfacet BSDFs with the Smith Model"](https://eheitzresearch.wordpress.com/240-2/)
 [^2]: Walter, B. Marschner, S. R. Li, H. Torrance, K. E. 2007 ["Microfacet Models for Refraction through Rough Surfaces"](http://www.cs.cornell.edu/~srm/publications/EGSR07-btdf.pdf)
 [^3]: Heitz, E. 2015 ["Generating Procedural Beckmann Surfaces"](https://drive.google.com/file/d/0BzvWIdpUpRx_U1NOUjlINmljQzg/view)
 
