@@ -47,6 +47,10 @@ pages:
 #        - Notes: Notes.md
 #    - Useful Stuff: help.md
 
+    - Artificial Intelligence:
+        - Portal: AIPortal.md
+        - Connexionnisme: AI/Connexionnisme.md
+
 
 theme:
   name: 'material'
