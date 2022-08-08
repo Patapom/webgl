@@ -27,7 +27,7 @@ In color science, there are two meanings of the term absolute color space:
 
 In this section, we concentrate on the second definition.
 
-[CIEXYZ](../ColorSpace/#cie-xyz) and [sRGB](../ColorProfile/#srgb) are examples of absolute color spaces, as opposed to a generic RGB color space.
+[CIEXYZ](../ColorSpace/#cie-xyz) and [xyY](../ColorSpace/#cie-xyy) are examples of absolute color spaces, as opposed to a generic RGB color space.
 
 A non-absolute color space can be made absolute by defining its relationship to absolute colorimetric quantities.
 For instance, if the red, green, and blue colors in a monitor are measured exactly, together with other properties of the monitor, then RGB values on that monitor can be considered as absolute.
