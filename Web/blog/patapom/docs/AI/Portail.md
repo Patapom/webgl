@@ -6,7 +6,7 @@ Mon approche de l'IA est hybride: à la fois curieux des progrès en Machine Lea
  
 ## Critiques du ML
 
-Ma principale critique vis-à-vis du ML et des réseaux de neurones artificiels est, pour l'instant, leur extrême rigidité: [l'architecture du réseau est toujours figée](ArchitectureFigée), généralement designée par un humain qui
+Ma principale critique vis-à-vis du ML et des réseaux de neurones artificiels est, pour l'instant, leur extrême rigidité: [l'architecture du réseau est toujours figée](../ArchitectureFigée), généralement designée par un humain qui
  va ensuite lancer l'optimisation du modèle afin de maximiser/minimiser une fonction d'objectif en le nourrissant de milliers, de millions voire de milliards de données (le dataset).
 Chaque fois qu'on va vouloir modifier la structure du réseau, il va falloir lui faire réapprendre tout depuis le début.
 Parfois on peut prendre un modèle entraîné et l'adapter à un nouveau dataset (fine tuning), en gros on part d'un point d'équilibre dans un optimum local (ou global!) pour reprendre l'entraînement sur un nouvel
@@ -49,7 +49,7 @@ Même quand un mot est polysémantique, ou quand on rencontre des homonymes, je 
 
 Il est très probable que de nombreuses espèces animales évoluées savent maîtriser les symboles et réfléchissent de manière symbolique pour représenter les choses auxquelles elles sont confrontées au quotidien:
  nourriture, proie, prédateur, troupeau, le temps qu'il fait, de vagues notions de distance et de quantité, etc. mais seuls les humains, à notre connaissance,
- ont appris à se baser sur ces symboles afin de [construire des concepts plus complexes](GroupementConcepts) et surtout, ont accolé un langage pour exprimer ces concepts, ainsi qu'une langue pour communiquer
+ ont appris à se baser sur ces symboles afin de [construire des concepts plus complexes](../GroupementConcepts) et surtout, ont accolé un langage pour exprimer ces concepts, ainsi qu'une langue pour communiquer
  ces concepts avec leurs congénères.
 
 ### Le langage comme outil pour articuler les symboles et les concepts

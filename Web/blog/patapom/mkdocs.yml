@@ -48,8 +48,10 @@ pages:
 #    - Useful Stuff: help.md
 
     - Artificial Intelligence:
-        - Portal: AIPortal.md
+        - Portal: AI/Portail.md
         - Connexionnisme: AI/Connexionnisme.md
+        - Le groupement de concepts: AI/GroupementConcepts.md
+        - Le problème d'une architecture figée: AI/ArchitectureFigée.md
 
 
 theme:
