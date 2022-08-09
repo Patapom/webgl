@@ -1,7 +1,67 @@
-﻿# Titre
+﻿# Introduction
 
+Je vais écrire toute cette section en français car *1)* j'ai besoin de renouer avec cette langue et *2)* il est impératif que je sois le plus clair possible, ce que je ne peux faire que dans ma langue natale.
+(Et aussi *3)*, je suis à peu près persuadé que le français est une langue bien plus intéressante et précise pour entraîner un apprentissage sémantique, même si on part avec un handicap puisque les datasets existants sont souvent en anglais)
+
+A l'heure où j'écris ces lignes, j'ai totalement perdu l'habitude d'écrire en français et je suis dans un état d'épuisement mental assez conséquent dû aux suites d'un burn out sévère en 2016 dont je ne me suis jamais totalement remis,
+ le tout doublé d'une privation de sommeil et d'un accaparement constant d'attention et d'énergie apparemment assez typiques de la condition de papa d'un jeune enfant! :sweat_smile:
+
+## Intelligence Artificielle
+
+On va donc parler d'intelligence artificielle (IA) mais pas seulement !
 Mon approche de l'IA est hybride: à la fois curieux des progrès en Machine Learning (ML) de ces dernières années grâce au deep learning tout en restant très critique vis-à-vis de cette technique;
- je continue de m'intéresser de près à tout ce qui touche aux neurosciences, à la psychologie et à la philosophie.
+ je continue de m'intéresser de près à tout ce qui touche aux *neurosciences*, à la *psychologie* et à la *philosophie*.
+
+Dans cette section de blog, on va discuter de mon approche sur le sujet qui transparaîtra, je l'espère, à travers diverses notes.
+
+### Pas besoin d'intelligence
+
+Déjà, contrairement à la majorité des gens dans le domaine de l'IA, je ne m'intéresse pas du tout à l'aspect *intelligence* lui-même: mon but est essentiellement de constituer une base de données sémantique capable de "raisonner"
+ de manière probabiliste (approche bayésienne) en choisissant les options les plus probables, ce qu'on fera en se basant à la fois sur les nombreux exemples collectés (à la manière de l'approche ML actuelle)
+ et à la fois sur un **sens commun** qu'on aura miraculeusement réussi à faire "apprendre" à notre database (DB).
+
+Je veux que cette database soit capable d'extraire la sémantique des textes, audios et vidéos qu'on lui aura fait ingurgiter, de manière à :
+
+1. être capable de synthétiser l'essence sémantique des documents, et
+2. répondre à des queries en exploitant les relations sémantiques entre les documents.
+
+En gros, je veux faire un moteur de recherche entièrement sémantique, mais il n'y a aucune notion "d'**agency**" là-dedans.</br>
+Il est, à mon avis, non essentiel de développer une agency ou un moteur de raisonnement pour créer une mémoire sémantique: un algorithme relativement simple de groupement et d'optimisation des **concepts** entre eux
+ devrait suffire.
+
+### Une note concernant l'agency
+
+Pour moi, l'agency est quelque chose d'accessoire et pas du tout fondamental. J'ai d'ailleurs du mal à voir un intérêt à donner une quelconque volonté à mon système (même si j'ai quelques idées sur la façon de procéder).
+De même, j'ai très peu d'intérêt pour les questions de raisonnement logiques tels que l'induction, la déduction ou l'analogie.
+
+Beaucoup de chercheurs partent de l'hypothèse que c'est la clé de l'intelligence, c'est probablement
+  en partie vrai mais sans mémoire au préalable, aucun raisonnement logique n'est valable/possible. Encore une fois, c'est quelque chose qu'on pourra envisager par la suite mais ça n'est pas du tout ma priorité.
+
+
+## Plan d'ensemble
+
+On va donc détailler les points suivants :
+
+* Approche connexionniste
+	* Les inconvénients d'une structure fixe (ML classique + incapacité d'apprendre)
+	* Le besoin d'une structure "molle" et plastique
+* La mémoire définit l'être
+	* Pourquoi il faut commencer par cerner comment créer la mémoire avant tout autre chose!
+	* Les implications sur la possibilité "d'uploader sa conscience dans la machine"
+* Les concepts comme clé de voute de la mémoire et de la connaissance
+	* Les concepts "statiques" (noms)
+	* L'articulation des concepts "dynamiques" (verbes)
+	* L'apprentissage de nouveaux concepts (grouping / optimizing)
+* La notion de "sens commun"
+	* Le besoin d'embodied cognition afin d'expérimenter pleinement le sens commun lié aux phénomènes physiques
+* Réflexions sur la conscience
+* Une simple database sans volonté
+	* Pas de soucis moraux ou éthiques
+* La curiosité comme moteur de la volonté
+	* Notamment la poursuite de la collecte d'information
+	* La différence entre information et données
+	* Une règle simple pour réglementer les agents et résoudre le scénarios catastrophe du fabricateur de trombones (au diable Asimov et ses lois ambigues!)
+
 
  
 ## Critiques du ML
@@ -22,9 +82,10 @@ Je ne crois pas non plus à l'émergence de la conscience ou de la "sentience" s
  même si certains commencent à sérieusement se poser la question au vu des derniers progrès des Large Language Models (LLM) comme GPT-3 ou Lambda.
 Mon opinion sur le sujet est simplement que ces modèles sont entraînés sur de gigantesques corpus de texte mettant en scène des interactions entre humains, dans des situations réelles et crédibles,
  il en ressort évidemment **forcément** des choses qui peuvent amener à penser qu'on a affaire à une vraie personne, dans une situation réelle et crédble.
- Pourtant, il ne s'agit ni plus ni moins ici qu'une illusion de personnalité:
- la machine recrée simplement une conversation plausible, dans laquelle on retrouve néanmoins des indices qu'il s'agit là d'une simulation; c'est le cas par exemple quand la machine répond
- sans sourciller qu'elle prend beaucoup de plaisir quand elle est entourée de ses amis et de sa famille. Elle joue la comédie. Elle fait semblant d'être un humain, et c'est déjà très convaincant!
+
+Pourtant, il ne s'agit ni plus ni moins ici qu'une illusion de personnalité:
+ la machine recrée simplement une conversation plausible, dans laquelle on trouve généralement des indices du fait qu'il s'agit là uniquement d'une simulation; c'est le cas par exemple quand la machine répond
+ sans sourciller qu'elle prend beaucoup de plaisir quand elle est entourée de ses amis et de sa famille :expressionless:. Elle joue la comédie et endosse le rôle d'un être un humain! Et c'est apparemment très convaincant!
 
 On notera que ce genre de "tromperie" a déjà été employée par le passé pour faire passer le Turing test à plusieurs chat bots, notamment celui qui simulait le fait d'être un gamin de 13 ans pour excuser
  le fait qu'il répondait souvent n'importe quoi aux questions qu'on lui posait... (??? source)
@@ -57,7 +118,7 @@ Il est très probable que de nombreuses espèces animales évoluées savent maî
 J'aimerais faire la distinction entre le langage signifiant et la langue parlée: le langage donne des règles pour articuler les concepts entre eux, il est (probablement) universel dans sa construction, tandis que la langue
  est une façon bien particulière d'exprimer le langage, elle possède son vocabulaire et ses règles propres qui changent d'une peuplade ou d'une région à l'autre.
 
-Un exemple d'utilisation du langage universel:
+Un exemple d'utilisation du langage sémantique universel:
 
 	<un homme> <fait une action> <sur un objet>
 
