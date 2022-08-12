@@ -28,7 +28,7 @@ La preuve de ce que j'avance est simple: il n'existe pas **un seul sens** associ
 ## 300 dimensions? C'est tout?
 
 Tout ce que Word2Vec peut tenter de faire c'est de créer des "îlots" de sens sur une sphère à 300 dimensions, mais si par exemple "king" appartient à un îlot "man", ce qui lui confère la propriété
- d'être un homme (comme dans l'exemple), il ne peut pas à la fois appartenir à l'îlot "souverain", à l'îlot "responsable politique", à l'îlot "personne de pouvoir" et, rions un peu, à l'îlot "barbu" :D.
+ d'être un homme (comme dans l'exemple), il ne peut pas à la fois appartenir à l'îlot "souverain", à l'îlot "responsable politique", à l'îlot "personne de pouvoir" et, rions un peu, à l'îlot "barbu" :smile:.
 
 Ou alors ça impliquerait que tous les responsables politiques, les personnes de pouvoir, les souverains et les barbus sont forcément des hommes! (bon, pour les barbus c'est souvent le cas)
 Et inversement, si "queen" se rapproche des mêmes îlots "souverain", "responsable politique" et "barbu", alors "queen"  se rapproche également nécessairement de "man" et de "king",
