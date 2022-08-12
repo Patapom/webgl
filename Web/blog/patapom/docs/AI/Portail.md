@@ -48,13 +48,14 @@ Un algorithme relativement simple de [groupement et d'optimisation des **concept
 
 On va donc détailler les points suivants :
 
-* Approche connexionniste
+* [Le fondement dans le réel](../FondementRéel)
+* [Approche connexionniste](../Connexionnisme)
 	* [Les inconvénients d'une structure fixe](../ArchitectureFixe)
 	* Le besoin d'une structure "molle" et plastique
 	* Vers une informatique tolérante à l'erreur
 * La mémoire définit l'être
-	* Pourquoi il faut commencer par cerner comment créer la mémoire avant tout autre chose!
-	* Les implications sur la possibilité "d'uploader sa conscience dans la machine"
+	* Pourquoi il faut commencer par cerner comment créer la mémoire avant tout autre chose !
+	* [Les implications sur la possibilité "d'uploader sa conscience dans la machine"](../UploadConscience)
 * Les concepts comme clé de voute de la mémoire et de la connaissance
 	* Les concepts "statiques" (noms)
 	* L'articulation des concepts "dynamiques" (verbes)
