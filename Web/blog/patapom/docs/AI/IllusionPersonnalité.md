@@ -6,7 +6,7 @@ Récemment (printemps 2022), on a vu fleurir quelques articles de presse concern
 Je ne crois pas du tout à l'émergence de la conscience ou de la "sentience" simplement en continuant d'augmenter le nombre de paramètres des modèles de neural networks actuels,
  même si certaines personnes commencent à sérieusement se poser la question au vu des derniers progrès des Large Language Models (LLM) comme GPT-3 ou Lambda.
 Mon opinion sur le sujet est simplement que ces modèles sont entraînés sur de gigantesques corpus de texte mettant en scène des interactions entre humains, dans des situations réelles et crédibles,
- il en ressort évidemment **forcément** des choses qui peuvent amener à penser qu'on a affaire à une vraie personne, dans une situation réelle et crédble.
+ il en ressort évidemment **forcément** des choses qui peuvent amener à penser qu'on a affaire à une vraie personne, dans une situation réelle et crédible.
 
 ## La comédie humaine
 
@@ -19,10 +19,12 @@ Elle joue la comédie ! Elle endosse le rôle d'un être un humain et c'est appa
 On notera que ce genre de "tromperie" a déjà été employée par le passé pour faire passer le [Turing Test](https://en.wikipedia.org/wiki/Turing_test) à plusieurs chat bots,
  notamment [celui qui s'est fait passer pour un gamin de 13 ans](https://www.theguardian.com/technology/2014/jun/08/super-computer-simulates-13-year-old-boy-passes-turing-test) afin d'excuser le fait qu'il répondait souvent n'importe quoi aux questions qu'on lui posait...
 
-On reconnaît donc là un jeu d'acteur, un peu à la manière dont les psychopathes simulent les émotions humaines afin de se faire passer (souvent avec succès) pour d'authentiques êtres humains animés de sentiments.
+On reconnaît donc là un jeu d'acteur, un peu à la manière dont les psychopathes simulent les émotions humaines afin de se faire passer (souvent avec succès) pour des humains animés d'authentiques sentiments.
 
 > :bulb: On notera toutefois un intérêt à cette anecdote LaMDA : il n'y a, a priori, *pas besoin de conscience* pour donner l'illusion de conscience !<br>
-> C'est effectivement très étonnant que nous soyions trompés si aisément par des procédés aussi grossiers que le mensonge et le trucage ! (ça explique probablement pourquoi les politiciens s'en sortent aussi facilement ?)
+> C'est effectivement très étonnant que nous soyions trompés si aisément par des procédés aussi grossiers que le mensonge et le trucage ! (ça explique probablement pourquoi les politiciens s'en sortent aussi facilement ?)<br>
+> Une sorte de [paréidolie](https://fr.wikipedia.org/wiki/Par%C3%A9idolie) linguistique qui nous ferait voir des humains à n'importe quel prix ?
+> ![Paréidolie](https://www.grapheine.com/wp-content/uploads/2015/04/4681816734_615888029b_b-e1595852101918.jpg)
 
 
 ## Émergence à partir de règles simples
@@ -54,9 +56,11 @@ On s'aperçoit aisément que ces language models sont incapables de raisonnement
 Et c'est _normal_ ! Car tous ces concepts (comptage, relations, sentiments) sont implémentés par des *processus* totalement différents de la simple mémorisation statistique à la base de ces language models.
 
 Il est assez clair que le cerveau utilise ses réseaux de neurones pour implémenter de nombreux algorithmes qui peuvent changer et se reconfigurer à volonté,
- c'est d'ailleurs fascinant de réaliser que le cerveau est à la fois une mémoire, un processeur de données et son propre programmeur qui ré-écrit ses processeurs !
+ c'est d'ailleurs fascinant de réaliser que le cerveau est à la fois une mémoire, un processeur de données et son propre programmeur qui ré-écrit ses processeurs et les pilote pour les agencer en des séquences
+ découlant elle-mêmes d'un apprentisage antérieur !
 
-     programmeur inconscient (recâblage auto du network, plasticité) **ET** conscient (on choisit de réfléchir à qqchose et résoudre un problème en monopolisant des processus particuliers, i.e. raisonnement & réflexion)!
+
+???:warning: TODO: programmeur inconscient (recâblage auto du network, plasticité) **ET** conscient (on choisit de réfléchir à qqchose et résoudre un problème en monopolisant des processus particuliers, i.e. raisonnement & réflexion)!
 
 
 Il est donc indispensable d'effectuer un changement de paradigme radical sur notre façon d'architecturer les réseaux de neurones artificiels !

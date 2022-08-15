@@ -47,11 +47,7 @@ pages:
 #        - Notes: Notes.md
 #    - Useful Stuff: help.md
 
-    - Artificial Intelligence:
-        - Portal: AI/Portail.md
-        - Connexionnisme: AI/Connexionnisme.md
-        - Le groupement de concepts: AI/GroupementConcepts.md
-        - Le problème d'une architecture figée: AI/ArchitectureFigée.md
+    - Artificial Intelligence: AI/Portail.md
 
 
 theme:
