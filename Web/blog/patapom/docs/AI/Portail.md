@@ -56,7 +56,7 @@ On va donc détailler les points suivants :
 * [Le fondement dans le réel et le bon niveau d'introspection](../FondementRéel)
 
 * [Approche connexionniste](../Connexionnisme)
-	* [Les inconvénients d'une structure fixe](../ArchitectureFixe)
+	* [Les inconvénients des réseaux de neurones artificiels actuels](../InconvénientsANNs)
 	* Le besoin d'une structure "molle" et plastique
 	* Vers une informatique tolérante à l'erreur
 
@@ -72,7 +72,7 @@ On va donc détailler les points suivants :
 
 * La notion de "sens commun"
 	* [Le besoin d'embodied cognition afin d'expérimenter pleinement le sens commun lié aux phénomènes physiques](../EmbodiedCognition)
-	* Les limites de l'embodied cognition: où s'arrête-t-on?
+	* Les limites de l'embodied cognition : où s'arrête-t-on? Faut-il tout implémenter ? :scream:
 	* La nécessité d'imperfection (pas besoin d'aller jusqu'à Planck!)
 	* A-t-on besoin de causalité?
 
@@ -84,6 +84,19 @@ On va donc détailler les points suivants :
 
 * La curiosité comme moteur de la volonté
 	* Notamment la poursuite de la collecte d'information
-	* La différence entre information et données
+	* La différence entre information et données		https://pbs.twimg.com/media/FaNqk_naQAArhHp?format=jpg&name=small
 	* Une règle simple pour réglementer les agents et résoudre le scénarios catastrophe du fabricateur de trombones (au diable Asimov et ses lois ambigues!)
 
+
+
+## @@@TODO@@@
+
+>:bulb: **TODO**
+> 
+> Concepts difficiles: Compter, notion de temps, 
+>
+> Focus vision => disentangle foreground/backgorund avec lo/hi freq. filters
+>
+> Myélination = fine tuning pour des mémoires procédurales ? (ex. des prouesses athlétiques qui demandent un degré de coordination extrêmement élevé ?)
+>	Cf. lien de Yohan John qui confirme mon hypothèse
+>

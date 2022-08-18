@@ -5,18 +5,18 @@ Encore un reproche qu'on peut faire au ML et au deep learning en particulier : u
 
 A chaque nouvelle étape, à chaque nouvel outil, on constate des mathématiques de plus en plus poussées pour que la gradient descent soit plus efficace, ou que la fonction d'objectif soit plus contrastée, ou je ne sais quoi d'autre encore.
 
-Pourtant, jamais on ne change l'algorithme de base (backpropagation), ni l'architecture de base (des neurones connectés de manière rigide), et ce sont bien les seules choses qui sont **grounded** dans la réalité :
+Pourtant, jamais on ne change l'architecture de base &mdash; c-à-d des neurones connectés de manière rigide &mdash; mais ce sont bien les seules choses qui sont **grounded** dans la réalité :
  après tout, on est partis d'un modèle de neurone biologique pour créer le [Perceptron](https://en.wikipedia.org/wiki/Perceptron) implémenté pour la première fois en 1958, et depuis... plus rien !
 
-J'exagère sans doute (comme souvent), je ne suis pas courant de toutes les recherches menées dans le domaine, mais d'une bonne partie tout de même. Et je dois bien avouer que si l'on commence timidement à renouer avec
- les neurosciences, l'approche symbolique, voire parfois avec la psychologie et même la philosophie, on reste malgré tout dans le domaine de l'abstrait mathématique.<br>
+J'exagère sans doute (comme souvent), je ne suis pas au courant de toutes les recherches menées dans le domaine, mais d'une bonne partie tout de même. Et je dois bien avouer que si l'on commence timidement à renouer avec
+ les neurosciences, l'approche symbolique, voire parfois avec la psychologie et même la philosophie, on reste malgré tout dans l'abstrait mathématique.<br>
  Les milliers de publications annuelles dans ce domaine qui désormais nourrit des milliers d'appétits de chercheurs à travers le monde, se suivent et se ressemblent un peu toutes... :confused:
 
 
 ## Principe Axiomatique de Réalisation
 
-Il me semble qu'on perd souvent de vue que la plupart des algorithmes effectués par ces jolis papiers &mdash; si l'on voulait se rapprocher réellement d'une IA &mdash; devraient pouvoir être **implémentés**
- par les mécanismes biologiques présents dans le cerveau ! En tout temps, et quelle que soit la condition !
+Il me semble qu'on perd souvent de vue que la plupart des algorithmes décrits par ces papiers **doivent pouvoir être implémentés** par les mécanismes biologiques présents dans le cerveau !
+En tout temps, et quelle que soit la condition !
 
 Donc quand on écrit un papier qui introduit la [distance de Wasserstein](https://fr.wikipedia.org/wiki/Distance_de_Wasserstein) pour réaliser un transport optimal de la distribution vers l'espace latent décorélé
  (je raconte n'importe quoi, ça se voit?), est-ce qu'on se rend compte à un moment que le cerveau ne fait probablement pas un truc pareil aux niveaux micro- ou mésoscopique où ces réseaux de neurones artificiels sont
@@ -25,7 +25,7 @@ Donc quand on écrit un papier qui introduit la [distance de Wasserstein](https:
 
 ## Le bon niveau d'étude
 
-Je distingue plusieurs niveaux et plusieurs types "d'*algorithmes*", que je classe du plus bas au plus haut :
+Je distingue plusieurs niveaux et plusieurs types "d'*algorithmes*" :
 
 1. Le niveau microscopique, où opèrent les réactions chimiques comme l'échange d'ions potassium au niveau des synapses.
 
@@ -33,11 +33,11 @@ Je distingue plusieurs niveaux et plusieurs types "d'*algorithmes*", que je clas
 
 3. Le niveau des assemblages de neurones et de l'organisation du réseau en un [connectome](https://en.wikipedia.org/wiki/Connectome) utilisé comme une mémoire associative de concepts statiques, d'actions, de relations, de situations, d'événements, etc.
 
-4. Le niveau des mécanismes encore mystérieux à mes yeux où l'optimisation neuronale se produit et où les neurones se reconfigurent (neuroplasticité) pour obéir à différentes critères : économie d'énergie, apprentissage, optimisation du traitement l'information, etc.
+4. Le niveau des mécanismes encore mystérieux à mes yeux où se situe l'optimisation neuronale et où les neurones se reconfigurent (neuroplasticité) pour obéir à différentes critères : économie d'énergie, apprentissage, optimisation du traitement l'information, etc.
 
 5. Le niveau du raisonnement où l'on va "piloter" plus ou moins consciemment et séquentiellement les algorithmes que notre cerveau a appris pour faire des opérations complexes (compter, lire une carte, résoudre une problème, etc.).
 
-6. Le niveau de la décision et de la conscience qui va décider de mobiliser tel ou tel algorithme en fonction de l'environnement et des besoins
+6. Le niveau de la décision et de la "conscience" qui va décider de mobiliser tel ou tel algorithme en fonction de l'environnement et des besoins.
 
 
 Les niveaux 1 et 2 sont clairement au niveau **microscopique**, les niveaux 3 et 4 peuvent être qualifiés de **mésoscopiques** tandis que les niveaux 5 et 6 seront les niveaux **macroscopiques**.
@@ -101,7 +101,7 @@ Il est légitime de s'interroger sur la nature des mécanismes basiques que le c
 	* Par exemple, apprendre à lire demande d'exécuter toute une séquence d'actions qui vont de la reconnaissance de lettres individuelles au groupement en syllabes,
 		suivi d'une reconnaissance de certaines règles phonétiques ("gn" = ñ) et finalement la reconnaissance du mot lui-même.
 
->!!! Non! Trop haut niveau!	* Une opération de calcul mental demande d'effectuer toute une suite de tâches où il faudra peut-être se rappeler d'une retenue, ou d'un nombre calculé précédemment et qu'il
+>!!! Non! Trop haut niveau! &rarr; Une opération de calcul mental demande d'effectuer toute une suite de tâches où il faudra peut-être se rappeler d'une retenue, ou d'un nombre calculé précédemment et qu'il
 		faudra retrancher plus tard, etc.
 
 
@@ -114,6 +114,7 @@ Les neurones individuels (ou en tout petits groupes) vont probablement pouvoir :
 * Faire des "sommes" (i.e. se compter)
 * Faire des comparaisons de seuil en terme de fréquence ou d'intensité d'activation (c'est surtout la définition de ces seuils qui va importer)
 * Faire et défaire des liens entre neurones à "volonté"
+* Minimisation de l'énergie d'un cluster/système de neurones (???)
 
 #### Ca va permettre de réaliser de petits circuits simples :
 
@@ -133,14 +134,3 @@ Les neurones individuels (ou en tout petits groupes) vont probablement pouvoir :
 * Les opérations arithmétiques de base : multiplications, additions, etc.
 * Les loss functions trop compliquées : entropy, cross entropy, etc.
 
-
-
->:bulb: **TODO**
-> 
-> Concepts difficiles: Compter, notion de temps, 
->
-> Focus vision => disentangle foreground/backgorund avec lo/hi freq. filters
->
-> Empirisme Hume
->
-> Myélination = fine tuning pour des mémoires procédurales ? (ex. des prouesses athlétiques qui demandent un degré de coordination extrêmement élevé ?)
