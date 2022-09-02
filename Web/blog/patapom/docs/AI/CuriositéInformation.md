@@ -3,6 +3,8 @@
 
 
 
+> Parler de la sensation de plaisir qui émane de la compréhension d'un nouveau concept => Sentiment de grandir
+
 [^2]:
 
 

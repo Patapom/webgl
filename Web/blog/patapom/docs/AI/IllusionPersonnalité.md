@@ -66,6 +66,11 @@ Il est assez clair que le cerveau utilise ses réseaux de neurones pour impléme
 Il est donc indispensable d'effectuer un changement de paradigme radical sur notre façon d'architecturer les réseaux de neurones artificiels !
 
 
+**TODO: 
+https://www.noemamag.com/the-model-is-the-message/
+
+
 [^1]: https://www.theguardian.com/technology/2022/jul/23/google-fires-software-engineer-who-claims-ai-chatbot-is-sentient
 [^2]: https://www.youtube.com/watch?v=iBouACLc-hw
 [^3]: https://www.epfl.ch/research/domains/bluebrain/
+

@@ -32,3 +32,12 @@ Peu importe la façon dont on encode &lt;un homme&gt;, l'&lt;action&gt; ou l'&lt
  l'autre des termes de cette phrase (par manque de vocabulaire, ou même manque du concept), il est toujours possible de décrire l'homme, l'action qui est faite et l'objet en présence.
 Au pire en employant une longue et difficile périphrase.
 
+
+
+
+LeCun est pas d'accord:'
+https://www.noemamag.com/ai-and-the-limits-of-language/
+
+C'dest plus pou rdéfoncer les LLMs et dire que le langage est confus et limité et low bandwidth et que les primates/corvidés/pieuvres n'en ont pas mais sont quand même intelligents, mais il réfute pas mon idée du tout conceptuel.
+Le langage est juste une façon de communiquer notre capacité à former des concepts, et les animaux sus-cités ont également cette capacité c'est tout. Pas besoin de langage, le langage est juste un *révélateur* de cette capacité conceptuelle.
+

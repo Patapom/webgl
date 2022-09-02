@@ -16,7 +16,7 @@ Cela reste malgré tout un processus extrêmement lourd, qui consomme énorméme
  
 ### Incapacité à généraliser
 
-Les tâches réalisées par ces réseaux de neurones sont généralement très spécifiques, on parle de *narrow AI*, littéralement un IA étroite, qui ne sait traîter que ce pourquoi elle a été conçue et est incapable de généraliser
+Les tâches réalisées par ces réseaux de neurones sont souvent très spécifiques, on parle de *narrow AI*, littéralement un IA étroite, qui ne sait traîter que ce pourquoi elle a été conçue et est incapable de généraliser
  ou de sortir de l'espace restreint des données qu'elle a pu consulter (c'est-à-dire le dataset sur lequel elle a été entraînée).
 
 En gros, ces IA sont faites pour interpoler de nouveaux cas qui ne s'écartent pas trop des cas généraux mais se trompent dès qu'il s'agit de sortir de la distribution (*Out Of Distribution*).
@@ -70,7 +70,13 @@ Récemment, des progrès semblent être faits [^2] du côté de l'assemblage de 
 ![Blah](https://deoxyribose.github.io/images/handwrittencharacterprobabilisticprogram.png)
 
 
-## Natural Language Processing, mais sans sémantique
+## @@@TODO Cas particuliers
+
+Lien sur le thread et la long-tailed distribution
+https://twitter.com/filippie509/status/1559583211612622848
+
+
+## @@@TODO Natural Language Processing, mais sans sémantique
 
 Lien sur Word2Vec problème
 

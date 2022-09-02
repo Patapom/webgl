@@ -100,3 +100,18 @@ On va donc détailler les points suivants :
 > Myélination = fine tuning pour des mémoires procédurales ? (ex. des prouesses athlétiques qui demandent un degré de coordination extrêmement élevé ?)
 >	Cf. lien de Yohan John qui confirme mon hypothèse
 >
+> Emergence Macroscopique de phénomènes macroscopiques => langage (macro) = groupement (méso) & plaisir de la nouveauté chez Barnapou (macro) = curiosity drive (méso)
+>
+> Chaque souvenir a le "goût" de la perfection => exemple du gamin qui a l'impression de faire la roue parfaite, ou le sentiment de savoir parfaitement un air de musique => same goes for consciousness
+>
+> "Venir sur moi" => Modélisé par l'action complète de venir sur sa mère... Aucune notion de la construction de l'expression
+>
+> Découverte de nouvelles qualités (grandeur, éloignement, douceur/dureté, chaud/froid) ==> immédiatement appliquées à l'ensemble de tous les objets de l'environnement
+>
+> Voice models: https://holly.mirror.xyz/54ds2IiOnvthjGFkokFCoaI4EabytH9xjAYy1irHy94
+> https://holly.plus/
+>
+> Hofstadter cité dans cet article : https://www.noemamag.com/the-mind-is-more-than-a-machine/
+> “via a kind of vortex whereby patterns in a brain mirror the brain’s mirroring of the world, and eventually mirror themselves, whereupon the vortex of ‘I’ becomes a real, causal entity.”
+> “When and only when such a loop arises in a brain or in any other substrate, is a person — a unique new ‘I’ — brought into being. Moreover, the more self-referentially rich such a loop is, the more conscious is the self to which it gives rise.”
+>
