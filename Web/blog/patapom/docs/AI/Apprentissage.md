@@ -37,9 +37,6 @@ https://textual-inversion.github.io/
 
 
 
-[^1]: Bongard Problems
-[^2]: 
-
 
 ## :duck: Discussion "canard" sur #code:
 
@@ -48,12 +45,12 @@ Je vous avais vaguement parlé de l'algo d'apprentissage que je voulais utiliser
 Mais il s'avère que l'algo d'apprentissage pourrait aussi très bien se prêter à ces relations / actions ! :heart_eyes:
 
 Ca demanderait une structure en code qui serait quasiment pluggable dans tous les sens, bref un truc super vague du style l'objet "Object" en C# duquel tout dérive... :sweat_smile: <br>
-(mais quelque part c'est plutôt bon signe finalement, puisque ça veut dire que le mécanisme de base est ultra simpliste, ce qui est la règle absolue à respecter quand tu essayes de réfléchir à qqchose qui est implémentable par des neurones biologiques) (edited) 
+(mais quelque part c'est plutôt bon signe finalement, puisque ça veut dire que le mécanisme de base est ultra simpliste, ce qui est la règle absolue à respecter quand tu essayes de réfléchir à qqchose qui est implémentable par des neurones biologiques)
 
 
-Depuis un moment je me dis qu'on doit se souvenir des événements comme de petites scénettes ordonnées dans le temps, comme des sortes de keyframes...
+Depuis un moment je me dis qu'on doit se souvenir des événements comme de petites **scénettes** ordonnées dans le temps, comme des sortes de keyframes...
 
-En gros on se rappelle pas de l'entièreté d'une situation mais de moments clés. Et chaque moment clé est une description plus ou moins détaillées de la situation à un instant t.
+En gros on se rappelle pas de l'entièreté d'une situation mais de **moments clés**. Et chaque moment clé est une description plus ou moins détaillées de la situation à un instant *t*.
 
 Ca contient des acteurs réels à qui l'on prête 1) des propriétés 2) des positions absolues/relatives et 3) des "vitesses" (je vois ça plutôt comme des petits morceaux de trajectoires, un peu comme dans les BD franco-belges :smile: )
 
@@ -62,11 +59,11 @@ Ca contient des acteurs réels à qui l'on prête 1) des propriétés 2) des pos
 ![Tintin](Tintin.png)
 
 
-Que ça soit une course, une rotation, un rebond, une explosion, un plouf, etc. on a des sortes d'archétypes de mouvements imagés de cette manière.
+Que ça soit une course, une rotation, un rebond, une explosion, un plouf, etc. on a des sortes d'archétypes de mouvements imagés de cette manière qui permettent de faire le lien d'une keyframe à l'autre et d'extrapoler le mouvement des acteurs.
 
 Et ces archétypes sont eux-mêmes construits avec une séquence d'events keyframés avec l'objet en question...
 
-![Rebond](Rebond.png)
+![Rebond](Rebond.png)<br>
 (peut-être pas aussi détaillé que ça mais bon c'est l'idée)
 
 
@@ -89,13 +86,24 @@ Donc en gros notre processus va associer une trajectoire de rebond à n'importe 
 Et + tard quand on aura une situation où un objet va rebondir, on va simplement lui assigner une instance de cette fonction décrivant une trajectoire, et cet objet sera la variable d'entrée de la fonction...<br>
 Et + on verra d'exemples d'objets qui rebondissent, plus ça va affiner notre archétype du rebond, de la même manière que plus on va voir d'exemples de chats, plus ça va généraliser notre archétype de chat.
 
-Je trouve ça hyper puissant comme algo ! :star-struck:
+Je trouve ça hyper puissant comme algo ! :star_struck:
+
+
+> :question:
+ Reste à voir si cette notion de **variable** qui proviendrait de la condition d'existence mais de l'absence de la condition d'identité d'une chose peut se transposer à toutes les fonctions qu'on peut vouloir coder ?!
+
+
+## Scans de mes pages d'idées
+
+![](Idées Lecture.png)
+![](Idées Analyse Sémantique.png)
+![](Idées Apprentissage.png)
+![](Idées Knowledge Graph 1.png)
+![](Idées Knowledge Graph 2.png)
 
 
 
-
-
-
-
+[^1]: TODO: Bongard Problems
+[^2]: 
 
 
