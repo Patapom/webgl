@@ -2,10 +2,11 @@
 # Apprentissage
 
 
-Il suffit de moins en moins d'exemples pour apprendre une chose
-	=> Il suffit de 2 exemples d'une chose (genre regarder 2 chiens) pour apprendre ce qu'est un chien à partir de rien
-	=> Parfois il suffit même d'un seul exemple, si on a déjà le pré-knowledge des êtres vivants puisqu'on "sait" désormais qu'il est plus probable qu'on décrive un être vivant que l'environnement dans lequel il se trouve
-		Donc quand un parent montre un chien pour la première fois à son enfant, mais qu'il a déjà vu de nombreux êtres vivants, il est probable que le mot "chien" qu'on essaye de lui apprendre soit acollé à ce nouvel être vivant plus qu'aucune autre chose présente dans le contexte
+Il suffit de moins en moins d'exemples pour apprendre une chose:
+
+* Il suffit de 2 exemples d'une chose (genre regarder 2 chiens) pour apprendre ce qu'est un chien à partir de rien
+* Parfois il suffit même d'un seul exemple, si on a déjà le pré-knowledge des êtres vivants puisqu'on "sait" désormais qu'il est plus probable qu'on décrive un être vivant que l'environnement dans lequel il se trouve
+	Donc quand un parent montre un chien pour la première fois à son enfant, mais qu'il a déjà vu de nombreux êtres vivants, il est probable que le mot "chien" qu'on essaye de lui apprendre soit acollé à ce nouvel être vivant plus qu'aucune autre chose présente dans le contexte
 
 
 Reconnaissance lettres:
@@ -102,8 +103,12 @@ Je trouve ça hyper puissant comme algo ! :star_struck:
 ![](Idées Knowledge Graph 2.png)
 
 
+> :exclamation:
+ TODO: Bongard Problems
+ TODO: Parler du fait que tout est guidé par le besoin d'économie d'énergie et que le groupement neuronal participe à cet effort en évitant les gros réseaux et en privilégiant les groupements hiérarchique
 
-[^1]: TODO: Bongard Problems
+
+[^1]: 
 [^2]: 
 
 

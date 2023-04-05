@@ -16,12 +16,12 @@ Même quand un mot est polysémantique, ou quand on rencontre des homonymes, je 
 
 Il est très probable que de nombreuses espèces animales évoluées savent maîtriser les symboles et réfléchissent de manière symbolique pour représenter les choses auxquelles elles sont confrontées au quotidien:
  nourriture, proie, prédateur, troupeau, le temps qu'il fait, de vagues notions de distance et de quantité, etc. mais seuls les humains, à notre connaissance,
- ont appris à se baser sur ces symboles afin de [construire des concepts plus complexes](../GroupementConcepts) et surtout, ont accolé un langage pour exprimer ces concepts, ainsi qu'une langue pour communiquer
- ces concepts avec leurs congénères.
+ ont appris à se baser sur ces symboles afin de [construire des concepts plus complexes](../GroupementConcepts) et surtout, ont accolé la parole pour exprimer ces concepts, ainsi qu'un langage pour communiquer
+ ces concepts avec leurs congénères de manière moins ambiguë.
 
 ## Le langage comme outil pour articuler les symboles et les concepts
 
-J'aimerais faire la distinction entre le langage signifiant et la langue parlée: le langage donne des règles pour articuler les concepts entre eux, il est (probablement) universel dans sa construction, tandis que la langue
+J'aimerais faire la distinction entre le langage signifiant et la parole: le langage donne des règles pour articuler les concepts entre eux, il est (probablement) universel dans sa construction, tandis que la parole
  est une façon bien particulière d'exprimer le langage, elle possède son vocabulaire et ses règles propres qui changent d'une peuplade ou d'une région à l'autre.
 
 Un exemple d'utilisation du langage sémantique universel:
