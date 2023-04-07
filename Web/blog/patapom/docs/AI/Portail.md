@@ -61,7 +61,7 @@ On va donc détailler les points suivants :
 	* Vers une informatique tolérante à l'erreur
 
 * La mémoire définit l'être
-	* Pourquoi il faut commencer par cerner comment créer la mémoire avant tout autre chose ?
+	* Pourquoi il faut commencer de cerner comment créer la mémoire avant tout autre chose ?
 	* [Un focus particulier sur le langage et la manipulation de symboles](../LangageEtSymboles)
 	* [Les implications sur la possibilité "d'uploader sa conscience dans la machine"](../UploadConscience)
 
@@ -72,6 +72,8 @@ On va donc détailler les points suivants :
 
 * La notion de "sens commun"
 	* [Le besoin d'embodied cognition afin d'expérimenter pleinement le sens commun lié aux phénomènes physiques](../EmbodiedCognition)
+	* [Les images mentales](../Portail Vision) (2nd portail très conséquent)
+		* 
 	* Les limites de l'embodied cognition : où s'arrête-t-on? Faut-il tout implémenter ? :scream:
 	* La nécessité d'imperfection (pas besoin d'aller jusqu'à Planck!)
 	* A-t-on besoin de causalité?
