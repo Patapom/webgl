@@ -1,0 +1,121 @@
+﻿site_name: Black Ink Documentation
+site_description: Full Black Ink documentation
+site_author: Bleank
+site_bleankHome:
+ name: Bleank's homepage
+ url: http://www.bleank.com
+site_blackInkHome:
+ name: Black Ink's homepage
+ url: http://blackink.bleank.com
+site_url: http://blackink.bleank.com/Documentation
+
+#Page Layout
+pages:
+    - Documentation:
+        - index.md
+        - Short presentation: _Welcome/ShortPresentation.md
+        - Getting started:
+          - _GettingStarted/index.md
+          - System Requirements: _GettingStarted/SystemRequirements.md
+          - Installation and activation:
+            - _GettingStarted/Installation/Index.md
+            - Windows: _GettingStarted/Installation/Install_Windows.md
+            - Steam: _GettingStarted/Installation/Install_Steam.md
+          - Finding your way around: _GettingStarted/FindingYourWay.md
+        - Features:
+          - _Features/index.md
+          - Main Features: _Features/MainFeatures.md
+          - New Features: _Features/NewFeatures.md   
+          - Upcoming Features: _Features/UpcomingFeatures.md
+          - Change Log: _Features/ChangeLogIndex.md
+  
+         
+    - BSL:
+        - BSL/index.md
+        - Getting Started: BSL/gettinStarted.md
+        - Language:
+            - BSL/Language/index.md
+            - Data Types: 
+                - BSL/Language/dataTypes.md
+                - box2: BSL/Language/box2.md
+                - matrix2: BSL/Language/matrix2.md
+                - matrix3: BSL/Language/matrix3.md
+                - plane2: BSL/Language/plane2.md
+            - Constants: BSL/Language/constants.md
+        - Samples:
+            - BSL/Samples/index.md
+#<Private>
+    - Doc User Guide:
+        - private/userGuideIndex.md
+        - MkDocs Installation : private/installation.md
+        - Getting Started : private/gettinstarted.md
+    - Markdown:
+        - private/mdreference.md
+        - Blocks: private/admonition.md
+        - codehili: private/codehili.md
+        - footnotes: private/footnotes.md
+        - Keyboard shortcuts: private/mdkeys.md
+        - other: private/others.md
+    - Test Nested:
+        - private/test-0.md
+        - test1: private/test-1.md
+        - Dir1: 
+          - private/test-2.md
+          - bla2: private/test-3.md
+          - bla3: private/test-4.md
+          - Dir2: 
+            - private/test-5.md
+            - bla4: private/test-6.md
+#</Private>
+
+
+#Copyright
+copyright: 'Copyright &copy; 2008 - 2017 Bleank'
+
+theme: 
+ name: 'material'
+ custom_dir: custom_theme
+ language: 'en'
+ palette:
+   primary: 'Bleank'
+   accent: 'Bleank'
+ feature:
+  tabs: true
+
+#voir https://squidfunk.github.io/mkdocs-material/getting-started/#site-search
+extra:
+ social:
+    - type: 'twitter'
+      link: 'https://twitter.com/bleank'
+
+
+# Extensions
+# voir https://squidfunk.github.io/mkdocs-material/getting-started/#extensions
+# Extensions
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.keys
+  - mdx_flex_video.mdx_flex_video

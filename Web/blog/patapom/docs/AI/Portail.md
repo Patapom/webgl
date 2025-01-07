@@ -68,7 +68,7 @@ On va donc détailler les points suivants :
 * Les concepts comme clé de voute de la mémoire et de la connaissance
 	* Les concepts "statiques" (noms)
 	* L'articulation des concepts "dynamiques" (verbes)
-	* [L'apprentissage de nouveaux concepts (grouping / optimizing)](../Apprentissage)
+	* [L'apprentissage de nouveaux concepts (grouping / optimizing)](../Apprentissage) [(part 2)](../Apprentissage2)
 
 * La notion de "sens commun"
 	* [Le besoin d'embodied cognition afin d'expérimenter pleinement le sens commun lié aux phénomènes physiques](../EmbodiedCognition)
@@ -96,6 +96,10 @@ On va donc détailler les points suivants :
 >:bulb: **TODO**
 > 
 > Concepts difficiles: Compter, notion de temps, 
+>	Au point où j'en suis de ma réflexion, j'ai distingué les concepts "statiques" des **procédures**, qui consistent à réaliser séquentiellement des opérations coûteuses (en terme de mécanismes cérébraux mis en oeuvre).
+>	Compter est une de ces procédures.
+>	La notion de temps reste encore assez difficile à évaluer, mais c'est clair que Barnabé lutte beaucoup avec ce concept et a surtout beaucoup de mal à évaluer les *durées*.
+>	La durée la + évidente à évaluer pour un enfant est celle de la journée, grâce au cycle circadien : on peut parler du Soleil qui se lève, qui est tout en haut du ciel ou qui se couche.
 >
 > Focus vision => disentangle foreground/backgorund avec lo/hi freq. filters
 >
@@ -117,3 +121,15 @@ On va donc détailler les points suivants :
 > “via a kind of vortex whereby patterns in a brain mirror the brain’s mirroring of the world, and eventually mirror themselves, whereupon the vortex of ‘I’ becomes a real, causal entity.”
 > “When and only when such a loop arises in a brain or in any other substrate, is a person — a unique new ‘I’ — brought into being. Moreover, the more self-referentially rich such a loop is, the more conscious is the self to which it gives rise.”
 >
+> "Tubes with nerves" => Nous sommes tous des tubes nerveux! On a débuté par un intestin, puis on a fait pousser des appendices, mais ils fonctionnent toujours de la même manière: des tubes constellés de nerfs!
+>	C'est vrai pour nos instestins mais aussi pour nos bras, nos jambes, nos mains, nos doigts, nos muscles, notre pénis/vagin, etc.
+>	Ca serait très intéressant de se pencher sur la façon de simuler une "paroi nerveuse" (bouclant 0, 1 ou plusieurs fois sur elle-même) et essayer d'en tirer de la proprioception :
+>		Comment estimer la position/le repli d'un doigt artificiel rien qu'en observant les valeurs de pression de la paroi nerveuse ?
+>		Comment faire la même chose physiquement ? (a-t-on déjà l'équivalent d'une paroi nerveuse artificielle ?)
+>
+> "Follow the gradient" => Réfléchir sur le rôle central d'une perception binaire de l'environnement qui nous permet d'estimer le gradient d'une grandeur à mesurer.
+>	Par exemple, les antennes des insectes, les oreilles, le nez, les yeux (même s'ils sont bien plus complexes car haute résolution et pivotants)
+>
+>
+> Je suis en train de me demander si cette espèce d'illusion permanente dans laquelle chacun de nous vit n'explique pas le phénomène de Dunnig-Krueger ?
+> Et est-ce que ça sous-tend pas aussi notre confort de pensée, dans le sens où on est toujours à peu près satisfaits de nos vies (nos amis, nos pensées, nos croyances, nos choix, etc.) ?

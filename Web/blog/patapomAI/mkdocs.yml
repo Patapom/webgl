@@ -1,0 +1,75 @@
+﻿# Project information
+site_name: 'PataBlog'
+site_description: 'Tartinette'
+site_author: 'Benoît Mayaux'
+site_url: 'http://www.patapom.com/blog2'
+pages:
+    - Home: index.md
+    - LLMs:
+        - Les leçons à tirer des LLMs: LeçonsLLM.md
+    - Interface Sonore: InterfaceSonore.md
+
+#    - Artificial Intelligence: AI.md
+#    - Notes: Notes.md
+
+
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'green'
+    accent: 'teal'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+# Customization
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/patapom'
+    - type: 'twitter'
+      link: 'https://twitter.com/Patapom2'
+    - type: 'linkedin'
+      link: 'https://www.linkedin.com/in/beno%C3%AEt-mayaux-30491a127/'
+
+# Google Analytics
+google_analytics:
+  - 'UA-34588959-1'
+  - 'auto'
+
+# Extensions
+# voir https://squidfunk.github.io/mkdocs-material/getting-started/#extensions
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: false
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.keys
+#  - mdx_flex_video.mdx_flex_video
+
+
+extra_javascript:
+  - 'javascripts/extra.js'
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
