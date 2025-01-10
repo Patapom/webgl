@@ -29,6 +29,7 @@ recopier un peu ce qu'il y a dans l'index... Essayer de généraliser ce qui se 
   * L'importance de compter les occurrences de patterns
     * La base du "fire together wire together" ?
   * Le fait que c'est un mécanisme simple à implémenter biologiquement
+  * Différence par rapport à la back prop ?
 * Apprentissage supervisé
   * Importance du tuteur
   * Notion de confiance

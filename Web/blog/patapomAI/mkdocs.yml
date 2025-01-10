@@ -7,6 +7,8 @@ pages:
     - Home: index.md
     - LLMs:
         - Les leçons à tirer des LLMs: LeçonsLLM.md
+        - Les neurones polysémiques: PolysémieLLM.md
+    - Approche Neuro-Symbolique: ApprocheNeuroSymbolique.md
     - Interface Sonore: InterfaceSonore.md
 
 #    - Artificial Intelligence: AI.md

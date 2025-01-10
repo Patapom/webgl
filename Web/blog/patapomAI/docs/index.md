@@ -93,23 +93,46 @@ On peut néanmoins noter de bonnes choses que les LLMs nous ont apportées, nota
 
 On va explorer un peu plus avant [les leçons à tirer des LLMs](./LeçonsLLM.md).
 
+<br>
+
+Également une note sur les [neurones polysémiques](PolysémieLLM.md) et comment s'en inspirer pour mieux s'en passer :sweat_smile:.
+
+
+
+## Une approche Neuro-Symbolique
+
+Et donc, si on n'utilise pas une architecture de réseau de neurones classiques, on fait comment ?
+
+Pour commencer, de la même manière qu'on n'a pas recopié exactement tous les détails des ailes d'oiseaux pour voler, il faut se convaincre qu'il est tout à fait possible d'exploiter ce qu'on a appris des LLMs et de la façon dont on suppose qu'il fonctionne en interne pour le recoder de manière *explicite* !
+
+Je suis reconnaissant aux chercheurs et ingénieurs qui ont permis de prouver qu'on pouvait reproduire artificiellement une bonne part de ce que notre cerveau peut faire, désormais on peut même s'abstraire de ce que ces chercheurs et ingénieurs ont créé pour fabriquer quelque chose d'encore plus souple, de plus simple et surtout de moins coûteux (à la fois en termes de ressources et de temps) !
+
+On a vu que tous les réseaux de neurones évolués (*image classifiers* ou LLMs) ont comme point commun de combiner les neurones des couches précédentes en des concepts de plus en plus abstraits et symboliques.
+
+* Pour les *classifiers*, on part du pixel pour arriver au concept-même de la chose à classifier, à chaque fois en combinant des morceaux plus détaillés de la couche d'avant en une feature plus complexe
+* Pour les LLMs, on part du mot/token pour arriver à des concepts/opérations de plus en plus complexes (même si l'on a vu que ces opérations ne sont probablement qu'un *pattern matching*), puis on redescend au niveau du token en appliquant au passage un arrangement (un style d'écriture) particulier.
+
+On voit donc qu'il est possible de se réserver un espace de **concepts de haut-niveau** (qu'on va pouvoir facilement expliquer, ce qui est un énorme avantage par rapport au côté boîte noire des ANN) qu'on va pouvoir créer via un **algorithme d'apprentissage**, puis adresser et combiner via des **procédures** qui vont, elles aussi, pouvoir être apprises par un algorithme d'apprentissage (on verra que c'est probablement le même que pour les concepts), ces procédures pourront ensuite être chaînées suivant un **plan d'exécution** afin de répondre aux requêtes de l'utilisateur...
+
+<br>
+
+On va explorer un peu plus avant cette [approche neuro-symbolique](ApprocheNeurosymbolique.md).
+
 
 
 ## Un assistant vocal
 
-Comme démontré par les LLMs et les diverses variations qui entourent les modèles de langage (comme Dall-E, Midjourney, Sora, etc.), le langage naturel est un choix évident pour interagir avec les machines / les modèles (:star: encore un truc que j'ai toujours soutenu !:star:).
+Comme l'ont démontré les modèles de langage avances (LLMs) et leurs différentes déclinaisons, notamment Dall-E, Midjourney ou Sora, le langage naturel s'impose comme un moyen privilégié d'interaction avec les machines et les modèles d'intelligence artificielle (:star: encore un truc que j'ai toujours soutenu !:star:).
 
-Fabriquer un *assistant vocal* dans un premier temps semble être la forme idéale pour enregistrer (en permanence, en local seulement) l'environnement quotidien de l'utilisateur afin d'interagir au mieux avec lui.
+La conception d'un *assistant vocal* représente une première étape pertinente pour enregistrer de manière continue — mais en local seulement — l'environnement quotidien de l'utilisateur afin d'interagir au mieux avec lui.
 
-Dans un 2nd temps, il sera toujours possible d'étendre à d'autres modes d'interaction comme l'image ou même l'embodied cognition dans des robots (virtuels pour commencer, réels ensuite).
+À terme, cette approche pourrait être élargie à d'autres modalités d'interaction telles que la reconnaissance et la génération d'images ou encore l'intégration dans des agents virtuels ou physiques (*embodied cognition*).
 
 <br>
 
 On va explorer un peu plus avant [l'interface sonore](./InterfaceSonore.md).
 
 
-
-## Une approche Neuro-Symbolique
 
 
 
