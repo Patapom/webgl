@@ -53,6 +53,8 @@ Ci-dessous, le diagramme d'architecture de GPT 1 suivi du diagramme d'architectu
 <img src="../images\LLM\GPT1.png" style="zoom:50%;" /> <img src="../images\LLM\Transformer.png" style="zoom:50%;" />
 
 
+
+
 ## Analyse de l'architecture
 
 On peut globalement résumer cette immense architecture en "quelque chose qui applique de nombreux étages de combinaison non-linéaires de vecteurs de grande dimension".<br>
@@ -62,8 +64,8 @@ Certains indices existent néanmoins, si on analyse les forces et les faiblesses
 
 ### Les forces
 
-* Dans l'excellente analyse de 3Blue1Brown sur le mécanisme d'attention[^1], on peut voir que chaque *attention head* a l'air de réaliser une fonction comme "trouver un adjectif associé à un mot", "détecter un nom propre", "détecter un prix ou un nombre hexadécimal", etc.
-* Comme l'architecture est ré-entrante, on peut imaginer que chaque nouvel étage possède une vision de plus en plus haut niveau et abstraite (conceptuelle) des informations du niveau précédent
+* Dans l'excellente analyse de 3Blue1Brown sur le mécanisme d'attention[^1], on peut voir que chaque *attention head* a l'air de réaliser une fonction comme "trouver un adjectif associé à un mot", "détecter un nom propre", "détecter un prix ou un nombre hexadécimal", etc. (voir aussi les *features* de bas niveau découvertes par l'équipe d'Anthropic AI dans cette [note](http://localhost:8000/Polys%C3%A9mieLLM/#features-observees))
+* Comme l'architecture de type *transformer* est dupliquée de nombreuses fois, on peut imaginer que chaque nouvel étage possède une vision de plus en plus abstraite et haut niveau des informations du niveau précédent
     * On peut donc imaginer que c'est assez semblable à ce qui se passe dans les *image classifiers* qui ont l'avantage d'être scrutables via une application comme https://openai.com/index/microscope/ (:scream: DOWN !! Catastrophe ! C'était un outil fantastique ! :sob:)
         On peut toujours voir à quoi ça ressemblait en lisant l'article qui a servi à la création de cet outil : https://distill.pub/2017/feature-visualization
 
@@ -71,7 +73,7 @@ Certains indices existent néanmoins, si on analyse les forces et les faiblesses
 
 ### Les faiblesses
 
-Maintenant, si l'on se concentre sur les erreurs que font souvent les LLMs, notamment les *near miss*, on voit qu'ils essaient à tout prix de coller à des patterns :
+Si l'on se concentre sur les erreurs que font souvent les LLMs, notamment les *near miss*, on voit qu'ils essaient à tout prix de coller à des patterns :
 
 * TODO: Donner les exemples tout pourris, par exemple l'histoire de la chèvre, du loup et du chou qu'on a modifié pour qu'il n'y ait plus aucun challenge, ou l'histoire du codage rot-13 que le LLM ne sait plus du tout effectuer si on fait rot-12 ou n'importe quoi qui n'existe pas à explicitement dans ses données d'entraînement
     * On peut donc imaginer qu'à chaque étage, par réorganisation des étages précédents, on essaie de remplir des trous de patterns à matcher !
@@ -79,26 +81,42 @@ Maintenant, si l'on se concentre sur les erreurs que font souvent les LLMs, nota
 
 On voit aussi que le gros problème de ces modèles réside dans la composition d'éléments, les notions de séquences, le calcul et surtout le raisonnement (on oublie ici O3 qui montre des traces de raisonnement, car il est très vraisemblable qu'ils aient une architecture différente pour arriver à ça, probablement quelque chose à base de *Chain of Thought (CoT)*)
 
-* Des modèles comme Dall-E ou Midjourney sont littéralement *incapables* de créer une image correcte quand on leur demande "un cube bleu devant une balle rouge", ou par exemple avec ce prompt[^4] :
+* Des modèles comme *Dall-E* ou *Midjourney* sont littéralement *incapables* de créer une image correcte quand on leur demande "un cube bleu devant une balle rouge", ou par exemple avec ce prompt[^4] :
     ![RelationalErrors](.\images\LLM\RelationalErrors.png)
 
 
 
-
-
-### Conclusion ?
+### Capacités algorithmiques des LLMs
 
 Quelles sont les structures et les algorithmes découverts par une telle architecture qui permettraient d'expliquer toutes ces capacités et toutes ces limitations ?
 
-:arrow_right: *swizzling*, via le mécanisme d'attention[^3]
+:arrow_right: *swizzling* et "décoration sémantique", via le mécanisme d'attention[^3]
 
 :arrow_right: *pattern matching* via le principe-même de connexion des neurones qui vont pouvoir réagir à la présence ou non de plusieurs *features* dans l'étage précédent
 
-:arrow_right: pyramide d'abstraction, via chaque nouveau layer d'*attention heads*. On effectue des fonctions de plus en plus haut niveau avec des paramètres (concepts) de plus en plus haut niveau. Les fonctions servent elles-même de paramètres d'entrée à d'autres fonctions, il n'y a pas réellement de distinction entre programme et données comme c'est le cas sur nos ordis classiques...
+:arrow_right: pyramide d'abstraction, via chaque nouveau layer d'*attention heads*. On effectue des fonctions de plus en plus haut niveau avec des paramètres (concepts) de plus en plus haut niveau. Les fonctions servant elles-même de paramètres d'entrée à d'autres fonctions au niveau suivant ; il n'y a plus réellement de distinction entre programme et données comme c'est le cas sur nos ordis classiques...
 
-:arrow_right: possibilité d'apprendre des procédures simples qui consistent à assembler des choses ensemble pour combler les trous (les paramètres) de la procédure → par exemple, une procédure d'addition prend 2 paramètres de type "nombre" et retourne un autre paramètre de type "nombre" qui est censé être la somme des 2 paramètres d'entrée. Il doit y avoir moyen pour le LLM d'encoder les 2 paramètres d'entrée, de les "combiner" (dans l'espace de haute dimension) pour les donner à une "tête" (*attention head*) dont la fonction est de *retrouver* le résultat. Je dis bien *retrouver* et non pas calculer car il a été démontré que le LLM peut "réaliser" des calculs simples mais se vautre sur les calculs complexes, ce qui tendrait à prouver qu'il a stocké tous ces calculs (précalculé, en fait) et ne fait que les retrouver dans sa base de faits interne... Techniquement, il *pourrait* faire des calculs s'il pouvait utiliser de la *ré-entrance* pour appliquer de nombreuses fois la même procédure, un peu à la façon d'une calculette : d'abord une addition, puis le résultat entre dans la multiplication, et ainsi de suite... C'est d'ailleurs peut-être pour ça que le CoT fonctionne, sauf que le LLM doit utiliser l'étape très coûteuse de d'abord repasser dans l'espace "texte" avant de pouvoir être refeedé pour repasser ensuite dans l'espace où il pourrait effectuer l'opération suivante !
+:arrow_right: possibilité d'apprendre des procédures simples qui consistent à assembler des choses ensemble pour combler les trous (les paramètres) de la procédure<br>→ par exemple, une procédure d'addition prend 2 paramètres de type "nombre" et retourne un autre paramètre de type "nombre" qui est censé être la somme des 2 paramètres d'entrée. Il doit y avoir moyen pour le LLM d'encoder les 2 paramètres d'entrée, de les "combiner" (dans l'espace de haute dimension) pour les donner à une "tête" (*attention head*) dont la fonction est de *retrouver* le résultat. Je dis bien *retrouver* et non pas calculer car il a été démontré que le LLM peut "réaliser" des calculs simples mais se vautre sur les calculs complexes, ce qui tendrait à prouver qu'il a stocké tous ces calculs (précalculé, en fait) et ne fait que les retrouver dans sa base de faits interne... Techniquement, il *pourrait* faire des calculs s'il pouvait utiliser de la *ré-entrance* pour appliquer de nombreuses fois la même procédure, un peu à la façon d'une calculette : d'abord une addition, puis le résultat entre dans la multiplication, et ainsi de suite... C'est d'ailleurs peut-être pour ça que le CoT fonctionne, sauf que le LLM doit utiliser l'étape très coûteuse de d'abord repasser dans l'espace "texte" avant de pouvoir être refeedé pour repasser ensuite dans l'espace où il pourrait effectuer l'opération suivante !
 
-:red_circle: Incapacité d'exécuter des procédures qui n'ont pas été apprises (donc pas de raisonnement général). On est complètement à la merci de la capacité d'abstraction des procédures du modèle, tandis que la complexité des procédures apprises dépendra de la profondeur du modèle. (on ne pourra pas faire de calcul, qui nécessiterait un nombre inconnu d'étapes à exécuter, à moins de forcer un certain nombre d'étages identiques où l'on pourra chaîner les opérations entre elles et la profondeur du calcul sera limitée par le nombre d'étages)
+:red_circle: Incapacité d'exécuter des procédures qui n'ont pas été apprises (donc pas de raisonnement général). On est complètement à la merci de la capacité d'abstraction des procédures du modèle, tandis que la complexité des procédures apprises dépendra de la profondeur du modèle. Par exemple, on ne pourra pas faire de calcul qui nécessiterait un nombre inconnu d'étapes à exécuter, à moins de forcer un certain nombre d'étages identiques où l'on pourra chaîner les opérations entre elles et la profondeur du calcul sera de toute manière limitée par le nombre d'étages.
+
+
+
+## Hypothèse sur l'architecture des LLMs
+
+Dans un article de blog[^5][^6] sur lequel je suis tombé par hasard, ils font l'hypothèse d'une architecture qui correspond à peu près à mes propres spéculations :
+
+![Speculative Conceptual Model of a Transformer](images\LLM\Speculative Conceptual Model of a Transformer.png)
+
+!!! quote "Quote[^6]"
+    One of our most interesting findings is that neurons in the early, middle, and late layers of a large network tend to play very different types of roles, just as features at different depths of conv net vision models are known to be different.<br>(...) Early layer neurons seem to often be involved in mapping the “artificial” structure of tokens to a more natural, semantically meaningful representation.<br>(...) Late layer neurons (those near the output of the network) often do the opposite of what early layer neurons do: they mediate the conversion of words or contextualized tokens back into literal tokens.<br>(...) Neurons in the middle layers often represent more complex, abstract ideas. 
+
+
+
+!!! quote
+    It seems possible that there may be features which are more like "actions". Indeed, some neurons at the end of the model have been observed to perform very simple "actions", such as [completing multi-token](https://transformer-circuits.pub/2022/solu/index.html#section-6-3-3)[ ](https://transformer-circuits.pub/2022/solu/index.html#section-6-3-3)[words](https://transformer-circuits.pub/2022/solu/index.html#section-6-3-3).
+
+
 
 
 
@@ -116,6 +134,12 @@ Les vecteurs à 12,288 dimensions vont avoir un usage varié selon la profondeur
     Le problème étant, comme noté plus haut, que le LLM est fondamentalement limité en nombre d'étages et ne peut pas utiliser de ré-entrance de par la nature-même des réseaux de neurones qui sont toujours *feed forward* (ou alors il faudrait une sorte de *positional encoding* pour indiquer l'étape de processing d'une donnée particulière, sachant que ça n'est probablement pas possible de toute manière car non-différentiable (donc pas compatible avec la backprop) et aucune garantie que le processus s'arrête (*halting problem*))
 
 * À la fin de la chaîne, le LLM doit (malheureusement) redescendre au niveau du token et donc les vecteurs vont de nouveau devoir représenter des figures de style, des structures grammaticales, etc.
+
+
+
+
+
+Dans le même esprit que la théorie de l'évolution qui s'étend sur des milliards d'années et qui empêche le créationniste moyen d'envisager même comment il est possible que des mécanismes aussi complexes que des humains aient pu apparaître sur de telles échelles de temps, GTP4 comprend 1.8 trillions de paramètres ! Forcément qu'on peut stocker et précalculer la terre entière là-dedans...
 
 
 
@@ -140,3 +164,5 @@ recopier un peu ce qu'il y a dans l'index... Essayer de généraliser ce qui se 
 [^2]: 3blue1brown ["How might LLMs store facts"](https://www.youtube.com/watch?v=9-Jl0dxWQs8&t=5s&ab_channel=3Blue1Brown)
 [^3]: Mark Riedl, ["Transformers: Origins"](https://mark-riedl.medium.com/transformers-origins-1db4bdfcb3d1)
 [^4]: Gary Marcus, ["Don't ride this bike!"](https://garymarcus.substack.com/p/dont-ride-this-bike-generative-ais)
+[^5]:Olah C., Jermyn A. ["What would be the most safety-relevant features in Language Models?"](https://transformer-circuits.pub/2023/july-update/index.html#safety-features)
+[^6]: Anthropic AI ["Softmax Linear Units"](https://transformer-circuits.pub/2022/solu/index.html#section-6-3)
