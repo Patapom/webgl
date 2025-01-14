@@ -1,10 +1,10 @@
 # Les leçons à tirer des LLMs
 
-Comme on l'a dit précédemment, les LLMs ne sont probablement pas le modèle de réseau de neurones adapté à une intelligence générale.
+Comme on l'a évoqué précédemment, les LLMs ne sont probablement pas le modèle de réseau de neurones adapté à une intelligence générale.
 
 * Ils sont trop génériques, et donc trop lourds
-* Les faits qui ont servi à l'entraînement du LLM sont stockés **dans** le LLM lui-même, ce qui est aberrant : un modèle de langage doit contenir les données qui permettent de transformer le langage en données sémantiques et réciproquement, ni plus ni moins.
-  * Ils sont trop rigides, peu amènes à évoluer rapidement. Ils sont totalement statiques, il n'y a pas de moyen *simple* de leur faire ingurgiter des informations au-delà de leur date d'entraînement.
+* Les **faits** qui ont servi à l'entraînement du LLM sont stockés **dans** le LLM lui-même, ce qui est aberrant : un modèle de langage doit contenir les données qui permettent de transformer le langage en données sémantiques et réciproquement, ni plus ni moins.
+  * Ils sont trop rigides, peu amènes à évoluer rapidement. Ils sont totalement statiques, il n'y a pas de moyen *simple* de leur faire ingurgiter des informations au-delà de leur date d'entraînement.<br>
     On doit :
     * Soit *fine tuner* les modèles existants pour les adapter à nos propres données, mais ça reste encore très rigide et ça demande des updates constants
     * Soit les interfacer, via le langage naturel, avec des databases pour faire du *Retrieval Augmented Generation (RAG)*
@@ -17,11 +17,9 @@ Cependant, ils nous ont fait découvrir des éléments de réflexion très inté
 
 ## Structure d'un LLM
 
-Source : https://dugas.ch/artificial_curiosity/GPT_architecture.html
+Source [^7]
 
 ![](images/LLM/fullarch.png)
-
-
 
 Pour aller vite, voici les étapes subies par une séquence de mots passant dans GPT 3 (on n'a toujours pas accès à l'architecture de GPT 4 à l'heure actuelle) :
 
@@ -42,8 +40,7 @@ Pour aller vite, voici les étapes subies par une séquence de mots passant dans
     * On a donc environ 96 x 96 matrices $Q, K, V$ soit environ 150 milliards de paramètres pour ce qui constitue le cœur du modèle
 
 * Pour finir, on fait un étage de combinaison linéaire de tout ce bazar, puis on décode les tokens et zou !
-    * Et on doit faire ça pour chaque token de la séquence, puisqu'on réinjecte la séquence de sortie en entrée
-    * C'est tellement du gâchis... :expressionless:
+    * Et on doit faire ça pour chaque token de la séquence, puisqu'on réinjecte la séquence de sortie en entrée (C'est tellement du gâchis... :sob:)
 
 
 
@@ -64,10 +61,10 @@ Certains indices existent néanmoins, si on analyse les forces et les faiblesses
 
 ### Les forces
 
-* Dans l'excellente analyse de 3Blue1Brown sur le mécanisme d'attention[^1], on peut voir que chaque *attention head* a l'air de réaliser une fonction comme "trouver un adjectif associé à un mot", "détecter un nom propre", "détecter un prix ou un nombre hexadécimal", etc. (voir aussi les *features* de bas niveau découvertes par l'équipe d'Anthropic AI dans cette [note](http://localhost:8000/Polys%C3%A9mieLLM/#features-observees))
+* Dans l'excellente analyse de 3Blue1Brown sur le mécanisme d'attention[^1], on peut voir que chaque *attention head* a l'air de réaliser une fonction comme "trouver un adjectif associé à un mot", "détecter un nom propre", "détecter un prix ou un nombre hexadécimal", etc. (cf. les *features* de bas niveau découvertes par l'équipe d'Anthropic AI dans cette [note](http://localhost:8000/Polys%C3%A9mieLLM/#features-observees))
 * Comme l'architecture de type *transformer* est dupliquée de nombreuses fois, on peut imaginer que chaque nouvel étage possède une vision de plus en plus abstraite et haut niveau des informations du niveau précédent
-    * On peut donc imaginer que c'est assez semblable à ce qui se passe dans les *image classifiers* qui ont l'avantage d'être scrutables via une application comme https://openai.com/index/microscope/ (:scream: DOWN !! Catastrophe ! C'était un outil fantastique ! :sob:)
-        On peut toujours voir à quoi ça ressemblait en lisant l'article qui a servi à la création de cet outil : https://distill.pub/2017/feature-visualization
+    * On peut donc imaginer que c'est assez semblable à ce qui se passe dans les *image classifiers* qui ont l'avantage d'être scrutables via une application comme https://openai.com/index/microscope/ (:scream: DOWN !! Catastrophe ! C'était un outil fantastique ! :sob:)<br>
+        On peut toujours imaginer à quoi ça ressemblait cet outil en lisant l'article qui a servi de base pour sa conception : https://distill.pub/2017/feature-visualization
 
 
 
@@ -79,7 +76,7 @@ Si l'on se concentre sur les erreurs que font souvent les LLMs, notamment les *n
     * On peut donc imaginer qu'à chaque étage, par réorganisation des étages précédents, on essaie de remplir des trous de patterns à matcher !
 * Les modèles ont énormément de mal à sortir de "bassins d'attraction" dans leurs données d'entraînement, surtout quand on leur demande des choses sur lesquelles ils n'ont jamais été entraînés, comme par exemple ici où l'on demande à ChatGPT de dessiner un lapin avec 4 oreilles sans jamais y parvenir :![Rabbit4Ears](.\images\LLM\Rabbit4Ears.png)
 
-On voit aussi que le gros problème de ces modèles réside dans la composition d'éléments, les notions de séquences, le calcul et surtout le raisonnement (on oublie ici O3 qui montre des traces de raisonnement, car il est très vraisemblable qu'ils aient une architecture différente pour arriver à ça, probablement quelque chose à base de *Chain of Thought (CoT)*)
+On voit aussi que le gros problème de ces modèles réside dans la composition d'éléments, les notions de séquences, le calcul et surtout le raisonnement — on oublie ici O3 qui montre des traces de raisonnement, car il est très vraisemblable qu'ils aient une architecture différente pour arriver à ça, probablement quelque chose à base de *Chain of Thought reasoning (CoT)*.
 
 * Des modèles comme *Dall-E* ou *Midjourney* sont littéralement *incapables* de créer une image correcte quand on leur demande "un cube bleu devant une balle rouge", ou par exemple avec ce prompt[^4] :
     ![RelationalErrors](.\images\LLM\RelationalErrors.png)
@@ -96,7 +93,9 @@ Quelles sont les structures et les algorithmes découverts par une telle archite
 
 :arrow_right: pyramide d'abstraction, via chaque nouveau layer d'*attention heads*. On effectue des fonctions de plus en plus haut niveau avec des paramètres (concepts) de plus en plus haut niveau. Les fonctions servant elles-même de paramètres d'entrée à d'autres fonctions au niveau suivant ; il n'y a plus réellement de distinction entre programme et données comme c'est le cas sur nos ordis classiques...
 
-:arrow_right: possibilité d'apprendre des procédures simples qui consistent à assembler des choses ensemble pour combler les trous (les paramètres) de la procédure<br>→ par exemple, une procédure d'addition prend 2 paramètres de type "nombre" et retourne un autre paramètre de type "nombre" qui est censé être la somme des 2 paramètres d'entrée. Il doit y avoir moyen pour le LLM d'encoder les 2 paramètres d'entrée, de les "combiner" (dans l'espace de haute dimension) pour les donner à une "tête" (*attention head*) dont la fonction est de *retrouver* le résultat. Je dis bien *retrouver* et non pas calculer car il a été démontré que le LLM peut "réaliser" des calculs simples mais se vautre sur les calculs complexes, ce qui tendrait à prouver qu'il a stocké tous ces calculs (précalculé, en fait) et ne fait que les retrouver dans sa base de faits interne... Techniquement, il *pourrait* faire des calculs s'il pouvait utiliser de la *ré-entrance* pour appliquer de nombreuses fois la même procédure, un peu à la façon d'une calculette : d'abord une addition, puis le résultat entre dans la multiplication, et ainsi de suite... C'est d'ailleurs peut-être pour ça que le CoT fonctionne, sauf que le LLM doit utiliser l'étape très coûteuse de d'abord repasser dans l'espace "texte" avant de pouvoir être refeedé pour repasser ensuite dans l'espace où il pourrait effectuer l'opération suivante !
+:arrow_right: possibilité d'apprendre des procédures simples qui consistent à assembler des choses ensemble pour combler les trous (les paramètres) de la procédure<br>→ par exemple, une procédure d'addition prend 2 paramètres de type "nombre" et retourne un autre paramètre de type "nombre" qui est censé être la somme des 2 paramètres d'entrée. Il doit y avoir moyen pour le LLM d'encoder les 2 paramètres d'entrée, de les "combiner" (dans l'espace de haute dimension) pour les donner à une "tête" (*attention head*) dont la fonction est de *retrouver* le résultat. Je dis bien *retrouver* et non pas calculer car il a été démontré que le LLM peut "réaliser" des calculs simples mais se vautre sur les calculs complexes, ce qui tendrait à prouver qu'il a stocké tous ces calculs (précalculé, en fait) et ne fait que les retrouver dans sa base de faits interne...
+
+:warning: Techniquement, il *pourrait* effectuer des calculs ou des opérations longues s'il était capable d'utiliser de la *ré-entrance* pour appliquer de nombreuses fois la même procédure, un peu à la façon d'une calculette : d'abord une addition, puis le résultat entre dans la multiplication, et ainsi de suite... C'est d'ailleurs peut-être pour ça que le CoT fonctionne, sauf que le LLM doit utiliser l'étape très coûteuse de d'abord repasser dans l'espace "texte" avant de pouvoir être refeedé pour repasser ensuite dans l'espace où il pourrait effectuer l'opération suivante ! (encore un immense gâchis ! :scream:)<br>→ C'est bien sûr quelque chose d'extrêmement aisé à faire avec une architecture neuro-symbolique !
 
 :red_circle: Incapacité d'exécuter des procédures qui n'ont pas été apprises (donc pas de raisonnement général). On est complètement à la merci de la capacité d'abstraction des procédures du modèle, tandis que la complexité des procédures apprises dépendra de la profondeur du modèle. Par exemple, on ne pourra pas faire de calcul qui nécessiterait un nombre inconnu d'étapes à exécuter, à moins de forcer un certain nombre d'étages identiques où l'on pourra chaîner les opérations entre elles et la profondeur du calcul sera de toute manière limitée par le nombre d'étages.
 
@@ -104,7 +103,7 @@ Quelles sont les structures et les algorithmes découverts par une telle archite
 
 ## Hypothèse sur l'architecture des LLMs
 
-Dans un article de blog[^5][^6] sur lequel je suis tombé par hasard, ils font l'hypothèse d'une architecture qui correspond à peu près à mes propres spéculations :
+Dans des articles[^5][^6] sur lesquels je suis tombé par hasard, ils font l'hypothèse d'une architecture qui correspond à peu près à mes propres spéculations :
 
 ![Speculative Conceptual Model of a Transformer](images\LLM\Speculative Conceptual Model of a Transformer.png)
 
@@ -118,11 +117,25 @@ Dans un article de blog[^5][^6] sur lequel je suis tombé par hasard, ils font l
 
 
 
+## Discussion
+
+Comme on l'a vu précédemment dans cette [note](PolysémieLLM.md), on peut probablement se passer d'encoder nos concepts à l'aide de vecteurs de grande dimensions puisque c'est un besoin qui naît uniquement du fait que le réseau de neurones est contraint en espace mémoire.
+
+On a également vu (même [note](PolysémieLLM.md)) que les neurones encodent tout de suite un ensemble de *features* monosémiques qui tendent à indiquer une préférence du réseau à opérer dans un espace symbolique. Un espace de bas-niveau pour commencer (*tokens* syntaxiques d'entrée et de sortie), puis de haut-niveau ensuite quand on analyse le coeur de l'architecture d'un *transformer* profond comme Claude Sonnet.
+
+On vient de voir ici aussi qu'il est probable qu'après de nombreux étages de combinaison plus ou moins linéaires de sa fenêtre de 2048 tokens, GPT3 opère directement dans un espace symbolique de haut-niveau où il est capable d'appliquer en parallèle (avec autant de "*threads*" que d'*attention heads*, en gros) des **filtres** ou des **procédures** qui prennent les *tokens* de l'étage précédent comme arguments pour ressortir une combinaison de *tokens* en sortie.
+
+### Séparation des tâches
+
+Il est assez naturel d'en conclure qu'on peut continuer d'utiliser les réseaux de neurones actuels comme d'excellents moyens de faire l'interface entre le niveau symbolique et l'environnement, que ça soit pour l'interprétation du langage naturel, l'analyse ou la génération d'images, de sons, de vidéos, etc.
+
+En revanche, on peut beaucoup plus aisément conduire les tâches et les opérations du niveau symbolique avec une architecture classique — soit avec des graphes sémantiques ou des langages impératifs — ce qui aura l'avantage d'être beaucoup plus robuste, fiable et débuggable.
+
+Ma conclusion est que les LLMs doivent devenir des "*small language models*" (SLM) qui vont mapper un texte en une architecture symbolique dont on aura établi le dictionnaire par avance, et mapper l'architecture symbolique vers du texte en appliquant un style d'écriture particulier.<br>Idéalement, je pense qu'il serait même bon de se passer entièrement des *LLM / SLM* et appliquer des algorithmes intégralement [neuro-symboliques](ApprocheNeuroSymbolique.md)...
 
 
-Archi similaire à auto-encoders (lire le sparse auto encoder) avec un bottleneck qui indique pas forcément moins de paramètres (c'est la même archi, même au centre) mais plutôt que l'on joue avec des symboles => finalement on revient vers les détails de formuler une réponse (un peu du gâchis finalement, puisque c'est grosso modo l'inverse des étages d'entrée pour retourner au niveau de la grammaire/syntaxe)
 
-
+## Brouillon
 
 Les vecteurs à 12,288 dimensions vont avoir un usage varié selon la profondeur à laquelle on se trouve:
 
@@ -143,26 +156,10 @@ Dans le même esprit que la théorie de l'évolution qui s'étend sur des millia
 
 
 
-
-
-###### Brouillon
-
-recopier un peu ce qu'il y a dans l'index... Essayer de généraliser ce qui se passe dans ce merdier et les implications pour nous ? => Ces trucs créent des **fucking procédures** uniquement à partir de liens pondérés entre des concepts putain !!!
-
-* "comprendre" les structures grammaticales
-  * en appliquant de nombreux filtres à travers le mécanisme de multi-head attention et les "query matrices" [^1][^2]
-  * en *augmentant / décorant* les tokens de données sémantiques provenant de son vocabulaire (i.e. espace vectoriel de haute dimension) [^3]
-* inférer un semblant de sémantique aux phrases qu'ils déchiffrent
-* appliquer des **procédures** à partir de ces structures sémantiques pour les transformer en d'autres structures ?
-  * Ou est-ce que c'est simplement du *pattern matching* élaboré ?
-
-* générer une réponse en appliquant un *style* d'écriture particulier
-
-
-
 [^1]:3blue1brown ["Attention in transformers"](https://www.youtube.com/watch?v=eMlx5fFNoYc&ab_channel=3Blue1Brown)
 [^2]: 3blue1brown ["How might LLMs store facts"](https://www.youtube.com/watch?v=9-Jl0dxWQs8&t=5s&ab_channel=3Blue1Brown)
 [^3]: Mark Riedl, ["Transformers: Origins"](https://mark-riedl.medium.com/transformers-origins-1db4bdfcb3d1)
 [^4]: Gary Marcus, ["Don't ride this bike!"](https://garymarcus.substack.com/p/dont-ride-this-bike-generative-ais)
 [^5]:Olah C., Jermyn A. ["What would be the most safety-relevant features in Language Models?"](https://transformer-circuits.pub/2023/july-update/index.html#safety-features)
 [^6]: Anthropic AI ["Softmax Linear Units"](https://transformer-circuits.pub/2022/solu/index.html#section-6-3)
+[^7]: Dugas D., ["The GPT-3 Architecture, on a Napkin"](https://dugas.ch/artificial_curiosity/GPT_architecture.html)

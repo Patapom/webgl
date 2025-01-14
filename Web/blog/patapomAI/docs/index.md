@@ -18,13 +18,13 @@ On constate depuis des années une sérieuse régression de la technologie[^1] !
 
 Que ça soit dans la navigation web infestée de pubs, des solutions logicielles "dans le cloud" (on ne possède même plus ses logiciels !), d'objets tout pourris produits en Chine à bas coût qui gâchent des ressources et de l'énergie pour servir à peine quelques mois, ou même notre propre OS qui nous espionne pour entraîner ses IA et faire de nous de simples data points dans un espace vectoriel de consommateurs, ça devient infernal de se servir de cette shit-tech !
 
-C'est insupportable de recevoir de la pub pour Ali Baba sur youtube juste parce qu'on a eu le malheur de se rendre sur le site 5 minutes avant! C'est même pas de l'IA ici, juste de l'échange de cookies ou de signatures d'utilisateurs entre serveurs. De l'arrangement entre coquins !
+C'est insupportable de recevoir de la pub pour Ali Baba sur youtube juste parce qu'on a eu le malheur de se rendre sur le site 5 minutes avant ! C'est même pas de l'IA ici, juste de l'échange de cookies ou de signatures d'utilisateurs entre serveurs. De l'arrangement entre coquins !
 
 Il y a une captation, un accaparement permanent de notre **attention** qui est proprement révoltant ! Il faut retrouver sa fierté d'être humain et se dire qu'on n'est pas juste de simples consommateurs : les portes de nos cerveaux sont inviolables, je n'ai que du mépris pour ceux qui chercheraient absolument à y entrer, on ne me payera jamais assez pour offrir la moindre possibilité d'accès à mes neurones, surtout pour y stocker des informations bassement commerciales ! J'ai toujours haï les pubs pour cette raison d'ailleurs.
 
 Rien que pour ces raisons, je ne veux pas qu'on m'observe, qu'on scrute le moindre de mes comportements !
 
-Qu'on parle de gouvernements autoritaires qui cherchent à contrôler nos faits et gestes, ou d'entités commerciales qui cherchent à nous vendre leurs produits, nous devons défendre nos vies privées coûte que coûte !
+Qu'on parle de gouvernements autoritaires qui cherchent à contrôler nos faits et gestes pour instaurer une forme de *crédit social*, ou d'entités commerciales qui cherchent à nous vendre leurs produits, nous devons défendre nos vies privées coûte que coûte !
 
 Et je crois qu'un assistant personnel nous permettrait de retrouver le contrôle de la technologie en navigant sur le web à notre place, en filtrant et en analysant toute la merde qui s'y trouve désormais afin de retrouver et de traiter l'information et répondre à nos questions de manière claire, précise et sans fioritures.
 
@@ -50,7 +50,7 @@ Outre le fait qu'on va probablement tôt ou tard devoir recourir aux "agents int
 
 
 ???- "Navigation internet"
-    ● Une application qui va faire des recherches à notre place (en nous évitant les popups, les pubs, les cookies, les demandes diverses de souscription, d'abonnement, de dons, etc. ) va probablement devenir indispensable (naviguer sur le web sur smartphone est déjà devenu au-delà de mes forces, je comprends même pas comment les gens font pour s'accommoder de ça ?)<br>→ On va probablement devoir aller fouiller sur archive.org pour accéder à des informations pré-âge-de-la-connerie ! (y compris les différentes versions de pages wikipédia avant qu'elles aient été caviardées pour servir des intérêts particuliers)<br><br>● Dans la mer de désinformation qui règne sur les sites d'e-commerce (faux commentaires, faux comptes, revendeurs douteux, etc.), ça serait fantastique de disposer d'un outil qui va faire le recoupement des différents produits que l'on cherche : analyser les fournisseurs, les fabricants, les distributeurs, les commentaires, leurs auteurs, leur fiabilité, etc.<br>De cette manière, on pourrait faire remplir des buts à l'agent comme trouver le fabricant et le distributeur le plus local possible, avec les produits les moins chers et les plus fiables pour nos besoins.<br><br>● Contrer les bots et les fermes à troll en déployant une armée de contre-robots dont le but sera rien de plus que de faire perdre du temps et épuiser les trolls humains en simulant des conversations "intéressantes" avec eux, en gros, leur faire croire que leur stratégie d'énervement fonctionne et faire durer les conversations avec eux le plus longtemps possible afin de décourager cette pratique (mais ça demanderait probablement d'immenses ressources et un effort coordonné) (sans compter que si les contre-mesures comme utiliser un proxy pour se connecter et filtrer les merdes fonctionnent, on va p'têt pas perdre notre temps avec ces abrutis de trolls ?) (mais juste pour les faire bien chier, ça me ferait plaisir :grin:)<br><br>● Répertorier les comptes de trolls, recouper leurs activités historiques : quand ont-ils été créés, combien de fois et à quelle date ont-ils changé de profil, quels éléments de langage véhiculent-ils, quelle est la potentielle synchronicité de leurs attaques avec celle d'autres bots, etc.<br>Idéalement, on pourrait se servir de toutes ces données pour faire des études statistiques de groupes et de réseau afin de remonter les filières (qui a payé, où est située la ferme, et même peut-être découvrir qui sont les personnes derrière ces réseaux ?).<br>
+    ● Une application qui va faire des recherches à notre place (en nous évitant les popups, les pubs, les cookies, les demandes diverses de souscription, d'abonnement, de dons, etc. ) va probablement devenir indispensable (naviguer sur le web sur smartphone est déjà devenu au-delà de mes forces, je comprends même pas comment les gens font pour s'accommoder de ça ?)<br>→ On va probablement devoir aller fouiller sur archive.org pour accéder à des informations pré-âge-de-la-connerie ! (y compris les différentes versions de pages wikipédia avant qu'elles aient été caviardées pour servir des intérêts particuliers)<br><br>● Un assistant de navigation devrait nous permettre de lutter efficacement contre le phishing, les scams et les spams. D'une part en centralisant les données qui permettent de les repérer, d'autre part en analysant les sources des informations pour déterminer leur fiabilité (c'est très facile pour un agent de vérifier la véracité de l'adresse e-mail de l'expéditeur, ce qu'un être humain ne va pas forcément faire)<br><br>● Dans la mer de désinformation qui règne sur les sites d'e-commerce (faux commentaires, faux comptes, revendeurs douteux, etc.), ça serait fantastique de disposer d'un outil qui va faire le recoupement des différents produits que l'on cherche : analyser les fournisseurs, les fabricants, les distributeurs, les commentaires, leurs auteurs, leur fiabilité, etc.<br>De cette manière, on pourrait faire remplir des buts à l'agent comme trouver le fabricant et le distributeur le plus local possible, avec les produits les moins chers et les plus fiables pour nos besoins.<br><br>● Contrer les bots et les fermes à troll en déployant une armée de contre-robots dont le but sera rien de plus que de faire perdre du temps et épuiser les trolls humains en simulant des conversations "intéressantes" avec eux, en gros, leur faire croire que leur stratégie d'énervement fonctionne et faire durer les conversations avec eux le plus longtemps possible afin de décourager cette pratique (mais ça demanderait probablement d'immenses ressources et un effort coordonné) (sans compter que si les contre-mesures comme utiliser un proxy pour se connecter et filtrer les merdes fonctionnent, on va p'têt pas perdre notre temps avec ces abrutis de trolls ?) (mais juste pour les faire bien chier, ça me ferait plaisir :grin:)<br><br>● Répertorier les comptes de trolls, recouper leurs activités historiques : quand ont-ils été créés, combien de fois et à quelle date ont-ils changé de profil, quels éléments de langage véhiculent-ils, quelle est la potentielle synchronicité de leurs attaques avec celle d'autres bots, etc.<br>Idéalement, on pourrait se servir de toutes ces données pour faire des études statistiques de groupes et de réseau afin de remonter les filières (qui a payé, où est située la ferme, et même peut-être découvrir qui sont les personnes derrière ces réseaux ?).<br>
 
 
 
@@ -60,7 +60,26 @@ Outre le fait qu'on va probablement tôt ou tard devoir recourir aux "agents int
 
 
 ???- "Doubles Synthétiques"
-    ● Avoir une application qui mémorise **tout** ce qui nous est arrivé au cours de notre vie offre également l'opportunité de pouvoir se rappeler facilement des choses mêmes floues, en demandant à l'application ce qui s'est passé tel ou tel jour, le nom des gens qu'on croise, de nous rappeler telle ou telle information même à partir de données très imprécises<br><br>● Dans un domaine plus intime, une application qui suivrait une personne toute sa vie posséderait une image, un mapping très fidèle de cette personne : ses habitudes, ses goûts, sa façon de parler, sa personnalité, etc.<br>On pourrait presque imaginer la possibilité de recréer virtuellement la personne en question et même continuer de faire évoluer l'avatar virtuel de la personne. Quelles seraient les implications en cas de décès de la personne ? Les possibilités en sont presque effrayantes.<br><br>● Sans pour autant se faire entièrement passer pour nous, un avatar virtuel pourrait nous servir d'interface sur les réseaux sociaux et nous épargner la peine de chercher le contenu intéressant posté par nos amis/notre famille (ou leurs avatars). Ce ne seraient pas des agents qui interagiraient automatiquement à notre place, mais plus des filtres qui nous permettraient de recevoir et d'envoyer l'essentiel, sans souffrir des idioties de Zuckerberg ou Musk.<br><br>● On pourrait concevoir le réseau d'assistants personnels comme un fantastique moyen d'interagir **directement** avec nos amis et nos familles, on pourrait ainsi entièrement se passer des réseaux sociaux et des applications de *chat* parasitaires comme Slack (qui a l'outrecuidance de nous forcer à changer de **machine ou d'OS** à intervalles réguliers ! Mais pour qui se prennent-ils ? C'est une simple application de messagerie codée en Python et Javascript, bordel !)
+    ● Avoir une application qui mémorise **tout** ce qui nous est arrivé au cours de notre vie offre également l'opportunité de pouvoir se rappeler facilement des choses mêmes floues, en demandant à l'application ce qui s'est passé tel ou tel jour, le nom des gens qu'on croise, de nous rappeler telle ou telle information même à partir de données très imprécises<br><br>● Dans un domaine plus intime, une application qui suivrait une personne toute sa vie posséderait une image, un mapping très fidèle de cette personne : ses habitudes, ses goûts, sa façon de parler, sa personnalité, etc.<br>On pourrait presque imaginer la possibilité de recréer virtuellement la personne en question et même continuer de faire évoluer l'avatar virtuel de la personne. Quelles seraient les implications en cas de décès de la personne ? Les possibilités en sont presque effrayantes.<br><br>● Sans pour autant se faire entièrement passer pour nous, un avatar virtuel pourrait nous servir d'interface sur les réseaux sociaux et nous épargner la peine de chercher le contenu intéressant posté par nos amis/notre famille (ou leurs avatars). Ce ne seraient pas des agents qui interagiraient automatiquement à notre place, plutôt des filtres qui nous permettraient de recevoir et d'envoyer l'essentiel, sans souffrir des dernières idioties de Zuckerberg ou Musk.<br><br>● On pourrait concevoir le réseau d'assistants personnels comme un fantastique moyen d'interagir **directement** avec nos amis et nos familles, on pourrait ainsi entièrement se passer des réseaux sociaux et des applications de *chat* parasitaires comme Slack, qui ont même l'outrecuidance de nous forcer à changer de **machine ou d'OS** à intervalles réguliers ! (mais pour qui se prennent-ils ? C'est une simple application de messagerie codée en Javascript, bordel !)
+
+
+
+### Les risques d'une intelligence bon marché
+
+Mais que se passe-t-il si on met toutes les connaissances et toute l'intelligence du monde entre les mains de tout le monde ? Ne court-on pas le risque que des personnes malveillantes mettent au point des armes biologiques, bactériologiques ou nucléaires ?! :scream:
+
+Alors déjà pour commencer, je n'ai pas pour but de créer quelque chose d'intelligent. Pour être honnête, j'attends toujours que quelqu'un nous donne une définition intelligente de l'intelligence.
+
+L'idée ici est de disposer d'un assistant de connaissance : quelque chose qui sait tout ce qu'il y a à savoir et avec lequel on peut dialoguer en langage naturel.
+
+Mon avis est que :
+
+1. je préfère que ça soit dans les mains de **tout le monde**, plutôt qu'entre les mains de quelques-uns — comme d'habitude, les plus puissants, les plus fortunés, les plus influents; en gros, ceux qu'on n'aime pas.
+2. de toute manière, **ça va arriver**, et connaissant le capitalisme financiarisé, ça va se faire de manière dégueulasse et au détriment de tout le monde tandis qu'un petit groupe d'acteurs puissants détiendront le monopole de la censure et de l'autorisation d'accès ou non à tel ou tel type d'information, selon vos moyens et votre bande passante — on pense ici à Open AI, Microsoft, Google, Apple, Facebook qui sont les seuls garants de l'accès (payant) à leurs modèles énergivores, mais également à Black Rock, Palantir, Vanguard, la NSA et d'autres organisations mal intentionnées qui ont amplement les moyens de se payer leurs propres modèles.
+3. l'accès à des informations dangereuses est **déjà possible** si on s'en donne les moyens, et les groupes terroristes et mafieux ont largement les moyens d'y accéder. Ça ne change donc strictement rien, puisque de toute manière une personne isolée ne pourra jamais construire une bombe nucléaire ou avoir accès aux matériaux extrêmement réglementés (explosifs, anthrax, souches bactériologiques, etc.).<br>De plus, mon opinion (naïve) est que pour combattre le terrorisme, autant s'arranger pour qu'il n'existe pas en premier lieu !
+4. puisque ça va arriver et que c'est déjà possible, ne doit-on pas au contraire donner à tout le monde **les moyens de se défendre** ? Un assistant de connaissance est justement un excellent moyen de se défendre contre les spams, le phishing, les scams ou toute forme d'atteinte aux biens et aux personnes (je compte bien évidemment les pubs comme une atteinte à notre bien-être).
+
+
 
 
 
@@ -70,11 +89,11 @@ Même si je trouve les LLMs fascinants, je ne suis pas pour autant convaincu que
 
 On voit nettement le plateau atteint par ces techniques, même si Open AI parvient jusque-ici à se raccrocher aux branches au dernier moment en rajoutant un nouveau modèle qui pulvérise les tests, comme dernièrement le modèle O3 qui parvient à faire 85% (!!!) sur le corpus ARC-AGI là où le record était à ~50% et utilisait de la "mixture of experts" (MoE).
 
-Ca reste, à la base, un algo qui consiste à prédire le prochain token d'une séquence... Imaginons une seule seconde que l'énorme modèle GPT4 à 1.8 trillions de paramètres soit rendu aussi rapide qu'une requête Google, il faudra toujours appeler l'algo autant de fois qu'il y aura de tokens dans la séquence, jusqu'à tomber sur <EOS> (end of sentence/stream/sequence) !
+Ca reste, à la base, un algo qui consiste à prédire le prochain token d'une séquence... Imaginons une seule seconde que l'énorme modèle GPT4 à 1.8 trillions de paramètres soit rendu aussi rapide qu'une requête Google, il faudra toujours appeler l'algo autant de fois qu'il y aura de tokens dans la séquence, jusqu'à tomber sur &lt;EOS&gt; (end of sentence/stream/sequence) !
 
 On parle donc d'un algo qui est fondamentalement 2 voire 3 ordres de magnitudes plus coûteux qu'une requête Google !
 
-Et je ne parle même pas des affabulations / hallucinations / confabulations générées par ces modèles, le fait que ce sont des boîtes noires inextricables et leur incapacité (semble-t-il) à former un World Model solide et cohérent  uniquement à partir de textes collectés sur l'intégralité de l'internet mondial (même après RLHF), etc.
+Et je ne parle même pas des affabulations / hallucinations / confabulations générées par ces modèles, le fait que ce sont des boîtes noires inextricables et leur incapacité (semble-t-il) à former un World Model solide et cohérent  uniquement à partir de textes collectés sur l'intégralité de l'internet mondial (même après RLHF), le fait que le *Chain of Thought* reasoning soit probablement encore un ordre de grandeur plus coûteux, etc.
 
 Dans tous les cas (1) on ne peut pas se fier à leurs réponses et (2) on ne peut décemment pas envisager de basculer l'intégralité des utilisateurs de moteurs de recherches vers ces monstres avides de puissance de calcul, ça n'est simplement pas environnementalement supportable...
 
@@ -90,9 +109,9 @@ On peut néanmoins noter de bonnes choses que les LLMs nous ont apportées, nota
 
 <br>
 
-On va explorer un peu plus avant [les leçons à tirer des LLMs](./LeçonsLLM.md).
+Pour commencer, une note sur les [neurones polysémiques](PolysémieLLM.md), l'embedding dans un espace vectoriel de grande dimension et comment s'en inspirer pour mieux s'en passer :sweat_smile:.
 
-Également une note sur les [neurones polysémiques](PolysémieLLM.md) et comment s'en inspirer pour mieux s'en passer :sweat_smile:.
+Puis on va explorer un peu plus avant [les leçons à tirer des LLMs](./LeçonsLLM.md).
 
 
 
@@ -102,18 +121,38 @@ Et donc, si on n'utilise pas une architecture de réseau de neurones classiques,
 
 Pour commencer, de la même manière qu'on n'a pas recopié exactement tous les détails des ailes d'oiseaux pour voler, il faut se convaincre qu'il est tout à fait possible d'exploiter ce qu'on a appris des LLMs et de la façon dont on suppose qu'ils fonctionnent en interne pour les recoder de manière *explicite* !
 
-Les travaux des ingénieurs sur les réseaux de neurones profonds ont permis de prouver qu'on pouvait reproduire artificiellement une bonne part de ce que notre cerveau peut faire, mais on peut donc s'abstraire de ce que ces chercheurs et ingénieurs ont créé pour fabriquer quelque chose d'encore plus souple, de plus simple et surtout de moins coûteux (à la fois en termes de ressources et de temps) !
+Les travaux des chercheurs et des ingénieurs sur les réseaux de neurones profonds ont permis de prouver qu'on pouvait reproduire artificiellement une bonne part de ce que notre cerveau peut faire dans le traitement du langage mais également dans la reconnaissance et la génération d'images ou de sons.
+On peut donc s'en inspirer pour aller encore plus loin et fabriquer quelque chose d'encore plus souple, de plus simple et surtout de moins coûteux (à la fois en termes de ressources et de temps) !
 
 On a vu que tous les réseaux de neurones évolués (*image classifiers* ou LLMs) ont comme point commun de combiner les neurones des couches précédentes en des concepts de plus en plus abstraits et symboliques.
 
 * Pour les *classifiers*, on part du pixel pour arriver au concept-même de la chose à classifier, à chaque fois en combinant des morceaux plus détaillés de la couche d'avant en une *feature* plus complexe
 * Pour les LLMs, on part du mot/*token* pour arriver à des concepts/opérations de plus en plus complexes (même si l'on a vu que ces opérations ne sont probablement qu'un *pattern matching*), puis on redescend au niveau du *token* en appliquant au passage un arrangement (un style d'écriture) particulier (cf. le dernier chapitre de cette [note](PolysémieLLM.md) pour une architecture hypothétique des LLMs).
+* Pour les générateurs d'images, de sons ou de vidéos, on part généralement du langage naturel pour arriver à un espace latent (interne) qui encode des concepts de haut niveau, pour finalement redescendre au niveau de la génération de parties de plus en plus détaillées de l'image ou du son. Il est même possible de "dessiner" pour guider la génération de certaines parties de l'image vers un design particulier : on force l'espace latent à avoir le concept que l'on souhaite voir à un endroit.
 
 On voit donc qu'il est possible de se réserver un espace de **concepts de haut-niveau** (qu'on va pouvoir facilement expliquer, ce qui est un énorme avantage par rapport au côté boîte noire des ANN) qu'on va pouvoir créer via un **algorithme d'apprentissage**, puis adresser et combiner via des **procédures** qui vont, elles aussi, pouvoir être apprises par un algorithme d'apprentissage (on verra que c'est probablement le même que pour les concepts), ces procédures pourront ensuite être chaînées suivant un **plan d'exécution** afin de répondre aux requêtes de l'utilisateur...
 
 <br>
 
 On va explorer un peu plus avant cette [approche neuro-symbolique](ApprocheNeurosymbolique.md).
+
+<br>Peut-on tout représenter de cette manière ?
+
+
+
+## Comment apprend-t-on ?
+
+Si on n'utilise ni les réseaux de neurones classiques, ni la *backpropagation*, comment on fait pour apprendre quoi que ce soit à l'aide d'une approche neuro-symbolique ?
+
+On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsApprentissage.md).
+
+<br>1er Prototype d'apprentissage non-supervisé ==> apprendre automatiquement les phonèmes de la langue française.
+
+<br>2nd prototype ==> apprendre la prononciation d'un mot inconnu.
+
+<br>
+
+3ème prototype ==> mapper la parole vers les phonèmes et vice versa.
 
 
 
@@ -129,7 +168,7 @@ La conception d'un *assistant vocal* représente donc une première étape perti
 
 On va explorer un peu plus avant [l'interface sonore](./InterfaceSonore.md).
 
-
+<br>Un prototype de *device* sur un ESP32 **&lt; TODO &gt;**
 
 
 

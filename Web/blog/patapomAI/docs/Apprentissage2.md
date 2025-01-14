@@ -213,6 +213,15 @@ https://arxiv.org/abs/2406.01506
 
 
 
+!!! question
+    Comment fait-on pour lire une phrase et augmenter le contexte des mots d'une sémantique, un peu à la manière du mécanisme d'attention ? (https://www.youtube.com/watch?v=FepOyFtYQ6I&ab_channel=BitsofChris). C'est facile avec des word embeddings qui impliquent de la sémantique (king / man / woman /machin) puisqu'on peut ajouter une moyenne pondérée des vecteurs, mais dans notre cas on va probablement avoir un vecteur de sens, avec un poids pour chaque sens... Le poids correspondant à la probabilité d'usage qu'un sens soit plus utilisé qu'un autre (exemple con mais le mot "gentil" est 99% du temps employé pour dire que quelqu'un est gentil, et 1% du temps c'est pour désigner les goyim (non-juifs) dans un contexte religieux)
+
+
+
+
+
+
+
 
 
 [^1]: 2022, Sorscher et al, "Neural representational geometry underlies few-shot concept learning"

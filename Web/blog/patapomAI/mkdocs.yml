@@ -6,9 +6,14 @@ site_url: 'http://www.patapom.com/blog2'
 pages:
     - Home: index.md
     - LLMs:
-        - Les leçons à tirer des LLMs: LeçonsLLM.md
         - Les neurones polysémiques: PolysémieLLM.md
-    - Approche Neuro-Symbolique: ApprocheNeuroSymbolique.md
+        - Les leçons à tirer des LLMs: LeçonsLLM.md
+    - Approche Neuro-Symbolique:
+        - La représentation des concepts: ApprocheNeuroSymbolique.md
+    - Apprentissage:
+        - Fondements: FondementsApprentissage.md
+        - Apprentissage Supervisé: ApprentissageSupervisé.md
+        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
     - Interface Sonore: InterfaceSonore.md
 
 #    - Artificial Intelligence: AI.md

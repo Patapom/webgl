@@ -1,16 +1,16 @@
 # Neurones Polysémiques
 
+On étudie le cas de 2 papiers [^1][^2] d'Anthropic AI qui rapportent leurs découvertes sur la capacité d'extraire des vecteurs monosémiques quand ils sont exprimés dans une base sur-déterminée, à partir d'une architecture neuronale polysémique et a priori inextricable.
 
 
-Discussion sur la polysémie des neurones probablement due à l'architecture figée et la contrainte de place (comme pour les neurones biologiques) => besoin de compresser les données, ça donne aussi une pression naturelle pour la simplification/agglomération de concepts [^1][^2]
 
-D'après un papier sur la *sparse optimization* [^5], on peut encoder $\mathcal{O}(n {\rm e}^{n/k})$ *features* dans un vecteur de dimension $n$ de manière non destructive à condition que le vecteur soit *sparse*, c-à-d que le nombre de composantes non nulles soit $k \ll n$ (cf. https://gabgoh.github.io/ThoughtVectors/).
+Cette capacité à encoder plus d'informations que le nombre de "bits" (neurones) du système est due à un phénomène qu'on appelle *sparse optimization* [^5] qui dit qu'on peut encoder $\mathcal{O}(n {\rm e}^{n/k})$ *features* dans un vecteur de dimension $n$ de manière non destructive à condition que le vecteur soit *sparse*, c-à-d que le nombre de composantes non nulles soit $k \ll n$ (cf. https://gabgoh.github.io/ThoughtVectors/).
 
 
 
 ## Superposition vs. Composition
 
-L’étude présentée dans [^3] propose une analyse particulièrement intéressante de la distinction entre la *superposition* et la *composition* des caractéristiques (*features*) qu'on cherche à représenter.
+Pour commencer, l’étude présentée dans [^3] propose une analyse particulièrement intéressante de la distinction entre la *superposition* et la *composition* des caractéristiques (*features*) qu'on cherche à représenter.
 
 ![Composition vs Superposition](images\LLM\Composition vs Superposition.png)
 
@@ -246,25 +246,55 @@ Quand il y a peu de données, la superposition permet la mémorisation exacte. M
 
 ## Discussion
 
-On se rend compte que même si l'interprétation au niveau purement neuronal est difficile voire impossible à cause de la polysémie des neurones individuels, il existe une transformation (non-)linéaire vers un espace vectoriel sur-déterminé qui laisse apparaître des vecteurs (*features*) monosémiques non-ambigus : le réseau "veut faire du sens" !
+### Les réseaux sont définitivement monosémiques
 
-Un avantage d'avoir encodé et groupé les *features* sémantiquement dans cet espace vectoriel de haute dimension est que cela permet de retrouver un "champ lexical" à moindre coût en faisant des opérations sur les vecteurs. Par exemple, on peut imaginer retrouver tous les concepts voisins en calculant la *cosine similarity* avec un seuil plus ou moins élevé selon la sélectivité du voisinage qu'on cherche...<br>
-On doit aussi pouvoir faire ces fameuses opérations entre vecteurs "king - man + woman = queen" → à noter que j'ai à peu près l'équivalent dans mon logiciel quand j'active plusieurs concepts, je ne suis pas non plus certain que ça soit quelque chose qu'on ne puisse pas émuler de manière purement symbolique.
+On se rend compte que même si l'interprétation au niveau du neurone individuel est difficile voire impossible à cause de leur polysémie, il existe une transformation (non-)linéaire vers un espace vectoriel sur-déterminé qui laisse apparaître des vecteurs (*features*) monosémiques non-ambigus : le réseau "veut faire du sens", et ça se vérifie dans quasiment tous les modèles (LLMs, vision, *classifiers*, etc.) !
+
+### Pas besoin d'embedding
+
+→ Puisqu'on a vu que les vecteurs étaient stockés par **superposition**, la composition est-elle possible ?<br>
+Ca dépend :
+
+* Dans le cas d'un *embedding* comme Word2Vec, chaque direction semble encoder un concept particulier et donc, oui : on peut composer ces fameuses opérations entre vecteurs "king - man + woman $\approx$ queen". Mais en même temps, le nombre de concepts représentés par ces vecteurs semblent très bas : c'est probablement les plus représentatifs de la langue, donc ça peut servir de brouillon de base mais ça ne couvre probablement pas la gamme immense de concepts (d'axes) qui vont nous permettre de classifier les informations.<br>:white_check_mark: À noter qu'on peut aisément réaliser l'équivalent de "king - man + woman $\approx$ queen" de manière purement symbolique : il suffit de tagger la personne avec <*royauté*> puis de substituer le concept de <*mâle*> par celui de <*femelle*> pour passer de "roi" à "reine". C'est infiniment plus simple...
+
+    
+
+* Dans le cas du *sparse auto-encoder*, on observe du *feature splitting* et des groupements sémantiquement proches (Golden Gate / San Francisco) mais si on s'éloigne trop des vecteurs du dictionnaire, on perd probablement toute signification. Donc non, je ne pense pas qu'on puisse composer les vecteurs comme on le fait dans le cas de l'*embedding*.<br>:white_check_mark: Cependant, un avantage d'avoir encodé et groupé les *features* sémantiquement dans cet espace vectoriel de haute dimension est que cela permet de retrouver un "champ lexical" à moindre coût en faisant des opérations sur les vecteurs. Par exemple, on peut imaginer retrouver tous les concepts voisins en calculant la *cosine similarity* avec un seuil plus ou moins élevé selon la sélectivité du voisinage qu'on cherche...<br>
+
+→ Et si l'on tient réellement à utiliser des vecteurs parce qu'ils permettent d'encoder une **amplitude** d'activation, rien ne nous empêche d'ajouter un concept <*amplitude*> pourvue d'une valeur numérique si cela nous chante. D'ailleurs, l'amplitude ne signifie-t-elle pas le degré de **confiance** qu'on a dans la présence ou non du concept ? Or cette confiance est intrinsèquement présente dans le système que j'ai en tête... C'est même peut-être un hyper-paramètre lié à chaque information, ou plutôt une moyenne des attributs de confiance liés à chaque élément qui compose l'information (la confiance en son auteur, les autres sources qui font état de cette information, leur confiance respective, le côté surprenant de cette information qui mériterait qu'on la vérifie, etc.).
 
 
 
-Par conséquent, au-delà de l'étonnement que cet encodage peut susciter, est-il nécessaire de s'emmerder la vie en 12000 dimensions ? Si le cerveau pouvait opérer au niveau symbolique, il le ferait !
+Par conséquent, au-delà de l'étonnement et de l'intérêt que cet encodage peut susciter dans de nombreux domaines (on pense aux cours de Stanislas Dehaene), est-il nécessaire de s'emmerder la vie en 12000 dimensions ? Je crois que si le cerveau pouvait opérer au niveau symbolique, il le ferait !
 
 
 
-!!! note
-     Je suis un peu déçu de ne pas trouver la trace de mes hypothèses sur la structure des layers du LLM dans les 2 papiers que j'ai étudiés, hormis la confirmation qu'ils se sont bien placés au centre du pipeline de blocs d'attention pour tenter d'y trouver les concepts de plus haut niveau.
+### Ordre de grandeur du nombre de concepts à prévoir
+
+!!! example "Dead Features"
+     *"The proportion of dead features was roughly 2% for the 1M SAE, 35% for the 4M SAE, and 65% for the 34M SAE."* <br><br>Ça implique donc un nombre de *features* "vivantes" de l'ordre de 980,000 dans le modèle 1M, 2.6 millions dans le modèle 4M et 11.9 millions dans le modèle 34M !
+
+
+
+Ça pose la question du nombre de concepts qu'on va devoir gérer ?
+
+Évidemment, dans leur cas, on ne sait pas distinguer s'il s'agit de *features* représentant des faits (*Golden Gate bridge*) ou des concepts (*sycophant*, tromperie, sarcasme).
+
+Et le fait qu'on ne puisse pas composer les *features* entre elles va imposer de nombreux doublons. Travailler de manière symbolique et composable permettra de recréer des structures comme les arbres, les listes, les dépendances, etc. qui vont permettre de réduire drastiquement le nombre de concepts à gérer...
+
+Dans tous les cas, cela représente tout de même un nombre **immense** de "choses" à apprendre et on ne va pas pouvoir rentrer tout ça manuellement : il va nous falloir un algorithme d'apprentissage automatique !
+
+
+
+### Pas de filtres ?
+
+Je suis un peu déçu de ne pas avoir trouvé dans les 2 papiers que j'ai étudiés, la trace de mes hypothèses sur l'existence de structure de filtres et de procédures dans les *layers* du LLM, ainsi que cette espèce d'organisation en double pyramide (*tokens → hi-level → tokens*), hormis la confirmation qu'ils se sont bien placés au centre du pipeline de blocs d'attention pour tenter d'y trouver les concepts de plus haut niveau.
 
 
 
 ## Réflexions
 
-Utiliser mon algo d'apprentissage pour retrouver la signification des *features* isolées par l'*auto-encoder* de [^4] ?
+Utiliser mon algo d'apprentissage pour retrouver la signification des *features* isolées par l'*auto-encoder* ?
 
  → Si on liste tous les concepts associés aux mots/phrases sur lesquels la *feature* est activée, on peut peut-être trouver les points communs ?
 

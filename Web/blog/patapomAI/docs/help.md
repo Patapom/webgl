@@ -9,6 +9,10 @@ For full documentation visit [mkdocs.org](http://mkdocs.org).
 
 :arrow_right:
 
+⬘ (0x2B18)
+
+⬙ (0x2B19)
+
 → (alt 26)
 
 – (alt 0150) (en dash)
