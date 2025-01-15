@@ -2,9 +2,11 @@
 
 Ce blog va tenter de rassembler l'ensemble de mes réflexions sur l'Intelligence Artificielle.
 
-Cela pourrait paraître opportuniste de ma part de m'intéresser "soudainement" à l'IA — pile au moment de la révolution des deep neural nets et des LLM's — alors que j'ai fait toute ma carrière dans le jeu vidéo et le rendu temps-réel, mais c'est pourtant la vérité : j'ai toujours été passionné par l'IA.
+Avant-propos : ça va probablement vous sembler écrit par un simple d'esprit, mais parfois de meilleurs jours et de bonnes idées ! Persévérez ! :grin:
 
-Surtout dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "Short Circuit" (que j'ai littéralement vu des 10aines de fois), "Trou Noir", "2001: A Space Odissey", "Electric Dream", "Brainscan", "Terminator", "Robocop", j'en passe et des meilleurs !
+Cela pourrait paraître opportuniste de ma part de m'intéresser "soudainement" à l'IA — pile au moment de la révolution des *deep neural networks* et des LLM's — alors que j'ai fait toute ma carrière dans le jeu vidéo et le rendu temps-réel, mais c'est pourtant la vérité : j'ai toujours été passionné par l'IA.
+
+Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "Short Circuit" (que j'ai littéralement vu des 10aines de fois), "Trou Noir", "2001: A Space Odissey", "Electric Dream", "Brainscan", "Terminator", "Robocop" et j'en passe...
 
 J'ai choisi le rendu car c'était ce qui m'attirait et qui m'éclatait le plus à l'époque, mais immédiatement derrière il y a toujours eu l'IA et ses promesses d'un assistant personnel "intelligent".
 
@@ -55,7 +57,7 @@ Outre le fait qu'on va probablement tôt ou tard devoir recourir aux "agents int
 
 
 ???- "Politique & Histoire"
-    ● On pourrait tout à fait envisager des bots qui nous représentent politiquement sur les forums, les réseaux sociaux et même, un jour, qui voteront à notre place ! (peut-être pas aux présidentielles mais dans des formes de démocratie participative plus poussées ?)<br><br>● Rien de tel qu'une base de faits étayés qu'on nous livre à la vitesse de l'éclair pour contrer tous les arguments du camp adverse, notamment pour contrer les fake news et les mensonges que les politiciens (de droite) nous livrent à longueur de journée ! (même si, il faut bien l'avouer, la vérité ou le mensonge n'ont plus beaucoup de sens de nos jours dans les médias, l'important étant de divertir et de faire le buzz)<br><br>● Une base de faits historiques pourrait être constituée par recoupement d'archives. Mais pour avoir écouté quelques interventions d'historiens, la majorité du travail se fait *in situ*, dans des salles d'archives non numérisées pour la plupart. Énormément de documents sont également inaccessibles (protégés, privés, etc.), donc pas tellement de miracles à attendre de ce côté-là. À noter qu'il n'y a aussi pas vraiment besoin de séparer une base de faits historiques d'une base de faits communs : l'histoire est après tout faite du commun d'autrefois.
+    ● On pourrait tout à fait envisager des bots qui nous représentent politiquement sur les forums, les réseaux sociaux et même, un jour, qui voteront à notre place ! (peut-être pas aux présidentielles mais dans des formes de démocratie participative plus poussées ?)<br><br>● Rien de tel qu'une base de faits étayés qu'on nous livre à la vitesse de l'éclair pour contrer tous les arguments du camp adverse, notamment pour contrer les fake news et les mensonges que les politiciens de droite nous livrent à longueur de journée ! (même si, il faut bien l'avouer, la vérité ou le mensonge n'ont plus beaucoup de sens de nos jours dans les médias, l'important étant de divertir et de faire le buzz)<br><br>● Une base de faits historiques pourrait être constituée par recoupement d'archives. Mais pour avoir écouté quelques interventions d'historiens, la majorité du travail se fait *in situ*, dans des salles d'archives non numérisées pour la plupart. Énormément de documents sont également inaccessibles (protégés, privés, etc.), donc pas tellement de miracles à attendre de ce côté-là. À noter qu'il n'y a aussi pas vraiment besoin de séparer une base de faits historiques d'une base de faits communs : l'histoire est après tout faite du commun d'autrefois.
 
 
 
@@ -134,7 +136,7 @@ On voit donc qu'il est possible de se réserver un espace de **concepts de haut-
 
 <br>
 
-On va explorer un peu plus avant cette [approche neuro-symbolique](ApprocheNeurosymbolique.md).
+On va explorer un peu plus avant cette [approche neuro-symbolique](ApprocheNeuroSymbolique.md).
 
 <br>Peut-on tout représenter de cette manière ?
 

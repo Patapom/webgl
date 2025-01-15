@@ -12,8 +12,8 @@ pages:
         - La représentation des concepts: ApprocheNeuroSymbolique.md
     - Apprentissage:
         - Fondements: FondementsApprentissage.md
-        - Apprentissage Supervisé: ApprentissageSupervisé.md
-        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
+#        - Apprentissage Supervisé: ApprentissageSupervisé.md
+#        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
     - Interface Sonore: InterfaceSonore.md
 
 #    - Artificial Intelligence: AI.md

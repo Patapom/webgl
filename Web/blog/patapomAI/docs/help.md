@@ -2,6 +2,8 @@
 
 For full documentation visit [mkdocs.org](http://mkdocs.org).
 
+Diagrams ==> draw.io 
+
 :smile:
 :poop:
 
@@ -9,9 +11,9 @@ For full documentation visit [mkdocs.org](http://mkdocs.org).
 
 :arrow_right:
 
-⬘ (0x2B18)
+⬘ (0x2B18 / 11032) &#11032; 
 
-⬙ (0x2B19)
+⬙ (0x2B19 / 11033) &#11033; 
 
 → (alt 26)
 

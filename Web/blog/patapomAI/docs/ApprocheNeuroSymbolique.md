@@ -49,3 +49,12 @@ Pourquoi neuro- ? ==> Parce qu'il y a une part de graphe et de poids
     * La certitude est une notion contextuelle, elle dépend de son environnement
   * Définition de la notion de "avoir du sens" (on sent que quelque chose "clique" et s'emboîte parfaitement dans notre raisonnement : on a *compris* !)
 
+
+
+## Concepts Moyens
+
+le fait qu'on soit binaire (feature ou pas feature) => moyenne des features binaire = vecteur non binaire
+
+le prototype permet de classifier aisément
+
+les exemples fabriquent le prototype, le prototype classifie les nouveaux exemples, les nouveaux exemples updatent le prototype
