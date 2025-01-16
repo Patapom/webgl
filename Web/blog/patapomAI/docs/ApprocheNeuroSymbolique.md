@@ -4,9 +4,9 @@ Déjà, pourquoi neuro-symbolique ? Pourquoi pas purement symbolique ?
 
 Hé bien essentiellement parce que les réseaux de neurones profonds fonctionnent très bien pour tout ce qui implique les entrées/sorties et l'interfaçage avec l'environnement. Depuis leur conception/généralisation?/démocratisation? en 2012 avec AlexNet, ils ont continuellement démontré leur excellence dans les tâches de classification et de génération d'images, de vidéo ou d'audio. Il serait par conséquent dommage de se passer de leurs prouesses.
 
-En revanche, il est beaucoup moins certain qu'ils soient indispensables au traitement de séquences de symboles ou de données structurées, comme le langage par exemple (même si les LLMs semblent démontrer le contraire).
+En revanche, il est beaucoup moins certain que les réseaux de neurones actuels soient indispensables au traitement de séquences de symboles ou de données structurées, comme le langage par exemple (même si les LLMs semblent démontrer le contraire).
 
-De plus, le côté *boîtes noires* de tels systèmes les rend inaptes à être utilisés dans des tâches décisionnelles où l'on a besoin d'un certain degré de certitude et de démonstration de responsabilité : on ne peut pas laisser certaines décisions entre les neurones de "personnes" mentalement instables, c'est la même chose pour des systèmes automatisés.
+De plus, le côté *boîtes noires* de tels systèmes les rend inaptes à être utilisés dans des tâches décisionnelles où l'on a besoin d'un certain degré de certitude et de démonstration de responsabilité : on ne peut pas laisser certaines décisions entre les neurones de systèmes "mentalement instables".
 
 
 
@@ -18,7 +18,7 @@ On va donc procéder à l'interface entre l'environnement et notre niveau symbol
 
 On voit ici représentée la complexité des détails de l'environnement en entrée, qu'on va distiller en une représentation symbolique plus simple.
 
-Et inversement en sortie où l'on va partir d'une description symbolique simple, qu'on va étendre en une représentation détaillée compatible avec l'environnement.
+Et inversement en sortie où l'on va partir d'une description symbolique simple qu'on va étendre en une représentation détaillée, compatible avec l'environnement.
 
 
 
@@ -26,11 +26,11 @@ Et inversement en sortie où l'on va partir d'une description symbolique simple,
 
 Est-elle bien définie ? Est-elle même seulement possible ?
 
-On a vu dans la [note sur les LLM](LeçonsLLM.md) et [la note sur les neurones polysémiques](PolysémieLLM.md) que tous les réseaux de neurones étudiés par Anthropic — des *image classifiers* aux modèles de langages — essayaient couche après couche, de passer à un niveau symbolique en assemblant des morceaux de concepts "bas niveau" et construire des concepts de plus haut niveau pour pouvoir finalement opérer sur ces concepts.
+On a vu dans la [note sur les LLM](LeçonsLLM.md) et [la note sur les neurones polysémiques](PolysémieLLM.md) que tous les réseaux de neurones étudiés par Anthropic — des *image classifiers* aux modèles de langages — essayaient couche après couche, de passer à un niveau symbolique : ils assemblent des morceaux de concepts "bas niveau" et construisent des concepts de plus haut niveau pour pouvoir finalement opérer sur ces concepts.
 
 On voit donc qu'on passe toujours d'un étage contenant de nombreux détails peu signifiants (par exemple les pixels d'une image, ou les lettres d'une phrase) vers un étage contenant peu d'éléments très signifiants (par exemple le contenu de l'image, ou la signification de la phrase).
 
-Mais on imagine ce lent passage des détails d'entrée vers les symboles de sortie assez flou. Comment décider du nombre de *layers* des réseaux ? Ou du nombre de symboles à mapper en sortie ?
+Mais on imagine de manière assez floue ce lent passage des détails d'entrée vers les symboles de sortie. Comment décider du nombre de *layers* des réseaux ? Ou du nombre de symboles à mapper en sortie ? Quid si notre dictionnaire de symboles / concepts évolue au cours du temps ? Comment restructure-t-on alors le réseau sans tout devoir ré-apprendre, comme c'est le cas actuellement ?
 
 C'est pourtant déjà ce qu'on fait dans les *image classifers* où l'on demande au réseau de neurones de détecter la présence d'un certain nombre de classes dans une image.
 
@@ -48,7 +48,7 @@ Mais si je vois ça, je vais penser à "vélo", quand bien même il y a aussi le
 
 ### Le bon niveau de détail ?
 
-On voit bien ici l'ambiguïté qu'il y a à se focaliser sur un niveau de détail particulier. Tout dépend de notre attention et la tâche qu'on s'est fixée.
+On voit bien ici l'ambiguïté qu'il y a à se focaliser sur un niveau de détail particulier. Tout dépend de notre attention et la tâche qu'on essaie d'accomplir.
 
 Quel est donc le "bon niveau de détail" ?
 
@@ -69,19 +69,21 @@ Cet algorithme peut-il se transposer à l'image et au son ? Pourrait-il s'appliq
 
 #### Pour la vision ?
 
-On a quelques indices intéressants concernant la vision :
+On a quelques indices intéressants concernant la vision sur le fait qu'on emploie des mécanismes "par comparaison" :
 
 * Du fait de l'angle solide très réduit de la zone fovéale (3° - 5°), on n'a qu'une version quasi ponctuelle d'une image à un moment donné
 
-* C'est par les saccades de l'oeil qu'on parvient à recomposer une image détaillée complète : on ne conserve en mémoire qu'un ensemble discret de *patches* détaillés (un *patch cloud*) qu'on doit mettre à jour en permanence dès qu'on perçoit un changement
+* C'est donc par les saccades de l'oeil que l'on parvient à recomposer une image détaillée complète : on ne conserve en mémoire qu'un ensemble discret de *patches* détaillés (un *patch cloud*) qu'on doit mettre à jour en permanence dès qu'on perçoit un changement
 
-* La vision périphérique est beaucoup plus sensible à la luminance qu'à la chrominance, elle est beaucoup plus habile pour détecter les changements et les mouvements
+* La vision périphérique est beaucoup plus sensible à la luminance qu'à la chrominance : plus on s'éloigne du centre et plus la densité de cellules RGB diminue.
+
+* Elle est aussi beaucoup plus apte à détecter les changements et les mouvements
 
     * Essentiellement pour mettre à jour le *patch cloud* en commandant à notre attention visuelle de se porter dans la direction du changement
 
     * Mais également pour pouvoir réagir rapidement à des mouvements brusques, héritage d'une époque où l'on était encore à la merci des prédateurs
 
-        :green_book: On remarque ici encore un mécanisme basé sur la *différence* entre 2 états : $Delta = \left| \text{image courante} - \text{image d'avant} \right|$ !
+        :green_book: On remarque ici encore un mécanisme basé sur la *différence* entre 2 états ! $Delta = \left| \text{image courante} - \text{image d'avant} \right|$ 
 
 ![](images\NeuroSymbolic\png-clipart-visual-field-field-of-view-visual-perception-binocular-vision-eye-angle-angle-human-eye.png)
 
@@ -89,11 +91,11 @@ On a quelques indices intéressants concernant la vision :
 
 * La vision binoculaire offre également un moyen de faire le point sur un *plan focal*, ce qui permet d'obtenir un peu l'équivalent de l'effet *out of focus* d'une lentille d'appareil photo classique :
 
-    ![image-20250115182410488](images\NeuroSymbolic\Out of focus.png)
+    <img src="..\images\NeuroSymbolic\Out of focus.png" alt="image-20250115182410488" style="zoom:50%;" />
 
     * Sauf que dans ce cas, on va soustraire l'image gauche de l'image droite : les zones dans le même plan focal seront très sombres tandis que les zones dans des plans focaux différents seront remplies de *patterns* colorés.
 
-        :green_book: On remarque ici encore un mécanisme basé sur la *différence* entre 2 états : $Delta = \left|\text{image droite} - \text{image gauche}\right|$ !
+        :green_book: On remarque ici encore un mécanisme basé sur la *différence* entre 2 états ! $Delta = \left|\text{image droite} - \text{image gauche}\right|$
 
 
 
@@ -105,6 +107,125 @@ Notes : Travailler en log-space, du fait de la construction de l'appareil auditi
 
 !!! note "Mel scale"
      For example, we can easily tell the difference between 500 and 1000 Hz, but we will hardly be able to tell a difference between 10,000 and 10,500 Hz, even though the distance between the two pairs are the same. (from https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53)
+
+
+
+#### Pour le langage ?
+
+**TODO...**
+
+Le langage écrit manipule déjà des symboles, il se prête donc tout naturellement à sa manipulation dans l'espace symbolique. La problématique n'est donc pas la même : il n'y a pas à proprement parler *d'interface* avec l'environnement dans ce cas.
+
+Par conséquent, il est impératif de trouver un moyen d'utiliser mon algo d'apprentissage pour décomposer la structure grammaticale des phrases écrites en langage naturel et les exprimer de manière conceptuelle ! C'est hors de question qu'on se coltine les LLMs jusqu'à la fin des temps : il **faut** remplacer ces monstres in-té-gra-le-ment ! Ouste !
+
+
+
+#### Pour le raisonnement ?
+
+C'est justement là où l'algorithme d'apprentissage brille !
+
+##### Bongard Problems
+
+On pense par exemple aux problèmes de [Bongard](https://en.wikipedia.org/wiki/Bongard_problem) répertoriés par Harry Foundalis[^1].
+
+![](images\Learning\Bongard Problem.png)
+
+Pour résoudre ces problèmes, il faut trouver la différence entre la page de gauche et la page de droite. Dans l'exemple ci-dessus (problème numéro ?), les formes de gauche sont toutes convexes tandis que celles de droite sont toutes concaves (les chiffres et lettres rouges ont été rajoutées).
+
+On voit que pour parvenir à les résoudre, on a besoin de 2 choses : un étage de "vision" qui analyse et décompose les images, et un étage de "raisonnement" qui va tenter de trouver les différences.
+
+Or, rien de plus simple pour une représentation symbolique du problème de trouver les points communs et les différences entre 2 représentations !
+
+###### Première étape
+
+Imaginons ici qu'on ait une couche de vision fonctionnelle qui soit capable de nous retourner, pour chacune des images :
+
+1. Une liste de lignes connectées formant un triangle noir
+2. Une liste d'arcs connectés et fermés dessinant une forme blanche
+3. Une ellipse blanche décrite par son centre et ses 2 axes principaux
+4. Une liste de lignes connectées et fermées dessinant une forme blanche
+5. Un rectangle blanc décrit par son centre et ses 2 axes principaux
+6. Un disque noir décrit par son centre et son rayon
+
+Et pour les images de droite :
+
+A. Une liste d'arcs connectés et fermés dessinant une forme blanche
+
+B. Une liste de lignes et d'arcs connectés et fermés dessinant une forme noire / une polyline épaisse noire décrite par ses points de contrôle avec des extrémités plates et un arc de connexion
+
+C. Une liste de lignes connectées et fermées dessinant une forme noire
+
+D. Une liste d'arcs connectés et fermés dessinant une forme blanche
+
+E. Une ligne épaisse noire décrite par ses points de contrôle, son épaisseur et la forme de ses extrémités
+
+F. Une liste de lignes connectées et fermées dessinant une croix blanche
+
+###### Deuxième étape
+
+Ensuite, l'étage de raisonnement va tenter de déterminer le plus de propriétés possibles pour chacune de ces formes :
+
+1. Forme fermée, aire, périmètre, noir, angles aigu, etc. (et implicitement convexe, hérité des propriétés des triangles)
+2. Forme fermée, aire, périmètre, blanc, forme obtuse, etc. → une procédure va déterminer la convexité
+3. Forme fermée, aire, périmètre, blanc, forme allongée, forme horizontale, etc. (et implicitement convexe, hérité des propriétés des ellipses)
+4. Forme fermée, aire, périmètre, blanc, forme diagonale, hexagone irrégulier, forme de diamant, etc. → une procédure va déterminer la convexité
+5. Forme fermée, aire, périmètre, blanc, rectangle, forme diagonales, etc. (et implicitement convexe, hérité des propriétés des rectangles)
+6. Forme fermée, aire, périmètre, noir, disque, etc. (et implicitement convexe, hérité des propriétés des cercles)
+
+Et pour les images de droites :
+
+A. Forme fermée, aire, périmètre, blanc, sorte de haricot, etc. → une procédure va déterminer la concavité
+
+B. C'est une forme qui pose problème ici, car on peut la considérer en effet comme une :
+
+&nbsp;    B.1. Forme ouverte, monodimensionnelle, longueur, épaisseur, noire
+
+&nbsp;    B.2. Forme fermée, aire, périmètre, blanc, sorte de V pointant vers la droite, etc. → une procédure va déterminer la concavité
+
+C. Forme fermée, aire, périmètre, blanc, sorte de haricot, etc. → une procédure va déterminer la concavité
+
+D. Forme fermée, aire, périmètre, blanc, sorte de haricot, etc. → une procédure va déterminer la concavité
+
+E.  C'est la seconde forme qui pose problème car on peut la considérer en effet comme une :
+
+&nbsp;    E.1. Forme ouverte, monodimensionnelle, longueur, épaisseur, noire
+
+&nbsp;    E.2. Forme fermée, aire, périmètre, noire, forme serpentine, etc. → une procédure va déterminer la concavité
+
+F. Forme fermée, aire, périmètre, blanc, sorte de haricot, etc. → une procédure va déterminer la concavité
+
+###### Troisième étape
+
+On va lister toutes les propriétés communes aux formes de la page de gauche :
+
+* Formes fermées
+* Aire moyenne (qu'on aura déterminé en comparant la moyenne et l'écart type entre toutes les aires pour décider que les formes avaient toutes à peu près la même taille moyenne par rapport au cadre)
+* Périmètre moyen (idem que pour l'aire)
+* Convexité
+
+Tandis qu'elles diffèrent par :
+
+* Leur couleur : on a du blanc ou du noir
+* Leur orientation : pas d'orientation précise souvent, parfois aligné, parfois diagonale
+* Leur type : on a des polylines, des arcs ou des primitives
+
+
+
+Puis toutes les propriétés communes aux formes de la page de droite :
+
+Tandis qu'elles diffèrent par :
+
+
+
+###### Quatrième étape
+
+C'est la dernière étape où l'on va comparer cette fois-ci les différences entre les propriétés communes de gauche et de droite :
+
+
+
+##### ARC Prize
+
+On pense aussi au [ARC Prize](https://arcprize.org/) mis au point par François Chollet.
 
 
 
@@ -120,3 +241,4 @@ Mais ça implique une communication *top-down* là où les réseaux de neurones 
 
 
 
+[^1]: Foundalis H., ["Index of Bongard problems"](https://www.foundalis.com/res/bps/bpidx.htm)

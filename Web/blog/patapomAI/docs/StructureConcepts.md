@@ -20,7 +20,6 @@ Symbole concepts : ⬙ (0x2B19)  ou bien notation &lt; Concept &gt;.
     * N'est-ce pas le problème de systèmes physiquement limités en taille de devoir compresser l'espace sémantique en utilisant des vecteurs de haute-dimension ?
 * Cas de la négation / association d'un fait à une "histoire"
     * besoin de pouvoir inverser d'un coup le sens ou la véracité de qqchose
-
 * Notion de quantité attachée n'importe où
 * Prototype theory = moyenne de concepts, champs lexicaux, synonymes
 
@@ -36,6 +35,11 @@ Symbole concepts : ⬙ (0x2B19)  ou bien notation &lt; Concept &gt;.
     * le fait qu'on soit binaire (feature ou pas feature) => moyenne des features binaire = vecteur non binaire
     * le prototype permet de classifier aisément
     * les exemples fabriquent le prototype, le prototype classifie les nouveaux exemples, les nouveaux exemples updatent le prototype
+
+
+
+* Opérations sur les concepts
+    * Y a-t-il une algèbre de manipulation de concepts ?
 
 
 

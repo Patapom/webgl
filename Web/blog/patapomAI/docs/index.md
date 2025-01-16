@@ -165,6 +165,16 @@ On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsA
 
 4ème prototype ==> la structure des phrases.
 
+<br>
+
+[Les problèmes de Bongard](ApprentissageBongard.md)
+
+<br>
+
+[Le challenge ARC](ApprentissageARC.md)
+
+
+
 
 
 ## Un assistant vocal
