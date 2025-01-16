@@ -8,8 +8,9 @@ pages:
     - LLMs:
         - Les neurones polysémiques: PolysémieLLM.md
         - Les leçons à tirer des LLMs: LeçonsLLM.md
-    - Approche Neuro-Symbolique:
-        - La représentation des concepts: ApprocheNeuroSymbolique.md
+    - Une Approche Neuro-Symbolique:
+        - Une Approche Neuro-Symbolique: ApprocheNeuroSymbolique.md
+        - La représentation des concepts: StructureConcepts.md
     - Apprentissage:
         - Fondements: FondementsApprentissage.md
 #        - Apprentissage Supervisé: ApprentissageSupervisé.md
