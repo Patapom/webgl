@@ -143,7 +143,7 @@ On voit donc qu'il est possible de se réserver un espace de **concepts de haut-
 
 On va expliquer en quoi consiste cette [approche neuro-symbolique](ApprocheNeuroSymbolique.md).
 
-<br>Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans cette note sur [la structure des concepts](StructureConcepts.md).
+Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans cette note sur [la structure des concepts](StructureConcepts.md).
 
 
 
@@ -167,13 +167,18 @@ On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsA
 
 <br>
 
-[Les problèmes de Bongard](ApprentissageBongard.md)
-
-<br>
-
-[Le challenge ARC](ApprentissageARC.md)
 
 
+## Comment raisonner symboliquement ?
+
+On peut déjà s'amuser avec des problèmes comme :
+
+* [Les problèmes de Bongard](RaisonnementBongard.md)
+* [Le challenge ARC](RaisonnementARC.md)
+
+Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va deviner des algorithmes*" ?
+
+C'est ce qu'on va tenter de voir dans cette note sur [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
 
 
 

@@ -1,10 +1,10 @@
 # Apprentissage et Résolution des problèmes de Bongard
 
-##### 
+
 
 On pense par exemple aux problèmes de [Bongard](https://en.wikipedia.org/wiki/Bongard_problem) répertoriés par Harry Foundalis[^1].
 
-![](images\Learning\Bongard Problem.png)
+![](images\Reasonning\Bongard Problem.png)
 
 Pour résoudre ces problèmes, il faut trouver la différence entre la page de gauche et la page de droite. Dans l'exemple ci-dessus (problème numéro ?), les formes de gauche sont toutes convexes tandis que celles de droite sont toutes concaves (les chiffres et lettres rouges ont été rajoutées).
 

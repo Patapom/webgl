@@ -15,8 +15,9 @@ pages:
         - Fondements: FondementsApprentissage.md
 #        - Apprentissage Supervisé: ApprentissageSupervisé.md
 #        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
-        - Les problèmes de Bongard: ApprentissageBongard.md
-        - Le challenge ARC: ApprentissageARC.md
+    - Raisonnement:
+        - Les problèmes de Bongard: RaisonnementBongard.md
+        - Le challenge ARC: RaisonnementARC.md
     - Interface Sonore: InterfaceSonore.md
 
 #    - Artificial Intelligence: AI.md
