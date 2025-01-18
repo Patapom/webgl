@@ -8,7 +8,7 @@
 
 
 
-### Bongard Problems
+### Les problèmes de Bongard
 
 On pense par exemple aux problèmes de Bongard, répertoriés par Harry Foundalis.
 
@@ -24,7 +24,19 @@ J'ai écrit une [note](RaisonnementBongard.md) à ce sujet.
 
 On pense aussi au [ARC Prize](https://arcprize.org/) mis au point par François Chollet.
 
+![](images\Reasoning\ARC Problem.png)
+
+Pour résoudre ces problèmes, on nous donne 3 exemples de question/réponse et il faut trouver la procédure à appliquer pour trouver la 4ème réponse.
+
 J'ai également écrit une [note](RaisonnementARC.md) à ce sujet.
+
+
+
+### Unicode Analogies
+
+Alors celui-là, même moi j'arrive pas à résoudre les problèmes. Ça m'a l'air infiniment trop vague et complexe pour être utilisé comme benchmark...
+
+https://openaccess.thecvf.com/content/CVPR2023/papers/Spratley_Unicode_Analogies_An_Anti-Objectivist_Visual_Reasoning_Challenge_CVPR_2023_paper.pdf
 
 
 

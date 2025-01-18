@@ -59,7 +59,7 @@ Quel est donc le "bon niveau de détail" ?
 
 
 
-## Peut-on utiliser notre algorithme d'apprentissage dans ces "*réseaux interfaces*" ?
+## Peut-on utiliser notre algorithme d'apprentissage pour entraîner ces "*réseaux interfaces*" ?
 
 Dans la note sur [les fondements de l'apprentissage](FondementsApprentissage.md), on a vu la caractéristique de notre algorithme d'apprentissage consiste à découvrir les corrélations entre les choses par comparaison d'exemples successifs puis de noter les changements et les points fixes afin de découvrir des groupes ou des structures communes, ainsi que détecter des fréquences d'occurrences d'évènements pour y attacher plus ou moins d'importance selon le degré de  surprise qu'ils apportent.
 

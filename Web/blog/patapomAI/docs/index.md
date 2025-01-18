@@ -10,9 +10,16 @@ Avant-propos : ça va probablement vous sembler écrit par un simple d'esprit, m
 
 Cela pourrait paraître opportuniste de ma part de m'intéresser "soudainement" à l'IA — pile au moment de la révolution des *deep neural networks* et des LLM's — alors que j'ai fait toute ma carrière dans le jeu vidéo et le rendu temps-réel, mais c'est pourtant la vérité : j'ai toujours été passionné par l'IA.
 
-Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "Short Circuit" (que j'ai littéralement vu des 10aines de fois), "Trou Noir", "2001: A Space Odissey", "Electric Dream", "Brainscan", "Terminator", "Robocop" et j'en passe...
+Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "2001: A Space Odyssey", "Electric Dream", "Brainscan", "Terminator", "Robocop", "Trou Noir" et notamment "Short Circuit" que j'ai littéralement vu des 10aines de fois...
 
-J'ai choisi le rendu car c'était ce qui m'attirait et qui m'éclatait le plus à l'époque, mais immédiatement derrière il y a toujours eu l'IA et ses promesses d'un assistant personnel "intelligent".
+J'ai choisi le rendu car c'était ce qui m'attirait et m'éclatait le plus à l'époque, mais immédiatement derrière il y a toujours eu l'IA et ses promesses d'un assistant personnel "intelligent".
+
+J'ai toujours été persuadé qu'un assistant personnel intelligent aurait un énorme succès auprès du public, Mon erreur est d'avoir négligé l'ampleur de ce succès et de n'avoir pas changé de branche avant ! :sweat_smile:
+
+!!! tip " "
+     ChatGPT a attiré 1 million d’utilisateurs en seulement 5 jours après son lancement. Après 2 mois, il a atteint plus de 100 millions d’utilisateurs actifs par mois.
+
+
 
 Et plus on avance dans le temps, plus on se rend compte que...
 

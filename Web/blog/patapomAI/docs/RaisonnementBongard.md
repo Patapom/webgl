@@ -6,7 +6,8 @@ Pour résoudre ces problèmes, il faut trouver la différence entre la page de g
 
 ![](images\Reasoning\Bongard Problem.png)
 
-Ici, la réponse est que les formes de gauche sont toutes convexes tandis que celles de droite sont toutes concaves.
+!!! tip " "
+    Ici, la réponse est que les formes de gauche sont toutes convexes tandis que celles de droite sont toutes concaves.
 
 On voit que pour parvenir à les résoudre, on a besoin de 2 choses :
 
@@ -152,7 +153,11 @@ Tandis qu'elles diffèrent par :
 
 ### Quatrième étape
 
-C'est la dernière étape où l'on va enfin comparer les différences entre les propriétés communes de gauche et de droite.
+C'est dans cette dernière étape que l'on va enfin comparer les différences entre les propriétés de gauche et de droite :
+
+* Les formes sont toutes fermées
+* Elles sont toutes de "même" taille
+* Elles ont toutes le "même" périmètre
 
 On a bien résolu le problème, et la solution est :
 
@@ -184,7 +189,7 @@ Dans chaque cas on va avoir une liste de propriétés pour ces formes et on va t
 
 
 
-### Hypothèses amenant à une contradiction
+### Hypothèses menant à une contradiction
 
 Mais on va rapidement s'apercevoir qu'on ne débouche sur aucune solution dès lors qu'on fait intervenir un cas où les formes problématiques sont des *polylines* monodimensionnelles (B1 ou E1) :
 
@@ -195,33 +200,13 @@ Dans le cas où l'on déciderait de partir sur la seule propriété commune à d
 
 
 
-### Propriétés solitaires
-
-Que se passe-t-il dans le cas où l'on trouve des propriétés qui n'existent que dans une seule page ?
-
-En effet, si on pousse le niveau d'analyse et de détail suffisamment loin, on va certainement pouvoir trouver des propriétés communes à toutes les images d'une page. Idem si l'on remonte dans la hiérarchie des concepts de toutes les paires de propriétés gauche / droite → elles finiront toutes par avoir un étage en commun, au pire le concept &#11033;*root*.
-
-Mais que fait-on de cette propriété si on ne la retrouve pas sur la page d'à-côté ? Doit-on la considérer comme une différence entre les 2 pages et donc comme faisant partie de la solution ?
-
-Dans notre solution précédente, on a une propriété **convexe** d'un côté (donc solitaire), et une propriété **concave** de l'autre côté (également solitaire). Chacune n'existant que d'un côté ou de l'autre.
-
-:white_check_mark: En effet, mais elles ont tout de même un lien entre elles puisqu'elles **sont contraires** l'une de l'autre !
-
-:red_circle: Dans le cas où elles n'ont pas de qualité commune directe, alors on ignore tout bonnement ces propriétés.
-
-
-
-C'est d'ailleurs un indice supplémentaire permettant de nous signaler qu'on a effectivement trouvé la solution : que les propriétés diffèrent **mais** qu'elles aient un **ancêtre direct commun** : qu'elles opèrent dans la **même catégorie** mais représentent des contraires ou des valeurs différentes dans le spectre de valeurs possibles représentables dans la catégorie (par exemple, 2 couleurs différentes).
-
-
-
-
-
-### Plusieurs solutions ?
+### Hypothèses menant à plusieurs solutions
 
 Peut-on trouver plusieurs solutions ?
 
-**TODO** essayer de trouver des problèmes où la procédure ne fonctionne pas et où l'on doit départager les solutions plausibles.
+**TODO** essayer de trouver des problèmes où la procédure ne fonctionne pas et où l'on doit départager plusieurs solutions possibles.
+
+
 
 
 
