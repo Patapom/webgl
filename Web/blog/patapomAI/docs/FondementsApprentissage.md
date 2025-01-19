@@ -261,21 +261,23 @@ Tandis que dans le cas d'un apprentissage non-supervisé, on va laisser le modè
 
 
 
-Dans le cas d'un modèle informatique, c'est à la charge du programmeur de préparer les données, les règles et l'objectif à accomplir.
+Dans le cas d'un modèle informatique, c'est à la charge du concepteur de préparer les données, les règles et l'objectif à accomplir.
 
 Dans le cas d'un organisme plongé dans l'environnement, les données sont le monde entier et ce que l'organisme en perçoit, les règles sont celles de l'Univers et les limites que le corps de l'organisme lui imposent, l'objectif est indéterminé (se maintenir en vie ? Se reproduire ? Regarder la saison 2 de *Severance* ?).
 
 
 
+### Quelques exemples
 
+J'ai écrit quelques notes divers prototypes d'apprentissage non-supervisé :
 
-==> on s'arrête quand on a "fait du sens" (état stable)
+[Apprentissage des phonèmes](ApprentissagePhonèmes.md)
 
+[Apprentissage de la prononciation de mots inconnus](ApprentissageMotsInconnus.md)
 
+[Apprentissage de la parole](ApprentissageParole.md)
 
-
-
-
+[Apprentissage de la structure des phrases](ApprentissageStructurePhrases.md)
 
 
 
@@ -347,13 +349,15 @@ L'algorithme d'apprentissage peut être observé dans de nombreuses situations :
 
 * Dans la classification d'un danger, d'une douleur ou d'un état indésirable en présence d'un élément particulier → on va associer de la gêne ou de la prudence à la présence de cet élément
 
-    (ça peut être plus difficile à mettre en évidence quand il y a un délai trop long entre l'action et la réaction, par exemple dans le cas d'un empoisonnement alimentaire)
+    (ça peut être plus difficile à mettre en évidence quand il y a un délai trop long entre l'action et la réaction, par exemple dans le cas d'un empoisonnement alimentaire, ou la conception d'un enfant)
 
 * Dans l'apprentissage d'une langue par l'écrit → on a vu comment ça ce passe pour le chinois
 
 * Dans l'apprentissage d'une langue par la vision où l'on nous montre un objet et on nous écrit / on nous dit le mot qui le représente → on fait l'association objet / mot qu'on va mémoriser
 
-* 
+* Dans l'apprentissage des lois de la physique, quand on va lier certains effets à certaines causes, comme par exemple le fait que certains objets cassent parce qu'ils sont dans des matériaux fragiles comme le verre, la céramique, etc.
+
+* Dans l'apprentissage des analogies, quand on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont "allumées" dans les 2 cas
 
 
 

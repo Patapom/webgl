@@ -9,14 +9,14 @@ pages:
         - Les neurones polysémiques: PolysémieLLM.md
         - Les leçons à tirer des LLMs: LeçonsLLM.md
     - Une Approche Neuro-Symbolique:
-        - Discussion: ApprocheNeuroSymbolique.md
+        - Discussion sur une approche neuro-symbolique: ApprocheNeuroSymbolique.md
         - La représentation des concepts: StructureConcepts.md
     - Apprentissage:
         - Fondements: FondementsApprentissage.md
 #        - Apprentissage Supervisé: ApprentissageSupervisé.md
 #        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
     - Raisonnement:
-        - Discussion: RaisonnementSymbolique.md
+        - Discussion sur le raisonnement symbolique: RaisonnementSymbolique.md
         - Les problèmes de Bongard: RaisonnementBongard.md
         - Le challenge ARC: RaisonnementARC.md
     - Interface Sonore: InterfaceSonore.md

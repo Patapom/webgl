@@ -159,13 +159,11 @@ C'est dans cette dernière étape que l'on va enfin comparer les différences en
 * Elles sont toutes de "même" taille
 * Elles ont toutes le "même" périmètre
 
-On a bien résolu le problème, et la solution est :
-
-* Les formes diffèrent par leurs propriétés de **convexité** et de **concavité** !
+* Les formes **diffèrent** par leurs propriétés de **convexité** et de **concavité** !
 
 
 
-En effet :
+On a donc bien résolu le problème, en effet :
 
 * On a bien 2 propriétés différentes entre les formes de gauche et de droite
 * Ces 2 propriétés sont liées l'une à l'autre par une relation de **contraire**

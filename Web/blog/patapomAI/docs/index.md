@@ -160,19 +160,15 @@ Si on n'utilise ni les réseaux de neurones classiques, ni la *backpropagation*,
 
 On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsApprentissage.md).
 
-<br>1er Prototype d'apprentissage non-supervisé ==> apprendre automatiquement les phonèmes de la langue française.
+Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissage non-supervisé :
 
-<br>2nd prototype ==> apprendre la prononciation d'un mot inconnu.
+​	![](images/WorkInProgress32x32.png) [Apprentissage des phonèmes](ApprentissagePhonèmes.md)
 
-<br>
+​	![](images/TODO32x32.png)[Apprentissage de la prononciation de mots inconnus](ApprentissageMotsInconnus.md)
 
-3ème prototype ==> mapper la parole vers les phonèmes et vice versa.
+​	![](images/TODO32x32.png)[Apprentissage de la parole](ApprentissageParole.md)
 
-<br>
-
-4ème prototype ==> la structure des phrases.
-
-<br>
+​	![](images/TODO32x32.png)[Apprentissage de la structure des phrases](ApprentissageStructurePhrases.md)
 
 
 
@@ -183,7 +179,7 @@ On peut déjà s'amuser avec des problèmes comme :
 * [Les problèmes de Bongard](RaisonnementBongard.md)
 * [Le challenge ARC](RaisonnementARC.md)
 
-Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va deviner des algorithmes*" ?
+Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va découvrir de nouveaux algorithmes*" ?
 
 C'est ce qu'on va tenter de voir dans cette note sur [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
 

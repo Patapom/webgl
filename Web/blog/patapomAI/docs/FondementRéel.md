@@ -65,7 +65,7 @@ La plupart des études portent...
 
 * soit sur le méso mais avec une approche déconnectée du réel où les réseaux de neurones font des opérations bien trop compliquées pour être réalisables biologiquement;<br>
  Ces réseaux de neurones se contentent de résoudre des problèmes "étroits" comme par exemple la classification d'images, le repliement de protéines, jouer au jeu de Go, etc. mais sont incapables de sortir de leur domaine et de se généraliser.<br>
- Même le tout récent modèle [Gato](https://www.deepmind.com/publications/a-generalist-agent) ne semble être ni plus ni moins qu'un assemblage de plusieurs narrow AIs dans le but d'en faire une plus générale.
+	 Même le tout récent modèle [Gato](https://www.deepmind.com/publications/a-generalist-agent) ne semble être ni plus ni moins qu'un assemblage de plusieurs narrow AIs dans le but d'en faire une plus générale.
 
 	> Mon opinion est que c'est le bon niveau d'étude mais qu'il y a une sorte d'aveuglement des scientifiques et ingénieurs qui ne l'abordent que par le prisme, certes très prometteur, du deep learning sans
 	 voir la *big picture* et le besoin de reformuler le problème de manière plus globale que cette espèce de routine "big data &rarr; network modeling &rarr; training &rarr; testing" et recommencer avec chaque fois
@@ -101,8 +101,7 @@ Il est légitime de s'interroger sur la nature des mécanismes basiques que le c
 	* Par exemple, apprendre à lire demande d'exécuter toute une séquence d'actions qui vont de la reconnaissance de lettres individuelles au groupement en syllabes,
 		suivi d'une reconnaissance de certaines règles phonétiques ("gn" = ñ) et finalement la reconnaissance du mot lui-même.
 
->!!! Non! Trop haut niveau! &rarr; Une opération de calcul mental demande d'effectuer toute une suite de tâches où il faudra peut-être se rappeler d'une retenue, ou d'un nombre calculé précédemment et qu'il
-		faudra retrancher plus tard, etc.
+>!!! Non! Trop haut niveau! &rarr; Une opération de calcul mental demande d'effectuer toute une suite de tâches où il faudra peut-être se rappeler d'une retenue, ou d'un nombre calculé précédemment et qu'il faudra retrancher plus tard, etc.
 
 
 ### Des opcodes biologiques

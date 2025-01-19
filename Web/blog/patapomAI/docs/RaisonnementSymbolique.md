@@ -46,3 +46,15 @@ On a vu qu'il était aisé de faire résoudre des problèmes soi-disant complexe
 
 **TODO** (lol)
 
+
+
+## Analogies et métaphores
+
+**TODO** Analogies / métaphores : on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont "allumées" dans les 2 cas
+
+
+
+## World Model / Theory of Mind
+
+**TODO** (lol aussi)
+

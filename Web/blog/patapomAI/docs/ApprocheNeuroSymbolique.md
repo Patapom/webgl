@@ -40,7 +40,7 @@ Par exemple si je vois ça, je vais penser à "pignon de roue de vélo" :
 
 <img src="..\images\NeuroSymbolic\pignon.png" alt="image-20250115172548292" style="zoom:50%;" />
 
-Mais si je vois ça, je vais penser à "vélo", quand bien même il y a aussi le "pignon de roue de vélo" dans l'image, ainsi qu'une route, une forêt, etc. :
+Mais si je vois ça, je vais penser à "vélo", quand bien même il y a aussi le "pignon de roue de vélo" dans l'image, ainsi qu'un guidon, des roues, des pédales; mais aussi une route, une forêt, etc. :
 
 <img src="..\images\NeuroSymbolic\vélo.jpg" style="zoom:25%;" />
 
@@ -48,7 +48,7 @@ Mais si je vois ça, je vais penser à "vélo", quand bien même il y a aussi le
 
 ### Le bon niveau de détail ?
 
-On voit bien ici l'ambiguïté qu'il y a à se focaliser sur un niveau de détail particulier. Tout dépend de notre attention et la tâche qu'on essaie d'accomplir.
+On voit bien ici l'ambiguïté qu'il y a à se focaliser sur un niveau de détail et un élément en particulier. Tout dépend de notre attention et la tâche qu'on essaie d'accomplir.
 
 Quel est donc le "bon niveau de détail" ?
 
@@ -114,9 +114,9 @@ Notes : Travailler en log-space, du fait de la construction de l'appareil auditi
 
 **TODO...**
 
-Le langage écrit manipule déjà des symboles, il se prête donc tout naturellement à sa manipulation dans l'espace symbolique. La problématique n'est donc pas la même : il n'y a pas à proprement parler *d'interface* avec l'environnement dans ce cas.
+Le langage écrit manipule déjà des symboles, il se prête donc tout naturellement à sa manipulation dans l'espace symbolique. La problématique n'est donc pas la même puisqu'il n'y a pas à proprement parler *d'interface* avec l'environnement dans ce cas.
 
-Par conséquent, il est impératif de trouver un moyen d'utiliser mon algo d'apprentissage pour décomposer la structure grammaticale des phrases écrites en langage naturel et les exprimer de manière conceptuelle ! C'est hors de question qu'on se coltine les LLMs jusqu'à la fin des temps : il **faut** remplacer ces monstres in-té-gra-le-ment ! Ouste !
+Par conséquent, il est impératif de trouver un moyen d'utiliser mon algo d'apprentissage pour décomposer la structure grammaticale des phrases écrites en langage naturel et les exprimer de manière conceptuelle ! C'est hors de question qu'on se coltine les LLMs jusqu'à la fin des temps : il **faut** remplacer ces monstres in-té-gra-le-ment ! Allez ouste !
 
 
 
@@ -138,30 +138,3 @@ C'est justement là où la représentation symbolique va pouvoir briller !
 
 C'est ce qu'on verra dans une note sur les [fondements du raisonnement symbolique](RaisonnementSymbolique.md).
 
-### Bongard Problems
-
-On pense par exemple aux problèmes de Bongard, répertoriés par Harry Foundalis.
-
-![](images\Reasoning\Bongard Problem.png)
-
-Pour résoudre ces problèmes, il faut trouver la différence entre la page de gauche et la page de droite. Dans l'exemple ci-dessus (problème numéro ?), les formes de gauche sont toutes convexes tandis que celles de droite sont toutes concaves.
-
-J'ai écrit une [note](RaisonnementBongard.md) à ce sujet.
-
-
-
-### ARC Prize
-
-On pense aussi au [ARC Prize](https://arcprize.org/) mis au point par François Chollet.
-
-J'ai également écrit une [note](RaisonnementARC.md) à ce sujet.
-
-### Comment généraliser ?
-
-On a vu qu'il était aisé de faire résoudre des problèmes soi-disant complexes à la machine en spécifiant des algorithmes très simples. Mais comment généraliser cette capacité de raisonnement ? Comment peut-on doter la machine d'un "algorithme à trouver des algorithmes" ?
-
-**TODO** (lol)
-
-
-
-[^1]: Foundalis H., ["Index of Bongard problems"](https://www.foundalis.com/res/bps/bpidx.htm)
