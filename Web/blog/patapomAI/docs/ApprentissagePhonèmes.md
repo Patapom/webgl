@@ -74,7 +74,8 @@ Intuitivement, on va essayer de trouver des correspondances
 
 
 
-
+Différence entre phonétique et phonologie : https://fr.wikipedia.org/wiki/Phonologie
+Apparemment, la phonologie ne fait pas la distinction entre les sons trop proches, genre bien, brun, etc.
 
 
 
