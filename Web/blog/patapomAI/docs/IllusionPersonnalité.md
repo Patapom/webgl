@@ -11,9 +11,8 @@ Mon opinion sur le sujet est simplement que ces modèles sont entraînés sur de
 ## La comédie humaine
 
 Pourtant, il ne s'agit ni plus ni moins ici qu'une illusion de personnalité :<br>
- la machine recrée simplement une conversation plausible, dans laquelle on trouve généralement des indices du fait qu'il s'agit là uniquement d'une simulation; c'est le cas par exemple quand la machine répond
- sans sourciller qu'elle prend beaucoup de plaisir quand elle est entourée de ses amis et de sa famille :expressionless:.
- 
+ la machine recrée simplement une conversation plausible, dans laquelle on trouve généralement des indices du fait qu'il s'agit là uniquement d'une simulation; c'est le cas par exemple quand la machine répond sans sourciller qu'elle prend beaucoup de plaisir quand elle est entourée de ses amis et de sa famille :expressionless:.
+
 Elle joue la comédie ! Elle endosse le rôle d'un être un humain et c'est apparemment très convaincant !
 
 On notera que ce genre de "tromperie" a déjà été employée par le passé pour faire passer le [Turing Test](https://en.wikipedia.org/wiki/Turing_test) à plusieurs chat bots,
@@ -29,8 +28,7 @@ On reconnaît donc là un jeu d'acteur, un peu à la manière dont les psychopat
 
 ## Émergence à partir de règles simples
 
-J'ai longtemps cru à l'émergence d'un comportement complexe à partir de règles simples. Cela arrive parfois mais *1)* au prix de beaucoup de tuning très précis et *2)* les comportements ne sont jamais *réellement complexes*,
- en tout cas pas au point où, miraculeusement, on aurait créé la vie intelligente !
+J'ai longtemps cru à l'émergence d'un comportement complexe à partir de règles simples. Cela arrive parfois mais *1)* au prix de beaucoup de tuning très précis et *2)* les comportements ne sont jamais *réellement complexes*, en tout cas pas au point où, miraculeusement, on aurait créé la vie intelligente !
 
 Ce genre d'entreprises (i.e. partir de l'infiniment petit pour arriver au macroscopique [^3]) sont généralement vouées à l'échec, et même si l'on parvenait hypothétiquement à découvrir **la** règle ultime qui donne naissance à la vie et,
  (beaucoup) plus tard, à des organismes complexes et intelligents comme les êtres humains, alors on aura sans doute besoin d'une énorme machinerie et de beaucoup de temps pour arriver à ce stade.</br>
