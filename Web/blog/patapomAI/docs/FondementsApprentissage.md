@@ -14,7 +14,7 @@ C'est bien de cela dont il s'agit ici aussi : même au niveau macroscopique des 
 
 Pour commencer, on ne peut rien apprendre d'un seul élément : il nous faut forcément un moyen de *comparaison* avec un autre élément du même type.
 
-Si l'on cherche à apprendre la [*qualia*](https://en.wikipedia.org/wiki/Qualia) &#11033;*Rouge*, il va nous falloir 2 choses rouges :
+Si l'on cherche à apprendre la [*qualia*](https://en.wikipedia.org/wiki/Qualia) &#11033;*Rouge* (cf. [ici](OpérationsConcepts.md) pour une explication du symbole &#11033;), il va nous falloir 2 choses rouges :
 
 ![Matching qualia](images\Learning\Qualia Matching.png)
 
@@ -121,7 +121,7 @@ Cette fameuse *moyenne de nos expériences* s'apparente à la notion de *prototy
 
 En effet, contrairement à la spécification Kantienne des concepts qui impose des frontières très *dures* (binaires) d'appartenance ou non à un groupe si et seulement si la chose à apparenter obéit à des conditions nécessaires et suffisantes (par exemple, "une maison **doit** être carrée"), les prototypes permettent une notion floue, presque molle (biologique ?) d'appartenance, et les frontières qui distinguent un groupe d'un autre sont laissées à la subjectivité et au choix de l'observateur.
 
-On renvoie à la note sur la représentativité neuro-symbolique des concepts pour une discussion plus approfondie sur les ["concepts moyens"](ApprocheNeuroSymbolique.md#).
+On renvoie à la note sur la représentativité neuro-symbolique des concepts pour une discussion plus approfondie sur les ["concepts moyens"](StructureConcepts.md#un-prototype-flou).
 
 !!! note
     On laissera donc de côté l'approche Kantienne trop rigide pour l'instant, tout en notant qu'elle est à la base de toute réflexion logique et mathématique.<br>On note par avance qu'il est tout à fait possible de construire un système de croyances et de règles extrêmement rigides et rigoureuses basées sur un apprentissage de concepts "mous" et subjectifs. Après tout, Kant était bien un enfant avant d'écrire ses oeuvres ! :grin:
@@ -145,7 +145,7 @@ Mais cela arrive dans tous les domaines :
 * la fréquence des mots dans une langue (les articles "le" et "la" sont peu significatifs mais extrêmement présents dans les textes)
 * la fréquence des phonèmes dans les mots (le [r] dans "**r** ouge" est beaucoup plus prépondérant que [ɲ], dans "bor **gn** e")
 * les auxiliaires "être" et "avoir" dans la langue, qui interviennent de manière disproportionnée par rapport aux autre verbes
-* les moineaux et les pigeons sont sur-représentés dans la population d'oiseaux auxquels on est généralement confrontés
+* les moineaux et les pigeons sont sur-représentés dans la population d'oiseaux auxquels on est généralement confrontés (en Europe du moins)
 
 
 
@@ -281,33 +281,29 @@ J'ai écrit quelques notes divers prototypes d'apprentissage non-supervisé :
 
 
 
-### Notion de certitude
-
-qsd
-
 
 
 ## Plausibilité biologique
 
-On a vu que les seules choses qui soit réellement nécessaires pour faire fonctionner cet algorithme est d'avoir un mécanisme qui va :
+On a vu que les seules choses qui soient réellement nécessaires pour faire fonctionner cet algorithme est d'avoir un mécanisme qui va :
 
 * **Détecter les co-occurrences entre 2 signaux**, ce qui tendrait à indiquer une probable corrélation.
 
-    On sait déjà que ce genre de mécanisme existe partout dans le cerveau, c'est le fameux apprentissage Hebbien dont on a parlé au début.
+    :white_check_mark: On sait déjà que ce genre de mécanisme existe partout dans le cerveau, c'est le fameux apprentissage Hebbien dont on a parlé au début.
 
     <br>
 
 * **Compter les occurrences d'un signal**, ce qui va permettre de calculer son importance relativement aux autres signaux.
 
-    On sait que les neurones biologiques peuvent aisément réagir à des impulsions ou des fréquences d'activation[^1][^2]. Il est donc assez aisé d'imaginer les neurones biologiques réagir à la fréquence d'activation d'un capteur qui va s'éveiller quand il détecte une propriété particulière de l'environnement.
+    :white_check_mark: On sait que les neurones biologiques peuvent aisément réagir à des impulsions ou des fréquences d'activation[^1][^2]. Il est donc assez aisé d'imaginer les neurones biologiques réagir à la fréquence d'activation d'un capteur qui va s'éveiller quand il détecte une propriété particulière de l'environnement.
 
-    Même si l'on imagine bien que le cerveau ne vas pas réellement compter les occurrences comme un ordinateur pourrait le faire, il est naturellement câblé pour savoir classifier les ordres de grandeur en utilisant en général 3 catégories, par exemple : { un peu, beaucoup, énormément}, { petit, moyen, grand } ou { faible, moyen, fort }. Et si besoin, en utilisant 5 catégories dont 2 extrêmes : { *minuscule*, petit, moyen, grand, *gigantesque* }.
+    Même si l'on imagine bien que le cerveau ne vas pas réellement compter les occurrences comme un ordinateur pourrait le faire, il est naturellement câblé pour savoir classifier les ordres de grandeur [en utilisant en général 3 catégories](StructureConcepts.md#categories-grossieres), par exemple : { un peu, beaucoup, énormément}, { petit, moyen, grand } ou { faible, moyen, fort }. Et si besoin, en utilisant 5 catégories dont 2 extrêmes : { *minuscule*, petit, moyen, grand, *gigantesque* }.
 
 
 
 On notera aussi qu'on distingue facilement la différence entre un groupe de 10 animaux et un groupe de 100 animaux, mais on a plus de mal à distinguer la différence entre un groupe de 100 animaux et un groupe de 110.
 
-Tous ces indices semblent indiquer qu'il est fort plausible qu'un algorithme aussi simple soit une solution de choix pour un organisme vivant : l'algorithme est peu coûteux (il demande peu d'exemples), facile à mettre en oeuvre (il demande une structure neuronale simple) et est très versatile (il s'applique à de nombreux problèmes symboliques) !
+Tous ces indices semblent indiquer qu'il est fort plausible qu'un algorithme aussi simple soit une solution de choix pour un organisme vivant : l'algorithme est peu coûteux (il demande peu d'exemples), facile à mettre en oeuvre (il demande une structure neuronale simple) et il est très versatile : il s'applique à de nombreux problèmes symboliques !
 
 En comparaison, la *backpropagation* semble peu probable biologiquement autrement que dans sa version la plus basique qui consiste à renforcer ou détruire les connexions selon qu'elles sont beaucoup ou peu sollicitées...
 
@@ -337,13 +333,13 @@ On aimerait tout de même trouver des améliorations comme :
 
 * Plus de plasticité neuronale : on voudrait pouvoir faire évoluer la structure du réseau de neurones, renforcer les connexions utiles et réduire les connexions inutiles
 * Trouver une façon de faire évoluer le réseau de neurones pour accommoder de nouvelles catégories symboliques (ça rejoint un peu la plasticité neuronale)
-* Faire en sorte que ces réseaux aient des connexions *top → down* qui permettraient à l'étage symbolique de préparer (*prime*) le réseau à réagir à certaines *features* que l'on sait qu'elles vont intervenir avec une grande probabilité, par exemple un ensemble de phonèmes probables parce qu'on a entendu les premiers phonèmes d'un mot, ou un ensemble de mots probables parce qu'on a lu le début de la phrases (*auto-complete*).
+* Faire en sorte que ces réseaux aient des connexions *top → down* qui permettraient à l'étage symbolique de préparer (*prime*) le réseau à réagir à certaines *features* que l'on sait qu'elles vont intervenir avec une grande probabilité, par exemple "préparer" un ensemble de phonèmes probables parce qu'on a entendu les premiers phonèmes d'un mot, ou un ensemble de mots probables parce qu'on a lu le début de la phrases (*auto-complete*).
 
 
 
 ### Dans la vie de tous les jours
 
-Dans notre vie quotidienne, nous conservons un état du monde à un moment donné qui peut partir de l'endroit où on a laissé nos clés de voiture dans la maison et s'étendre jusqu'à l'état de la géopolitique mondiale, en passant par de nombreux niveaux de détail auxquels ont va accorder plus ou moins d'importance selon qu'ils nous affectent directement ou non.
+Dans notre vie quotidienne, nous conservons un état du monde à un moment donné qui peut s'étendre depuis l'endroit où on a laissé nos clés de voiture dans la maison et aller jusqu'à l'état de la géopolitique mondiale, en passant par de nombreux niveaux de détail auxquels on va accorder plus ou moins d'importance selon qu'ils nous affectent directement ou non.
 
 L'algorithme d'apprentissage peut être observé dans de nombreuses situations :
 
@@ -355,21 +351,11 @@ L'algorithme d'apprentissage peut être observé dans de nombreuses situations :
 
 * Dans l'apprentissage d'une langue par la vision où l'on nous montre un objet et on nous écrit / on nous dit le mot qui le représente → on fait l'association objet / mot qu'on va mémoriser
 
-* Dans l'apprentissage des lois de la physique, quand on va lier certains effets à certaines causes, comme par exemple le fait que certains objets cassent parce qu'ils sont dans des matériaux fragiles comme le verre, la céramique, etc.
+* Dans l'apprentissage des lois de la physique, quand on va lier certains effets à certaines causes, comme par exemple le fait que certains objets cassent parce qu'ils sont dans des matériaux fragiles
 
-* Dans l'apprentissage des analogies, quand on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont "allumées" dans les 2 cas
+* Dans l'apprentissage des analogies, quand on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont présentes dans les 2 cas
 
 
-
-**Questions en suspens**
-
-Vision ? Audio ? Planning ? 
-
-Est-ce limité à des variables booléennes ? (propriétés / features d'un objet) ==> cf. note sur la représentation conceptuelle
-
-La question est : comment généralise-t-on ça aux actions et aux procédures ? À la planification (réentrance, récursion) ? À la structuration hiérarchique de concepts, et pas juste à des séquences ?
-
-### 
 
 ### *Attention is all you need*
 
@@ -394,7 +380,7 @@ Les machines ont donc un avantage considérable sur nous puisqu'elles peuvent mo
 Si l'on se décide à effectivement faire le découpage "*deep neural nets* pour l'interfaçage avec environnement" et "apprentissage symbolique pour le raisonnement", alors il est vraisemblable que les coûts d'entraînement des IA vont baisser drastiquement :
 
 * Les coûts d'entraînement des réseaux d'interfaçage seront grosso modo les mêmes que ceux des réseaux de vision / génération d'image actuels, sans la couche de langage
-* Le coût d'entraînement de la couche de raisonnement symbolique est quant à lui extrêmement réduit : pas besoin de milliards de données ni même de GPUs pour les traiter !
+* Le coût d'entraînement de la couche de raisonnement symbolique est quant à lui extrêmement réduit : pas besoin de milliards de données ni même de GPUs pour les traiter !<br>:heart:  Et surtout, cette couche reste fixe et se partage à tous les modèles ! (car après tout, la façon de faire sens du monde n'a pas besoin de changer d'un modèle à l'autre)
 
 
 
@@ -406,24 +392,15 @@ Si l'on se décide à effectivement faire le découpage "*deep neural nets* pour
 
 
 
-## Plan
-
-* Règles d'apprentissage générales
-    * L'importance de compter les occurrences de patterns
-        * La base du "fire together wire together" ?
-    * Le fait que c'est un mécanisme simple à implémenter biologiquement
-    * Différence par rapport à la back prop ?
-* Apprentissage supervisé
-    * Importance du tuteur
-    * Notion de confiance
-* Apprentissage non-supervisé
-    * L'importance de fixer des règles
-        * Des règles même simples suffisent comme base
-    * Notion de certitude et étaiement de la "confiance"
-        * La certitude est une notion contextuelle, elle dépend de son environnement
-    * Définition de la notion de "avoir du sens" (on sent que quelque chose "clique" et s'emboîte parfaitement dans notre raisonnement : on a *compris* !)
 
 
+## **Questions en suspens**
+
+Est-ce que l'apprentissage est limité à des variables booléennes ? (propriétés / features d'un objet) ==> cf. note sur la représentation conceptuelle
+
+La question est : comment généralise-t-on ça aux actions et aux procédures ? À la planification (réentrance, récursion) ? À la structuration hiérarchique de concepts, et pas juste à des séquences ?
+
+Peut-on l'appliquer à la vision ? à l'audio ?
 
 
 

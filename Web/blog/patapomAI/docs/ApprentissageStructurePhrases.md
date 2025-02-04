@@ -1,4 +1,4 @@
-# Le structure des phrases de la langue française
+# La structure des phrases de la langue française
 
 4ème Prototype d'apprentissage non-supervisé => C'est probablement le plus important car on ne traite plus seulement de séquences mais de structures hiérarchiques, de patterns, etc.
 

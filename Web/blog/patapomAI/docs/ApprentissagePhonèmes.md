@@ -60,7 +60,7 @@ On voit qu'on essaie de *mapper* 2 séquences ensemble :
 * On sait qu'il y a autant de groupes de lettres que de groupes de phonèmes : c'est un mapping 1-1
 * Il y a un ordre à respecter : le groupe de lettres doit avoir le même index que le groupe de phonèmes correspondant, on peut pas intervertir l'ordre, par exemple le 2nd groupe de lettres qui serait attaché au 3ème groupe de phonèmes
 * Les seules **certitudes** qu'on ait sur la position des groupes c'est que la 1ère lettre et le 1er phonème vont ensemble, ainsi que la dernière lettre et le dernier phonème.
-* Mais on peut utiliser une heuristique simple qui consiste à dire qu'une lettre à une position $l \in [1,L]$ donnée va probablement correspondre à un phonème à la position $p \in [1,P]$ où $p \approx \frac{l \cdot P}{L}$ : une lettre au milieu du mot va probablement correspondre à un phonème au milieu aussi.
+* Mais on peut utiliser une heuristique simple qui consiste à dire qu'une lettre à une position $l \in [1,L]$ donnée va probablement correspondre à un phonème à la position $p \in [1,P]$ où $p \approx l \cdot \frac{P}{L}$ : une lettre au milieu du mot va probablement correspondre à un phonème au milieu aussi.
 
 
 
@@ -68,11 +68,20 @@ Intuitivement, on va essayer de trouver des correspondances
 
 
 
+### Notion de certitude
+
+**TODO**
+
+* Notion de certitude et étaiement de la "confiance"
+    * La certitude est une notion contextuelle, elle dépend de son environnement
+* Définition de la notion de "avoir du sens" (on sent que quelque chose "clique" et s'emboîte parfaitement dans notre raisonnement : on a *compris* !)
+    * ==> on s'arrête quand on a "fait du sens" (état stable)
 
 
-==> on s'arrête quand on a "fait du sens" (état stable)
 
 
+
+## Notes
 
 Différence entre phonétique et phonologie : https://fr.wikipedia.org/wiki/Phonologie
 Apparemment, la phonologie ne fait pas la distinction entre les sons trop proches, genre bien, brun, etc.
@@ -81,4 +90,3 @@ Apparemment, la phonologie ne fait pas la distinction entre les sons trop proche
 
 
 [^1]: ["Les phonèmes du français"](https://fr.wikipedia.org/wiki/Phon%C3%A8me)
-[^2]: 

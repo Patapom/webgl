@@ -11,6 +11,7 @@ pages:
     - Une Approche Neuro-Symbolique:
         - Discussion sur une approche neuro-symbolique: ApprocheNeuroSymbolique.md
         - La représentation des concepts: StructureConcepts.md
+        - Opérations sur les concepts: OpérationsConcepts.md
     - Apprentissage:
         - Fondements: FondementsApprentissage.md
 #        - Apprentissage Supervisé: ApprentissageSupervisé.md

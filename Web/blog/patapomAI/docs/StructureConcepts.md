@@ -86,7 +86,7 @@ Mais c'est **l'ensemble des exemples** des objets de même type — qu'on appell
 
 Prenons le cas classique des oiseaux :
 
-![](..\images\Concepts\Prototype Oiseaux.png)
+![](images\Concepts\Prototype Oiseaux.png)
 
 
 
@@ -147,6 +147,9 @@ On a parfois besoin de distinguer davantage de catégories, alors on va plutôt 
 Par exemple, l'histogramme de distribution de la longueur des ailes d'oiseaux sera plutôt représenté sous la forme de 3 modes gaussiens comme ceci :<img src="..\images\Concepts\Bird Wing Span Normal Modes.png" style="zoom:50%;" />
 
 On distingue donc ici 3 catégories d'oiseaux : les petits (la majorité), les moyens (moins nombreux) et les grands (les moins répandus).
+
+!!! warning "Attention"
+    Ici il ne faut pas confondre la variance sur les valeurs des tailles de chaque catégorie, et la fréquence à laquelle on observe des membres de chaque catégorie (souvent ou rarement). On notera toutefois que les catégories se recoupent peu, ce qui leur confère justement un côté discret et prompt à la séparation en groupes distincts.
 
 
 
@@ -246,7 +249,7 @@ Il est assez probable qu'on ait autant de prototypes que de concepts :
 
 * Il est toujours possible de créer des catégories nouvelles dont l'appartenance dépend de la présence ou l'absence d'un certain nombre de propriétés (ces propriétés sont **aussi** des concepts)
 * Les groupes d'objets appartenant à ces catégories peuvent toujours être assemblés en une moyenne floue représentant l'objet prototype associé à ce concept
-* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](#memoire-associative).
+* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](OpérationsConcepts.md#memoire-associative).
 
 
 
@@ -266,7 +269,7 @@ Comment parvient-on à se les remémorer de manière parfois très vive, comme d
 
 ### Un fort couplage entre langage et vision
 
-Dans un article très intéressant de 2021 dans Nature[^4], on peut voir la mise en évidence d'un lien très fort entre représentation visuelle et représentation linguistique :
+Dans un article de Nature[^4] très intéressant de 2021, on peut voir la mise en évidence d'un lien très fort entre représentation visuelle et représentation linguistique :
 
 <img src="..\images\Concepts\Visual and Language Representation Coupling.png" style="zoom:50%;" />
 
@@ -284,7 +287,7 @@ Mais quelle forme cette empreinte peut bien revêtir ?
 
 ### Tout n'est qu'illusion ?
 
-D'après le chercheur en neurosciences Anil Seth, tout ce que nous percevons ne serait qu'illusion[^5] :
+D'après le chercheur en neurosciences Anil Seth, tout ce que nous percevons ne serait qu'une sorte d'illusion[^5].
 
 !!! quote
     We do not perceive the world as it objectively is, but rather that we are prediction machines, constantly inventing our world and correcting our mistakes by the microsecond, and that we can now observe the biological mechanisms in the brain that accomplish this process of consciousness.
@@ -310,9 +313,9 @@ On peut donc attaquer ce "*théâtre interieur*" de 2 manières :
 Il y a de nombreux exemples qui mettent en évidence cette illusion :
 
 * Vous croyez savoir parfaitement dessiner un cheval ? Votre image mentale d'un cheval vous semble extrêmement détaillée ? Vous êtes certain de connaître tous les détails de l'anatomie d'un cheval ? Eh bien essayez d'en dessiner un... (cela ne vaut évidemment pas pour un dessinateur professionnel)
-* Vous croyez parfaitement chanter cette chanson ? Vous vous rappelez parfaitement des paroles ? Eh bien essayez... (cela ne vaut évidemment pas pour un chanteur professionnel)
+* Vous croyez pouvoir chanter cette chanson parfaitement ? Vous vous rappelez parfaitement des paroles ? Eh bien essayez... (cela ne vaut évidemment pas pour un chanteur professionnel)
 * Vous croyez vous rappeler de chaque moment de votre film préféré ? Eh bien écrivez donc une scène de mémoire, revoyez-la dans le film et comparez...
-* Rappelez-vous vos souvenirs d'enfance et votre foi inébranlable dans votre capacité à sauter d'un endroit à un autre tel un ninja ? Et maintenant observez depuis l'extérieur les mouvements de votre jeune enfant qui se projette dans les mêmes fantasmes que vous...
+* Rappelez-vous vos souvenirs d'enfance et votre foi inébranlable dans votre capacité à sauter d'un endroit à un autre tel un ninja ? Et maintenant observez depuis l'extérieur les mouvements de votre jeune enfant qui se projette dans les mêmes fantasmes que vous... :sweat_smile:
 
 
 
@@ -340,7 +343,7 @@ L'équipe d'Anthropic a déjà mis en évidence [^6][^7] une hiérarchisation de
 On voit qu'il y a une gradation :
 
 * des *features* bas-niveau dans le *layer* 3 : edges, contrastes, fréquences, courbes, dégradés, filtres de Gabor
-* un "sweet spot" de *features* de niveau intermédiaire dans le *layer* 4 où l'on va trouver des éléments visuels très intéressants composés à partir des *features* du niveau précédent, à différents niveaux de détail (par exemple un oeil d'animal en gros plan dans 4a mais également des éléments de paysage vu de loin dans 4b)
+* un "*sweet spot*" de *features* de niveau intermédiaire dans le *layer* 4 où l'on va trouver des éléments visuels très intéressants composés à partir des *features* du niveau précédent, à différents niveaux de détail (par exemple un oeil d'animal en gros plan dans 4a mais également des éléments de paysage vu de loin dans 4b)
 * puis une composition de *features* de haut-niveau dans le *layer* 5 qui n'ont plus vraiment de représentation visuelle, c'est probablement dans ces étages que le CNN va former ses dernières représentations à des fins de classification.
 
 
@@ -352,7 +355,7 @@ Il est donc probable que les étages de composition et de classification dans le
 
 
 !!! remark "Remarque"
-    J'ai pris la liberté de représenter un *tiling* hexagonal dans l'image ci-dessus car on a déjà rencontré une structure neuronale similaire qui est utilisée par les *grid cells*[^8].<br><img src="..\images\Concepts\Grid Cells.jpg" style="zoom:40%;" />
+    J'ai pris la liberté de représenter un *tiling* hexagonal dans l'image ci-dessus car on a déjà rencontré une structure neuronale similaire utilisée par les *grid cells*[^8].<br><img src="..\images\Concepts\Grid Cells.jpg" style="zoom:40%;" />
 
 
 
@@ -360,7 +363,7 @@ Il est donc probable que les étages de composition et de classification dans le
 
 On pourrait dès lors imaginer que l'on conserve des "signatures visuelles" sous forme de maillage de *patches* des objets qu'on a vus, et qu'on puisse ensuite se les représenter en les faisant entrer sur la scène de notre "théâtre" dès qu'on cherche à s'en rappeler.
 
-De plus, la proximité de cette signature visuelle avec la zone du langage impliquerait donc qu'on puisse immédiatement faire *venir à l'esprit* les images associées à des objets dès lors qu'on lit le champ lexical des mots qui y sont également associés.
+De plus, la proximité de cette signature visuelle avec la zone du langage impliquerait qu'on puisse donc immédiatement faire *venir à l'esprit* les images associées à des objets dès lors qu'on active le champ lexical des mots qui sont associés à cet objet.
 
 On imagine qu'il en va probablement de même pour les représentations sonores, par exemples la prononciation des mots faisant partie du champ lexical d'un concept, ou bien les cris quand il s'agit animaux, etc.
 
@@ -376,6 +379,11 @@ Si l'on imagine que l'activation d'une catégorie, par exemple "oiseau", impliqu
 Encore une fois, on va avoir de nombreuses activations de propriétés et donc de *features* visuelles communes à tous les exemples (ailes, bec, plumes, patte, dans le cas des oiseaux) et donc ces *features* seront fortement représentées dans l'image du prototype; tandis que les nombreuses propriétés très variables vont être activées plus faiblement et donc formeront une image beaucoup plus "diffuse".
 
 Ma théorie est que notre image prototype est une sorte de moyenne pondérée des *features* visuelles de chaque exemple, où le poids de chaque *feature* est simplement le nombre d'occurrences dans les exemples qu'on aura perçus et expérimentés.
+
+!!! warning "Remarque"
+    Je parle ici de pondération mais il ne faut pas y voir des poids en *floats* comme dans les réseaux de neurones classiques ! Ici on raisonne de manière biologiquement plausible. La pondération se fera en fonction de la *fréquence d'activation* des structures représentant les concepts : plus un concept sera activé fréquemment, plus il aura de prépondérance face aux autres.
+
+
 
 Pour un citadin européen de l'ouest comme moi, j'aurai donc :
 
@@ -403,7 +411,15 @@ Mais ce travail de réduction de surprise ne se produit pas seulement ponctuelle
 
 Chaque *moment* de notre vie est un "*collage*" de 2 instants disjoints que le cerveau transforme en une illusion de continuité.
 
+Est-ce que cette expérience de vivre des évènement *apparemment* parfaitement représentés et continus dans le temps — alors qu'ils sont vraisemblablement disjoints et imparfaits — ne représente pas là l'essence-même du "travail" qu'effectue le cerveau ?
+
+
+
 On pense bien sûr au fait qu'on ne parvienne pas à voir plus de 24 images par seconde, mais nous avons l'illusion que ça représente "parfaitement" notre réalité.
+
+On pense aussi au *blind spot* de l'oeil que le cerveau "remplit" avec une illusion de continuité spatiale :
+
+<img src="..\images\Concepts\Blind Spot.jpg" style="zoom:15%;" />
 
 A plus grande échelle, nous reprenons le cours de notre vie comme si de rien n'était après une nuit de sommeil ou une anesthésie générale. Or, on a pourtant vécu l'expérience d'un "trou" dans notre existence consciente dont la longueur nous est totalement inconnue...
 
@@ -441,7 +457,7 @@ Comment gère-t-on, à l'aide de concepts et de hiérarchie de propriétés, des
 
 Par exemple un être vivant qui meurt ? Une croyance qui change ? Une mesure qui évolue ?
 
-On note déjà le côté presque "violent" et définitif d'assigner une propriété $P$ à la représentation conceptuelle de quelque chose : la chose **est** ou **a** cette propriété. Point.
+On note déjà le côté presque "violent et définitif" d'assigner une propriété $P$ à la représentation conceptuelle de quelque chose : la chose **est** ou **a** cette propriété. Point.
 
 Mais on notera également le côté graduel et "doux" qu'on peut affecter à $P$ en lui assignant par la suite d'autres propriétés qui vont la quantifier et la qualifier :
 
@@ -462,63 +478,46 @@ La durée de validité d'une propriété est donc *par défaut* infinie et toujo
 
 Tout repose ensuite sur l'interprétation —et donc le raisonnement— qu'on va appliquer à des suites de points temporels : est-ce qu'on va décider que les valeurs sont discrètes (par exemple pour une action particulière, comme acheter une baguette de pain), ou seront interpolées dans le temps (par exemple, pour la mesure de la taille d'une personne) ?
 
-
-
-## Causes et effets
-
-TODO
+On retrace ainsi le changement d'un lieu à l'autre de quelqu'un simplement en analysant les propriétés temporelles des actions liées à cette personne, avec une granularité plus ou moins fine selon qu'on aura enregistré son GPS pendant toute une semaine, ou simplement lu des articles de presse à son sujet qui font état de sa présence à tel ou tel évènement (on imagine alors que la personne ne reste pas à un endroit donné jusqu'à ce qu'un autre article de presse paraisse et nous donne sa nouvelle position : on suppose juste qu'on n'a pas d'information sur les faits et gestes de cette personne dans l'intervalle de temps).
 
 
 
-## 
+#### Changement abrupt de sens
 
-### L'illusion... de la conscience ?
+Une dernière propriété tout à fait souhaitable de l'assignation "violente et définitive" d'une propriété $P$ à une représentation conceptuelle est de modifier <u>radicalement</u> la façon dont cette chose est perçue :
 
-Et maintenant, la question à 1 million de dollars : **en est-t-il de même pour la conscience ?** Est-ce que notre sentiment d'être doués de conscience n'est finalement qu'une illusion ?
+* On pense par exemple au cas de la **négation** où le fait d'assigner une négation à quelque chose la transforme instantanément en son contraire (« je t'aime... :heart_eyes: **pas** ! :sob: »)
+* On pense aussi au **contexte** dans lequel se déroule une histoire : est-ce la réalité ou bien un rêve ?
 
-<img src="../images/Concepts/Mind Blown.png" style="zoom:50%;display: block;margin-left: auto;margin-right: auto;width: 50%"; />
+Les évènements revêtent en effet une qualité radicalement différente selon qu'ils sont vrais ou faux !
 
-Est-ce que cette expérience de vivre des évènement *apparemment* parfaitement représentés et continus dans le temps — alors qu'ils sont vraisemblablement disjoints et imparfaits — ne représente pas là l'essence-même du "travail" qu'effectue le cerveau ?
-
-
-
-On connaît de nombreux exemples, à commencer par le cortex visuel qui sait parfaitement bien "combler" l'angle mort présent à l'arrière de nos yeux :
-
-<img src="..\images\Concepts\blind spot.jpg" style="zoom:10%;" />
-
-Ou bien notre incapacité à voir un visage concave, la représentation d'une telle chose dans notre cerveau n'existant tout simplement pas :
-
-![Hollow-face Illusion,artwork Photograph by David Mack](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.G8Dh-pGHosgYyTCkfuOKmwHaFO%26pid%3DApi&f=1&ipt=a56ccc57729d1c318d722ba8f789914cddc59d96f6d9f043aade27ff6fd7df32&ipo=images)
-
-
-
-## Mémoire Associative
-
-TODO Highlighting de concepts => activation neuronale.
-
-Corrélation de plusieurs activations => elicit probable results...
+Il est donc très facile de faire changer le contexte d'une action ou de l'existence d'un ensemble de propriétés simplement en assignant des propriétés *pivot* comme le **temps** (qu'on a déjà vu plus haut), le **contexte** ou l'**histoire** dans lequel se situe la structure et la **vraisemblance** de cette structure.
 
 
 
 ## Et le raisonnement dans tout ça ?
 
+On sort du domaine de la représentation conceptuelle pour réfléchir aux opérations qu'on va pouvoir effectuer de manière symbolique.
 
+Je vous encourage à lire la note suivante sur les [opérations conceptuelles](OpérationsConcepts.md) qui traite des relations de cause à effet, de la composition de structures conceptuelles basiques ainsi que des décisions qu'on peut prendre en analysant de telles structures.
 
-## Notation
-
-
-
-Symbole concepts : ⬙ (0x2B19)  ou bien notation &lt; Concept &gt;.
-
+Il y a finalement une partie ["raisonnement symbolique"](RaisonnementSymbolique.md) qui traite des problèmes de Bongard et du challenge ARC.
 
 
 
+## L'illusion... de la conscience ?
+
+On a donc vu que je me basais fortement sur l'hypothèse d'une illusion construite et maintenue en permanence par notre cerveau.
+
+Maintenant, la question à 1 million de dollars : **en est-t-il de même pour la conscience ?** Est-ce que ce sentiment d'être doués de conscience n'est pas finalement qu'une illusion, lui aussi ?
+
+<img src="../images/Concepts/Mind Blown.png" style="zoom:50%;display: block;margin-left: auto;margin-right: auto;width: 50%"; />
 
 
 
-## Refs possibles ?
 
 
+## Refs possibles
 
 [The Geometry of Categorical and Hierarchical Concepts in Large Language Models](https://arxiv.org/abs/2406.01506)
 
@@ -540,33 +539,6 @@ Brain is an illusion machine https://www.youtube.com/watch?v=iPj9D9LgK2A&ab_chan
 
 
 
-
-
-
-
-## Plan
-
-* Structuration des Concepts
-    * Peut-on tout représenter ?
-    * Peut-on comprendre de manière non ambiguë même si l'on attache les concepts n'importe comment ? Ou doit-on respecter une hiérarchie particulière ?
-* Raisonnement à partir des structures de concepts
-    * Comment lire une question et y répondre ?
-* Cas de la négation / association d'un fait à une "histoire"
-    * besoin de pouvoir inverser d'un coup le sens ou la véracité de qqchose
-* Notion de quantité attachée n'importe où
-* Trigger un concept ==> les bases de la recherche associative
-* Couplage fort concept / image ==> lien sur le papier qui montre les zones du cerveau activées quand un concept et l'image de ce concept sont activées : ce sont les mêmes à peu de chose près...
-
-* Plausibilité biologique
-    * On sait que les neurones sont facilement excitables par des impulsions ou des patterns de fréquences particuliers [^10][^11]
-    * Il est donc aisé pour le cerveau de créer des hiérarchies de neurones activés par la présence ou l'absence de certain attributs / features
-* La question est : comment généralise-t-on ça aux actions et aux procédures ? À la planification (réentrance, récursion) ? À la structuration hiérarchique de concepts, et pas juste à des séquences ?
-
-* Opérations sur les concepts
-    * Y a-t-il une algèbre de manipulation de concepts ?
-
-
-
 [^1]:1973 Rosch E. ["Natural Categories"](https://www.sciencedirect.com/science/article/abs/pii/0010028573900170)
 [^2]: [Dataset AVONET](https://opentraits.org/datasets/avonet.html)
 [^3]:1991, Turk M. A., Pentland A. P. ["Face Recognition using EigenFaces"](https://www.mit.edu/~9.54/fall14/Classes/class10/Turk%20Pentland%20Eigenfaces.pdf)
@@ -575,5 +547,4 @@ Brain is an illusion machine https://www.youtube.com/watch?v=iPj9D9LgK2A&ab_chan
 [^6]: 2017 Olah C. ["Feature Visualization"](https://distill.pub/2017/feature-visualization/) ([visualization](https://distill.pub/2017/feature-visualization/appendix/))
 [^7]:  2020 Olah C. ["An Overview of Early Vision in InceptionV1"](https://distill.pub/2020/circuits/early-vision)
 [^8]:  ["PLACENESS, PLACE, PLACELESSNESS"](https://www.placeness.com/place-cells-and-sense-of-place-in-neuroscience/)
-[^10]:2024, Kirsanov A., ["How your brain chooses to remember"](https://www.youtube.com/watch?v=ceFFEmkxTLg&ab_channel=ArtemKirsanov)
-[^11]:2024, Yang W. et al. ["Selection of experience for memory by hippocampal sharp wave ripples"](https://www.science.org/doi/10.1126/science.adk8261) ([site](https://winnieyangwannan.github.io/RippleTagging/projects/1_project/)) ([notebook](https://colab.research.google.com/drive/1qwruNxqS20xIl7sXYwjUA5zXKLTMWuTz?usp=drive_link))
+

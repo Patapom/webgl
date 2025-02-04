@@ -14,7 +14,7 @@ Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des
 
 J'ai choisi le rendu car c'était ce qui m'attirait et m'éclatait le plus à l'époque, mais immédiatement derrière il y a toujours eu l'IA et ses promesses d'un assistant personnel "intelligent".
 
-J'ai toujours été persuadé qu'un assistant personnel intelligent aurait un énorme succès auprès du public, Mon erreur est d'avoir négligé l'ampleur de ce succès et de n'avoir pas changé de branche avant ! :sweat_smile:
+J'ai toujours été persuadé qu'un assistant personnel intelligent aurait un énorme succès auprès du public, mon erreur est d'avoir négligé l'ampleur de ce succès et de n'avoir pas changé de branche avant ! :sweat_smile:
 
 !!! tip " "
      ChatGPT a attiré 1 million d’utilisateurs en seulement 5 jours après son lancement. Après 2 mois, il a atteint plus de 100 millions d’utilisateurs actifs par mois.
@@ -152,6 +152,8 @@ On va expliquer en quoi consiste cette [approche neuro-symbolique](ApprocheNeuro
 
 Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans cette note sur [la structure des concepts](StructureConcepts.md).
 
+Suivie d'une note sur les [opérations à base de concepts](OpérationsConcepts.md).
+
 
 
 ## Comment apprend-t-on ?
@@ -160,7 +162,7 @@ Si on n'utilise ni les réseaux de neurones classiques, ni la *backpropagation*,
 
 On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsApprentissage.md).
 
-Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissage non-supervisé :
+Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissage (supervisé et non-supervisé) :
 
 ​	![](images/WorkInProgress32x32.png) [Apprentissage des phonèmes](ApprentissagePhonèmes.md)
 
@@ -176,12 +178,12 @@ Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissa
 
 On peut déjà s'amuser avec des problèmes comme :
 
-* [Les problèmes de Bongard](RaisonnementBongard.md)
-* [Le challenge ARC](RaisonnementARC.md)
+* ![](images/TODO32x32.png)[Les problèmes de Bongard](RaisonnementBongard.md)
+* ![](images/TODO32x32.png)[Le challenge ARC](RaisonnementARC.md)
 
 Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va découvrir de nouveaux algorithmes*" ?
 
-C'est ce qu'on va tenter de voir dans cette note sur [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
+C'est ce qu'on va tenter de voir dans cette note sur ![](images/TODO32x32.png) [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
 
 
 
