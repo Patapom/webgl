@@ -121,7 +121,7 @@ Cette fameuse *moyenne de nos expériences* s'apparente à la notion de *prototy
 
 En effet, contrairement à la spécification Kantienne des concepts qui impose des frontières très *dures* (binaires) d'appartenance ou non à un groupe si et seulement si la chose à apparenter obéit à des conditions nécessaires et suffisantes (par exemple, "une maison **doit** être carrée"), les prototypes permettent une notion floue, presque molle (biologique ?) d'appartenance, et les frontières qui distinguent un groupe d'un autre sont laissées à la subjectivité et au choix de l'observateur.
 
-On renvoie à la note sur la représentativité neuro-symbolique des concepts pour une discussion plus approfondie sur les ["concepts moyens"](StructureConcepts.md#un-prototype-flou).
+On renvoie à la note sur la représentativité neuro-symbolique des concepts pour une discussion plus approfondie sur les ["concepts moyens"](ReprésentationSymbolique.md#un-prototype-flou).
 
 !!! note
     On laissera donc de côté l'approche Kantienne trop rigide pour l'instant, tout en notant qu'elle est à la base de toute réflexion logique et mathématique.<br>On note par avance qu'il est tout à fait possible de construire un système de croyances et de règles extrêmement rigides et rigoureuses basées sur un apprentissage de concepts "mous" et subjectifs. Après tout, Kant était bien un enfant avant d'écrire ses oeuvres ! :grin:
@@ -297,7 +297,7 @@ On a vu que les seules choses qui soient réellement nécessaires pour faire fon
 
     :white_check_mark: On sait que les neurones biologiques peuvent aisément réagir à des impulsions ou des fréquences d'activation[^1][^2]. Il est donc assez aisé d'imaginer les neurones biologiques réagir à la fréquence d'activation d'un capteur qui va s'éveiller quand il détecte une propriété particulière de l'environnement.
 
-    Même si l'on imagine bien que le cerveau ne vas pas réellement compter les occurrences comme un ordinateur pourrait le faire, il est naturellement câblé pour savoir classifier les ordres de grandeur [en utilisant en général 3 catégories](StructureConcepts.md#categories-grossieres), par exemple : { un peu, beaucoup, énormément}, { petit, moyen, grand } ou { faible, moyen, fort }. Et si besoin, en utilisant 5 catégories dont 2 extrêmes : { *minuscule*, petit, moyen, grand, *gigantesque* }.
+    Même si l'on imagine bien que le cerveau ne vas pas réellement compter les occurrences comme un ordinateur pourrait le faire, il est naturellement câblé pour savoir classifier les ordres de grandeur [en utilisant en général 3 catégories](ReprésentationSymbolique.md#categories-grossieres), par exemple : { un peu, beaucoup, énormément}, { petit, moyen, grand } ou { faible, moyen, fort }. Et si besoin, en utilisant 5 catégories dont 2 extrêmes : { *minuscule*, petit, moyen, grand, *gigantesque* }.
 
 
 

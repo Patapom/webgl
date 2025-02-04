@@ -28,7 +28,7 @@ On va utiliser un algorithme en 4 étapes :
 
     ​	Ça peut être des lignes, des arcs, des formes connues, des textures, des couleurs...
 
-2. **On va analyser la description de chaque image et tenter d'en extraire un maximum de structures possédant un maximum de propriétés** (cf. [note sur la représentation conceptuelle](StructureConcepts.md))
+2. **On va analyser la description de chaque image et tenter d'en extraire un maximum de structures possédant un maximum de propriétés** (cf. [note sur la représentation conceptuelle](ReprésentationSymbolique.md))
 
     ​	Ça peut être l'orientation (horizontal, vertical, diagonal), la forme, la couleur, la texture, l'*aspect ratio* (pointu, allongé, obtu), sa longueur, sa surface, un type de forme connue, est-ce que la forme est ouverte ou fermée ? si elle est fermée est-ce qu'elle est convexe ou concave ? si c'est une hiérarchie de structures alors comment sont connectés les enfants et combien y en a-t-il ? ...
 

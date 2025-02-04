@@ -1,4 +1,4 @@
-# Structure des Concepts
+# Représentation Symbolique
 
 On va aborder ici la partie la plus importante du système, à savoir : la représentation symbolique.
 
