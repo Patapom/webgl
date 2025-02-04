@@ -152,7 +152,7 @@ On va expliquer en quoi consiste cette [approche neuro-symbolique](ApprocheNeuro
 
 Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans cette note sur [la structure des concepts](ReprésentationSymbolique.md).
 
-Suivie d'une note sur les [opérations à base de concepts](OpérationsConcepts.md).
+Suivie d'une note sur les [opérations à base de concepts](StructureConcepts.md).
 
 
 

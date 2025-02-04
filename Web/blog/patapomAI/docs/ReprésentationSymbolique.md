@@ -249,7 +249,7 @@ Il est assez probable qu'on ait autant de prototypes que de concepts :
 
 * Il est toujours possible de créer des catégories nouvelles dont l'appartenance dépend de la présence ou l'absence d'un certain nombre de propriétés (ces propriétés sont **aussi** des concepts)
 * Les groupes d'objets appartenant à ces catégories peuvent toujours être assemblés en une moyenne floue représentant l'objet prototype associé à ce concept
-* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](OpérationsConcepts.md#memoire-associative).
+* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](StructureConcepts.md#memoire-associative).
 
 
 
@@ -419,7 +419,7 @@ On pense bien sûr au fait qu'on ne parvienne pas à voir plus de 24 images par 
 
 On pense aussi au *blind spot* de l'oeil que le cerveau "remplit" avec une illusion de continuité spatiale :
 
-<img src="..\images\Concepts\Blind Spot.jpg" style="zoom:15%;" />
+<img src="..\images\Concepts\blind spot.jpg" style="zoom:10%;" />
 
 A plus grande échelle, nous reprenons le cours de notre vie comme si de rien n'était après une nuit de sommeil ou une anesthésie générale. Or, on a pourtant vécu l'expérience d'un "trou" dans notre existence consciente dont la longueur nous est totalement inconnue...
 
@@ -459,7 +459,7 @@ Par exemple un être vivant qui meurt ? Une croyance qui change ? Une mesure qui
 
 On note déjà le côté presque "violent et définitif" d'assigner une propriété $P$ à la représentation conceptuelle de quelque chose : la chose **est** ou **a** cette propriété. Point.
 
-Mais on notera également le côté graduel et "doux" qu'on peut affecter à $P$ en lui assignant par la suite d'autres propriétés qui vont la quantifier et la qualifier :
+Mais on notera également le côté "graduel et doux" qu'on peut affecter à $P$ en lui assignant par la suite d'autres propriétés qui vont la quantifier et la qualifier :
 
 * On pourra par exemple indiquer le nombre de pattes d'un animal en spécifiant "4" à la propriété "patte" sous la description de l'animal
 * On pourra indiquer une valeur à la propriété "taille" d'un individu
@@ -484,7 +484,7 @@ On retrace ainsi le changement d'un lieu à l'autre de quelqu'un simplement en a
 
 #### Changement abrupt de sens
 
-Une dernière propriété tout à fait souhaitable de l'assignation "violente et définitive" d'une propriété $P$ à une représentation conceptuelle est de modifier <u>radicalement</u> la façon dont cette chose est perçue :
+Un dernier avantage tout à fait souhaitable de l'assignation "violente et définitive" d'une propriété $P$ à la représentation conceptuelle d'une chose est de modifier <u>radicalement</u> la façon dont cette chose est perçue :
 
 * On pense par exemple au cas de la **négation** où le fait d'assigner une négation à quelque chose la transforme instantanément en son contraire (« je t'aime... :heart_eyes: **pas** ! :sob: »)
 * On pense aussi au **contexte** dans lequel se déroule une histoire : est-ce la réalité ou bien un rêve ?
@@ -499,7 +499,7 @@ Il est donc très facile de faire changer le contexte d'une action ou de l'exist
 
 On sort du domaine de la représentation conceptuelle pour réfléchir aux opérations qu'on va pouvoir effectuer de manière symbolique.
 
-Je vous encourage à lire la note suivante sur les [opérations conceptuelles](OpérationsConcepts.md) qui traite des relations de cause à effet, de la composition de structures conceptuelles basiques ainsi que des décisions qu'on peut prendre en analysant de telles structures.
+Je vous encourage à lire la note suivante sur les [opérations conceptuelles](StructureConcepts.md) qui traite des relations de cause à effet, de la composition de structures conceptuelles basiques ainsi que des décisions qu'on peut prendre en analysant de telles structures.
 
 Il y a finalement une partie ["raisonnement symbolique"](RaisonnementSymbolique.md) qui traite des problèmes de Bongard et du challenge ARC.
 

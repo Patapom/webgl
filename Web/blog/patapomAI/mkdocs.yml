@@ -10,7 +10,7 @@ pages:
         - Les leçons à tirer des LLMs: LeçonsLLM.md
     - Une Approche Neuro-Symbolique:
         - Discussion sur une approche neuro-symbolique: ApprocheNeuroSymbolique.md
-        - La représentation des concepts: ReprésentationSymbolique.md
+        - La représentation symbolique: ReprésentationSymbolique.md
         - Opérations sur les concepts: StructureConcepts.md
     - Apprentissage:
         - Fondements de l'algorithme d'apprentissage: FondementsApprentissage.md

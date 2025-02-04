@@ -14,7 +14,7 @@ C'est bien de cela dont il s'agit ici aussi : même au niveau macroscopique des 
 
 Pour commencer, on ne peut rien apprendre d'un seul élément : il nous faut forcément un moyen de *comparaison* avec un autre élément du même type.
 
-Si l'on cherche à apprendre la [*qualia*](https://en.wikipedia.org/wiki/Qualia) &#11033;*Rouge* (cf. [ici](OpérationsConcepts.md) pour une explication du symbole &#11033;), il va nous falloir 2 choses rouges :
+Si l'on cherche à apprendre la [*qualia*](https://en.wikipedia.org/wiki/Qualia) &#11033;*Rouge* (cf. [ici](StructureConcepts.md) pour une explication du symbole &#11033;), il va nous falloir 2 choses rouges :
 
 ![Matching qualia](images\Learning\Qualia Matching.png)
 

@@ -1,4 +1,4 @@
-# Opérations sur les Concepts
+# Structures et Opérations sur les Concepts
 
 ![](images\WorkInProgress.png)
 
