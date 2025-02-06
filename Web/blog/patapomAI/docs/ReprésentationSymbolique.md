@@ -257,6 +257,16 @@ On va donc pouvoir représenter la majeure partie des [exemples cités au début
 
 
 
+#### L'exemple des mots de la langue
+
+J'aime à me représenter la définition d'un mot — et donc son sens, directement lié à un concept unique — comme un nuage un peu flou de ses synonymes, de ses antonymes, de ses représentations dans d'autres langues, de son orthographe (et donc des symboles qui le représentent), de son champ lexical, des exemples de son utilisation dans des phrases ou des expressions, des images, des sons ou des odeurs qui lui sont associés, etc.
+
+On voit bien ici que ce qui définit un mot — ce qui constitue son prototype — est une nébuleuse de choses qui lui sont liées. Il en va probablement de même pour n'importe quel concept qu'on aura défini.
+
+C'est l'activation d'un concept de cette nébuleuse qui, en retour, par associativité, ira activer tous les autres concepts connexes et nous fournira automatiquement une mesure de la pertinence et de l'attention qu'on devra porter à ces concepts, comme expliqué dans [l'algorithme de mémoire associative](StructureConcepts.md#memoire-associative).
+
+
+
 ## Représentation des propriétés émanant des sens
 
 On a donc vu jusqu'ici qu'il était aisé d'assigner des propriétés artificielles aux objets comme la couleur ou la taille; ou bien de classer les objets dans des catégories, artificielles elles aussi.
@@ -361,7 +371,7 @@ Il est donc probable que les étages de composition et de classification dans le
 
 #### Représentation d'un exemple
 
-On pourrait dès lors imaginer que l'on conserve des "signatures visuelles" sous forme de maillage de *patches* des objets qu'on a vus, et qu'on puisse ensuite se les représenter en les faisant entrer sur la scène de notre "théâtre" dès qu'on cherche à s'en rappeler.
+On pourrait dès lors imaginer que l'on conserve des "signatures visuelles" sous forme de maillage de *patches* des objets qu'on a vus, et qu'on puisse ensuite se les représenter en les faisant entrer sur la scène de notre "théâtre" dès qu'on cherche à s'en rappeler. Mais on peut imaginer aussi d'autres représentations, basées sur les silhouettes ou sur les couleurs, qui viendraient compléter les informations de texture.
 
 De plus, la proximité de cette signature visuelle avec la zone du langage impliquerait qu'on puisse donc immédiatement faire *venir à l'esprit* les images associées à des objets dès lors qu'on active le champ lexical des mots qui sont associés à cet objet.
 
