@@ -33,12 +33,18 @@ Mais que signifie l'assignation d'un concept à un autre ?
 
 
 
-Dans l'exemple ci-dessus on crée donc un lien ou une **référence bidirectionnelle** entre &#11033;**Oiseau** et &#11033;**Rouge** :
+Dans l'exemple ci-dessus on crée donc un **lien** ou une **référence bidirectionnelle** entre &#11033;**Oiseau** et &#11033;**Rouge** :
 
 * &#11033;**Oiseau** possède la propriété &#11033;**Rouge**
 * &#11033;**Rouge** est référencé par &#11033;**Oiseau**
 
 
+
+Pour continuer en utilisant la langue de la programmation :
+
+* On peut dire ici que &#11033;**Oiseau** est une *réalisation*, une *instanciation* du concept **Oiseau** défini globalement "à la racine" : on crée *un exemple d'oiseau*.
+* De la même manière, &#11033;**Rouge**" est la *réalisation*, *l'instanciation* du concept **Rouge** défini globalement "à la racine" : on crée un exemple de chose rouge.
+* Finalement, l'assignation d'une instance de "chose rouge" à une instance d'oiseau va bel et bien créer un exemple d'oiseau possédant la propriété rouge.
 
 
 
@@ -49,35 +55,270 @@ Pour effectuer des descriptions et des raisonnements, on va avoir besoin de quel
 Ces ébauches n'ont évidemment rien de définitives et si jamais on laisse à un algorithme d'apprentissage la liberté d'apprendre les concepts et les liens en fonction de son expérience, il est probable que ça ne ressemble pas du tout à ce qu'on va tenter de faire ici manuellement. Mais peut-être que ce travail pourra malgré tout servir de base à une construction plus élaborée ?
 
 !!! warning "Attention"
-    L'importance et les conventions d'utilisation qu'on va décider d'appliquer aux structures conceptuelles décrites ci-après résident à l'étage du dessus : l'étage du raisonnement. C'est en effet à l'étage du raisonnement qu'on saura que le concept &#11033;**Contraire** définit un contrat de nature bidirectionnelle entre les 2 choses qui y sont sujettes, ou bien qu'une séquence ordonnée devra être lue de telle ou telle manière, et ainsi de suite.
+    L'importance et les conventions d'utilisation qu'on va décider d'appliquer aux structures conceptuelles décrites ci-après résident à l'étage du dessus : l'étage du raisonnement. C'est en effet à l'étage du raisonnement qu'on saura par exemple que le concept &#11033;**Contraire** définit un contrat de nature bidirectionnelle et opposée entre les 2 choses qui y sont sujettes, ou bien qu'une séquence ordonnée devra être lue de telle ou telle manière, et ainsi de suite.
 
 
 
-### Notion "d'Être"
+### Notion de "*Type*"
 
-On parle ici de [cette définition-ci](https://usito.usherbrooke.ca/d%C3%A9finitions/%C3%AAtre_1#C736C29d7338e597) du dictionnaire : 
+C'est une notion fondamentale dès lors qu'on veut caractériser et classifier quelque chose.
 
-!!! quote "**Être**"
-    **II** V. attributif **1** (qualification) Élément verbal liant un sujet à un attribut. ex: *La pomme est rouge, petite, appétissante.*
+On fait référence ici à ce groupe de définitions :
 
-C'est une notion absolument centrale puisqu'elle permet d'attribuer un "*type*" aux choses. En programmation, on parlerait d'*héritage de type*.
+!!! quote "[**Type.II.B**](https://usito.usherbrooke.ca/d%C3%A9finitions/type#E9E90cd18015e123)"
+    **1** Ensemble des caractères distinctifs de groupes de choses, d'individus, permettant leur classification.<br>**2** Ensemble des caractères (morphologiques, psychiques, ethniques, etc.) qui sont culturellement considérés comme distinguant des groupes humains.<br>**3** Ensemble de caractères, de propriétés, déterminés précisément, qui définissent une série d'objets fabriqués.<br>**4** inform. **type de donnée(s)** ou **type** : en programmation informatique, élément d'une classification de données (entier, chaîne de caractère, tableau, booléen, etc.) qui définit les valeurs que peut prendre une donnée, la manière dont elle est stockée ainsi que les opérateurs qui lui sont applicables.
+
+
+
+### Notion "d'*Être*"
+
+C'est une notion complémentaire à la notion de Type puisqu'elle permet *d'attribuer un type* aux choses — en programmation, on parlerait d'*héritage de type*.
+
+On fait ici référence à cette définition du dictionnaire : 
+
+!!! quote "**[Être.II.1](https://usito.usherbrooke.ca/d%C3%A9finitions/%C3%AAtre_1#C736C29d7338e597)**"
+    **II** V. attributif **1** (qualification) Élément verbal liant un sujet à un attribut. ex: *Être paysanne, boucher.*
 
 Ce qui est "amusant" c'est qu'on peut considérer le lien &#10551; comme la propriété "**avoir**". Tandis qu'ici, on vient de définir la qualité "**d'être**".<br>
 Et donc écrire :
 
 &#11033;**Moineau**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷ &#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷ &#11033;**Oiseau**
 
-signifie littéralement "moineau a la propriété d'être un oiseau".
+signifie littéralement "moineau **a** la propriété d'**être** un oiseau".
+
+!!! note
+    On notera qu'on peut bien entendu **être** de nombreuses choses à la fois, si tant est qu'elles ne soient pas contradictoires — à la charge de l'algorithme d'apprentissage ou de raisonnement de s'en assurer.<br>De plus, aussitôt qu'un concept **est** quelque chose, il possède automatiquement tous les attributs de cette chose (il en *hérite*).
 
 
 
+### Notions de ???
+
+Il est souvent utile de préciser les "**acteurs**" de certains concepts et permettre de répondre à certaines interrogations comme qui ? quoi ? quand ? où ? comment ? pourquoi ?
+
+On va donc créer les concepts suivants :
+
+#### &#11033;**Qui**
+
+!!! quote "**[Qui.I.A, Qui.II](https://usito.usherbrooke.ca/d%C3%A9finitions/qui#A2Ab6Cbd21157e47)**"
+    **I** Pron. interr. (généralement masculin singulier) Sert à représenter une personne. **A** (dans l'interrogative directe)<br>**II** Pron. rel. **1** (sujet) Sert à représenter une personne ou une chose.<br>**II** Pron. rel. **2** (complément) Sert à représenter une personne.
 
 
-**TODO**
 
-- La notion "d'être quelque chose" et l'héritage
+#### &#11033;**Quoi**
+
+!!! quote "**[Quoi.I.A, Quoi.II.A](https://usito.usherbrooke.ca/d%C3%A9finitions/quoi#ce8c99bd27052e53)**"
+    **I** Pron. interr. m. sing. Sert à représenter une chose. **A** (dans l'interrogative directe)<br>**II** Pron. rel. m. sing. **1** (complément introduit par une préposition) Sert à représenter une chose.
+
+
+
+#### &#11033;**Où**
+
+!!! quote "**[Où.I.1, Où.II](https://usito.usherbrooke.ca/d%C3%A9finitions/où#ff413fEd19686e50)**"
+    **I** Pron. rel. (avec une valeur adverbiale) **1** Sert à marquer le lieu.<br>**II** Adv. (lieu)
+
+
+
+#### &#11033;**Quand**
+
+!!! quote "**[Quand.II.2](https://usito.usherbrooke.ca/d%C3%A9finitions/quand#ff8ABbd42410e286)**"
+    **II** Adv. (temps) **1** À quel moment.
+
+
+
+#### &#11033;**Comment**
+
+!!! quote "**[Comment.I.1](https://usito.usherbrooke.ca/d%C3%A9finitions/comment#F6F8F31d53692e61)**"
+    **I** Adv. **A** De quelle manière, par quel moyen.
+
+
+
+#### &#11033;**Pourquoi**
+
+!!! quote "**[pourquoi.I.A, pourquoi.II](https://usito.usherbrooke.ca/d%C3%A9finitions/pourquoi#fff9FEcd36166e45)**"
+    **I** Adv. **A** Pour quelle raison.<br>**II** N. m. inv. **1** Cause, motif.<br>**II** N. m. inv. **2** Interrogation sur les causes, sur les motifs de qqch.
+
+
+
+### Notion "d'*Ordre*"
+
+Dès lors qu'on a besoin de comparer et de trier les choses, on doit définir la notion d'ordre : Avant &lt; Après, Inférieur &lt; Supérieur, Moins &lt; Plus, Petit &lt; Grand, Léger &lt; Lourd, Près &lt; Loin, Lent &lt; Rapide, etc.
+
+On commence par remarquer que le point commun de tous ces exemples est qu'on est capable de les représenter sur un **axe** : le temps, la taille, la force, le poids, la distance, la vitesse, etc. — Par exemple, Petit et Grand auront des *valeurs*, des *positions* le long de l'axe de la taille.
+
+Pour pouvoir ordonner des *positions* le long d'un axe, on va commencer par définir les notions suivantes :
+
+&#11033;**Précédent**
+
+!!! quote "**[Précédent.I](https://usito.usherbrooke.ca/d%C3%A9finitions/précédent#BE4Bebfcd8057e46)**"
+     **I** Adj. Qui est situé immédiatement avant qqch. d'autre.
+
+
+
+&#11033;**Suivant**
+
+!!! quote "**[Suivant.I.A](https://usito.usherbrooke.ca/d%C3%A9finitions/suivant#A7CA0AFd48464e43)**"
+      **I** **A** Adj. Qui se trouve, qui vient, qui se produit immédiatement après, derrière, à la suite de qqch.
+
+
+
+On va ainsi pouvoir définir le concept de **séquence** :
+
+&#11033;**Séquence**<br>
+
+!!! quote "**[Séquence.1](https://usito.usherbrooke.ca/d%C3%A9finitions/séquence#FF069ABd29502e34)**"
+      **1** Suite ordonnée d'éléments, d'opérations, de phases.
+
+
+
+#### Exemple
+
+On peut définir une phrase comme une séquence de mots (cf. [le paragraphe où l'on va définir les symboles](#notion-de-lettres-mots-et-phrases)) :
+
+&#11033;**Phrase**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Séquence**
+
+Puis construire la phrase particulière "mon exemple de phrase" de cette manière :
+
+&#11033;**"Mon exemple de phrase"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Phrase**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"mon"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"exemple"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"de"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"phrase"**<br>
+
+
+
+!!! note
+    On note ici que les concepts entre guillemets comme **&#11033;"mon"** sont des instances de *mots*. C'est-à-dire que le concept du mot **"mon"** est défini ailleurs et qu'on y fait simplement référence pour l'employer dans cette instance de phrase...
+
+
+
+### Notion de contraire
+
+On vient de voir la notion d'ordre et les grandeurs représentables sur un axe.
+
+Souvent, en plus d'être ordonnées, ces grandeurs peuvent également avoir des **contraires** — Petit est le contraire de grand. Maigre est le contraire de gros. Précédent est le contraire de suivant.
+
+!!! quote "**[Contraire.II](https://usito.usherbrooke.ca/d%C3%A9finitions/contraire#F8B8dFad6203e114)**"
+      **II** N. m. **1** Ce qui s'oppose par le plus grand écart possible à une chose.<br>**II** N. m. **2** Mot qui s'oppose à un autre par le sens.
+
+#### Exemple
+
+C'est une relation bidirectionnelle non ordonnée qu'on va pouvoir utiliser comme ceci :
+
+&#11033;**A**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Contraire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**B**
+
+Ou bien comme cela :
+
+&#11033;**Contraire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**A**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**B**
+
+
+
+### Notion **d'Ensemble**
+
+On manipule très souvent des **groupes** ou des **ensembles** de choses, ou bien des **parties** de ces ensembles.
+
+On va donc définir &#11033;**Ensemble** :
+
+!!! quote "**[Ensemble.3](https://usito.usherbrooke.ca/d%C3%A9finitions/ensemble_2#E9f0Eed53083e239)**"
+      **3** Groupe d'éléments assemblés.
+
+Ainsi que &#11033;**Partie** :
+
+!!! quote "**[Partie.1](https://usito.usherbrooke.ca/d%C3%A9finitions/partie#dc1D0dFd54914e37)**"
+      **1** Élément, portion d'un tout, considéré dans ses rapports avec ce tout.
+
+
+
+#### Exemples
+
+La séquence qu'on a définie précédemment est un ensemble d'éléments qui se suivent :
+
+&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**
+
+
+
+Si l'on veut utiliser la notion de partie, on va généralement écrire :
+
+ &#11033;**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033; &lt; la chose dont on fait partie &gt;
+
+Par exemple, on peut établir qu'un doigt est une partie de la main comme ceci :
+
+&#11033;**Doigt**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Main**
+
+
+
+### Contexte d'existence
+
+Histoire(histoire.II.1)			// Ref sur la définition II.1 de "Histoire" en utilisant la hiérarchie de définitions (Macro sens.Méso sens.Sens)
+
+// L'histoire de toute chose, par défaut
+Réalité(réalité.3)	// Déf Réalité.3 = Chose, fait, événement qui constitue le monde de l'être humain.
+	est
+		Histoire
+
+
+
+### Temps
+
+Temps(temps.I,.B)	// Def I:   Milieu indéfini et homogène dans lequel se situent les êtres et les choses et qui est caractérisé par sa double nature, à la fois continuité et succession.
+					// Def I.A: Durée indéterminée et continue; fragment de cette durée.
+					// Def I.B: Succession.
+	est Abstrait
+
+	// Nuage de mots
+	"Séquence d'événements, suite, déroulement"
+
+// instant_2.1: Petit espace de temps, moment très court.
+// instant_2.2: Espace de temps précis, généralement considéré par rapport à ce qui le caractérise.
+// moment.I.1: (Petit) espace de temps.
+// moment.I.2: Espace de temps précis, situé dans une durée et généralement considéré par rapport à ce qui le caractérise.
+Instant, Moment	// L'idée étant de décrire l'équivalent de "Position" pour l'espace
+	est Temps
+
+Durée			// durée.1: Intervalle de temps déterminé pendant lequel se produit une action, un état, un phénomène, du début à sa fin.
+				// L'idée étant de décrire l'équivalent de "Taille" pour l'espace
+	est Temps
+
+
+
+### Relation
+
+// Par défaut bidirectionnelle, non-ordonnée, symétrique (cousin, frère, père, attaché, contraire, aligné, etc.)
+Relation(relation.II.1)	// Lien, rapport entre deux choses.
+
+
+
+### Notion de lettres, mots et phrases
+
+Caractère(caractère.I.1)	// Signe appartenant à un système d'écriture.
+
+// C'est le terme utilisé en linguistique, peut-être un peu trop spécifique pour nos besoins...
+//Signe(signe.II.4)			// Graphème ou caractère ayant une valeur donnée dans un système d'écriture.
+
+Chiffre(chiffre.1)			// Caractère servant à représenter un nombre.
+	est Caractère
+Lettre(lettre.I.1)			// Chacun des signes graphiques dont l'ensemble constitue un alphabet servant à transcrire une langue
+	est Caractère
+Symbole(symbole.II.3)		// Signe choisi par convention pour désigner qqch.
+	est Caractère
+
+Mot(mot.1)	// Son ou groupe de sons articulés ou figurés graphiquement, constituant une unité porteuse de signification.
+	Séquence
+		de
+			Lettre
+			Phonème
+	Sens
+
+Phrase(phrase.I.1)	// Assemblage, oral ou écrit, de mots dont la construction présente un sens complet.
+	Séquence
+		de Mot
+	Sens
+
+
+
+!!! warning
+    Il faut bien distinguer le concept de lettre, de celui de signe dessiné : &#11033;**A** et &#11033;**"A"** sont 2 choses différentes !
+
+
+
+### **TODO**
+
 - Une grandeur ? Une comparaison ? Une relation d'ordre ?
-- Séquence ordonnée ?
 - La multitude ou la singularité ?
 - Les exclusions ? Les contraires ? La négation ?
 - Un contexte d'existence ? (réalité / histoire / rêve)
@@ -221,11 +462,11 @@ De même que la désambiguïsation du mot nucléaire servira à son tour pour qu
 
 
 !!! remark "Remarque"
-     Ça ressemble aux modèles [*bag-of-words*]() et [tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) mais en beaucoup moins con puisqu'on ne fait pas que compter des occurrences de mots de manière désordonnée.<br>On construit notre *evidence* au fur-et-à-mesure qu'on lit le texte, les activations jouent également un rôle dans la compréhension et la construction de la structure grammaticale de la phrase.
+     Ça ressemble aux modèles [*bag-of-words*]() et [tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) mais en beaucoup moins naïf puisqu'on ne fait pas que compter des occurrences de mots de manière indéterminée et désordonnée.<br>On construit nos ***éléments de preuve*** au fur-et-à-mesure qu'on lit le texte, les activations jouent également un rôle dans la compréhension et la construction de la structure grammaticale de la phrase.
 
 
 
-#### Choix des mots
+#### Le choix des mots
 
 Doit-on activer tous les mots de la même manière ? Il est évident que certains mots sont plus porteurs de sens que d'autres.
 
@@ -244,7 +485,7 @@ $$p(x)= \frac{ \left| \{w \in W | w = x \} \right| }{ \left| W \right| }$$
 Où $W$ représente l'ensemble des mots qu'on a lus — pas seulement dans ce texte-ci mais depuis qu'on a commencé à apprendre à lire.
 
 !!! example "Exemple"
-     Dans la langue française, sur 700,000 mots étudiés on relève 26,541 occurrences du mot "*être*", ce qui impliquerait que $p(\text{"être"})=0.038$ et la surprise serait de $s(\text{"être"})=4.72$.<br><br>Tandis que le mot nucléaire apparaîtrait environ 426 fois sur un total de 12,561,968 mots étudiés, ce qui impliquerait que $p(\text{"nucléaire"}) = 0.000034$ et la surprise serait de $s(\text{"nucléaire"}) = 14.8$ soit environ 3 fois plus importante que "*être*" !
+     Dans la langue française, sur 700,000 mots étudiés on relève 26,541 occurrences du verbe "*être*", ce qui impliquerait que $p(\text{"être"})=0.038$ et la surprise serait de $s(\text{"être"})=4.72$.<br><br>Tandis que le mot nucléaire apparaîtrait environ 426 fois sur un total de 12,561,968 mots étudiés, ce qui impliquerait que $p(\text{"nucléaire"}) = 0.000034$ et la surprise serait de $s(\text{"nucléaire"}) = 14.8$ soit environ 3 fois plus importante que "*être*" !
 
 
 
@@ -252,9 +493,25 @@ On voit donc qu'un mot peu fréquent portera plus de sens et se verra accordé p
 
 
 
+### Multi-Head Attention
+
+Les LLMs possèdent plusieurs "*têtes d'attention*" (*attention heads*) par *layer* de *transformer* (cf. cette [note](PolysémieLLM.md#features-observees) sur les LLMs). Chaque tête d'attention sera chargée de différentes tâches :
+
+* Des tâches de bas-niveau dans les premières couches, comme : détecter des sommes d'argent, des morceaux de code, des titres honorifiques, des séquences d'ADN, des caractères hébreux, cyrilliques ou arabes, etc.
+* Des tâches de niveau intermédiaire dans les couches suivantes, comme détecter des attributs grammaticaux et les regrouper pour décorer les mots centraux de la phrases (c-à-d ceux qui portent le plus de sens)
+* Des tâches de haut-niveau dans les couches finales (juste avant la re-tokenization) qui vont effectuer les combinaisons de l'équivalent de nos concepts dans le but de simuler un semblant de "raisonnement" (le fait que les LLMs sont doués de raisonnement fait encore débat au moment où j'écris)
+
+Chaque tête d'attention va donc travailler dans son propre contexte et former son propre *vecteur d'attention* qui sera ensuite combiné avec celui des autres têtes via un *multilayer perceptron* (MLP) avant d'être finalement envoyé au *layer* suivant.
+
+Sur le même modèle, on va probablement vouloir lancer les activations de notre mémoire sémantique **dans leurs propres contextes**, chaque contexte d'activation servant à effectuer une tâche particulière, comme la désambiguïsation de différents mots, la recherche de synonymes, la recherche associative itérative (ou chaque résultat retourné sera raffiné à chaque fois avec un nouveau critère de recherche), etc.
+
+
+
+
+
 ## Causes et effets
 
-**TODO**
+**TODO!**
 
 
 

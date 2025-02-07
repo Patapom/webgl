@@ -150,9 +150,11 @@ On voit donc qu'il est possible de se réserver un espace de **concepts de haut-
 
 On va expliquer en quoi consiste cette [approche neuro-symbolique](ApprocheNeuroSymbolique.md).
 
-Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans cette note sur [la structure des concepts](ReprésentationSymbolique.md).
+Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans [cette note](ReprésentationSymbolique.md).
 
-Suivie d'une note sur les [opérations à base de concepts](StructureConcepts.md).
+Suivie d'une note sur les [structures conceptuelles de base](StructureConcepts.md).
+
+On va également expliquer comment utiliser les concepts pour réaliser une [mémoire associative](MémoireAssociative.md).
 
 
 

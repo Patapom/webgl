@@ -43,7 +43,7 @@ On n'aura peut-être pas décrit totalement Michel (et sa passion secrète pour 
 
 ## Peut-on **tout** représenter de cette manière ?
 
-La première question qu'on se pose est évidemment : est-ce qu'on peut représenter **toutes** les situations auxquelles nous sommes confrontés dans tout au long de notre existence ?
+La première question qu'on se pose est évidemment : est-ce qu'on peut représenter **toutes** les situations auxquelles nous sommes confrontés tout au long de notre existence ?
 
 Peut-on représenter :
 
@@ -74,7 +74,12 @@ Pour commencer, notons qu'un concept est **unique** ! On ne parle pas de mots qu
 En théorie, on peut voir chaque concepts comme une définition du dictionnaire. Chaque définition est unique, tandis qu'un même mot peut avoir plusieurs définitions.
 
 !!! note " "
-    D'ailleurs, je construis mes concepts à partir des définitions d'un [dictionnaire très complet](https://usito.usherbrooke.ca/). C'est un processus itératif de va-et-vient puisque j'ai besoin des définitions des mots du dictionnaire pour le sens de mes concepts, et j'ai besoin des concepts pour comprendre le sens des mots *dans* les définitions. :grin:
+    D'ailleurs, je construis mes concepts à partir des définitions d'un [dictionnaire très complet](https://usito.usherbrooke.ca/). C'est un processus itératif de va-et-vient puisque j'ai besoin des définitions des mots du dictionnaire pour le sens de mes concepts, et j'ai besoin des concepts pour comprendre le sens des mots *dans les phrases* des définitions. :grin:
+
+
+
+!!! info "Note 2"
+    Certains concepts peuvent parfois se référer à un **groupe de définitions**, si tant est qu'elles englobent toutes le même sens.<br>On notera par exemple le cas du [concept de **Type**](StructureConcepts.md#notion-de-type) qui se réfère au [groupe de définitions II.B](https://usito.usherbrooke.ca/d%C3%A9finitions/type#E9E90cd18015e123) dans le dictionnaire Usito — chaque définition du groupe II.B spécialisant la notion de type à des usages particuliers mais ne variant pas le sens.
 
 
 
@@ -82,7 +87,7 @@ En théorie, on peut voir chaque concepts comme une définition du dictionnaire.
 
 Un exemple unique d'objet représenté de manière conceptuelle, peut sembler binaire et "dur", en effet. On décrit *cet objet particulier à un instant donné*, avec ses propriétés particulières qui sont présentes ou absentes (ou ignorées et donc pas représentées). C'est généralement de cette manière qu'on procède dans une base de données classique où une entrée dans une table contient une liste de valeurs.
 
-Mais c'est **l'ensemble des exemples** des objets de même type — qu'on appelle un **prototype**[^1] — qui vont conférer une dimension "floue" à ces propriétés qui vont revêtir différentes valeurs selon les exemples — valeurs qu'on aura du mal à qualifier de binaires ou de rigides, hormis pour les [**propriétés caractéristiques**](#proprietes-caracteristiques) de ces objets qui ne varient pas ou très peu.
+Mais c'est **l'ensemble des exemples** des objets de même type — qu'on appelle un **prototype**[^1] — qui vont conférer une dimension "floue" à ces propriétés et revêtir différentes valeurs selon les exemples — valeurs qu'on aura du mal à qualifier de binaires ou de rigides, hormis pour les [**propriétés caractéristiques**](#proprietes-caracteristiques) de ces objets qui ne varient pas ou très peu.
 
 Prenons le cas classique des oiseaux :
 
@@ -130,10 +135,6 @@ Contrairement aux machines qui peuvent tout à fait gérer l'intégralité d'un 
 * Faible, Moyen, Fort
 * Léger, Moyen, Lourd
 
-On a parfois besoin de distinguer davantage de catégories, alors on va plutôt utiliser 5 groupes :
-
-* Minuscule, Petit, Moyen, Grand, Énorme
-
 
 
 !!! note
@@ -141,10 +142,18 @@ On a parfois besoin de distinguer davantage de catégories, alors on va plutôt 
 
 
 
+On a parfois besoin de distinguer davantage de catégories, on utilisera alors plutôt 5 groupes :
+
+* Minuscule, Petit, Moyen, Grand, Énorme
+
+    <br>
+
 !!! question "Hypothèse"
      Je pense que les humains sont dotés d'un mécanisme interne capable de déterminer plusieurs **modes** de **distributions normales (gaussiennes)**, avec la moyenne et la variance de chaque mode.<br><br>Ce ne sont bien entendu pas les caractéristiques exactes $\mathcal{N}(\mu,\sigma^2)$ comme en statistiques, mais plutôt un "ressenti". Encore une fois — comme pour l'algorithme d'apprentissage qui se base sur la quantité ou la fréquence d'activation de certains neurones ou certains concepts pour en déduire une corrélation — on va se baser sur la quantité et la fréquence d'activation des propriétés pour créer des groupes.
 
-Par exemple, l'histogramme de distribution de la longueur des ailes d'oiseaux sera plutôt représenté sous la forme de 3 modes gaussiens comme ceci :<img src="..\images\Concepts\Bird Wing Span Normal Modes.png" style="zoom:50%;" />
+Par exemple, l'histogramme de distribution de la longueur des ailes d'oiseaux sera plutôt représenté sous la forme de 3 modes gaussiens comme ceci :
+
+<img src="..\images\Concepts\Bird Wing Span Normal Modes.png" style="zoom:50%;" />
 
 On distingue donc ici 3 catégories d'oiseaux : les petits (la majorité), les moyens (moins nombreux) et les grands (les moins répandus).
 
@@ -249,7 +258,7 @@ Il est assez probable qu'on ait autant de prototypes que de concepts :
 
 * Il est toujours possible de créer des catégories nouvelles dont l'appartenance dépend de la présence ou l'absence d'un certain nombre de propriétés (ces propriétés sont **aussi** des concepts)
 * Les groupes d'objets appartenant à ces catégories peuvent toujours être assemblés en une moyenne floue représentant l'objet prototype associé à ce concept
-* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](StructureConcepts.md#memoire-associative).
+* La formation de ces groupes sur des critères variables est généralement très rapide et utilise les mêmes mécanismes que ceux employés pour la fonction de [mémoire associative](MémoireAssociative.md).
 
 
 
@@ -263,7 +272,7 @@ J'aime à me représenter la définition d'un mot — et donc son sens, directem
 
 On voit bien ici que ce qui définit un mot — ce qui constitue son prototype — est une nébuleuse de choses qui lui sont liées. Il en va probablement de même pour n'importe quel concept qu'on aura défini.
 
-C'est l'activation d'un concept de cette nébuleuse qui, en retour, par associativité, ira activer tous les autres concepts connexes et nous fournira automatiquement une mesure de la pertinence et de l'attention qu'on devra porter à ces concepts, comme expliqué dans [l'algorithme de mémoire associative](StructureConcepts.md#memoire-associative).
+C'est l'activation d'un concept de cette nébuleuse qui, en retour, par associativité, ira activer tous les autres concepts connexes et nous fournira automatiquement une mesure de la pertinence et de l'attention qu'on devra porter à ces concepts, comme expliqué dans [l'algorithme de mémoire associative](MémoireAssociative.md).
 
 
 
