@@ -12,7 +12,7 @@ On va donc rapidement obtenir un **graphe conceptuel** — qu'on appelle souvent
 
 
 
-### Activation des neurones conceptuels
+## Activation des neurones conceptuels
 
 À l'instar de leurs homologues biologiques, nos "neurones conceptuels" vont pouvoir être activés et activer leurs voisins à leur tour. Mais de quelle manière ?
 
@@ -27,7 +27,7 @@ On notera déjà que la notion de temps est fondamentale dans les cycles d'activ
 
 
 
-#### Neurones biologiques
+### Neurones biologiques
 
 Le neurone biologique va pouvoir jouer sur plusieurs facteurs pour intégrer les stimuli et les propager à ses voisins :
 
@@ -62,7 +62,7 @@ Le neurone biologique va pouvoir jouer sur plusieurs facteurs pour intégrer les
 
 
 
-#### Neurones conceptuels
+### Neurones conceptuels
 
 Comme pour les autres sujets (approche neuro-symbolique et apprentissage), on ne va pas reproduire les mécanismes chimiques microscopiques qui se passent dans le cerveau mais on va rester au niveau macroscopique :
 
@@ -84,7 +84,7 @@ Comme pour les autres sujets (approche neuro-symbolique et apprentissage), on ne
 
 
 
-### Fonctionnement de la mémoire associative
+## Fonctionnement de la mémoire associative
 
 Une fois les détails techniques d'activation du graphe réglés, on peut enfin se pencher sur le fonctionnement de cette mémoire associative.
 
@@ -163,7 +163,7 @@ On voit donc qu'un mot peu fréquent portera plus de sens et se verra accordé p
 
 
 
-### Multi-Head Attention
+## Multi-Head Attention
 
 Les LLMs possèdent plusieurs "*têtes d'attention*" (*attention heads*) par *layer* de *transformer* (cf. cette [note](PolysémieLLM.md#features-observees) sur les LLMs). Chaque tête d'attention sera chargée de différentes tâches :
 
@@ -179,40 +179,28 @@ Sur le même modèle, on va probablement vouloir lancer les activations de notre
 
 
 
-## Causes et effets
+## Plausibilité biologique
 
-**TODO!**
+On sait que les neurones sont facilement excitables par des impulsions ou des patterns de fréquences particuliers [^2][^3], il est donc aisé pour le cerveau de créer des hiérarchies de neurones activés par la présence ou l'absence de certain attributs / features.
 
+Il est tout à fait envisageable que le cerveau encode un ensemble de concepts définis de manière plus ou moins floue dans les différentes zones qui réalisent la mémoire à long terme (mémoires épisodique, sémantique et procédurale) et la mémoire à court terme (mémoire de travail). Ces concepts pourront ensuite être stimulés pour éveiller tout un réseau de concepts connexes qui pourront orienter notre pensée dans des directions intéressantes.
 
+On s'aperçoit que, là aussi, c'est à la charge d'un mystérieux "étage supérieur" de piloter les stimulations et de guider la recherche en suivant une piste privilégiée.
 
-# Plan
-
-* Raisonnement à partir des structures de concepts
-    * Comment lire une question et y répondre ?
-* Peut-on comprendre de manière non ambiguë même si l'on attache les concepts n'importe comment ? Ou doit-on respecter une hiérarchie particulière ?
-* La question est : comment généralise-t-on ça aux actions et aux procédures ? À la planification (réentrance, récursion) ? À la structuration hiérarchique de concepts, et pas juste à des séquences ?
-* Opérations sur les concepts
-    * Y a-t-il une algèbre de manipulation de concepts ?
-
-* Plausibilité biologique
-    * On sait que les neurones sont facilement excitables par des impulsions ou des patterns de fréquences particuliers [^100][^101]
-    * Il est donc aisé pour le cerveau de créer des hiérarchies de neurones activés par la présence ou l'absence de certain attributs / features
+De nombreuses questions demeurent, notamment celles sur la façon dont on pilote une activation mémorielle : "comment lance-t-on une recherche ?" "Peut-on conserver le résultat de la recherche ou est-ce qu'il se combine forcément avec la *query* ?", "Peut-on réinialiser la recherche et comment ?", etc.
 
 
 
-###### Stuff
-
-?Parler de JollyFiche ?
-
-Backpropagation : https://en.wikipedia.org/wiki/Neural_backpropagation
-"On average, a backpropagating spike loses about half its voltage after traveling nearly 500 micrometres."
-
-Site bien foutu pour les symboles unicode : https://symbl.cc/
+??? note "Stuff"
+    Parler de JollyFiche ?<br>
+    Backpropagation : https://en.wikipedia.org/wiki/Neural_backpropagation<br>
+    "On average, a backpropagating spike loses about half its voltage after traveling nearly 500 micrometres."<br>
+    Site bien foutu pour les symboles unicode : https://symbl.cc/
 
 
 
 [^1]:  2021, Beniaguev et al., ["Single cortical neurons as deep artificial neural networks"](https://www.sciencedirect.com/science/article/pii/S0896627321005018)
-[^100]: 2024, Kirsanov A., ["How your brain chooses to remember"](https://www.youtube.com/watch?v=ceFFEmkxTLg&ab_channel=ArtemKirsanov)
-[^101]: 2024, Yang W. et al. ["Selection of experience for memory by hippocampal sharp wave ripples"](https://www.science.org/doi/10.1126/science.adk8261) ([site](https://winnieyangwannan.github.io/RippleTagging/projects/1_project/)) ([notebook](https://colab.research.google.com/drive/1qwruNxqS20xIl7sXYwjUA5zXKLTMWuTz?usp=drive_link))
+[^2]: 2024, Kirsanov A., ["How your brain chooses to remember"](https://www.youtube.com/watch?v=ceFFEmkxTLg&ab_channel=ArtemKirsanov)
+[^3]: 2024, Yang W. et al. ["Selection of experience for memory by hippocampal sharp wave ripples"](https://www.science.org/doi/10.1126/science.adk8261) ([site](https://winnieyangwannan.github.io/RippleTagging/projects/1_project/)) ([notebook](https://colab.research.google.com/drive/1qwruNxqS20xIl7sXYwjUA5zXKLTMWuTz?usp=drive_link))
 
 [^102]: 2016 https://www.researchgate.net/publication/292978016_Somato-dendritic_Synaptic_Plasticity_and_Error-backpropagation_in_Active_Dendrites

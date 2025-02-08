@@ -2,6 +2,58 @@
 
 
 
+## Raisonnement à base de concepts
+
+**TODO**
+
+* Raisonnement à partir des structures de concepts
+    * Comment lire une question et y répondre ?
+* Peut-on comprendre de manière non ambiguë même si l'on attache les concepts n'importe comment ? Ou doit-on respecter une hiérarchie particulière ?
+* La question est : comment généralise-t-on ça aux actions et aux procédures ? À la planification (réentrance, récursion) ? À la structuration hiérarchique de concepts, et pas juste à des séquences ?
+* Opérations sur les concepts
+    * Y a-t-il une algèbre de manipulation de concepts ?
+
+
+
+**Notes** :
+
+* Parler du fait que contrairement au code qui est fortement typé, ici le typage est vraiment très "loose"
+    * Par exemple quand on répond à la question "quand ?" on va vouloir résoudre une notion de temps qui ne va pas forcément être de type "Temps" mais on peut dire "aujourd'hui" ou "pendant toutes les grandes vacances" ou "au milieu de mon entraînement de foot" ou n'importe quelle tournure alambiquée qui se traduira finalement par un instant ou une durée !
+* En général, l'être humain "raisonne mou" : quand on parle de quelque chose qu'on a fait tel jour, on ne veut pas évidemment dire qu'on a commencé à 0h00 pour finir à 23h59
+    * Il va falloir vraiment "lâcher du lest" au niveau de la logique quand on va manipuler des concepts humains...
+
+
+
+### Procédures et tâches
+
+**TODO** Briques de raisonnement
+
+* Notion de suite logique
+* Notion de symétrie
+* Notion d'opposés
+* Notion de comptage
+* Notion d'accélération
+
+
+
+### Analogies et métaphores
+
+**TODO** Analogies / métaphores : on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont "allumées" dans les 2 cas
+
+
+
+### Causes et effets
+
+**TODO!**
+
+
+
+### World Model / Theory of Mind
+
+**TODO**
+
+
+
 
 
 ## Des problèmes "simples"
@@ -47,14 +99,4 @@ On a vu qu'il était aisé de faire résoudre des problèmes soi-disant complexe
 **TODO** (lol)
 
 
-
-## Analogies et métaphores
-
-**TODO** Analogies / métaphores : on va pouvoir transposer certaines situations à d'autres parce qu'une certaine hiérarchie de propriétés sont "allumées" dans les 2 cas
-
-
-
-## World Model / Theory of Mind
-
-**TODO** (lol aussi)
 

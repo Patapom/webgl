@@ -150,11 +150,24 @@ On voit donc qu'il est possible de se réserver un espace de **concepts de haut-
 
 On va expliquer en quoi consiste cette [approche neuro-symbolique](ApprocheNeuroSymbolique.md).
 
-Peut-on tout représenter de manière symbolique ? C'est ce qu'on va voir dans [cette note](ReprésentationSymbolique.md).
+Peut-on tout représenter de manière symbolique ? C'est ce qu'on tenter va voir dans [cette note](ReprésentationSymbolique.md).
 
 Suivie d'une note sur les [structures conceptuelles de base](StructureConcepts.md).
 
-On va également expliquer comment utiliser les concepts pour réaliser une [mémoire associative](MémoireAssociative.md).
+On va également expliquer comment utiliser ces concepts pour réaliser une [mémoire associative](MémoireAssociative.md).
+
+
+
+## Comment raisonner symboliquement ?
+
+Maintenant qu'on a vu comment créer des structures conceptuelles de base, on va explorer la façon de les exploiter dans cette note sur ![](images/TODO32x32.png) [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
+
+On peut aussi "s'amuser" avec des problèmes comme :
+
+* ![](images/TODO32x32.png)[Les problèmes de Bongard](RaisonnementBongard.md)
+* ![](images/TODO32x32.png)[Le challenge ARC](RaisonnementARC.md)
+
+Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va découvrir de nouveaux algorithmes*" ?
 
 
 
@@ -164,7 +177,7 @@ Si on n'utilise ni les réseaux de neurones classiques, ni la *backpropagation*,
 
 On va voir ça dans une note sur [les fondements de l'apprentissage](FondementsApprentissage.md).
 
-Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissage (supervisé et non-supervisé) :
+Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissage en cours (supervisé et non-supervisé) :
 
 ​	![](images/WorkInProgress32x32.png) [Apprentissage des phonèmes](ApprentissagePhonèmes.md)
 
@@ -173,19 +186,6 @@ Ainsi qu'une collection de notes sur mes différentes expériences d'apprentissa
 ​	![](images/TODO32x32.png)[Apprentissage de la parole](ApprentissageParole.md)
 
 ​	![](images/TODO32x32.png)[Apprentissage de la structure des phrases](ApprentissageStructurePhrases.md)
-
-
-
-## Comment raisonner symboliquement ?
-
-On peut déjà s'amuser avec des problèmes comme :
-
-* ![](images/TODO32x32.png)[Les problèmes de Bongard](RaisonnementBongard.md)
-* ![](images/TODO32x32.png)[Le challenge ARC](RaisonnementARC.md)
-
-Mais il est plus difficile de généraliser ! Comment écrire "*un algorithme qui va découvrir de nouveaux algorithmes*" ?
-
-C'est ce qu'on va tenter de voir dans cette note sur ![](images/TODO32x32.png) [les fondements du raisonnement symbolique](RaisonnementSymbolique.md).
 
 
 

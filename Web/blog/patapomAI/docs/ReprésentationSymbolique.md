@@ -78,7 +78,7 @@ En théorie, on peut voir chaque concepts comme une définition du dictionnaire.
 
 
 
-!!! info "Note 2"
+!!! info "Note"
     Certains concepts peuvent parfois se référer à un **groupe de définitions**, si tant est qu'elles englobent toutes le même sens.<br>On notera par exemple le cas du [concept de **Type**](StructureConcepts.md#notion-de-type) qui se réfère au [groupe de définitions II.B](https://usito.usherbrooke.ca/d%C3%A9finitions/type#E9E90cd18015e123) dans le dictionnaire Usito — chaque définition du groupe II.B spécialisant la notion de type à des usages particuliers mais ne variant pas le sens.
 
 
@@ -516,11 +516,11 @@ Il est donc très facile de faire changer le contexte d'une action ou de l'exist
 
 ## Et le raisonnement dans tout ça ?
 
-On sort du domaine de la représentation conceptuelle pour réfléchir aux opérations qu'on va pouvoir effectuer de manière symbolique.
+Après avoir lu la [note sur la composition de structures conceptuelles basiques](StructureConcepts.md), on peut réfléchir aux opérations qu'on va pouvoir effectuer de manière symbolique à l'aide de ces structures.
 
-Je vous encourage à lire la note suivante sur les [opérations conceptuelles](StructureConcepts.md) qui traite des relations de cause à effet, de la composition de structures conceptuelles basiques ainsi que des décisions qu'on peut prendre en analysant de telles structures.
+Je vous encourage donc à lire cette note sur le [raisonnement symbolique](RaisonnementSymbolique.md) qui traite des briques de raisonnement de base, des relations de cause à effet, ainsi que des décisions qu'on peut prendre en analysant de telles structures.
 
-Il y a finalement une partie ["raisonnement symbolique"](RaisonnementSymbolique.md) qui traite des problèmes de Bongard et du challenge ARC.
+Il y a aussi une partie qui traite des problèmes de Bongard et du challenge ARC qui montrent des instances particulières de problèmes intéressants à résoudre.
 
 
 
