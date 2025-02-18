@@ -1,6 +1,6 @@
 # Raisonnement Symbolique
 
-
+![](images\WorkInProgress.png)
 
 ## Raisonnement à base de concepts
 
@@ -100,3 +100,5 @@ On a vu qu'il était aisé de faire résoudre des problèmes soi-disant complexe
 
 
 
+??? note "Références Possibles"
+    https://magazine.sebastianraschka.com/p/understanding-reasoning-llms

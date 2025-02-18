@@ -1,6 +1,6 @@
-# Structures et Opérations sur les Concepts
+# Structures Conceptuelles
 
-![](images\WorkInProgress.png)
+
 
 
 
@@ -68,9 +68,7 @@ C'est une notion fondamentale dès lors qu'on veut caractériser et classifier q
 
 On fait référence ici à ce groupe de définitions :
 
-**⬙Type**
-
-!!! quote "[**Type.II.B**](https://usito.usherbrooke.ca/d%C3%A9finitions/type#E9E90cd18015e123)"
+!!! quote "**⬙Type** ( [**Type.II.B**](https://usito.usherbrooke.ca/d%C3%A9finitions/type#E9E90cd18015e123) )"
     **1** Ensemble des caractères distinctifs de groupes de choses, d'individus, permettant leur classification.<br>**2** Ensemble des caractères (morphologiques, psychiques, ethniques, etc.) qui sont culturellement considérés comme distinguant des groupes humains.<br>**3** Ensemble de caractères, de propriétés, déterminés précisément, qui définissent une série d'objets fabriqués.<br>**4** inform. **type de donnée(s)** ou **type** : en programmation informatique, élément d'une classification de données (entier, chaîne de caractère, tableau, booléen, etc.) qui définit les valeurs que peut prendre une donnée, la manière dont elle est stockée ainsi que les opérateurs qui lui sont applicables.
 
 
@@ -81,9 +79,7 @@ C'est une notion complémentaire à la notion de Type puisqu'elle permet *d'attr
 
 On fait ici référence à cette définition du dictionnaire : 
 
-**⬙Être**
-
-!!! quote "**[Être.II.1](https://usito.usherbrooke.ca/d%C3%A9finitions/%C3%AAtre_1#C736C29d7338e597)**"
+!!! quote "**⬙Être** ( **[Être.II.1](https://usito.usherbrooke.ca/d%C3%A9finitions/%C3%AAtre_1#C736C29d7338e597)** )"
     **II** V. attributif **1** (qualification) Élément verbal liant un sujet à un attribut. ex: *Être paysanne, boucher.*
 
 Ce qui est "amusant" c'est qu'on peut considérer le lien &#10551; comme la propriété "**avoir**". Tandis qu'ici, on vient de définir la qualité "**d'être**".<br>
@@ -106,42 +102,42 @@ On va donc créer les concepts suivants :
 
 #### ⬙**Qui**
 
-!!! quote "**[Qui.I.A, Qui.II](https://usito.usherbrooke.ca/d%C3%A9finitions/qui#A2Ab6Cbd21157e47)**"
+!!! quote "⬙**Qui** ( **[Qui.I.A, Qui.II](https://usito.usherbrooke.ca/d%C3%A9finitions/qui#A2Ab6Cbd21157e47)** )"
     **I** Pron. interr. (généralement masculin singulier) Sert à représenter une personne. **A** (dans l'interrogative directe)<br>**II** Pron. rel. **1** (sujet) Sert à représenter une personne ou une chose.<br>**II** Pron. rel. **2** (complément) Sert à représenter une personne.
 
 
 
 #### ⬙**Quoi**
 
-!!! quote "**[Quoi.I.A, Quoi.II.A](https://usito.usherbrooke.ca/d%C3%A9finitions/quoi#ce8c99bd27052e53)**"
+!!! quote "⬙**Quoi** ( **[Quoi.I.A, Quoi.II.A](https://usito.usherbrooke.ca/d%C3%A9finitions/quoi#ce8c99bd27052e53)** )"
     **I** Pron. interr. m. sing. Sert à représenter une chose. **A** (dans l'interrogative directe)<br>**II** Pron. rel. m. sing. **1** (complément introduit par une préposition) Sert à représenter une chose.
 
 
 
 #### ⬙**Où**
 
-!!! quote "**[Où.I.1, Où.II](https://usito.usherbrooke.ca/d%C3%A9finitions/où#ff413fEd19686e50)**"
+!!! quote "⬙**Où** ( **[Où.I.1, Où.II](https://usito.usherbrooke.ca/d%C3%A9finitions/où#ff413fEd19686e50)** )"
     **I** Pron. rel. (avec une valeur adverbiale) **1** Sert à marquer le lieu.<br>**II** Adv. (lieu)
 
 
 
 #### ⬙**Quand**
 
-!!! quote "**[Quand.II.2](https://usito.usherbrooke.ca/d%C3%A9finitions/quand#ff8ABbd42410e286)**"
+!!! quote "⬙**Quand** ( **[Quand.II.2](https://usito.usherbrooke.ca/d%C3%A9finitions/quand#ff8ABbd42410e286)** )"
     **II** Adv. (temps) **1** À quel moment.
 
 
 
 #### ⬙**Comment**
 
-!!! quote "**[Comment.I.1](https://usito.usherbrooke.ca/d%C3%A9finitions/comment#F6F8F31d53692e61)**"
+!!! quote "⬙**Comment** ( **[Comment.I.1](https://usito.usherbrooke.ca/d%C3%A9finitions/comment#F6F8F31d53692e61)** )"
     **I** Adv. **A** De quelle manière, par quel moyen.
 
 
 
 #### ⬙**Pourquoi**
 
-!!! quote "**[pourquoi.I.A, pourquoi.II](https://usito.usherbrooke.ca/d%C3%A9finitions/pourquoi#fff9FEcd36166e45)**"
+!!! quote "⬙**Pourquoi** ( **[pourquoi.I.A, pourquoi.II](https://usito.usherbrooke.ca/d%C3%A9finitions/pourquoi#fff9FEcd36166e45)** )"
     **I** Adv. **A** Pour quelle raison.<br>**II** N. m. inv. **1** Cause, motif.<br>**II** N. m. inv. **2** Interrogation sur les causes, sur les motifs de qqch.
 
 
@@ -152,9 +148,9 @@ On va donc créer les concepts suivants :
 
 On manipule très souvent des **groupes** ou des **ensembles** de choses, ou bien des **parties** de ces ensembles.
 
-On va donc définir &#11033;**Ensemble** :
+On va donc définir :
 
-!!! quote "**[Ensemble.3](https://usito.usherbrooke.ca/d%C3%A9finitions/ensemble_2#E9f0Eed53083e239)**"
+!!! quote "&#11033;**Ensemble** ( **[Ensemble.3](https://usito.usherbrooke.ca/d%C3%A9finitions/ensemble_2#E9f0Eed53083e239)** )"
       **3** Groupe d'éléments assemblés.
 
 
@@ -164,9 +160,9 @@ On va donc définir &#11033;**Ensemble** :
 
 
 
-Et on va définir &#11033;**Partie** :
+Et on va définir :
 
-!!! quote "**[Partie.1](https://usito.usherbrooke.ca/d%C3%A9finitions/partie#dc1D0dFd54914e37)**"
+!!! quote "&#11033;**Partie** ( **[Partie.1](https://usito.usherbrooke.ca/d%C3%A9finitions/partie#dc1D0dFd54914e37)** )"
       **1** Élément, portion d'un tout, considéré dans ses rapports avec ce tout.
 
 
@@ -214,25 +210,19 @@ On remarque immédiatement que le point commun de tous ces exemples est qu'on es
 
 Pour pouvoir ordonner des *positions* le long d'un axe, on va commencer par définir les notions suivantes :
 
-⬙**Précédent**
-
-!!! quote "**[Précédent.I](https://usito.usherbrooke.ca/d%C3%A9finitions/précédent#BE4Bebfcd8057e46)**"
+!!! quote "⬙**Précédent** ( **[Précédent.I](https://usito.usherbrooke.ca/d%C3%A9finitions/précédent#BE4Bebfcd8057e46)** )"
      **I** Adj. Qui est situé immédiatement avant qqch. d'autre.
 
 
 
-⬙**Suivant**
-
-!!! quote "**[Suivant.I.A](https://usito.usherbrooke.ca/d%C3%A9finitions/suivant#A7CA0AFd48464e43)**"
+!!! quote "⬙**Suivant** ( **[Suivant.I.A](https://usito.usherbrooke.ca/d%C3%A9finitions/suivant#A7CA0AFd48464e43)** )"
       **I** **A** Adj. Qui se trouve, qui vient, qui se produit immédiatement après, derrière, à la suite de qqch.
 
 
 
 On va ainsi pouvoir définir le concept de **séquence** :
 
-⬙**Séquence**<br>
-
-!!! quote "**[Séquence.1](https://usito.usherbrooke.ca/d%C3%A9finitions/séquence#FF069ABd29502e34)**"
+!!! quote "⬙**Séquence** ( **[Séquence.1](https://usito.usherbrooke.ca/d%C3%A9finitions/séquence#FF069ABd29502e34)** )"
       **1** Suite ordonnée d'éléments, d'opérations, de phases.
 
 
@@ -266,9 +256,9 @@ On vient de voir la notion d'ordre et les grandeurs représentables le long d'un
 
 Bien souvent, en plus d'être ordonnées, ces grandeurs peuvent également avoir des **contraires** — petit est le contraire de grand ; maigre est le contraire de gros ; précédent est le contraire de suivant, etc.
 
-On va donc définir ⬙**Contraire** :
+On va donc définir :
 
-!!! quote "**[Contraire.II](https://usito.usherbrooke.ca/d%C3%A9finitions/contraire#F8B8dFad6203e114)**"
+!!! quote "⬙**Contraire** ( **[Contraire.II](https://usito.usherbrooke.ca/d%C3%A9finitions/contraire#F8B8dFad6203e114)** )"
       **II** N. m. **1** Ce qui s'oppose par le plus grand écart possible à une chose.<br>**II** N. m. **2** Mot qui s'oppose à un autre par le sens.
 
 
@@ -295,7 +285,7 @@ Comme on l'a déjà fait remarquer dans la notion d'ensemble et de partie, les 2
 
 ⬙**Contraire**<br>&nbsp;&nbsp;&#10551;⬙**Ensemble**<br>&nbsp;&nbsp;&#10551;&#11033;**Partie**
 
-Mais ici il ne s'agit pas seulement d'une grandeur "miroir" le long d'un axe : les 2 notions étant *complémentaires*, c'est l'entièreté de la structure d'ensemble et de partie qui sont en miroir l'une de l'autre !
+Mais ici il ne s'agit pas seulement d'une grandeur "miroir" le long d'un axe : les 2 notions étant *complémentaires*, c'est l'entièreté de la structure d'*ensemble* et de *partie* qui sont en miroir l'une de l'autre !
 
 De fait, dès lors que l'une des 2 structures existe, il est possible de *créer automatiquement l'autre*.
 
@@ -307,19 +297,15 @@ Le doigt fait partie de la main ? → La main est un ensemble de doigts !
 
 Dès lors qu'un ensemble de choses est **dénombrable**, on doit pouvoir spécifier une **quantité** :
 
-**⬙Quantité** :
-
-!!! quote "**[Quantité.1, Quantité.3](https://usito.usherbrooke.ca/d%C3%A9finitions/quantité#E224EC4d51250e40)**"
+!!! quote "**⬙Quantité** ( **[Quantité.1, Quantité.3](https://usito.usherbrooke.ca/d%C3%A9finitions/quantité#E224EC4d51250e40)** )"
        **1** Nombre ou mesure déterminant des choses considérées dans un ensemble homogène ou dans une portion de matière.<br>**3** Caractéristique mesurable ou nombrable; tout ce qui est susceptible de plus ou de moins.
 
 
 
 Avec la notion de quantité, on utilise souvent la notion de **nombre** qui permet d'indiquer une grandeur, une valeur qu'on va pouvoir assigner à cette propriété de quantité :
 
-**⬙Nombre** :
-
-!!! quote "**[Nombre.1](https://usito.usherbrooke.ca/d%C3%A9finitions/nombre#e65BebDd29708e37)**"
-       **1** Concept de base des mathématiques et notion fondamentale de l’entendement qui sert à compter, classer et mesurer.<br>(on pourrait aussi se référer à "***Valeur**.**II**.**1** Mesure d'une grandeur, d'une quantité variable.* ?)
+!!! quote "**⬙Nombre** ( **[Nombre.1](https://usito.usherbrooke.ca/d%C3%A9finitions/nombre#e65BebDd29708e37)** )"
+       **1** Concept de base des mathématiques et notion fondamentale de l’entendement qui sert à compter, classer et mesurer.<br>(on pourrait aussi se référer à **Valeur.II.1** *Mesure d'une grandeur, d'une quantité variable.* ?)
 
 
 
@@ -357,7 +343,7 @@ Par exemple :
 
 J'ai arbitrairement décidé d'appeler ⬙**Histoire** le concept qui servira de base aux contextes d'existence :
 
-!!! quote "**[Histoire.II.1](https://usito.usherbrooke.ca/d%C3%A9finitions/histoire#E713Edd49018e364)**"
+!!! quote "⬙**Histoire** ( **[Histoire.II.1](https://usito.usherbrooke.ca/d%C3%A9finitions/histoire#E713Edd49018e364)** )"
     **II** **1** Récit concernant un fait historique ou ordinaire; narration d'événements fictifs ou non.
 
 
@@ -366,7 +352,7 @@ J'ai arbitrairement décidé d'appeler ⬙**Histoire** le concept qui servira de
 
 Par défaut, les événements se passent dans la réalité :
 
-!!! quote "[**Réalité.3**](https://usito.usherbrooke.ca/d%C3%A9finitions/r%C3%A9alit%C3%A9#EE2C8a9d12051e77)"
+!!! quote "⬙Réalité ( [**Réalité.3**](https://usito.usherbrooke.ca/d%C3%A9finitions/r%C3%A9alit%C3%A9#EE2C8a9d12051e77) )"
     **3** Chose, fait, événement qui constitue le monde de l'être humain.
 
 **⬙Réalité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Histoire**<br>
@@ -383,9 +369,7 @@ On voit ici qu'on a défini un personnage, *Eugène de Rastignac*, dont l'existe
 
 En plus de la notion de contexte d'existence, et pour répondre à la question "quand ?", on a besoin de définir la notion de **Temps** :
 
-⬙**Temps**
-
-!!! quote "[**Temps.I.A, Temps.I.B**](https://usito.usherbrooke.ca/d%C3%A9finitions/temps#ff5a3eBd15327e49)"
+!!! quote "⬙**Temps** ( [**Temps.I.A, Temps.I.B**](https://usito.usherbrooke.ca/d%C3%A9finitions/temps#ff5a3eBd15327e49) )"
     **I** Milieu indéfini et homogène dans lequel se situent les êtres et les choses et qui est caractérisé par sa double nature, à la fois continuité et succession.<br>**I** **A** Durée indéterminée et continue; fragment de cette durée.<br>**I** **B** Succession.
 
 #### Instant et Moment
@@ -394,7 +378,7 @@ Pour mesurer une *position* sur l'axe du temps, on va avoir besoin de définir l
 
 ⬙**Instant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Temps**<br>
 
-!!! quote "[**Instant.1, Instant.2**](https://usito.usherbrooke.ca/d%C3%A9finitions/instant_2#E63FC2Ed42864e36)"
+!!! quote "⬙**Instant** ( [**Instant.1, Instant.2**](https://usito.usherbrooke.ca/d%C3%A9finitions/instant_2#E63FC2Ed42864e36) )"
     **1** Petit espace de temps, moment très court.<br>**2** Espace de temps précis, généralement considéré par rapport à ce qui le caractérise.
 
 A noter que "[moment](https://usito.usherbrooke.ca/d%C3%A9finitions/moment)" possède presque exactement les mêmes définitions et pourrait tout aussi bien convenir.
@@ -407,7 +391,7 @@ Pour mesurer un *intervalle* sur l'axe du temps, on va avoir besoin de définir 
 
 ⬙**Durée**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Temps**<br>
 
-!!! quote "[**Durée.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/durée#eed8603d11853e33)"
+!!! quote "⬙**Durée** ( [**Durée.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/durée#eed8603d11853e33) )"
     **1** Intervalle de temps déterminé pendant lequel se produit une action, un état, un phénomène, du début à sa fin.
 
 
@@ -427,45 +411,108 @@ Par conséquent on va définir un jour  de cette manière :
 
 ### Relation
 
-**TODO** Un lien ? Une relation ?
+Une notion extrêmement importante est la notion de *relation* entre 2 choses.
 
-// Par défaut bidirectionnelle, non-ordonnée, symétrique (cousin, frère, père, attaché, contraire, aligné, etc.)
-Relation(relation.II.1)	// Lien, rapport entre deux choses.
+!!! quote "⬙**Relation** ( [**relation.II.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/relation#ddA3b2ad25086e74) )"
+     **II** **1** Lien, rapport entre deux choses.
+
+
+
+Il s'agit toujours de définir la position relative de 2 choses l'une par rapport à l'autre :
+
+* elle peut être spatiale
+    * collé, devant, en haut, par-dessus, à travers, posé sur, etc.
+* ou bien sociale
+    * frère, cousin, épouse, enfant, ami, patron, président, etc.
+
+
+
+Certaines relations sont bidirectionnelles, non-ordonnées et/ou *symétriques* :
+
+* cousin, frère, père, ami, attaché, contraire, aligné, etc.
+
+Tandis que d'autres impliquent une notion d'ordre et sont donc implicitement comparables et souvent munies de contraires :
+
+* devant / derrière, au-dessus / en-dessous, supérieur hiérarchique / subordonné, etc.
 
 
 
 ### Notion de lettres, mots et phrases
 
-**TODO** symbole (lettre, chiffre) ? Une collection de symboles (mots, nombres) ? ==> A distinguer de la valeur réelle ! On parle ici de représentation symbolique (càd de l'écriture) d'une valeur !
+Pour traiter le langage, on va avoir besoin de définir :
 
-Caractère(caractère.I.1)	// Signe appartenant à un système d'écriture.
+!!! quote "⬙**Caractère** ( [**caractère.I.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/caractère#AB3d4DAd22389e46) )"
+       **I** **1** Signe appartenant à un système d'écriture.
+
+!!! quote "⬙**Phonème** ( [**phonème**](https://usito.usherbrooke.ca/d%C3%A9finitions/phonème) )"
+       Son du langage intégré au système des sons d’une langue.
+
+!!! quote "⬙**Lettre** ( [**lettre.I.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/lettre#EE6cB7Fd19806e49) )"
+       **I** **1** Chacun des signes graphiques dont l'ensemble constitue un alphabet servant à transcrire une langue.
+
+!!! quote "⬙**Mot** ( [**mot.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/mot#bde68C7d43679e37) )"
+      **1** Son ou groupe de sons articulés ou figurés graphiquement, constituant une unité porteuse de signification.
+
+!!! quote "⬙**Phrase** ( [**phrase.I.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/phrase#DDCE60FDd5026e37) )"
+       **I** **1** Assemblage, oral ou écrit, de mots dont la construction présente un sens complet.
+
+
+
+Qui seront structurés de cette manière :
+
+⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Caractère**
+
+⬙**Mot**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Phonème**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>
+
+⬙**Phrase**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Mot**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>
+
+
+
+#### Alphabets
+
+Pour les langues munies d'un alphabet, il est assez simple de définir l'alphabet de cette manière :
+
+!!! quote "⬙**Alphabet** ( [**alphabet.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/alphabet#aa344FBd30002e43) )"
+    **1** Ensemble de signes disposés selon un ordre conventionnel et qui servent à transcrire les sons d’une langue.
+
+
+
+⬙**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettres**<br>
+
+Puis d'en instancier un exemplaire comme ceci :
+
+⬙**"Alphabet Latin"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**A**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**B**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**C**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;*(etc.)*
+
+
+
+
+
+#### Idéogrammes
+
+Pour les écritures idéographiques (chinois, japonais), on peut les définir comme suit :
+
+⬙**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>
+
+!!! warning
+    Il faut bien distinguer le concept de lettre, de celui de signe dessiné : &#11033;**A** et &#11033;**"A"** sont 2 choses différentes !
+
+
+
+#### Chiffres
+
+Chiffre(chiffre.1)			// Caractère servant à représenter un nombre.
+	est Caractère
+
+
+
+**TODO** symbole (lettre, chiffre) ? Une collection de symboles (mots, nombres) ? ==> A distinguer de la valeur réelle ! On parle ici de représentation symbolique (càd de l'écriture) d'une valeur !
 
 // C'est le terme utilisé en linguistique, peut-être un peu trop spécifique pour nos besoins...
 //Signe(signe.II.4)			// Graphème ou caractère ayant une valeur donnée dans un système d'écriture.
 
-Chiffre(chiffre.1)			// Caractère servant à représenter un nombre.
-	est Caractère
-Lettre(lettre.I.1)			// Chacun des signes graphiques dont l'ensemble constitue un alphabet servant à transcrire une langue
-	est Caractère
+
 Symbole(symbole.II.3)		// Signe choisi par convention pour désigner qqch.
 	est Caractère
-
-Mot(mot.1)	// Son ou groupe de sons articulés ou figurés graphiquement, constituant une unité porteuse de signification.
-	Séquence
-		de
-			Lettre
-			Phonème
-	Sens
-
-Phrase(phrase.I.1)	// Assemblage, oral ou écrit, de mots dont la construction présente un sens complet.
-	Séquence
-		de Mot
-	Sens
-
-
-
-!!! warning
-    Il faut bien distinguer le concept de lettre, de celui de signe dessiné : &#11033;**A** et &#11033;**"A"** sont 2 choses différentes !
 
 
 
@@ -478,9 +525,5 @@ On verra dans d'autres notes comment utiliser ces structures :
 
 
 
-### **TODO**
-
-- Une comparaison ?
-- La multitude ou la singularité ?
-- Les exclusions ? La négation ?
-
+??? note "**TODO**"
+    • Une comparaison ?<br>• La multitude ou la singularité ?<br>• Les exclusions ? La négation ?<br>

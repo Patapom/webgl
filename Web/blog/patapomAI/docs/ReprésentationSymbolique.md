@@ -374,7 +374,7 @@ Il est donc probable que les étages de composition et de classification dans le
 
 
 !!! remark "Remarque"
-    J'ai pris la liberté de représenter un *tiling* hexagonal dans l'image ci-dessus car on a déjà rencontré une structure neuronale similaire utilisée par les *grid cells*[^8].<br><img src="..\images\Concepts\Grid Cells.jpg" style="zoom:40%;" />
+    J'ai pris la liberté de représenter un *tiling* hexagonal dans l'image ci-dessus car on a déjà rencontré une structure neuronale similaire utilisée par les *grid cells*[^8].<br><img src="..\images\Concepts\grid cells.jpg" style="zoom:40%;" />
 
 
 

@@ -128,11 +128,6 @@ On renvoie à la note sur la représentativité neuro-symbolique des concepts po
 
 
 
-!!! question
-     Finalement, on délaisse Kant pour Hume ? :thinking: Allez, fais pas semblant d'avoir lu Kant et Hume ! :roll_eyes:
-
-
-
 ### Pollution par des évènements de haute-fréquence
 
 Outre la pollution par les mauvais exemples, on va également rencontrer de la pollution par des évènements qui se produisent fréquemment et qui vont par conséquent intervenir souvent dans notre apprentissage.
@@ -162,7 +157,7 @@ La conséquence naturelle de cette pollution est que :
 
 Si on peut avoir accès à la fréquence d'occurrence des éléments perturbateurs, on peut par exemple pondérer leur importance par la notion de *[surprise](https://en.wikipedia.org/wiki/Information_content)* 
 
-$s(x)=log(\frac{1}{p(x)})$ où $p(x)$ représente la probabilité d'occurrence de l'élément $x$.
+$s(x)=log\left(\frac{1}{p(x)}\right)$ où $p(x)$ représente la probabilité d'occurrence de l'élément $x$.
 
 
 
