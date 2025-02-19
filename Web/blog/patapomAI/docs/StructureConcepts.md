@@ -85,7 +85,7 @@ On fait ici référence à cette définition du dictionnaire :
 Ce qui est "amusant" c'est qu'on peut considérer le lien &#10551; comme la propriété "**avoir**". Tandis qu'ici, on vient de définir la qualité "**d'être**".<br>
 Et donc écrire :
 
-⬙**Moineau**<br>&nbsp;&nbsp;⤷ ⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷ ⬙**Oiseau**
+⬙**Moineau**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Oiseau**
 
 signifie littéralement "moineau **a** la propriété d'**être** un oiseau".
 
@@ -169,7 +169,7 @@ Et on va définir :
 
 Si l'on veut utiliser la notion de partie, on va généralement écrire :
 
- &#11033;**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033; &lt; la chose dont on fait partie 
+ &#11033;**Partie**<br>&nbsp;&nbsp;&nbsp;⤷&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033; &lt; *la chose dont on fait partie* &gt;
 
 
 
@@ -177,11 +177,11 @@ Si l'on veut utiliser la notion de partie, on va généralement écrire :
 
 Par exemple, on peut établir qu'un doigt est une partie de la main comme ceci :
 
-&#11033;**Doigt**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Main**
+&#11033;**Doigt**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Main**
 
 Et on aura automatiquement — *en miroir* — la construction d'un ensemble :
 
-&#11033;**Main**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Doigt**
+&#11033;**Main**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Doigt**
 
 
 
@@ -190,11 +190,11 @@ Et on aura automatiquement — *en miroir* — la construction d'un ensemble :
 
 Mais on peut également écrire :
 
-&#11033;**Main**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Pouce**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Majeur**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Annulaire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Auriculaire**
+&#11033;**Main**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Pouce**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Majeur**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Annulaire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Auriculaire**
 
 Avec :
 
-&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Doigt**<br>
+&#11033;**Index**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Doigt**<br>
 
 (idem pour les autres doigts)
 
@@ -229,7 +229,7 @@ On va ainsi pouvoir définir le concept de **séquence** :
 
 On notera que la séquence est un cas particulier d'ensemble où les éléments qui composent la séquence ne seront pas stockés au même niveau hiérarchique :
 
-&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**
+⬙**Séquence**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**
 
 
 
@@ -237,11 +237,11 @@ On notera que la séquence est un cas particulier d'ensemble où les éléments 
 
 On peut définir une phrase comme une séquence de mots (cf. [le paragraphe où l'on va définir les symboles](#notion-de-lettres-mots-et-phrases)) :
 
-**⬙Phrase**<br>&nbsp;&nbsp;&#10551;**⬙Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Séquence**
+**⬙Phrase**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Séquence**
 
 Puis construire la phrase particulière "**mon exemple de phrase**" de cette manière :
 
-⬙**"mon exemple de phrase"**<br>&nbsp;&nbsp;&#10551;⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Phrase**<br>&nbsp;&nbsp;⤷⬙**"mon"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**"exemple"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**"de"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**"phrase"**<br>
+⬙**"mon exemple de phrase"**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Phrase**<br>&nbsp;&nbsp;⤷⬙**"mon"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"exemple"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"de"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"phrase"**<br>
 
 
 
@@ -468,6 +468,14 @@ Qui seront structurés de cette manière :
 
 
 
+Voici comment on peut écrire un exemple de mot :
+
+
+
+Et un exemple de phrase (qu'on a déjà vu plus haut) : 
+
+
+
 #### Alphabets
 
 Pour les langues munies d'un alphabet, il est assez simple de définir l'alphabet de cette manière :
@@ -491,10 +499,9 @@ Puis d'en instancier un exemplaire comme ceci :
 
 Pour les écritures idéographiques (chinois, japonais), on peut les définir comme suit :
 
-⬙**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>
+⬙**剑**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Caractère**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Épée**<br>
 
-!!! warning
-    Il faut bien distinguer le concept de lettre, de celui de signe dessiné : &#11033;**A** et &#11033;**"A"** sont 2 choses différentes !
+
 
 
 
