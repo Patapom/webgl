@@ -22,7 +22,7 @@ Les liens avec des concepts "enfants" seront quant à eux indiqués par le symbo
 
 On va structurer les concepts hiérarchiquement de cette manière :
 
-⬙**Oiseau**<br>&nbsp;&nbsp;⤷ ⬙**Rouge**
+⬙**Oiseau**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Rouge**
 
 
 
@@ -177,11 +177,11 @@ Si l'on veut utiliser la notion de partie, on va généralement écrire :
 
 Par exemple, on peut établir qu'un doigt est une partie de la main comme ceci :
 
-&#11033;**Doigt**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Main**
+&#11033;**Doigt**<br>&nbsp;&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Partie**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Main**
 
 Et on aura automatiquement — *en miroir* — la construction d'un ensemble :
 
-&#11033;**Main**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Doigt**
+&#11033;**Main**<br>&nbsp;&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Doigt**
 
 
 
@@ -190,11 +190,11 @@ Et on aura automatiquement — *en miroir* — la construction d'un ensemble :
 
 Mais on peut également écrire :
 
-&#11033;**Main**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Pouce**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Majeur**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Annulaire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Auriculaire**
+&#11033;**Main**<br>&nbsp;&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Pouce**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**Majeur**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Annulaire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷&#11033;**Auriculaire**&nbsp;
 
 Avec :
 
-&#11033;**Index**<br>&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Doigt**<br>
+&#11033;**Index**<br>&nbsp;&nbsp;&nbsp;⤷&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Doigt**<br>
 
 (idem pour les autres doigts)
 
@@ -229,7 +229,7 @@ On va ainsi pouvoir définir le concept de **séquence** :
 
 On notera que la séquence est un cas particulier d'ensemble où les éléments qui composent la séquence ne seront pas stockés au même niveau hiérarchique :
 
-⬙**Séquence**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**
+⬙**Séquence**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**
 
 
 
@@ -237,11 +237,11 @@ On notera que la séquence est un cas particulier d'ensemble où les éléments 
 
 On peut définir une phrase comme une séquence de mots (cf. [le paragraphe où l'on va définir les symboles](#notion-de-lettres-mots-et-phrases)) :
 
-**⬙Phrase**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Séquence**
+⬙**Phrase**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Séquence**
 
 Puis construire la phrase particulière "**mon exemple de phrase**" de cette manière :
 
-⬙**"mon exemple de phrase"**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Phrase**<br>&nbsp;&nbsp;⤷⬙**"mon"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"exemple"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"de"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"phrase"**<br>
+⬙**"mon exemple de phrase"**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Phrase**<br>&nbsp;&nbsp;&nbsp;⤷⬙**"mon"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"exemple"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"de"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"phrase"**<br>
 
 
 
@@ -267,15 +267,15 @@ On va donc définir :
 
 C'est une *relation bidirectionnelle non ordonnée* qu'on va pouvoir utiliser comme ceci :
 
-⬙**A**<br>&nbsp;&nbsp;&#10551;⬙**Contraire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;⬙**B**
+⬙**A**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Contraire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**B**
 
 Ou bien comme cela :
 
-⬙**Contraire**<br>&nbsp;&nbsp;&#10551;⬙**A**<br>&nbsp;&nbsp;&#10551;&#11033;**B**
+⬙**Contraire**<br>&nbsp;&nbsp;&nbsp;⤷⬙**A**<br>&nbsp;&nbsp;&nbsp;⤷⬙**B**
 
 Par exemple :
 
-⬙**Contraire**<br>&nbsp;&nbsp;&#10551;⬙**Petit**<br>&nbsp;&nbsp;&#10551;&#11033;**Grand**
+⬙**Contraire**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Petit**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Grand**
 
 
 
@@ -283,7 +283,7 @@ Par exemple :
 
 Comme on l'a déjà fait remarquer dans la notion d'ensemble et de partie, les 2 notions sont contraires l'une de l'autre et donc :
 
-⬙**Contraire**<br>&nbsp;&nbsp;&#10551;⬙**Ensemble**<br>&nbsp;&nbsp;&#10551;&#11033;**Partie**
+⬙**Contraire**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Partie**
 
 Mais ici il ne s'agit pas seulement d'une grandeur "miroir" le long d'un axe : les 2 notions étant *complémentaires*, c'est l'entièreté de la structure d'*ensemble* et de *partie* qui sont en miroir l'une de l'autre !
 
@@ -313,21 +313,21 @@ Avec la notion de quantité, on utilise souvent la notion de **nombre** qui perm
 
 Pour décrire le fait qu'une main possède 5 doigts :
 
-⬙**Main**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Doigt**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quantité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"5"**<br>
+⬙**Main**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Doigt**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quantité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"5"**<br>
 
 Ici on voit que ⬙**"5"** représente une instance du nombre 5 défini quelque part ailleurs, un peu à la manière des mots d'une phrase qu'on va référencer :
 
-⬙**5**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Nombre**
+⬙**5**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Nombre**
 
 Mais on peut représenter aussi d'autres notations comme des constantes bien connues :
 
-⬙**$\pi$**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Nombre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Irrationnel**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Transcendantal**<br>
+⬙**$\pi$**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Nombre**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Irrationnel**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Transcendantal**<br>
 
 
 
 Ou bien la notation scientifique :
 
-⬙**$1.75e^{-4}$**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Nombre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Mantisse**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"1.75"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Exposant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"-4"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Base**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**"10"**<br>
+⬙**$1.75e^{-4}$**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Nombre**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Mantisse**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"1.75"**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Exposant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"-4"**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Base**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"10"**<br>
 
 
 
@@ -355,11 +355,11 @@ Par défaut, les événements se passent dans la réalité :
 !!! quote "⬙Réalité ( [**Réalité.3**](https://usito.usherbrooke.ca/d%C3%A9finitions/r%C3%A9alit%C3%A9#EE2C8a9d12051e77) )"
     **3** Chose, fait, événement qui constitue le monde de l'être humain.
 
-**⬙Réalité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Histoire**<br>
+⬙**Réalité**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Histoire**<br>
 
 On peut définir un livre qui va raconter une histoire de cette manière :
 
-**⬙"Le père Goriot"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Livre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Histoire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Eugène de Rastignac**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Personnage**<br>
+⬙**"Le père Goriot"**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Livre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Histoire**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Eugène de Rastignac**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Personnage**<br>
 
 On voit ici qu'on a défini un personnage, *Eugène de Rastignac*, dont l'existence ne dépassera pas celle du livre.
 
@@ -376,7 +376,7 @@ En plus de la notion de contexte d'existence, et pour répondre à la question "
 
 Pour mesurer une *position* sur l'axe du temps, on va avoir besoin de définir la notion d'**instant** :
 
-⬙**Instant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Temps**<br>
+⬙**Instant**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Temps**<br>
 
 !!! quote "⬙**Instant** ( [**Instant.1, Instant.2**](https://usito.usherbrooke.ca/d%C3%A9finitions/instant_2#E63FC2Ed42864e36) )"
     **1** Petit espace de temps, moment très court.<br>**2** Espace de temps précis, généralement considéré par rapport à ce qui le caractérise.
@@ -389,10 +389,10 @@ A noter que "[moment](https://usito.usherbrooke.ca/d%C3%A9finitions/moment)" pos
 
 Pour mesurer un *intervalle* sur l'axe du temps, on va avoir besoin de définir la notion de **durée** :
 
-⬙**Durée**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Temps**<br>
-
 !!! quote "⬙**Durée** ( [**Durée.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/durée#eed8603d11853e33) )"
     **1** Intervalle de temps déterminé pendant lequel se produit une action, un état, un phénomène, du début à sa fin.
+
+⬙**Durée**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Temps**<br>
 
 
 
@@ -402,7 +402,7 @@ Même si on se sert des dates et des heures de la journée pour indiquer des *po
 
 Par conséquent on va définir un jour  de cette manière :
 
-⬙**Jour**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Durée**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Heure**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quantité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**24**
+⬙**Jour**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Durée**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Heure**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quantité**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"24"**
 
 !!! warning " "
     On voit ici un bel exemple de l'ambiguïté et de l'interchangeabilité de nos concepts où instant et durée semblent parfois revêtir un usage ou l'autre selon les besoins. Choisir une définition particulière semble un choix arbitraire et rigide qui colle peu avec le côté mouvant de la pensée humaine...
@@ -460,38 +460,38 @@ Pour traiter le langage, on va avoir besoin de définir :
 
 Qui seront structurés de cette manière :
 
-⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Caractère**
+⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Caractère**
 
-⬙**Mot**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Phonème**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>
+⬙**Mot**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Phonème**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Sens**<br>
 
-⬙**Phrase**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Mot**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>
-
-
-
-Voici comment on peut écrire un exemple de mot :
+⬙**Phrase**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Séquence**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Mot**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Sens**<br>
 
 
 
-Et un exemple de phrase (qu'on a déjà vu plus haut) : 
+#### Exemples
+
+On a déjà vu [plus haut](#exemples_1) comment on écrivait un exemple de phrase.
+
+Sur le même modèle, on peut écrire un exemple de mot :
+
+⬙**"toi"**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Mot**<br>&nbsp;&nbsp;&nbsp;⤷⬙**"t"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"o"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Suivant**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"i"**<br>
 
 
 
 #### Alphabets
 
-Pour les langues munies d'un alphabet, il est assez simple de définir l'alphabet de cette manière :
+Pour les langues munies d'un alphabet, il est assez simple de le définir de cette manière :
 
 !!! quote "⬙**Alphabet** ( [**alphabet.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/alphabet#aa344FBd30002e43) )"
     **1** Ensemble de signes disposés selon un ordre conventionnel et qui servent à transcrire les sons d’une langue.
 
 
 
-⬙**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettres**<br>
+⬙**Alphabet**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Ensemble**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Quoi**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Lettres**<br>
 
 Puis d'en instancier un exemplaire comme ceci :
 
-⬙**"Alphabet Latin"**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Alphabet**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**A**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**B**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**C**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;*(etc.)*
-
-
+⬙**"Alphabet Latin"**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Alphabet**<br>&nbsp;&nbsp;&nbsp;⤷⬙**A**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;⤷⬙**B**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**C**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Lettre**<br>&nbsp;&nbsp;&nbsp;*(etc.)*
 
 
 
@@ -499,27 +499,18 @@ Puis d'en instancier un exemplaire comme ceci :
 
 Pour les écritures idéographiques (chinois, japonais), on peut les définir comme suit :
 
-⬙**剑**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Caractère**<br>&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Sens**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10551;&#11033;**Épée**<br>
-
-
+⬙**剑**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Caractère**<br>&nbsp;&nbsp;⤷⬙**Sens**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Épée**<br>&nbsp;&nbsp;⤷⬙**Prononciation**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**"jian"**<br>
 
 
 
 #### Chiffres
 
-Chiffre(chiffre.1)			// Caractère servant à représenter un nombre.
-	est Caractère
+La représentation des nombres se fait à l'aide de chiffres définis comme suit :
 
+!!! quote "⬙**Chiffre** ( [**chiffre.1**](https://usito.usherbrooke.ca/d%C3%A9finitions/chiffre#cc9eAa7d53959e42) )"
+    **1** Caractère servant à représenter un nombre.
 
-
-**TODO** symbole (lettre, chiffre) ? Une collection de symboles (mots, nombres) ? ==> A distinguer de la valeur réelle ! On parle ici de représentation symbolique (càd de l'écriture) d'une valeur !
-
-// C'est le terme utilisé en linguistique, peut-être un peu trop spécifique pour nos besoins...
-//Signe(signe.II.4)			// Graphème ou caractère ayant une valeur donnée dans un système d'écriture.
-
-
-Symbole(symbole.II.3)		// Signe choisi par convention pour désigner qqch.
-	est Caractère
+⬙**Chiffre**<br>&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Caractère**<br>
 
 
 
