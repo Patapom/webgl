@@ -8,19 +8,23 @@ pages:
     - LLMs:
         - Les neurones polysémiques: PolysémieLLM.md
         - Les leçons à tirer des LLMs: LeçonsLLM.md
-    - Une Approche Neuro-Symbolique:
+    - Approche Neuro-Symbolique:
         - Discussion sur une approche neuro-symbolique: ApprocheNeuroSymbolique.md
         - La représentation symbolique: ReprésentationSymbolique.md
         - Structures conceptuelles: StructureConcepts.md
         - Mémoire associative: MémoireAssociative.md
-    - Apprentissage:
-        - Fondements de l'algorithme d'apprentissage: FondementsApprentissage.md
-#        - Apprentissage Supervisé: ApprentissageSupervisé.md
-#        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
     - Raisonnement:
         - Discussion sur le raisonnement symbolique: RaisonnementSymbolique.md
         - Les problèmes de Bongard: RaisonnementBongard.md
         - Le challenge ARC: RaisonnementARC.md
+    - Apprentissage:
+        - Fondements de l'algorithme d'apprentissage: FondementsApprentissage.md
+        - Apprentissage des phonèmes: ApprentissagePhonèmes.md
+        - Apprentissage des mots inconnus: ApprentissageMotsInconnus.md
+        - Apprentissage de la parole: ApprentissageParole.md
+        - Apprentissage de la structure grammaticale: ApprentissageStructurePhrases.md
+#        - Apprentissage Supervisé: ApprentissageSupervisé.md
+#        - Apprentissage Non-Supervisé: ApprentissageNonSupervisé.md
     - Interface Sonore: InterfaceSonore.md
 
 #    - Artificial Intelligence: AI.md

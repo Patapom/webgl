@@ -85,7 +85,7 @@ On fait ici référence à cette définition du dictionnaire :
 Ce qui est "amusant" c'est qu'on peut considérer le lien &#10551; comme la propriété "**avoir**". Tandis qu'ici, on vient de définir la qualité "**d'être**".<br>
 Et donc écrire :
 
-⬙**Moineau**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Oiseau**
+⬙**Moineau**<br>&nbsp;&nbsp;&nbsp;⤷⬙**Être**<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⤷⬙**Oiseau**
 
 signifie littéralement "moineau **a** la propriété d'**être** un oiseau".
 
