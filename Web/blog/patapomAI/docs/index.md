@@ -10,7 +10,7 @@ Avant-propos : ça va probablement vous sembler écrit par un simple d'esprit, m
 
 Cela pourrait paraître opportuniste de ma part de m'intéresser "soudainement" à l'IA — pile au moment de la révolution des *deep neural networks* et des LLM's — alors que j'ai fait toute ma carrière dans le jeu vidéo et le rendu temps-réel, mais c'est pourtant la vérité : j'ai toujours été passionné par l'IA.
 
-Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "2001: A Space Odyssey", "Electric Dream", "Brainscan", "Terminator", "Robocop", "Trou Noir" et notamment "Short Circuit" que j'ai littéralement vu des 10aines de fois...
+Dans les années 80 et 90 où j'ai grandi, les films qui mettaient en scène des ordinateurs ou des robots "intelligents" étaient légion et me faisaient rêver : "2001: A Space Odyssey", "Electric Dream", "Brainscan", "Terminator", "Robocop", "Trou Noir", "Becentennial Man" et notamment "Short Circuit" que j'ai littéralement vu des 10aines de fois...
 
 J'avais à cette époque la vision romantique, naïve et enfantine d'une sorte d'assistant personnel intelligent qui gérerait à peu près tout sur mon ordinateur. 
 

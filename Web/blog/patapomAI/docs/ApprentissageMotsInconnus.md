@@ -10,6 +10,12 @@ C'est assez compliqué car pour chaque combinaison de lettres, on va avoir un ch
 
 
 
+## **TODO**
+
+* Penser à appliquer sur les liaisons entre les mots.
+    * Lister les mots composés et trouver ceux dont la phonétique est différentes des mots pris individuellement
+    * Une fois qu'on aura un truc qui fait du speech to text, on pourra s'en servir pour analyser la diction des phrases communes...
+
 
 
 [^1]: 2024, Kirsanov A., ["How your brain chooses to remember"](https://www.youtube.com/watch?v=ceFFEmkxTLg&ab_channel=ArtemKirsanov)

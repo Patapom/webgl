@@ -399,6 +399,12 @@ Peut-on l'appliquer à la vision ? à l'audio ?
 
 
 
+## Trucs à lire
+
+Sur la conjonction des "concept neurons" et des "indexing neurons" pour la formation et le recall de nos souvenirs : https://www.sciencedirect.com/science/article/pii/S1364661325000312
+
+
+
 [^1]: 2024, Kirsanov A., ["How your brain chooses to remember"](https://www.youtube.com/watch?v=ceFFEmkxTLg&ab_channel=ArtemKirsanov)
 [^2]: 2024, Yang W. et al. ["Selection of experience for memory by hippocampal sharp wave ripples"](https://www.science.org/doi/10.1126/science.adk8261) ([site](https://winnieyangwannan.github.io/RippleTagging/projects/1_project/)) ([notebook](https://colab.research.google.com/drive/1qwruNxqS20xIl7sXYwjUA5zXKLTMWuTz?usp=drive_link))
 [^3]: 2011, Tenenbaum J. ["How to Grow a Mind: Statistics, Structure, and Abstraction"](https://cocosci.princeton.edu/tom/papers/LabPublications/GrowMind.pdf)

@@ -155,8 +155,7 @@ Chaque fois qu'un évèment $x_i$ est observé, on incrémente son compteur $c_i
 
 La probabilité d'un évènement se calcule simplement par $p(x_i) = \frac{c_i}{\sum_\mathbb{S} c_i}$.
 
-C'est parce que nous aurons *toujours* affaire à des hypothèses discrètes que les distributions discrètes se prètent bien à nos calculs : en effet, le cerveau ne traite jamais de valeurs continues
- mais travaille en *fréquences d'évènements* et en *stimuli quantifiés* (typiquement, un neurone qui décharge son potentiel d'action).
+C'est parce que nous aurons *toujours* affaire à des hypothèses discrètes que les distributions discrètes se prètent bien à nos calculs : en effet, le cerveau ne traite jamais de valeurs continues mais travaille en *fréquences d'évènements* et en *stimuli quantifiés* (typiquement, un neurone qui décharge son potentiel d'action).
 
 
 
