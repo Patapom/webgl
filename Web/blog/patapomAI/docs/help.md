@@ -2,6 +2,8 @@
 
 For full documentation visit [mkdocs.org](http://mkdocs.org).
 
+https://jimandreas.github.io/mkdocs-material/reference/admonitions/
+
 Diagrams ==> draw.io 
 
 :smile:

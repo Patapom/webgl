@@ -24,78 +24,105 @@ Les phonèmes de la langue française sont au nombre de 36[^1] :
 
 ## Problème
 
-On dispose d'un ensemble de 50000 mots français et leur représentation phonétique, par exemple "agneau" [aɲo].
+On dispose d'un ensemble de 50,000 mots français accompagnés de leur représentation phonétique, par exemple ***"agneau" [aɲo]***.
 
-On cherche à apprendre de manière automatisée quels groupes de lettres correspondent à quels groupes de phonèmes, par exemple "a" = [a], "gn" = [ɲ], "eau" = [o].
+On cherche à apprendre de manière non-supervisée quels groupes de lettres correspondent à quels groupes de phonèmes, par exemple "a" = [a], "gn" = [ɲ], "eau" = [o].
 
 
 
-Comme pour chaque problème, on essaie (1) de se placer dans un état où l'on ignorerait tout du résultat, (2) d'imaginer comment nous, humains, nous attaquerions à la résolution de ce problème et (3) comment on pourrait reproduire cet algorithme de résolution artificiellement.
+Cela peut paraître un problème anodin à première vue mais cela va pourtant nous emmener à travers un fascinant voyage qui va éprouver notre algorithme d'apprentissage et nous amener à envisager de nombreux concepts centraux à un algorithme beaucoup plus généraliste, comme la notion de *confiance* et la notion de *règle*. Ça permet également de frôler la notion de méta-apprentissage, où l'on examine ses propres règles d'apprentissage pour les améliorer et les systématiser.
 
-### Intuition
+
+
+Comme pour chaque problème d'apprentissage, on essaie (1) de se placer dans un état où l'on ignorerait tout du résultat, (2) d'imaginer comment nous, humains, nous attaquerions à la résolution de ce problème et (3) comment on pourrait reproduire cet algorithme de résolution artificiellement.
+
+
+
+## Règles d'Apprentissage
 
 Prenons quelques exemples de mots au hasard :
 
-"adverbial" [advɛʀbjal]
-"colimaçon" [kɔlimasɔ̃]
-"lexicographie" [lɛksikɔgʀafi]
-"mangue" [mɑ̃g]
-"neuronale" [nøʀɔnal]
-"organisationnel" [ɔʀganizasjɔnɛl]
-"ouatée" ['wate]
-"pécore" [pekɔʀ]
-"polygénique" [pɔliʒenik]
-"quérulente" [keʀylɑ̃t]
-"radiogalaxie" [ʀadjogalaksi]
-"résistante" [ʀezistɑ̃t]
-"sarcophage" [saʀkɔfaʒ]
-"sordidité" [sɔʀdidite]
-"tamponnement" [tɑ̃pɔnmɑ̃]
-"trépanation" [tʀepanasjɔ̃]
-"vampiriser" [vɑ̃piʀize]
+"adverbial" [advɛʀbjal]<br>"colimaçon" [kɔlimasɔ̃]<br>
+"lexicographie" [lɛksikɔgʀafi]<br>
+"mangue" [mɑ̃g]<br>
+"neuronale" [nøʀɔnal]<br>
+"organisationnel" [ɔʀganizasjɔnɛl]<br>
+"ouatée" ['wate]<br>
+"pécore" [pekɔʀ]<br>
+"polygénique" [pɔliʒenik]<br>
+"quérulente" [keʀylɑ̃t]<br>
+"radiogalaxie" [ʀadjogalaksi]<br>
+"résistante" [ʀezistɑ̃t]<br>
+"sarcophage" [saʀkɔfaʒ]<br>
+"sordidité" [sɔʀdidite]<br>
+"tamponnement" [tɑ̃pɔnmɑ̃]<br>
+"trépanation" [tʀepanasjɔ̃]<br>
+"vampiriser" [vɑ̃piʀize]<br>
+
+
 
 On voit qu'on essaie de *mapper* 2 séquences ensemble :
 
-* On sait qu'il y a autant de groupes de lettres que de groupes de phonèmes : c'est un mapping 1-1
-    * NOTE : certaines lettres sont muettes mais ça ne nous gêne pas qu'elles soient agrégées par un phonème, ce qui donnera une configuration particulière qui ne se produira que dans un contexte qu'on déduira par la suite, dans la partie 2 de l'algorithme d'apprentissage
+!!! note "Règle 1"
+	On sait qu'il y a autant de groupes de lettres que de groupes de phonèmes : c'est un mapping 1-1
 
-* Il y a un ordre à respecter : le groupe de lettres doit avoir le même index que le groupe de phonèmes correspondant, on peut pas intervertir l'ordre, par exemple le 2nd groupe de lettres qui serait attaché au 3ème groupe de phonèmes
-* Les seules **certitudes** qu'on ait sur la position des groupes c'est que la 1ère lettre et le 1er phonème vont ensemble, ainsi que la dernière lettre et le dernier phonème.
-* Mais on peut utiliser une heuristique simple qui consiste à dire qu'une lettre à une position $l \in [1,L]$ donnée va probablement correspondre à un phonème à la position $p \in [1,P]$ où $p \approx l \cdot \frac{P}{L}$ : une lettre au milieu du mot va probablement correspondre à un phonème au milieu aussi.
-    * NOTE : cette heuristique va servir d'hypothèse de départ pour effectuer une première tentative de groupement, qu'on raffinera par la suite
+	!!! tip "Remarque"
+		Certaines lettres sont muettes mais ça ne nous gêne pas qu'elles soient agrégées par un phonème, ce qui donnera une configuration particulière qui ne se produira que dans un contexte qu'on déduira par la suite, dans la partie 2 de l'algorithme d'apprentissage
 
 
 
+!!! note "Règle 2"
+	Il y a un ordre à respecter : le groupe de lettres doit avoir le même index que le groupe de phonèmes correspondant, on peut pas intervertir l'ordre, par exemple le 2nd groupe de lettres qui serait attaché au 3ème groupe de phonèmes
 
-# Première Tentative
+
+
+!!! note "Règle 3"
+	Les seules **certitudes** qu'on ait sur la position des groupes c'est que la 1ère lettre et le 1er phonème vont ensemble, ainsi que la dernière lettre et le dernier phonème.
+	
+	!!! tip "Remarque"
+		Mais on peut utiliser une heuristique simple qui consiste à dire qu'une lettre à une position $l \in [1,L]$ donnée va probablement correspondre à un phonème à la position $p \in [1,P]$ où $p \approx l \cdot \frac{P}{L}$ : une lettre au milieu du mot va probablement correspondre à un phonème au milieu aussi.
+	
+		Cette heuristique va servir d'hypothèse de départ pour effectuer une première tentative de groupement, qu'on raffinera par la suite
+
+
+
+# Première Étape
 
 À l'aide de l'heuristique décrite ci-dessus, on va commencer par faire une expérience extrêmement simple : on va découper chacun des 50,000 mots en groupes de lettres / phonèmes qu'on va associer ensemble (par exemple [abc] = "abc"), puis pour chaque combinaison de ces groupes on va incrémenter un compteur (le *refcount*).
 
-* Il y a bien entendu de nombreux faux couples, mais ceux-ci se perdront naturellement dans une "mer de bruit" avec un *refcount* bas ou moyen.
-* Tandis que les vrais couples vont surnager à la surface de cette mer de bruit avec des *refcounts* très élevés quand on les compare relativement aux autres.
+* Il y a bien entendu de nombreux couples faux, mais ceux-ci se perdront naturellement dans une "mer de bruit" avec un *refcount* bas ou moyen (ce sont les nuages de points violets en bas du graphique ci-dessous).
+* Tandis que les vrais couples vont surnager à la surface de cette mer de bruit avec des *refcounts* très élevés quand on les compare relativement aux autres (ce sont les points jaunes et vert qu'on trouve en haut ou au milieu du graphique ci-dessous).
 
-**TODO** Histogramme de refcounts ?
+![.\Images\Phonemes Refcount.png](.\images\Learning\Phonemes Refcount.png)
+
+On peut d'ores-et-déjà s'étonner que les groupes de lettres les plus souvent rencontrés associées aux phonèmes sont **presque tous corrects** et ressortent immédiatement à la suite d'une procédure statistique aussi simple !
+
+!!! note
+	On notera qu'au lieu des éléments couplés [ɛ̃], [ɑ̃], [ɔ̃] et [œ̃] composant les voyelles nasales classiques, dans notre application le tilde [~] est découplé des autres éléments phonétiques [ɑ], [ɛ], [ɔ] et [œ]. La raison principale est que c'est plus simple à gérer en code :grin:.<br>Quand j'ai découvert ça, je pensais que ça allait poser problème pour la suite mais je me suis rapidement rendu compte qu'on écrivait un algorithme d'apprentissage et, par conséquent, qu'il était capable d'apprendre ce qu'on voulait à partir des éléments qu'on lui donnait à partir du moment où l'algorithme suit les règles qu'on lui a imposées : 
+
+	 * Si on lui donne les voyelles nasales couplées, alors il apprendra bien [ɑ̃]="en"
+	 * Si on lui donne les voyelles nasales découplées, alors il apprendra [ɑ]="e" suivi de [~]="n". Et ça sera à notre charge ensuite, dans la partie 2 de l'algorithme dont on discutera dans un autre article, de déterminer que ces 2 groupes sont liés entre eux grâce à une règle qui dit que "e" suivi de "n" doit se prononcer [ɑ̃]
 
 
 
 ## Premiers écueuils
 
-À la suite de ce premier succès, nous sommes néanmoins confrontés à des interrogations terribles : oui, nous parvenons effectivement à isoler des groupes corrects mais nous le savons uniquement parce que nous appliquons notre raisonnement et nos connaissances à cet histogramme.
+À la suite de ce premier succès, nous sommes néanmoins confrontés à de terribles interrogations : oui, nous parvenons effectivement à isoler des groupes corrects mais nous le savons uniquement parce que nous appliquons notre raisonnement et nos connaissances à cet histogramme.
 
 Malheureusement, nous appliquons un biais de confirmation à ces données puisqu'on connaît déjà le résultat, mais qu'en est-il d'un organisme qui n'aurait aucune connaissance préalable ? Comment savoir si les groupes sont à classifier comme vrais ou faux ?
 
 On commence déjà à entrevoir quelques obstacles :
 
-* La fréquence des phonèmes, qui va rendre difficile la comparaison de *refcounts* puisqu'il n'y a pas réellement de sens à comparer un compteur de groupes faisant intervenir un phonème qui va apparaître 10 fois sur l'ensemble des 50,000 mots, à un compteur de groupes faisant intervenir un phonème qui va apparaître 10,000 fois
+* La fréquence des phonèmes, qui va rendre difficile la comparaison de *refcounts* <u>entre eux</u> puisqu'il n'y a pas réellement de sens à comparer un compteur de groupes faisant intervenir un phonème qui va apparaître 10 fois sur l'ensemble des 50,000 mots, à un compteur de groupes faisant intervenir un phonème qui va apparaître 10,000 fois
 * Le besoin d'un méta paramètre qui va contrôler le seuil de *refcount* en-dessous duquel on devrait ignorer les groupes formés (en gros, le seuil qui détermine la transition entre signal et bruit)
-    * On peut fixer un seuil arbitrairement haut —comme par exemple prendre uniquement le groupe avec le *refcount* le plus haut— mais alors l'algorithme convergera très lentement
-    * Si au contraire on prend un seuil trop bas alors on prend le risque de valider trop de groupes, y compris des groupes "parasites", qu'il faudra alors supprimer par la suite — on note alors que dès la 1ère étape, on se doit d'envisager la possibilité d'une *correction : un groupe n'est jamais définitivement validé, il peut être adopté pour une durée indéterminée puis être finalement abandonné au profit d'une meilleure hypothèse qu'on aura découverte plus tard (c'est le cas ici comme pour chacune de nos connaissances, les phonèmes n'échappent pas à la règle)
+    * On peut fixer un seuil arbitrairement haut —comme par exemple prendre uniquement le groupe avec le *refcount* le plus haut— mais alors l'algorithme convergera très lentement (qui plus est, une fois qu'on aura épuisé exhaustivement tous les groupes corrects possibles un par un, on finira quand-même par choisir des groupes incorrects)
+    * Si au contraire on prend un seuil trop bas alors on prend le risque de valider trop de groupes, y compris des groupes incorrects, qu'il faudra alors supprimer par la suite — on note alors que dès la 1ère étape, on se doit d'envisager la possibilité d'une **correction** : un groupe n'est jamais définitivement validé, il peut être adopté pour une durée indéterminée puis être finalement abandonné au profit d'une meilleure hypothèse qu'on aura découverte plus tard (c'est le cas ici comme pour chacune de nos connaissances, les phonèmes n'échappent pas à la règle)
 
 
 
-### Normalisation des *refcounts*
+### Homogénéisation des *refcounts*
 
-On commence par adresser le problème de la fréquence des phonèmes afin de trouver un moyen de "normaliser" les *refcounts*.
+On commence par adresser le problème de la fréquence des phonèmes afin de trouver un moyen "d'homogénéiser" les *refcounts* et les comparer entre eux.
 
 L'idée revient à attribuer un poids à chaque phonème en fonction de sa fréquence d'utilisation, or quoi de mieux que de faire intervenir la notion d'entropie chère à la théorie de l'information pour quantifier l'importance de chaque phonème ?
 
@@ -103,10 +130,17 @@ On commence par calculer le nombre d’occurrences $N_i$ de chaque phonème $i$ 
 
 La probabilité de trouver un phonème $i$ dans un mot est donc $p_i = \frac{N_i}{N}$ et la surprise associée à chaque phonème est donnée par $I_i = log_2\left(\frac{1}{p_i}\right)$ et s'exprime en bits.
 
-On exprime la surprise d'une séquence de phonèmes $\left\{ a_0, a_1, \dots, a_n \right\}$ comme étant simplement l'entropie $S = \sum_0^n p(a_i) I(a_i)$ de la séquence normalisée par la somme des probabilités de chaque phonème :
+On exprime la surprise d'une séquence de phonèmes $\left\{ a_0, a_1, \dots, a_n \right\}$ comme étant simplement l'entropie de la séquence $S = \sum_0^n p(a_i) I(a_i)$ normalisée par la somme des probabilités de chaque phonème :
+
+
 $$
-I = \frac{\sum_0^n p(a_i) I(a_i)}{\sum_0^n p(a_i)} = \frac{S}{\sum_0^n p(a_i)}
+\begin{align}I &= \frac{\sum_0^n p(a_i) I(a_i)}{\sum_0^n p(a_i)} \\
+&= \frac{S}{\sum_0^n p(a_i)}
+\end{align}
 $$
+
+
+
 !!! note
 	La normalisation de l'entropie permet de garantir l'indépendance vis-à-vis de la taille de la séquence, de plus on retrouve bien la surprise associée à un  seul phonème dans le cas particulier d'une séquence de longueur 1.
 
@@ -115,11 +149,11 @@ $$
 En pondérant les *refcounts* associés à une séquence de phonèmes par $I$, la surprise associée à la séquence, on va ainsi pouvoir remettre sur un pied d'égalité des phonèmes qui n'ont pas la même fréquence d'utilisation dans la langue :
 
 * Les phonèmes très utilisés comme [i] ou [ʀ] auront un poids assez léger, aux alentours de 3 ou 4
-* Tandis que les phonèmes très rares comme [] auront un poids qui pourra monter jusqu'à 17
+* Tandis que les phonèmes très rares comme [ŋ] (comme dans "parki<strong>ng</strong>") auront un poids qui pourra monter jusqu'à 12
 
 
 
-???
+!!! question
 	Pourquoi utiliser la surprise plutôt que de renormaliser directement par l'inverse de la fréquence ???
 
 
@@ -134,14 +168,200 @@ C'est effectivement lorsqu'un événement hors du commun se produit qu'on va dev
 
 
 
-### Notion de certitude
+### Seuil d'acceptation
+
+Armés de *refcounts* homogènes, on peut donc ensuite s'attaquer au problème de la classification des groupes de lettres/phonèmes.
+
+
+
+**Notes:**
+
+Prudence au début de l'algo : on n'accepte qu'un seul groupe de lettres par phonème.
+
+Par la suite, on va pouvoir comparer combien de refs on avait pour les groupes précédents et s'en servir comme heuristique pour déterminer quel ratio on accepte (de plus, on arrêtera d'accepter des groupes tout pinés avec une seule occurrence dans tout le dataset) (ou alors on les accepte mais pour les discard aussitôt, auquel cas il faut garder un dico d'hypothèses rejetées définitivement pour pas tourner en boucle add/remove indéfiniment !)
+
+
+
+!!! warning "Méta-Paramètre"
+	Le ratio de confiance en-dessous duquel on rejette les hypothèses représente un méta-paramètre de la simulation !
+
+
+
+## Résultats
+
+Nous sommes désormais pourvus d'une liste d'**hypothèses**, chacune avec un certain niveau de confiance.
+
+**TODO** Hypothèses toujours réfutables, jamais aucune certitude, on construit sur des bases faibles qu'on étaie au fur-et-à-mesure que les hypothèses se vérifient ou au contraire se voient rejetées
+
+
+
+# Seconde Étape
+
+On va ensuite supposer que les hypothèses relevées sont correctes et tenter des les mapper dans les mots du *dataset* :
+
+* On va découper les séquences de phonèmes / lettres non mappées en un arbre de possibilités
+* On va choisir la branche qui offre le plus d'hypothèses mappées
+    * Si on a autant d'hypothèses mappées dans plusieurs branches alors on va choisir les hypothèses qui rapportent le plus : celles qui sont les plus probables
+* Toute portion de branche non mappée avec des hypothèses sera redécoupée en groupes en utilisant la même heuristique de groupement qu'à l'étape 1
+
+
+
+Par exemple, en utilisant uniquement les hypothèses émergeant de la 1ère étape (cf. graphique des premiers groupes de phonèmes tout en haut), on va pouvoir totalement mapper le mot **"adverbial" [advɛʀbjal]** grâce aux hypothèses suivantes :
+
+* [a]="a"
+* [d]="d"
+* [v]="v"
+* [ɛ]="e"
+* [ʀ]="r"
+* [b]="b"
+* [j]="i"
+* [a]="a"
+* [l]="l"
+
+Tandis qu'on aura quelques difficultés à mapper le mot **chouette [ʃwɛt]** :
+
+* [ʃ]="c"
+* "h" n'est pas mappé
+* [w]="o"
+* "u" n'est pas mappé
+* [ɛ]="e"
+* [t]="t"
+* "te" n'est pas mappé
+
+
+
+## Résultats
+
+À la fin de cette étape, on aura donc mappé nos hypothèses de travail partout où on a pu établir des correspondances lettres / phonèmes (les **ancres**).
+
+Les nouvelles séquences de lettres / phonèmes non mappées *entre* ces ancres  seront nécessairement de taille inférieure aux mots entiers qu'on a découpés à l'étape 1, ce qui amènera mécaniquement à un meilleur découpage ultérieur puisqu'on aura de moins en moins de phonèmes / lettres à mapper et donc moins d'incertitude (on a réduit la complexité du problème en le découpant en morceaux).
+
+
+
+!!! danger "Note"
+
+	Cependant, il se peut qu'une mauvaise assignation d'hypothèse nous entraîne vers un découpage catastrophique qui va mener par la suite à former de très mauvaises hypothèses : c'est le cas notamment des doubles consonnes qui vont généralement provoquer un décalage subtil d'une lettre vers la gauche ou vers la droite de tout le reste de la séquence.
+	
+	On verra que d'autres mécanismes très simples permettront de corriger ces erreurs au fur-et-à-mesure.
+
+
+
+# Troisième Étape
+
+À la suite de ce nouveau découpage et de ces nouvelles assignations d'hypothèses, on va souvent se retrouver avec des groupes de lettres ou de phonèmes vides :
+
+* C'est le cas notamment des doubles consonnes où la 1ère consonne se trouve mappée sur une hypothèse mais la 2nde consonne n'est assignée à aucun phonème.
+* Ou bien dans le cas où on a plusieurs phonèmes mappée sur une seule lettre, comme dans le cas [ks]="x" (comme dans "e<strong>x</strong>cuse") ou [gz]="x" (comme dans "e<strong>x</strong>istence") : seul le 1er phonème est mappé sur la lettre, le 2nd étant non-assigné.
+* Ou simplement parce qu'on aura temporairement assigné une hypothèse fausse qui va embarquer une lettre ou un phonème qui auraient dus être assignés à une autre hypothèse, laissant ainsi un trou.
+* Ou encore parce que ces lettres ou phonèmes non mappés vont faire partie d'hypothèses non encore déterminées, c'est le cas notamment des suffixes comme "ées" où seule la lettre **"é"=[e]** est mappée mais où "es" restent orphelines, l'hypothèse complète **[e]="ées"** n'existant pas encore.
+* Mais parfois encore, c'est tout à fait légitime que des lettres ne soient pas mappées, on pense par exemple au "e" muet comme dans "remu<strong>e</strong>" [ʀəmy]
+
+
+
+!!! tip "Soupçon"
+
+	Ici, il semble "naturel" (encore une fois, biais de confirmation) de se dire qu'il n'est pas "normal" d'avoir des groupes vides car ça va à l'encontre d'une des règles d'apprentissage qu'on nous a fixées au départ : il doit y avoir une correspondance 1-1 entre la séquence de lettres et la séquence de phonèmes !
+	
+	Par conséquent, il est donc "naturel" de supposer qu'on a fait une erreur d'assignation quelque part et qu'on a utilisé une ou plusieurs mauvaises hypothèses.
+	
+	Les lettres ou les phonèmes non mappés doivent donc forcément faire partie d'un autre groupe : on va devoir les rattacher aux hypothèses à gauche ou à droite — ou les 2 !
+
+
+
+## Redécoupage
+
+Va falloir redécouper et réassigner ==> best partition wins !
+
+Même algo ==> refcount + sélection des meilleures hypothèses avec un seuil d'acceptation.
+
+NOTE : Ici on voit qu'il s'agit d'un mécanisme général dès qu'on va isoler une portion du mot où l'on va soupçonner une erreur : on va chercher à le redécouper en utilisant les hypothèses les plus probables. Le plus difficile va être de déterminer **où et quand** on soupçonne une erreur !
+
+
+
+## Résultat
+
+On a formé de nouvelles hypothèses qu'on va pouvoir utiliser pour mieux expliquer les groupes de lettres / phonèmes.
+
+NOTE : On commence à voir poindre le besoin de revoir les assignations existantes pour voir si elles sont optimales, ou bien si on aurait pu faire de meilleures assignations et réduire le nombre d'hypothèses en supprimant celles qui puent.
+
+
+
+# Quatrième Étape
+
+Rechoucroutage des hypothèses existantes et simplifications.
+
+
+
+
+
+# LOOP!
+
+Et on retourne à l'étape 1 avec un nouveau set d'hypothèses qu'on va tenter d'appliquer aux mots qui ne sont toujours pas complets.
+
+**TODO :** Graph de completeness à chaque étape → convergence
+
+**TODO :** Graph de création / destruction d'hypothèses + "pouvoir explicatif" / énergie / coût de la solution à chaque étape
+
+
+
+
+
+# Analyses des hypothèses
+
+## Simplification des hypothèses
+
+À chaque étape on va chercher à simplifier des hypothèses trop complexes si elles sont décomposables en hypothèses plus simples : c'est très facile à faire puisqu'il suffit de vérifier qu'une séquence de phonèmes associée à une séquence de lettres peut être découpées et remplacées par d'autres hypothèses plus courtes.
+
+Par exemple si à un moment on a l'hypothèse complexe **[oʀ]="aur"** et qu'on a également les hypothèses simples **[o]="au"** et **[ʀ]="r"** alors on peut remplacer chaque occurrence de l'hypothèse complexe par les 2 plus simples et "le coût énergétique" d'explication des hypothèses s'en trouvera réduit (on retrouve ici le principe de parcimonie, ou rasoir d'Ockham).
+
+
+
+## Hypothèses improbables
+
+Au cours de l'exécution de la boucle d'apprentissage, on trouve parfois des hypothèses farfelues formées "par dépit", par manque d'autre explication à un instant *t*, comme par exemple **[]="???"**".
+
+On peut calculer une mesure d'improbabilité de telles hypothèses d'après la taille moyenne des hypothèses : en effet, dans la langue française, la plupart des graphèmes (ce sont les différentes façons d'écrire un son lié à un phonème) ne comportent qu'une ou deux lettres, rarement trois.
+
+On obtient donc un ratio de lettres par phonème entre 1 et 2, ce qu'on retrouve en général dans nos hypothèses puisqu'on les a créées en découpant des mots de la langue française et qui contiennent les graphèmes en question, obéissant donc à leur distribution en taille.
+
+On va noter $\tilde{L}$ le nombre moyen de lettres par phonèmes pour notre ensemble d'hypothèses.
+
+Puis on va établir la mesure d'équilibre $b(h)$ d'une hypothèse $h$ comme étant :
+$$
+b(h) = \log_2\left( \frac{l(h)}{p(h)} \right) - \log_2(\tilde{L})
+$$
+Où $l(h)$ et $p(h)$ représentent respectivement le nombre de lettres et de phonèmes de l'hypothèse $h$.
+
+Cette mesure d'équilibre prendra une valeur de $-1$ si une hypothèse est 2 fois plus courte que la moyenne, et une valeur de $+1$ si une hypothèse est 2 fois plus longue que la moyenne.
+
+On décidera par la suite de rejeter une hypothèse comme étant improbable dans le cas où $\left|b(h)\right| > B_{threshold}$.
+
+!!! warning "Méta-Paramètre"
+	$B_{threshold}$ représente ici un méta-paramètre de la simulation !
+
+
+
+## Méta-Reflexion
+
+On notera également qu'à mesure qu'on forme des hypothèses, on va pouvoir prendre du recul sur leur structure en appliquant l'algorithme d'apprentissage aux règles de formation des hypothèses elles-mêmes : on va faire une somme des *refcounts* des *features* qui forment les hypothèses afin de voir celles qui sont **caractéristiques** et pouvoir en déduire des **règles** de formation.
+
+On fait donc du **méta-apprentissage** : on apprend des choses *sur* notre apprentissage !
+
+!!! note
+	Contrairement à l'imperfection du découpage des mots due à l'incertitude des informations qu'on cherche à apprendre, ici les paramètres des règles de formation des hypothèses sont très peu nombreuses (taille des séquences, doublement de lettres, quels types de lettres, etc.) et par conséquent l'apprentissage de ces règles est beaucoup moins sujet au *bruit* !
+
+
+
+
+
+# Notion de certitude
 
 **TODO**
 
 * Notion de certitude et étaiement de la "confiance"
     * La certitude est une notion contextuelle, elle dépend de son environnement
 * Définition de la notion de "avoir du sens" (on sent que quelque chose "clique" et s'emboîte parfaitement dans notre raisonnement : on a *compris* !)
-    * ==> on s'arrête quand on a "fait du sens" (état stable)
+    * ==> on s'arrête quand on a "fait du sens", comme disent les québécois (état stable)
 
 
 
